@@ -14,9 +14,25 @@
         <div id="app">
             @include('layouts.header')
 
-            <div class="wrapper">
+            <div class="wrapper" id="app">
                 <div class="container">
+                    <div><pre><code class="language-bash">npm i rapid-js --save</code></pre></div>
+                    <div>
+<pre><code class="language-js">
+import Rapid from 'rapidjs';
 
+class Post extends Rapid {
+    /**
+     * Write something awesome.
+     */
+}
+
+export default new Post();
+
+Post.find(1);
+</code></pre>
+                    </div>
+                    <class-builder></class-builder>
                 </div>
             </div>
         </div>

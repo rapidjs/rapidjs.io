@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import axios from 'axios';
+import prism from './Vendor/prism';
 
 window.Vue = Vue;
 

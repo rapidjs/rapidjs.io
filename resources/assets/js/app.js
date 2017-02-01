@@ -1,4 +1,5 @@
 import './bootstrap';
+import ClassBuilder from './Components/ClassBuilder';
 
 new Vue({
     el: '#app',
@@ -15,5 +16,9 @@ new Vue({
 
     computed: {
 
+    },
+
+    components: {
+        ClassBuilder
     }
 });

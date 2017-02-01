@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "scripts": {
+    "dev": "node node_modules/cross-env/bin/cross-env.js NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "node node_modules/cross-env/bin/cross-env.js NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "hot": "node node_modules/cross-env/bin/cross-env.js NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "production": "node node_modules/cross-env/bin/cross-env.js NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "devDependencies": {
+    "axios": "^0.15.3",
+    "jquery": "^3.1.1",
+    "laravel-echo": "^1.2.1",
+    "laravel-mix": "^0.5.0",
+    "moment": "^2.17.1",
+    "node-sass": "^4.3.0",
+    "pluralize": "^3.1.0",
+    "pusher-js": "^4.0.0",
+    "tinymce": "^4.5.2",
+    "vue": "^2.0.1",
+    "vue-echo": "^0.1.2",
+    "vue-router": "^2.1.1"
+  },
+  "dependencies": {
+    "vue-tinymce": "^1.0.5"
+  }
+}

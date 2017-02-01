@@ -1,0 +1,43 @@
+.header {
+    border-bottom: solid 1px $color-border-gray;
+    margin-bottom: 20px;
+
+    &__inner {
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .rapidjs-logo {
+        font-size: 32px;
+        // font-weight: 100;
+        font-family: 'Miriam Libre', sans-serif;
+
+        span {
+            color: $color-blue;
+        }
+    }
+}
+
+@include when-wider-than(tablet) {
+    .header {
+        &__inner {
+            width: $tablet;
+        }
+    }
+}
+
+@include when-wider-than(small_desktop) {
+    .header {
+        &__inner {
+            width: $small-desktop;
+        }
+    }
+}
+
+@include when-wider-than(large_desktop) {
+    .header {
+        &__inner {
+            width: $large-desktop;
+        }
+    }
+}

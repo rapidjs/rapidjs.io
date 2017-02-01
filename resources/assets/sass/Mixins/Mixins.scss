@@ -1,0 +1,58 @@
+@import './../vars';
+
+@mixin flex() {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+}
+
+@mixin webfont($font) {
+    font-family: $font, sans-serif;
+}
+
+@mixin multiline-ellipsis($line-height: 1.2em, $line-count: 1, $bg-color: $white) {
+    overflow: hidden;
+    position: relative;
+    line-height: $line-height;
+    max-height: $line-height * $line-count;
+    text-align: justify;
+    margin-right: -1em;
+    padding-right: 1em;
+
+    &:before {
+        content: '...';
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+
+    &:after {
+        content: '';
+        position: absolute;
+        right: 0;
+        width: 1em;
+        height: 1em;
+        margin-top: .2em;
+        background: $bg-color;
+    }
+}
+
+@mixin no-break-out() {
+    // These are technically the same, but use both 
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+
+    -ms-word-break: break-all;
+    // This is the dangerous one in WebKit, as it breaks things wherever 
+    word-break: break-all;
+    // Instead use this non-standard one: 
+    word-break: break-word;
+
+    // Adds a hyphen where the word breaks, if supported (No Blink) 
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+    hyphens: auto;
+}

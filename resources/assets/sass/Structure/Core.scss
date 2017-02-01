@@ -1,0 +1,58 @@
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+*,
+*:after,
+*:before {
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	-webkit-font-smoothing:antialiased;
+	font-smoothing:antialiased;
+	text-rendering:optimizeLegibility;
+}
+
+.wrapper {
+    max-width: auto;
+    margin: 0 auto;
+
+    .container {
+        width: auto;
+        margin: 0 auto;
+        padding: 20px;
+    }
+}
+
+
+
+@include when-wider-than(tablet) {
+    .wrapper {
+        width: $tablet;
+
+        .container {
+
+        }
+    }
+}
+
+@include when-wider-than(small_desktop) {
+    .wrapper {
+        width: $small-desktop;
+
+        .container {
+
+        }
+    }
+}
+
+@include when-wider-than(large_desktop) {
+    .wrapper {
+        width: $large-desktop;
+
+        .container {
+
+        }
+    }
+}

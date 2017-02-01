@@ -15,6 +15,10 @@
             @include('layouts.header')
 
             <div class="wrapper" id="app">
+                {{-- <div class="sidebar">
+
+                </div> --}}
+
                 <div class="container">
                     <div><pre><code class="language-bash">npm i rapid-js --save</code></pre></div>
                     <div>
@@ -29,7 +33,26 @@ class Post extends Rapid {
 
 export default new Post();
 
-Post.find(1);
+Post.find(1).then(function (response) { // GET => /api/post/id/1
+    console.log(response.data.post);
+});
+
+Post.findBy('slug', 'my-post-name').then(function (response) { // GET => /api/post/slug/my-post-name
+    console.log(response.data.post);
+});
+
+Post.all({ category: 'featured', limit: 20 }).then(function (response) { // GET => /api/posts?category=featured&limit=20
+    console.log(response.data.posts);
+});
+
+Post.findAllBy('category', 'featured', { limit: 20 }).then(function (response) { // GET => /api/posts/category/featured?limit=20
+    console.log(response.data.posts);
+});
+
+
+
+
+
 </code></pre>
                     </div>
                     <class-builder></class-builder>

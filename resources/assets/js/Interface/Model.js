@@ -69,7 +69,13 @@ class Model {
 
     // adding params for findBy
     findBy (key, value, data, route = 'model', options) {
-        return this.get(this.makeUrl(route, key, value), data, options);
+        let urlParams = [route, key];
+
+        if(value) {
+            urlParams.push(value);
+        }
+
+        return this.get(this.makeUrl(...urlParams), data, options);
     }
 
     findAllBy (key, value, data, options) {

@@ -22,6 +22,15 @@ body {
         width: auto;
         margin: 0 auto;
         padding: 20px;
+
+        .sidebar {
+            border-right: solid 1px $color-border-gray;
+            display: none;
+        }
+
+        .documentation {
+
+        }
     }
 }
 
@@ -42,7 +51,16 @@ body {
         width: $small-desktop;
 
         .container {
+            padding: 0;
 
+            .sidebar {
+                display: inherit;
+            }
+
+            .documentation {
+                padding-left: 50px;
+                padding-bottom: 50px;
+            }
         }
     }
 }

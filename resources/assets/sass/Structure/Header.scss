@@ -9,7 +9,6 @@
 
     .rapidjs-logo {
         font-size: 32px;
-        // font-weight: 100;
         font-family: 'Miriam Libre', sans-serif;
 
         span {
@@ -28,6 +27,8 @@
 
 @include when-wider-than(small_desktop) {
     .header {
+        margin-bottom: 0;
+        
         &__inner {
             width: $small-desktop;
         }

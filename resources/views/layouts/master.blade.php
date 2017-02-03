@@ -15,13 +15,18 @@
             @include('layouts.header')
 
             <div class="wrapper" id="app">
-                {{-- <div class="sidebar">
 
-                </div> --}}
+                <div class="container fb-grid row">
 
-                <div class="container">
+                    @include('layouts.sidebar')
+
+                    <div class="documentation fb-grid col-xs-12 col-md-10">
+
+                    <h2 id="installation">Installation</h2>
                     <div><pre><code class="language-bash">npm i rapid-js --save</code></pre></div>
                     <div>
+
+<h2 id="usage">Usage</h2>
 <pre><code class="language-js">
 import Rapid from 'rapidjs';
 
@@ -37,7 +42,7 @@ Post.find(1).then(function (response) { // GET => /api/post/id/1
     console.log(response.data.post);
 });
 
-Post.findBy('slug', 'my-post-name').then(function (response) { // GET => /api/post/slug/my-post-name
+Post.model.findBy('slug', 'my-post-name').then(function (response) { // GET => /api/post/slug/my-post-name
     console.log(response.data.post);
 });
 
@@ -45,17 +50,14 @@ Post.all({ category: 'featured', limit: 20 }).then(function (response) { // GET 
     console.log(response.data.posts);
 });
 
-Post.findAllBy('category', 'featured', { limit: 20 }).then(function (response) { // GET => /api/posts/category/featured?limit=20
+Post.collection.findBy('category', 'featured', { limit: 20 }).then(function (response) { // GET => /api/posts/category/featured?limit=20
     console.log(response.data.posts);
 });
-
-
-
-
 
 </code></pre>
                     </div>
                     <class-builder></class-builder>
+                </div>
                 </div>
             </div>
         </div>

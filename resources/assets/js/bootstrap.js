@@ -5,9 +5,7 @@ import TestModel from './Interface/TestModel';
 
 window.Vue = Vue;
 
-window.rapidjs = {
-    model: TestModel
-};
+window.rapidjs = TestModel;
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of

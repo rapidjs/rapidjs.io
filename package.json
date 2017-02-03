@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "axios": "^0.15.3",
+    "bulma": "^0.3.1",
     "clipboard": "^1.5.16",
     "jquery": "^3.1.1",
     "laravel-echo": "^1.2.1",
@@ -16,10 +17,12 @@
     "node-sass": "^4.3.0",
     "pluralize": "^3.1.0",
     "pusher-js": "^4.0.0",
+    "qs": "^6.3.0",
     "tinymce": "^4.5.2",
     "vue": "^2.0.1",
     "vue-echo": "^0.1.2",
-    "vue-router": "^2.1.1"
+    "vue-router": "^2.1.1",
+    "vue-switches": "^1.0.1"
   },
   "dependencies": {
     "vue-tinymce": "^1.0.5"

@@ -65,6 +65,13 @@ class Model {
 
         this.currentRoute = 'model';
 
+        if(this.debug) {
+            this._debug = {
+                lastUrl: '',
+                lastRequest: {}
+            };
+        }
+
     }
 
     /**
@@ -186,11 +193,42 @@ class Model {
         return this.get(this.any.makeUrl(...urlParams), data, requestOptions);
     }
 
+    _setLastUrl(type, url, params = {}) {
+        if(['put', 'post', 'patch'].includes(type)) {
+            this._debug.lastUrl = this.sanitizeUrl([this.baseURL, url].join('/')) + qs.stringify(params);
+        } else {
+            let urlParams = params.shift().params,
+                stringified = urlParams ? '?' + qs.stringify(urlParams) : '';
+
+            this._debug.lastUrl = this.sanitizeUrl([this.baseURL, url].join('/')) + stringified;
+        }
+    }
+
+    _setLastRequest (type, url, data = {}, options = {}) {
+        this._debug.lastRequest = {
+            type,
+            url,
+            data,
+            options
+        };
+    }
+
+    rerun () {
+        if(this._debug.lastRequest) {
+            const { type, url, data, options } = this._debug.lastRequest;
+            return this.request(type, url, data, options);
+        }
+
+        return false;
+    }
+
     /**
      * The Request
      */
     request (type, url, data = {}, options = {}) {
         let params = [];
+
+        this._setLastRequest(type, url, data = {}, options = {});
 
         if(['put', 'post', 'patch'].includes(type)) {
             data = _.defaultsDeep(data, this.config.globalParameters);
@@ -201,10 +239,10 @@ class Model {
             params.push(options);
         }
 
+        this._setLastUrl(type, url, params);
+
         if(this.debug) {
-            // console.log(params);
-            // console.log(options);
-            return this.sanitizeUrl([this.baseURL, url].join('/')) + qs.stringify(options.params);
+            return this._debug.url;
         }
 
         return new Promise((resolve, reject) => {

@@ -228,6 +228,8 @@
             media ('waffles') => {{ model.media('waffles') }} <br>
             votes (1)         => {{ model.votes(1) }} <br>
 
+            {{ model._debug }}
+
             <!-- posts (1)         => {{ model.posts(1) }} <br> -->
             <!-- all ({ foo: bar }) => {{ model.all ({ foo: 'bar' }) }} <br> -->
             <!-- {{ model.sanitizeUrl(model.baseURL + '/' + model.collection.makeUrl( 'bum', 'boo', '?' + qs.stringify({ 'boob': 'bum' }))) }} -->

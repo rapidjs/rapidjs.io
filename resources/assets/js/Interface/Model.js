@@ -1,6 +1,7 @@
 import axios from 'axios';
 import _ from 'lodash';
 import pluralize from 'pluralize';
+import qs from 'qs';
 
 class Model {
     constructor (config) {
@@ -13,7 +14,7 @@ class Model {
 
             trailingSlash: false,
 
-            keepCase: false,
+            caseSensitive: false,
 
             routeDelimeter: '-',
 
@@ -28,8 +29,8 @@ class Model {
             },
 
             methods: {
-                update : 'post',
                 create : 'post',
+                update : 'post',
                 delete : 'post'
             },
 
@@ -39,9 +40,12 @@ class Model {
                 any        : ''
             },
 
-            debug: false
-        };
+            debug: false,
 
+            apiConfig: {
+
+            }
+        };
 
         config = config || {};
 
@@ -59,7 +63,6 @@ class Model {
             baseURL: this.config.baseURL.replace(/\/$/, '')
         });
 
-        this.data = {};
         this.currentRoute = 'model';
 
     }
@@ -84,6 +87,7 @@ class Model {
     sanitizeUrl (url) {
         return url.replace(/([^:]\/)\/+/g, '$1');
     }
+
 
     /**
      * Model Only Functions
@@ -124,6 +128,10 @@ class Model {
     // delete (id = 0, data, options)
     delete (...params) {
         return this.updateOrDelete('delete', ...params);
+    }
+
+    create (data, options) {
+        return this.request(this.config.methods.create, this.model.makeUrl(this.config.suffixes.create), data, options);
     }
 
 
@@ -196,7 +204,7 @@ class Model {
         if(this.debug) {
             // console.log(params);
             // console.log(options);
-            return this.sanitizeUrl([this.baseURL, url].join('/'));
+            return this.sanitizeUrl([this.baseURL, url].join('/')) + qs.stringify(options.params);
         }
 
         return new Promise((resolve, reject) => {
@@ -236,6 +244,7 @@ class Model {
         return this.config.routes;
     }
 
+
     get baseURL () {
         return this.config.baseURL;
     }
@@ -244,12 +253,18 @@ class Model {
         this.config.baseURL = this.sanitizeUrl(url);
     }
 
+
+    get primaryKey () {
+        return this.config.primaryKey;
+    }
+
     set primaryKey (val) {
         this.config.primaryKey = val;
     }
 
-    get primaryKey () {
-        return this.config.primaryKey;
+
+    get modelName () {
+        return this.config.modelName;
     }
 
     set modelName (val) {
@@ -258,9 +273,6 @@ class Model {
         this.setCollectionRoute();
     }
 
-    get modelName () {
-        return this.config.modelName;
-    }
 
     get routeDelimeter () {
         return this.config.routeDelimeter;
@@ -272,29 +284,27 @@ class Model {
         this.setCollectionRoute();
     }
 
-    set keepCase (val) {
-        this.config.keepCase = val;
+
+    get caseSensitive () {
+        return this.config.caseSensitive;
+    }
+
+    set caseSensitive (val) {
+        this.config.caseSensitive = val;
         this.setModelRoute();
         this.setCollectionRoute();
     }
 
-    get keepCase () {
-        return this.config.keepCase;
-    }
 
     get debug () {
         return this.config.debug;
-    }
-
-    set modelRoute (val) {
-        this.routes.model = val;
     }
 
     // functions to build a collection route for relationships
     setModelRoute () {
         let route = _.kebabCase(this.config.modelName).replace(/-/g, this.config.routeDelimeter);
 
-        if(this.config.keepCase) {
+        if(this.config.caseSensitive) {
             route = this.config.modelName;
         }
 
@@ -304,15 +314,11 @@ class Model {
     setCollectionRoute () {
         let route = _.kebabCase(pluralize(this.config.modelName)).replace(/-/g, this.config.routeDelimeter);
 
-        if(this.config.keepCase) {
+        if(this.config.caseSensitive) {
             route = pluralize(this.config.modelName);
         }
 
         this.config.routes.collection = route;
-    }
-
-    setData(data) {
-        this.data = data;
     }
 
 

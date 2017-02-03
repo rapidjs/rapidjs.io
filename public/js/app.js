@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 49);
+/******/ 	return __webpack_require__(__webpack_require__.s = 54);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -380,7 +380,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(30);
+var normalizeHeaderName = __webpack_require__(33);
 
 var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 var DEFAULT_CONTENT_TYPE = {
@@ -690,7 +690,7 @@ module.exports = g;
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(16);
+module.exports = __webpack_require__(19);
 
 /***/ }),
 /* 5 */
@@ -700,12 +700,12 @@ module.exports = __webpack_require__(16);
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(22);
-var buildURL = __webpack_require__(25);
-var parseHeaders = __webpack_require__(31);
-var isURLSameOrigin = __webpack_require__(29);
+var settle = __webpack_require__(25);
+var buildURL = __webpack_require__(28);
+var parseHeaders = __webpack_require__(34);
+var isURLSameOrigin = __webpack_require__(32);
 var createError = __webpack_require__(8);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(24);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(27);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -801,7 +801,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(27);
+      var cookies = __webpack_require__(30);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -922,7 +922,7 @@ module.exports = function isCancel(value) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(21);
+var enhanceError = __webpack_require__(24);
 
 /**
  * Create an Error with the specified message, config, error code, and response.
@@ -962,7 +962,7 @@ module.exports = function bind(fn, thisArg) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(35);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Model__ = __webpack_require__(38);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1012,6 +1012,204 @@ var TestModel = function (_Model) {
 
 /***/ }),
 /* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function(global) {/* http://prismjs.com/download.html?themes=prism&languages=markup+css+clike+javascript+bash+json+markdown+php+php-extras+scss&plugins=line-highlight+line-numbers */
+var _self = "undefined" != typeof window ? window : "undefined" != typeof WorkerGlobalScope && self instanceof WorkerGlobalScope ? self : {},
+    Prism = function () {
+  var e = /\blang(?:uage)?-(\w+)\b/i,
+      t = 0,
+      n = _self.Prism = { manual: _self.Prism && _self.Prism.manual, util: { encode: function encode(e) {
+        return e instanceof a ? new a(e.type, n.util.encode(e.content), e.alias) : "Array" === n.util.type(e) ? e.map(n.util.encode) : e.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\u00a0/g, " ");
+      }, type: function type(e) {
+        return Object.prototype.toString.call(e).match(/\[object (\w+)\]/)[1];
+      }, objId: function objId(e) {
+        return e.__id || Object.defineProperty(e, "__id", { value: ++t }), e.__id;
+      }, clone: function clone(e) {
+        var t = n.util.type(e);switch (t) {case "Object":
+            var a = {};for (var r in e) {
+              e.hasOwnProperty(r) && (a[r] = n.util.clone(e[r]));
+            }return a;case "Array":
+            return e.map && e.map(function (e) {
+              return n.util.clone(e);
+            });}return e;
+      } }, languages: { extend: function extend(e, t) {
+        var a = n.util.clone(n.languages[e]);for (var r in t) {
+          a[r] = t[r];
+        }return a;
+      }, insertBefore: function insertBefore(e, t, a, r) {
+        r = r || n.languages;var l = r[e];if (2 == arguments.length) {
+          a = arguments[1];for (var i in a) {
+            a.hasOwnProperty(i) && (l[i] = a[i]);
+          }return l;
+        }var o = {};for (var s in l) {
+          if (l.hasOwnProperty(s)) {
+            if (s == t) for (var i in a) {
+              a.hasOwnProperty(i) && (o[i] = a[i]);
+            }o[s] = l[s];
+          }
+        }return n.languages.DFS(n.languages, function (t, n) {
+          n === r[e] && t != e && (this[t] = o);
+        }), r[e] = o;
+      }, DFS: function DFS(e, t, a, r) {
+        r = r || {};for (var l in e) {
+          e.hasOwnProperty(l) && (t.call(e, l, e[l], a || l), "Object" !== n.util.type(e[l]) || r[n.util.objId(e[l])] ? "Array" !== n.util.type(e[l]) || r[n.util.objId(e[l])] || (r[n.util.objId(e[l])] = !0, n.languages.DFS(e[l], t, l, r)) : (r[n.util.objId(e[l])] = !0, n.languages.DFS(e[l], t, null, r)));
+        }
+      } }, plugins: {}, highlightAll: function highlightAll(e, t) {
+      var a = { callback: t, selector: 'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code' };n.hooks.run("before-highlightall", a);for (var r, l = a.elements || document.querySelectorAll(a.selector), i = 0; r = l[i++];) {
+        n.highlightElement(r, e === !0, a.callback);
+      }
+    }, highlightElement: function highlightElement(t, a, r) {
+      for (var l, i, o = t; o && !e.test(o.className);) {
+        o = o.parentNode;
+      }o && (l = (o.className.match(e) || [, ""])[1].toLowerCase(), i = n.languages[l]), t.className = t.className.replace(e, "").replace(/\s+/g, " ") + " language-" + l, o = t.parentNode, /pre/i.test(o.nodeName) && (o.className = o.className.replace(e, "").replace(/\s+/g, " ") + " language-" + l);var s = t.textContent,
+          u = { element: t, language: l, grammar: i, code: s };if (n.hooks.run("before-sanity-check", u), !u.code || !u.grammar) return u.code && (u.element.textContent = u.code), n.hooks.run("complete", u), void 0;if (n.hooks.run("before-highlight", u), a && _self.Worker) {
+        var g = new Worker(n.filename);g.onmessage = function (e) {
+          u.highlightedCode = e.data, n.hooks.run("before-insert", u), u.element.innerHTML = u.highlightedCode, r && r.call(u.element), n.hooks.run("after-highlight", u), n.hooks.run("complete", u);
+        }, g.postMessage(JSON.stringify({ language: u.language, code: u.code, immediateClose: !0 }));
+      } else u.highlightedCode = n.highlight(u.code, u.grammar, u.language), n.hooks.run("before-insert", u), u.element.innerHTML = u.highlightedCode, r && r.call(t), n.hooks.run("after-highlight", u), n.hooks.run("complete", u);
+    }, highlight: function highlight(e, t, r) {
+      var l = n.tokenize(e, t);return a.stringify(n.util.encode(l), r);
+    }, tokenize: function tokenize(e, t) {
+      var a = n.Token,
+          r = [e],
+          l = t.rest;if (l) {
+        for (var i in l) {
+          t[i] = l[i];
+        }delete t.rest;
+      }e: for (var i in t) {
+        if (t.hasOwnProperty(i) && t[i]) {
+          var o = t[i];o = "Array" === n.util.type(o) ? o : [o];for (var s = 0; s < o.length; ++s) {
+            var u = o[s],
+                g = u.inside,
+                c = !!u.lookbehind,
+                h = !!u.greedy,
+                f = 0,
+                d = u.alias;if (h && !u.pattern.global) {
+              var p = u.pattern.toString().match(/[imuy]*$/)[0];u.pattern = RegExp(u.pattern.source, p + "g");
+            }u = u.pattern || u;for (var m = 0, y = 0; m < r.length; y += r[m].length, ++m) {
+              var v = r[m];if (r.length > e.length) break e;if (!(v instanceof a)) {
+                u.lastIndex = 0;var b = u.exec(v),
+                    k = 1;if (!b && h && m != r.length - 1) {
+                  if (u.lastIndex = y, b = u.exec(e), !b) break;for (var w = b.index + (c ? b[1].length : 0), _ = b.index + b[0].length, P = m, A = y, j = r.length; j > P && _ > A; ++P) {
+                    A += r[P].length, w >= A && (++m, y = A);
+                  }if (r[m] instanceof a || r[P - 1].greedy) continue;k = P - m, v = e.slice(y, A), b.index -= y;
+                }if (b) {
+                  c && (f = b[1].length);var w = b.index + f,
+                      b = b[0].slice(f),
+                      _ = w + b.length,
+                      x = v.slice(0, w),
+                      O = v.slice(_),
+                      S = [m, k];x && S.push(x);var N = new a(i, g ? n.tokenize(b, g) : b, d, b, h);S.push(N), O && S.push(O), Array.prototype.splice.apply(r, S);
+                }
+              }
+            }
+          }
+        }
+      }return r;
+    }, hooks: { all: {}, add: function add(e, t) {
+        var a = n.hooks.all;a[e] = a[e] || [], a[e].push(t);
+      }, run: function run(e, t) {
+        var a = n.hooks.all[e];if (a && a.length) for (var r, l = 0; r = a[l++];) {
+          r(t);
+        }
+      } } },
+      a = n.Token = function (e, t, n, a, r) {
+    this.type = e, this.content = t, this.alias = n, this.length = 0 | (a || "").length, this.greedy = !!r;
+  };if (a.stringify = function (e, t, r) {
+    if ("string" == typeof e) return e;if ("Array" === n.util.type(e)) return e.map(function (n) {
+      return a.stringify(n, t, e);
+    }).join("");var l = { type: e.type, content: a.stringify(e.content, t, r), tag: "span", classes: ["token", e.type], attributes: {}, language: t, parent: r };if ("comment" == l.type && (l.attributes.spellcheck = "true"), e.alias) {
+      var i = "Array" === n.util.type(e.alias) ? e.alias : [e.alias];Array.prototype.push.apply(l.classes, i);
+    }n.hooks.run("wrap", l);var o = Object.keys(l.attributes).map(function (e) {
+      return e + '="' + (l.attributes[e] || "").replace(/"/g, "&quot;") + '"';
+    }).join(" ");return "<" + l.tag + ' class="' + l.classes.join(" ") + '"' + (o ? " " + o : "") + ">" + l.content + "</" + l.tag + ">";
+  }, !_self.document) return _self.addEventListener ? (_self.addEventListener("message", function (e) {
+    var t = JSON.parse(e.data),
+        a = t.language,
+        r = t.code,
+        l = t.immediateClose;_self.postMessage(n.highlight(r, n.languages[a], a)), l && _self.close();
+  }, !1), _self.Prism) : _self.Prism;var r = document.currentScript || [].slice.call(document.getElementsByTagName("script")).pop();return r && (n.filename = r.src, !document.addEventListener || n.manual || r.hasAttribute("data-manual") || ("loading" !== document.readyState ? window.requestAnimationFrame ? window.requestAnimationFrame(n.highlightAll) : window.setTimeout(n.highlightAll, 16) : document.addEventListener("DOMContentLoaded", n.highlightAll))), _self.Prism;
+}();"undefined" != typeof module && module.exports && (module.exports = Prism), "undefined" != typeof global && (global.Prism = Prism);
+Prism.languages.markup = { comment: /<!--[\w\W]*?-->/, prolog: /<\?[\w\W]+?\?>/, doctype: /<!DOCTYPE[\w\W]+?>/i, cdata: /<!\[CDATA\[[\w\W]*?]]>/i, tag: { pattern: /<\/?(?!\d)[^\s>\/=$<]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\\1|\\?(?!\1)[\w\W])*\1|[^\s'">=]+))?)*\s*\/?>/i, inside: { tag: { pattern: /^<\/?[^\s>\/]+/i, inside: { punctuation: /^<\/?/, namespace: /^[^\s>\/:]+:/ } }, "attr-value": { pattern: /=(?:('|")[\w\W]*?(\1)|[^\s>]+)/i, inside: { punctuation: /[=>"']/ } }, punctuation: /\/?>/, "attr-name": { pattern: /[^\s>\/]+/, inside: { namespace: /^[^\s>\/:]+:/ } } } }, entity: /&#?[\da-z]{1,8};/i }, Prism.hooks.add("wrap", function (a) {
+  "entity" === a.type && (a.attributes.title = a.content.replace(/&amp;/, "&"));
+}), Prism.languages.xml = Prism.languages.markup, Prism.languages.html = Prism.languages.markup, Prism.languages.mathml = Prism.languages.markup, Prism.languages.svg = Prism.languages.markup;
+Prism.languages.css = { comment: /\/\*[\w\W]*?\*\//, atrule: { pattern: /@[\w-]+?.*?(;|(?=\s*\{))/i, inside: { rule: /@[\w-]+/ } }, url: /url\((?:(["'])(\\(?:\r\n|[\w\W])|(?!\1)[^\\\r\n])*\1|.*?)\)/i, selector: /[^\{\}\s][^\{\};]*?(?=\s*\{)/, string: { pattern: /("|')(\\(?:\r\n|[\w\W])|(?!\1)[^\\\r\n])*\1/, greedy: !0 }, property: /(\b|\B)[\w-]+(?=\s*:)/i, important: /\B!important\b/i, "function": /[-a-z0-9]+(?=\()/i, punctuation: /[(){};:]/ }, Prism.languages.css.atrule.inside.rest = Prism.util.clone(Prism.languages.css), Prism.languages.markup && (Prism.languages.insertBefore("markup", "tag", { style: { pattern: /(<style[\w\W]*?>)[\w\W]*?(?=<\/style>)/i, lookbehind: !0, inside: Prism.languages.css, alias: "language-css" } }), Prism.languages.insertBefore("inside", "attr-value", { "style-attr": { pattern: /\s*style=("|').*?\1/i, inside: { "attr-name": { pattern: /^\s*style/i, inside: Prism.languages.markup.tag.inside }, punctuation: /^\s*=\s*['"]|['"]\s*$/, "attr-value": { pattern: /.+/i, inside: Prism.languages.css } }, alias: "language-css" } }, Prism.languages.markup.tag));
+Prism.languages.clike = { comment: [{ pattern: /(^|[^\\])\/\*[\w\W]*?\*\//, lookbehind: !0 }, { pattern: /(^|[^\\:])\/\/.*/, lookbehind: !0 }], string: { pattern: /(["'])(\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/, greedy: !0 }, "class-name": { pattern: /((?:\b(?:class|interface|extends|implements|trait|instanceof|new)\s+)|(?:catch\s+\())[a-z0-9_\.\\]+/i, lookbehind: !0, inside: { punctuation: /(\.|\\)/ } }, keyword: /\b(if|else|while|do|for|return|in|instanceof|function|new|try|throw|catch|finally|null|break|continue)\b/, "boolean": /\b(true|false)\b/, "function": /[a-z0-9_]+(?=\()/i, number: /\b-?(?:0x[\da-f]+|\d*\.?\d+(?:e[+-]?\d+)?)\b/i, operator: /--?|\+\+?|!=?=?|<=?|>=?|==?=?|&&?|\|\|?|\?|\*|\/|~|\^|%/, punctuation: /[{}[\];(),.:]/ };
+Prism.languages.javascript = Prism.languages.extend("clike", { keyword: /\b(as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|var|void|while|with|yield)\b/, number: /\b-?(0x[\dA-Fa-f]+|0b[01]+|0o[0-7]+|\d*\.?\d+([Ee][+-]?\d+)?|NaN|Infinity)\b/, "function": /[_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*(?=\()/i, operator: /--?|\+\+?|!=?=?|<=?|>=?|==?=?|&&?|\|\|?|\?|\*\*?|\/|~|\^|%|\.{3}/ }), Prism.languages.insertBefore("javascript", "keyword", { regex: { pattern: /(^|[^\/])\/(?!\/)(\[.+?]|\\.|[^\/\\\r\n])+\/[gimyu]{0,5}(?=\s*($|[\r\n,.;})]))/, lookbehind: !0, greedy: !0 } }), Prism.languages.insertBefore("javascript", "string", { "template-string": { pattern: /`(?:\\\\|\\?[^\\])*?`/, greedy: !0, inside: { interpolation: { pattern: /\$\{[^}]+\}/, inside: { "interpolation-punctuation": { pattern: /^\$\{|\}$/, alias: "punctuation" }, rest: Prism.languages.javascript } }, string: /[\s\S]+/ } } }), Prism.languages.markup && Prism.languages.insertBefore("markup", "tag", { script: { pattern: /(<script[\w\W]*?>)[\w\W]*?(?=<\/script>)/i, lookbehind: !0, inside: Prism.languages.javascript, alias: "language-javascript" } }), Prism.languages.js = Prism.languages.javascript;
+!function (e) {
+  var t = { variable: [{ pattern: /\$?\(\([\w\W]+?\)\)/, inside: { variable: [{ pattern: /(^\$\(\([\w\W]+)\)\)/, lookbehind: !0 }, /^\$\(\(/], number: /\b-?(?:0x[\dA-Fa-f]+|\d*\.?\d+(?:[Ee]-?\d+)?)\b/, operator: /--?|-=|\+\+?|\+=|!=?|~|\*\*?|\*=|\/=?|%=?|<<=?|>>=?|<=?|>=?|==?|&&?|&=|\^=?|\|\|?|\|=|\?|:/, punctuation: /\(\(?|\)\)?|,|;/ } }, { pattern: /\$\([^)]+\)|`[^`]+`/, inside: { variable: /^\$\(|^`|\)$|`$/ } }, /\$(?:[a-z0-9_#\?\*!@]+|\{[^}]+\})/i] };e.languages.bash = { shebang: { pattern: /^#!\s*\/bin\/bash|^#!\s*\/bin\/sh/, alias: "important" }, comment: { pattern: /(^|[^"{\\])#.*/, lookbehind: !0 }, string: [{ pattern: /((?:^|[^<])<<\s*)(?:"|')?(\w+?)(?:"|')?\s*\r?\n(?:[\s\S])*?\r?\n\2/g, lookbehind: !0, greedy: !0, inside: t }, { pattern: /(["'])(?:\\\\|\\?[^\\])*?\1/g, greedy: !0, inside: t }], variable: t.variable, "function": { pattern: /(^|\s|;|\||&)(?:alias|apropos|apt-get|aptitude|aspell|awk|basename|bash|bc|bg|builtin|bzip2|cal|cat|cd|cfdisk|chgrp|chmod|chown|chroot|chkconfig|cksum|clear|cmp|comm|command|cp|cron|crontab|csplit|cut|date|dc|dd|ddrescue|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|du|egrep|eject|enable|env|ethtool|eval|exec|expand|expect|export|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|getopts|git|grep|groupadd|groupdel|groupmod|groups|gzip|hash|head|help|hg|history|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|jobs|join|kill|killall|less|link|ln|locate|logname|logout|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|make|man|mkdir|mkfifo|mkisofs|mknod|more|most|mount|mtools|mtr|mv|mmv|nano|netstat|nice|nl|nohup|notify-send|npm|nslookup|open|op|passwd|paste|pathchk|ping|pkill|popd|pr|printcap|printenv|printf|ps|pushd|pv|pwd|quota|quotacheck|quotactl|ram|rar|rcp|read|readarray|readonly|reboot|rename|renice|remsync|rev|rm|rmdir|rsync|screen|scp|sdiff|sed|seq|service|sftp|shift|shopt|shutdown|sleep|slocate|sort|source|split|ssh|stat|strace|su|sudo|sum|suspend|sync|tail|tar|tee|test|time|timeout|times|touch|top|traceroute|trap|tr|tsort|tty|type|ulimit|umask|umount|unalias|uname|unexpand|uniq|units|unrar|unshar|uptime|useradd|userdel|usermod|users|uuencode|uudecode|v|vdir|vi|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yes|zip)(?=$|\s|;|\||&)/, lookbehind: !0 }, keyword: { pattern: /(^|\s|;|\||&)(?:let|:|\.|if|then|else|elif|fi|for|break|continue|while|in|case|function|select|do|done|until|echo|exit|return|set|declare)(?=$|\s|;|\||&)/, lookbehind: !0 }, "boolean": { pattern: /(^|\s|;|\||&)(?:true|false)(?=$|\s|;|\||&)/, lookbehind: !0 }, operator: /&&?|\|\|?|==?|!=?|<<<?|>>|<=?|>=?|=~/, punctuation: /\$?\(\(?|\)\)?|\.\.|[{}[\];]/ };var a = t.variable[1].inside;a["function"] = e.languages.bash["function"], a.keyword = e.languages.bash.keyword, a.boolean = e.languages.bash.boolean, a.operator = e.languages.bash.operator, a.punctuation = e.languages.bash.punctuation;
+}(Prism);
+Prism.languages.json = { property: /"(?:\\.|[^\\"])*"(?=\s*:)/gi, string: /"(?!:)(?:\\.|[^\\"])*"(?!:)/g, number: /\b-?(0x[\dA-Fa-f]+|\d*\.?\d+([Ee][+-]?\d+)?)\b/g, punctuation: /[{}[\]);,]/g, operator: /:/g, "boolean": /\b(true|false)\b/gi, "null": /\bnull\b/gi }, Prism.languages.jsonp = Prism.languages.json;
+Prism.languages.markdown = Prism.languages.extend("markup", {}), Prism.languages.insertBefore("markdown", "prolog", { blockquote: { pattern: /^>(?:[\t ]*>)*/m, alias: "punctuation" }, code: [{ pattern: /^(?: {4}|\t).+/m, alias: "keyword" }, { pattern: /``.+?``|`[^`\n]+`/, alias: "keyword" }], title: [{ pattern: /\w+.*(?:\r?\n|\r)(?:==+|--+)/, alias: "important", inside: { punctuation: /==+$|--+$/ } }, { pattern: /(^\s*)#+.+/m, lookbehind: !0, alias: "important", inside: { punctuation: /^#+|#+$/ } }], hr: { pattern: /(^\s*)([*-])([\t ]*\2){2,}(?=\s*$)/m, lookbehind: !0, alias: "punctuation" }, list: { pattern: /(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m, lookbehind: !0, alias: "punctuation" }, "url-reference": { pattern: /!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/, inside: { variable: { pattern: /^(!?\[)[^\]]+/, lookbehind: !0 }, string: /(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/, punctuation: /^[\[\]!:]|[<>]/ }, alias: "url" }, bold: { pattern: /(^|[^\\])(\*\*|__)(?:(?:\r?\n|\r)(?!\r?\n|\r)|.)+?\2/, lookbehind: !0, inside: { punctuation: /^\*\*|^__|\*\*$|__$/ } }, italic: { pattern: /(^|[^\\])([*_])(?:(?:\r?\n|\r)(?!\r?\n|\r)|.)+?\2/, lookbehind: !0, inside: { punctuation: /^[*_]|[*_]$/ } }, url: { pattern: /!?\[[^\]]+\](?:\([^\s)]+(?:[\t ]+"(?:\\.|[^"\\])*")?\)| ?\[[^\]\n]*\])/, inside: { variable: { pattern: /(!?\[)[^\]]+(?=\]$)/, lookbehind: !0 }, string: { pattern: /"(?:\\.|[^"\\])*"(?=\)$)/ } } } }), Prism.languages.markdown.bold.inside.url = Prism.util.clone(Prism.languages.markdown.url), Prism.languages.markdown.italic.inside.url = Prism.util.clone(Prism.languages.markdown.url), Prism.languages.markdown.bold.inside.italic = Prism.util.clone(Prism.languages.markdown.italic), Prism.languages.markdown.italic.inside.bold = Prism.util.clone(Prism.languages.markdown.bold);
+Prism.languages.php = Prism.languages.extend("clike", { keyword: /\b(and|or|xor|array|as|break|case|cfunction|class|const|continue|declare|default|die|do|else|elseif|enddeclare|endfor|endforeach|endif|endswitch|endwhile|extends|for|foreach|function|include|include_once|global|if|new|return|static|switch|use|require|require_once|var|while|abstract|interface|public|implements|private|protected|parent|throw|null|echo|print|trait|namespace|final|yield|goto|instanceof|finally|try|catch)\b/i, constant: /\b[A-Z0-9_]{2,}\b/, comment: { pattern: /(^|[^\\])(?:\/\*[\w\W]*?\*\/|\/\/.*)/, lookbehind: !0, greedy: !0 } }), Prism.languages.insertBefore("php", "class-name", { "shell-comment": { pattern: /(^|[^\\])#.*/, lookbehind: !0, alias: "comment" } }), Prism.languages.insertBefore("php", "keyword", { delimiter: /\?>|<\?(?:php)?/i, variable: /\$\w+\b/i, "package": { pattern: /(\\|namespace\s+|use\s+)[\w\\]+/, lookbehind: !0, inside: { punctuation: /\\/ } } }), Prism.languages.insertBefore("php", "operator", { property: { pattern: /(->)[\w]+/, lookbehind: !0 } }), Prism.languages.markup && (Prism.hooks.add("before-highlight", function (e) {
+  "php" === e.language && (e.tokenStack = [], e.backupCode = e.code, e.code = e.code.replace(/(?:<\?php|<\?)[\w\W]*?(?:\?>)/gi, function (a) {
+    return e.tokenStack.push(a), "{{{PHP" + e.tokenStack.length + "}}}";
+  }));
+}), Prism.hooks.add("before-insert", function (e) {
+  "php" === e.language && (e.code = e.backupCode, delete e.backupCode);
+}), Prism.hooks.add("after-highlight", function (e) {
+  if ("php" === e.language) {
+    for (var a, n = 0; a = e.tokenStack[n]; n++) {
+      e.highlightedCode = e.highlightedCode.replace("{{{PHP" + (n + 1) + "}}}", Prism.highlight(a, e.grammar, "php").replace(/\$/g, "$$$$"));
+    }e.element.innerHTML = e.highlightedCode;
+  }
+}), Prism.hooks.add("wrap", function (e) {
+  "php" === e.language && "markup" === e.type && (e.content = e.content.replace(/(\{\{\{PHP[0-9]+\}\}\})/g, '<span class="token php">$1</span>'));
+}), Prism.languages.insertBefore("php", "comment", { markup: { pattern: /<[^?]\/?(.*?)>/, inside: Prism.languages.markup }, php: /\{\{\{PHP[0-9]+\}\}\}/ }));
+Prism.languages.insertBefore("php", "variable", { "this": /\$this\b/, global: /\$(?:_(?:SERVER|GET|POST|FILES|REQUEST|SESSION|ENV|COOKIE)|GLOBALS|HTTP_RAW_POST_DATA|argc|argv|php_errormsg|http_response_header)/, scope: { pattern: /\b[\w\\]+::/, inside: { keyword: /(static|self|parent)/, punctuation: /(::|\\)/ } } });
+Prism.languages.scss = Prism.languages.extend("css", { comment: { pattern: /(^|[^\\])(?:\/\*[\w\W]*?\*\/|\/\/.*)/, lookbehind: !0 }, atrule: { pattern: /@[\w-]+(?:\([^()]+\)|[^(])*?(?=\s+[{;])/, inside: { rule: /@[\w-]+/ } }, url: /(?:[-a-z]+-)*url(?=\()/i, selector: { pattern: /(?=\S)[^@;\{\}\(\)]?([^@;\{\}\(\)]|&|#\{\$[-_\w]+\})+(?=\s*\{(\}|\s|[^\}]+(:|\{)[^\}]+))/m, inside: { parent: { pattern: /&/, alias: "important" }, placeholder: /%[-_\w]+/, variable: /\$[-_\w]+|#\{\$[-_\w]+\}/ } } }), Prism.languages.insertBefore("scss", "atrule", { keyword: [/@(?:if|else(?: if)?|for|each|while|import|extend|debug|warn|mixin|include|function|return|content)/i, { pattern: /( +)(?:from|through)(?= )/, lookbehind: !0 }] }), Prism.languages.scss.property = { pattern: /(?:[\w-]|\$[-_\w]+|#\{\$[-_\w]+\})+(?=\s*:)/i, inside: { variable: /\$[-_\w]+|#\{\$[-_\w]+\}/ } }, Prism.languages.insertBefore("scss", "important", { variable: /\$[-_\w]+|#\{\$[-_\w]+\}/ }), Prism.languages.insertBefore("scss", "function", { placeholder: { pattern: /%[-_\w]+/, alias: "selector" }, statement: { pattern: /\B!(?:default|optional)\b/i, alias: "keyword" }, "boolean": /\b(?:true|false)\b/, "null": /\bnull\b/, operator: { pattern: /(\s)(?:[-+*\/%]|[=!]=|<=?|>=?|and|or|not)(?=\s)/, lookbehind: !0 } }), Prism.languages.scss.atrule.inside.rest = Prism.util.clone(Prism.languages.scss);
+!function () {
+  function e(e, t) {
+    return Array.prototype.slice.call((t || document).querySelectorAll(e));
+  }function t(e, t) {
+    return t = " " + t + " ", (" " + e.className + " ").replace(/[\n\t]/g, " ").indexOf(t) > -1;
+  }function n(e, n, i) {
+    for (var o, a = n.replace(/\s+/g, "").split(","), l = +e.getAttribute("data-line-offset") || 0, d = r() ? parseInt : parseFloat, c = d(getComputedStyle(e).lineHeight), s = 0; o = a[s++];) {
+      o = o.split("-");var u = +o[0],
+          m = +o[1] || u,
+          h = document.createElement("div");h.textContent = Array(m - u + 2).join(" \n"), h.setAttribute("aria-hidden", "true"), h.className = (i || "") + " line-highlight", t(e, "line-numbers") || (h.setAttribute("data-start", u), m > u && h.setAttribute("data-end", m)), h.style.top = (u - l - 1) * c + "px", t(e, "line-numbers") ? e.appendChild(h) : (e.querySelector("code") || e).appendChild(h);
+    }
+  }function i() {
+    var t = location.hash.slice(1);e(".temporary.line-highlight").forEach(function (e) {
+      e.parentNode.removeChild(e);
+    });var i = (t.match(/\.([\d,-]+)$/) || [, ""])[1];if (i && !document.getElementById(t)) {
+      var r = t.slice(0, t.lastIndexOf(".")),
+          o = document.getElementById(r);o && (o.hasAttribute("data-line") || o.setAttribute("data-line", ""), n(o, i, "temporary "), document.querySelector(".temporary.line-highlight").scrollIntoView());
+    }
+  }if ("undefined" != typeof self && self.Prism && self.document && document.querySelector) {
+    var r = function () {
+      var e;return function () {
+        if ("undefined" == typeof e) {
+          var t = document.createElement("div");t.style.fontSize = "13px", t.style.lineHeight = "1.5", t.style.padding = 0, t.style.border = 0, t.innerHTML = "&nbsp;<br />&nbsp;", document.body.appendChild(t), e = 38 === t.offsetHeight, document.body.removeChild(t);
+        }return e;
+      };
+    }(),
+        o = 0;Prism.hooks.add("complete", function (t) {
+      var r = t.element.parentNode,
+          a = r && r.getAttribute("data-line");r && a && /pre/i.test(r.nodeName) && (clearTimeout(o), e(".line-highlight", r).forEach(function (e) {
+        e.parentNode.removeChild(e);
+      }), n(r, a), o = setTimeout(i, 1));
+    }), window.addEventListener && window.addEventListener("hashchange", i);
+  }
+}();
+!function () {
+  "undefined" != typeof self && self.Prism && self.document && Prism.hooks.add("complete", function (e) {
+    if (e.code) {
+      var t = e.element.parentNode,
+          s = /\s*\bline-numbers\b\s*/;if (t && /pre/i.test(t.nodeName) && (s.test(t.className) || s.test(e.element.className)) && !e.element.querySelector(".line-numbers-rows")) {
+        s.test(e.element.className) && (e.element.className = e.element.className.replace(s, "")), s.test(t.className) || (t.className += " line-numbers");var n,
+            a = e.code.match(/\n(?!$)/g),
+            l = a ? a.length + 1 : 1,
+            r = new Array(l + 1);r = r.join("<span></span>"), n = document.createElement("span"), n.setAttribute("aria-hidden", "true"), n.className = "line-numbers-rows", n.innerHTML = r, t.hasAttribute("data-start") && (t.style.counterReset = "linenumber " + (parseInt(t.getAttribute("data-start"), 10) - 1)), e.element.appendChild(n);
+      }
+    }
+  });
+}();
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports) {
 
 /*
@@ -1067,7 +1265,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -18156,10 +18354,222 @@ module.exports = function() {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(48)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(53)(module)))
 
 /***/ }),
-/* 13 */
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var replace = String.prototype.replace;
+var percentTwenties = /%20/g;
+
+module.exports = {
+    'default': 'RFC3986',
+    formatters: {
+        RFC1738: function (value) {
+            return replace.call(value, percentTwenties, '+');
+        },
+        RFC3986: function (value) {
+            return value;
+        }
+    },
+    RFC1738: 'RFC1738',
+    RFC3986: 'RFC3986'
+};
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var has = Object.prototype.hasOwnProperty;
+
+var hexTable = (function () {
+    var array = [];
+    for (var i = 0; i < 256; ++i) {
+        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
+    }
+
+    return array;
+}());
+
+exports.arrayToObject = function (source, options) {
+    var obj = options && options.plainObjects ? Object.create(null) : {};
+    for (var i = 0; i < source.length; ++i) {
+        if (typeof source[i] !== 'undefined') {
+            obj[i] = source[i];
+        }
+    }
+
+    return obj;
+};
+
+exports.merge = function (target, source, options) {
+    if (!source) {
+        return target;
+    }
+
+    if (typeof source !== 'object') {
+        if (Array.isArray(target)) {
+            target.push(source);
+        } else if (typeof target === 'object') {
+            target[source] = true;
+        } else {
+            return [target, source];
+        }
+
+        return target;
+    }
+
+    if (typeof target !== 'object') {
+        return [target].concat(source);
+    }
+
+    var mergeTarget = target;
+    if (Array.isArray(target) && !Array.isArray(source)) {
+        mergeTarget = exports.arrayToObject(target, options);
+    }
+
+    if (Array.isArray(target) && Array.isArray(source)) {
+        source.forEach(function (item, i) {
+            if (has.call(target, i)) {
+                if (target[i] && typeof target[i] === 'object') {
+                    target[i] = exports.merge(target[i], item, options);
+                } else {
+                    target.push(item);
+                }
+            } else {
+                target[i] = item;
+            }
+        });
+        return target;
+    }
+
+    return Object.keys(source).reduce(function (acc, key) {
+        var value = source[key];
+
+        if (Object.prototype.hasOwnProperty.call(acc, key)) {
+            acc[key] = exports.merge(acc[key], value, options);
+        } else {
+            acc[key] = value;
+        }
+        return acc;
+    }, mergeTarget);
+};
+
+exports.decode = function (str) {
+    try {
+        return decodeURIComponent(str.replace(/\+/g, ' '));
+    } catch (e) {
+        return str;
+    }
+};
+
+exports.encode = function (str) {
+    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
+    // It has been adapted here for stricter adherence to RFC 3986
+    if (str.length === 0) {
+        return str;
+    }
+
+    var string = typeof str === 'string' ? str : String(str);
+
+    var out = '';
+    for (var i = 0; i < string.length; ++i) {
+        var c = string.charCodeAt(i);
+
+        if (
+            c === 0x2D || // -
+            c === 0x2E || // .
+            c === 0x5F || // _
+            c === 0x7E || // ~
+            (c >= 0x30 && c <= 0x39) || // 0-9
+            (c >= 0x41 && c <= 0x5A) || // a-z
+            (c >= 0x61 && c <= 0x7A) // A-Z
+        ) {
+            out += string.charAt(i);
+            continue;
+        }
+
+        if (c < 0x80) {
+            out = out + hexTable[c];
+            continue;
+        }
+
+        if (c < 0x800) {
+            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        if (c < 0xD800 || c >= 0xE000) {
+            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        i += 1;
+        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
+        out += hexTable[0xF0 | (c >> 18)] + hexTable[0x80 | ((c >> 12) & 0x3F)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)];
+    }
+
+    return out;
+};
+
+exports.compact = function (obj, references) {
+    if (typeof obj !== 'object' || obj === null) {
+        return obj;
+    }
+
+    var refs = references || [];
+    var lookup = refs.indexOf(obj);
+    if (lookup !== -1) {
+        return refs[lookup];
+    }
+
+    refs.push(obj);
+
+    if (Array.isArray(obj)) {
+        var compacted = [];
+
+        for (var i = 0; i < obj.length; ++i) {
+            if (obj[i] && typeof obj[i] === 'object') {
+                compacted.push(exports.compact(obj[i], refs));
+            } else if (typeof obj[i] !== 'undefined') {
+                compacted.push(obj[i]);
+            }
+        }
+
+        return compacted;
+    }
+
+    var keys = Object.keys(obj);
+    keys.forEach(function (key) {
+        obj[key] = exports.compact(obj[key], refs);
+    });
+
+    return obj;
+};
+
+exports.isRegExp = function (obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+exports.isBuffer = function (obj) {
+    if (obj === null || typeof obj === 'undefined') {
+        return false;
+    }
+
+    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+};
+
+
+/***/ }),
+/* 16 */
 /***/ (function(module, exports) {
 
 /*
@@ -18381,13 +18791,13 @@ function applyToTag(styleElement, obj) {
 
 
 /***/ }),
-/* 14 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_ClassBuilder__ = __webpack_require__(42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(39);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_ClassBuilder__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_ClassBuilder___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Components_ClassBuilder__);
 
 
@@ -18409,13 +18819,13 @@ new Vue({
 });
 
 /***/ }),
-/* 15 */
+/* 18 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 16 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18423,7 +18833,7 @@ new Vue({
 
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(9);
-var Axios = __webpack_require__(18);
+var Axios = __webpack_require__(21);
 var defaults = __webpack_require__(1);
 
 /**
@@ -18458,14 +18868,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(6);
-axios.CancelToken = __webpack_require__(17);
+axios.CancelToken = __webpack_require__(20);
 axios.isCancel = __webpack_require__(7);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(32);
+axios.spread = __webpack_require__(35);
 
 module.exports = axios;
 
@@ -18474,7 +18884,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 17 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18538,7 +18948,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 18 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18546,10 +18956,10 @@ module.exports = CancelToken;
 
 var defaults = __webpack_require__(1);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(19);
-var dispatchRequest = __webpack_require__(20);
-var isAbsoluteURL = __webpack_require__(28);
-var combineURLs = __webpack_require__(26);
+var InterceptorManager = __webpack_require__(22);
+var dispatchRequest = __webpack_require__(23);
+var isAbsoluteURL = __webpack_require__(31);
+var combineURLs = __webpack_require__(29);
 
 /**
  * Create a new instance of Axios
@@ -18630,7 +19040,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 19 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18689,14 +19099,14 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 20 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(23);
+var transformData = __webpack_require__(26);
 var isCancel = __webpack_require__(7);
 var defaults = __webpack_require__(1);
 
@@ -18775,7 +19185,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 21 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18801,7 +19211,7 @@ module.exports = function enhanceError(error, config, code, response) {
 
 
 /***/ }),
-/* 22 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18833,7 +19243,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 23 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18860,7 +19270,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 24 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18903,7 +19313,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 25 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18978,7 +19388,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 26 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -18997,7 +19407,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 27 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19057,7 +19467,7 @@ module.exports = (
 
 
 /***/ }),
-/* 28 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19078,7 +19488,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 29 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19153,7 +19563,7 @@ module.exports = (
 
 
 /***/ }),
-/* 30 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19172,7 +19582,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 31 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19216,7 +19626,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 32 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -19250,7 +19660,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 33 */
+/* 36 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -19337,16 +19747,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 };
 
 /***/ }),
-/* 34 */
+/* 37 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Interface_TestModel__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_switches__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_switches__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_switches___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_switches__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Vendor_prism__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Vendor_prism___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Vendor_prism__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_qs__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_qs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_qs__);
 //
 //
 //
@@ -19456,6 +19870,136 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
 
 
 
@@ -19467,16 +20011,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             model: __WEBPACK_IMPORTED_MODULE_0__Interface_TestModel__["a" /* default */],
+
+            globalParameters: '',
+
             defaults: {
                 primaryKey: '-',
                 trailingSlash: false,
-                keepCase: false,
+                caseSensitive: false,
                 routeDelimeter: '-'
             },
-            options: {
-                overrideModelRoute: false,
-                overrideCollectionRoute: false
+
+            overrides: {
+                routes: {
+                    model: false,
+                    collection: false
+                },
+
+                suffixes: {
+                    create: false,
+                    update: false,
+                    delete: false
+                },
+
+                methods: {
+                    create: false,
+                    update: false,
+                    delete: false
+                }
             }
+
         };
     },
 
@@ -19488,19 +20051,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         resetRouteOverride: function resetRouteOverride(route) {
             var func = 'set' + __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.capitalize(route) + 'Route';
-
             this.model[func]();
+        }
+    },
+
+    watch: {
+        config: function config() {
+            var _this = this;
+
+            setTimeout(function () {
+                __WEBPACK_IMPORTED_MODULE_3__Vendor_prism___default.a.highlightElement(_this.$refs.config);
+            }, 1);
         }
     },
 
     computed: {
         config: function config() {
+            var _this2 = this;
+
             var config = {
                 baseURL: this.model.baseURL,
                 modelName: this.model.modelName,
                 primaryKey: this.model.primaryKey,
                 trailingSlash: this.model.config.trailingSlash,
-                keepCase: this.model.keepCase,
+                caseSensitive: this.model.caseSensitive,
                 routeDelimeter: this.model.routeDelimeter
             };
 
@@ -19510,39 +20084,68 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
 
-            if (this.options.overrideModelRoute || this.options.overrideCollectionRoute) {
-                config.routes = {};
-
-                if (this.options.overrideModelRoute) {
-                    config.routes.model = this.model.config.routes.model;
-                }
-
-                if (this.options.overrideCollectionRoute) {
-                    config.routes.collection = this.model.config.routes.collection;
-                }
+            if (this.parsedGlobalParams) {
+                this.model.config.globalParameters = this.parsedGlobalParams;
+                config.globalParameters = this.model.config.globalParameters;
             }
 
+            __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.forEach(this.overrides, function (overrides, key) {
+
+                var configOverride = {};
+
+                __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.forEach(overrides, function (val, k) {
+                    if (val) {
+                        configOverride[k] = _this2.model.config[key][k];
+                    }
+                });
+
+                if (!__WEBPACK_IMPORTED_MODULE_2_lodash___default.a.isEmpty(configOverride)) {
+                    config[key] = configOverride;
+                }
+            });
+
             return config;
+        },
+        parsedGlobalParams: function parsedGlobalParams() {
+            var rawParams = this.globalParameters.trim().split(',').filter(function (v) {
+                return v != '';
+            }),
+                parsedParams = {};
+
+            if (rawParams.length) {
+                __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.forEach(rawParams, function (val, key) {
+                    var parsed = __WEBPACK_IMPORTED_MODULE_4_qs___default.a.parse(val.trim());
+                    parsedParams[Object.keys(parsed).shift()] = Object.values(parsed).shift();
+                });
+
+                return parsedParams;
+            }
+
+            return null;
         }
     }
+
 };
 
 /***/ }),
-/* 35 */
+/* 38 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_pluralize__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_pluralize__ = __webpack_require__(42);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_pluralize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_pluralize__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_qs__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_qs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_qs__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 
 
 
@@ -19561,7 +20164,7 @@ var Model = function () {
 
             trailingSlash: false,
 
-            keepCase: false,
+            caseSensitive: false,
 
             routeDelimeter: '-',
 
@@ -19574,8 +20177,8 @@ var Model = function () {
             },
 
             methods: {
-                update: 'post',
                 create: 'post',
+                update: 'post',
                 delete: 'post'
             },
 
@@ -19585,7 +20188,9 @@ var Model = function () {
                 any: ''
             },
 
-            debug: false
+            debug: false,
+
+            apiConfig: {}
         };
 
         config = config || {};
@@ -19604,7 +20209,6 @@ var Model = function () {
             baseURL: this.config.baseURL.replace(/\/$/, '')
         });
 
-        this.data = {};
         this.currentRoute = 'model';
     }
 
@@ -19696,6 +20300,11 @@ var Model = function () {
 
             return this.updateOrDelete.apply(this, ['delete'].concat(params));
         }
+    }, {
+        key: 'create',
+        value: function create(data, options) {
+            return this.request(this.config.methods.create, this.model.makeUrl(this.config.suffixes.create), data, options);
+        }
 
         /**
          * Collection Only Functions
@@ -19782,7 +20391,7 @@ var Model = function () {
             if (this.debug) {
                 // console.log(params);
                 // console.log(options);
-                return this.sanitizeUrl([this.baseURL, url].join('/'));
+                return this.sanitizeUrl([this.baseURL, url].join('/')) + __WEBPACK_IMPORTED_MODULE_3_qs___default.a.stringify(options.params);
             }
 
             return new Promise(function (resolve, reject) {
@@ -19811,7 +20420,7 @@ var Model = function () {
         value: function setModelRoute() {
             var route = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.kebabCase(this.config.modelName).replace(/-/g, this.config.routeDelimeter);
 
-            if (this.config.keepCase) {
+            if (this.config.caseSensitive) {
                 route = this.config.modelName;
             }
 
@@ -19822,16 +20431,11 @@ var Model = function () {
         value: function setCollectionRoute() {
             var route = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.kebabCase(__WEBPACK_IMPORTED_MODULE_2_pluralize___default()(this.config.modelName)).replace(/-/g, this.config.routeDelimeter);
 
-            if (this.config.keepCase) {
+            if (this.config.caseSensitive) {
                 route = __WEBPACK_IMPORTED_MODULE_2_pluralize___default()(this.config.modelName);
             }
 
             this.config.routes.collection = route;
-        }
-    }, {
-        key: 'setData',
-        value: function setData(data) {
-            this.data = data;
         }
     }, {
         key: 'get',
@@ -19894,21 +20498,21 @@ var Model = function () {
         }
     }, {
         key: 'primaryKey',
-        set: function set(val) {
-            this.config.primaryKey = val;
-        },
         get: function get() {
             return this.config.primaryKey;
+        },
+        set: function set(val) {
+            this.config.primaryKey = val;
         }
     }, {
         key: 'modelName',
+        get: function get() {
+            return this.config.modelName;
+        },
         set: function set(val) {
             this.config.modelName = val;
             this.setModelRoute();
             this.setCollectionRoute();
-        },
-        get: function get() {
-            return this.config.modelName;
         }
     }, {
         key: 'routeDelimeter',
@@ -19921,24 +20525,19 @@ var Model = function () {
             this.setCollectionRoute();
         }
     }, {
-        key: 'keepCase',
+        key: 'caseSensitive',
+        get: function get() {
+            return this.config.caseSensitive;
+        },
         set: function set(val) {
-            this.config.keepCase = val;
+            this.config.caseSensitive = val;
             this.setModelRoute();
             this.setCollectionRoute();
-        },
-        get: function get() {
-            return this.config.keepCase;
         }
     }, {
         key: 'debug',
         get: function get() {
             return this.config.debug;
-        }
-    }, {
-        key: 'modelRoute',
-        set: function set(val) {
-            this.routes.model = val;
         }
     }]);
 
@@ -19948,213 +20547,15 @@ var Model = function () {
 /* harmony default export */ __webpack_exports__["a"] = Model;
 
 /***/ }),
-/* 36 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/* WEBPACK VAR INJECTION */(function(global) {/* http://prismjs.com/download.html?themes=prism&languages=markup+css+clike+javascript+bash+json+markdown+php+php-extras+scss&plugins=line-highlight+line-numbers */
-var _self = "undefined" != typeof window ? window : "undefined" != typeof WorkerGlobalScope && self instanceof WorkerGlobalScope ? self : {},
-    Prism = function () {
-  var e = /\blang(?:uage)?-(\w+)\b/i,
-      t = 0,
-      n = _self.Prism = { manual: _self.Prism && _self.Prism.manual, util: { encode: function encode(e) {
-        return e instanceof a ? new a(e.type, n.util.encode(e.content), e.alias) : "Array" === n.util.type(e) ? e.map(n.util.encode) : e.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\u00a0/g, " ");
-      }, type: function type(e) {
-        return Object.prototype.toString.call(e).match(/\[object (\w+)\]/)[1];
-      }, objId: function objId(e) {
-        return e.__id || Object.defineProperty(e, "__id", { value: ++t }), e.__id;
-      }, clone: function clone(e) {
-        var t = n.util.type(e);switch (t) {case "Object":
-            var a = {};for (var r in e) {
-              e.hasOwnProperty(r) && (a[r] = n.util.clone(e[r]));
-            }return a;case "Array":
-            return e.map && e.map(function (e) {
-              return n.util.clone(e);
-            });}return e;
-      } }, languages: { extend: function extend(e, t) {
-        var a = n.util.clone(n.languages[e]);for (var r in t) {
-          a[r] = t[r];
-        }return a;
-      }, insertBefore: function insertBefore(e, t, a, r) {
-        r = r || n.languages;var l = r[e];if (2 == arguments.length) {
-          a = arguments[1];for (var i in a) {
-            a.hasOwnProperty(i) && (l[i] = a[i]);
-          }return l;
-        }var o = {};for (var s in l) {
-          if (l.hasOwnProperty(s)) {
-            if (s == t) for (var i in a) {
-              a.hasOwnProperty(i) && (o[i] = a[i]);
-            }o[s] = l[s];
-          }
-        }return n.languages.DFS(n.languages, function (t, n) {
-          n === r[e] && t != e && (this[t] = o);
-        }), r[e] = o;
-      }, DFS: function DFS(e, t, a, r) {
-        r = r || {};for (var l in e) {
-          e.hasOwnProperty(l) && (t.call(e, l, e[l], a || l), "Object" !== n.util.type(e[l]) || r[n.util.objId(e[l])] ? "Array" !== n.util.type(e[l]) || r[n.util.objId(e[l])] || (r[n.util.objId(e[l])] = !0, n.languages.DFS(e[l], t, l, r)) : (r[n.util.objId(e[l])] = !0, n.languages.DFS(e[l], t, null, r)));
-        }
-      } }, plugins: {}, highlightAll: function highlightAll(e, t) {
-      var a = { callback: t, selector: 'code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code' };n.hooks.run("before-highlightall", a);for (var r, l = a.elements || document.querySelectorAll(a.selector), i = 0; r = l[i++];) {
-        n.highlightElement(r, e === !0, a.callback);
-      }
-    }, highlightElement: function highlightElement(t, a, r) {
-      for (var l, i, o = t; o && !e.test(o.className);) {
-        o = o.parentNode;
-      }o && (l = (o.className.match(e) || [, ""])[1].toLowerCase(), i = n.languages[l]), t.className = t.className.replace(e, "").replace(/\s+/g, " ") + " language-" + l, o = t.parentNode, /pre/i.test(o.nodeName) && (o.className = o.className.replace(e, "").replace(/\s+/g, " ") + " language-" + l);var s = t.textContent,
-          u = { element: t, language: l, grammar: i, code: s };if (n.hooks.run("before-sanity-check", u), !u.code || !u.grammar) return u.code && (u.element.textContent = u.code), n.hooks.run("complete", u), void 0;if (n.hooks.run("before-highlight", u), a && _self.Worker) {
-        var g = new Worker(n.filename);g.onmessage = function (e) {
-          u.highlightedCode = e.data, n.hooks.run("before-insert", u), u.element.innerHTML = u.highlightedCode, r && r.call(u.element), n.hooks.run("after-highlight", u), n.hooks.run("complete", u);
-        }, g.postMessage(JSON.stringify({ language: u.language, code: u.code, immediateClose: !0 }));
-      } else u.highlightedCode = n.highlight(u.code, u.grammar, u.language), n.hooks.run("before-insert", u), u.element.innerHTML = u.highlightedCode, r && r.call(t), n.hooks.run("after-highlight", u), n.hooks.run("complete", u);
-    }, highlight: function highlight(e, t, r) {
-      var l = n.tokenize(e, t);return a.stringify(n.util.encode(l), r);
-    }, tokenize: function tokenize(e, t) {
-      var a = n.Token,
-          r = [e],
-          l = t.rest;if (l) {
-        for (var i in l) {
-          t[i] = l[i];
-        }delete t.rest;
-      }e: for (var i in t) {
-        if (t.hasOwnProperty(i) && t[i]) {
-          var o = t[i];o = "Array" === n.util.type(o) ? o : [o];for (var s = 0; s < o.length; ++s) {
-            var u = o[s],
-                g = u.inside,
-                c = !!u.lookbehind,
-                h = !!u.greedy,
-                f = 0,
-                d = u.alias;if (h && !u.pattern.global) {
-              var p = u.pattern.toString().match(/[imuy]*$/)[0];u.pattern = RegExp(u.pattern.source, p + "g");
-            }u = u.pattern || u;for (var m = 0, y = 0; m < r.length; y += r[m].length, ++m) {
-              var v = r[m];if (r.length > e.length) break e;if (!(v instanceof a)) {
-                u.lastIndex = 0;var b = u.exec(v),
-                    k = 1;if (!b && h && m != r.length - 1) {
-                  if (u.lastIndex = y, b = u.exec(e), !b) break;for (var w = b.index + (c ? b[1].length : 0), _ = b.index + b[0].length, P = m, A = y, j = r.length; j > P && _ > A; ++P) {
-                    A += r[P].length, w >= A && (++m, y = A);
-                  }if (r[m] instanceof a || r[P - 1].greedy) continue;k = P - m, v = e.slice(y, A), b.index -= y;
-                }if (b) {
-                  c && (f = b[1].length);var w = b.index + f,
-                      b = b[0].slice(f),
-                      _ = w + b.length,
-                      x = v.slice(0, w),
-                      O = v.slice(_),
-                      S = [m, k];x && S.push(x);var N = new a(i, g ? n.tokenize(b, g) : b, d, b, h);S.push(N), O && S.push(O), Array.prototype.splice.apply(r, S);
-                }
-              }
-            }
-          }
-        }
-      }return r;
-    }, hooks: { all: {}, add: function add(e, t) {
-        var a = n.hooks.all;a[e] = a[e] || [], a[e].push(t);
-      }, run: function run(e, t) {
-        var a = n.hooks.all[e];if (a && a.length) for (var r, l = 0; r = a[l++];) {
-          r(t);
-        }
-      } } },
-      a = n.Token = function (e, t, n, a, r) {
-    this.type = e, this.content = t, this.alias = n, this.length = 0 | (a || "").length, this.greedy = !!r;
-  };if (a.stringify = function (e, t, r) {
-    if ("string" == typeof e) return e;if ("Array" === n.util.type(e)) return e.map(function (n) {
-      return a.stringify(n, t, e);
-    }).join("");var l = { type: e.type, content: a.stringify(e.content, t, r), tag: "span", classes: ["token", e.type], attributes: {}, language: t, parent: r };if ("comment" == l.type && (l.attributes.spellcheck = "true"), e.alias) {
-      var i = "Array" === n.util.type(e.alias) ? e.alias : [e.alias];Array.prototype.push.apply(l.classes, i);
-    }n.hooks.run("wrap", l);var o = Object.keys(l.attributes).map(function (e) {
-      return e + '="' + (l.attributes[e] || "").replace(/"/g, "&quot;") + '"';
-    }).join(" ");return "<" + l.tag + ' class="' + l.classes.join(" ") + '"' + (o ? " " + o : "") + ">" + l.content + "</" + l.tag + ">";
-  }, !_self.document) return _self.addEventListener ? (_self.addEventListener("message", function (e) {
-    var t = JSON.parse(e.data),
-        a = t.language,
-        r = t.code,
-        l = t.immediateClose;_self.postMessage(n.highlight(r, n.languages[a], a)), l && _self.close();
-  }, !1), _self.Prism) : _self.Prism;var r = document.currentScript || [].slice.call(document.getElementsByTagName("script")).pop();return r && (n.filename = r.src, !document.addEventListener || n.manual || r.hasAttribute("data-manual") || ("loading" !== document.readyState ? window.requestAnimationFrame ? window.requestAnimationFrame(n.highlightAll) : window.setTimeout(n.highlightAll, 16) : document.addEventListener("DOMContentLoaded", n.highlightAll))), _self.Prism;
-}();"undefined" != typeof module && module.exports && (module.exports = Prism), "undefined" != typeof global && (global.Prism = Prism);
-Prism.languages.markup = { comment: /<!--[\w\W]*?-->/, prolog: /<\?[\w\W]+?\?>/, doctype: /<!DOCTYPE[\w\W]+?>/i, cdata: /<!\[CDATA\[[\w\W]*?]]>/i, tag: { pattern: /<\/?(?!\d)[^\s>\/=$<]+(?:\s+[^\s>\/=]+(?:=(?:("|')(?:\\\1|\\?(?!\1)[\w\W])*\1|[^\s'">=]+))?)*\s*\/?>/i, inside: { tag: { pattern: /^<\/?[^\s>\/]+/i, inside: { punctuation: /^<\/?/, namespace: /^[^\s>\/:]+:/ } }, "attr-value": { pattern: /=(?:('|")[\w\W]*?(\1)|[^\s>]+)/i, inside: { punctuation: /[=>"']/ } }, punctuation: /\/?>/, "attr-name": { pattern: /[^\s>\/]+/, inside: { namespace: /^[^\s>\/:]+:/ } } } }, entity: /&#?[\da-z]{1,8};/i }, Prism.hooks.add("wrap", function (a) {
-  "entity" === a.type && (a.attributes.title = a.content.replace(/&amp;/, "&"));
-}), Prism.languages.xml = Prism.languages.markup, Prism.languages.html = Prism.languages.markup, Prism.languages.mathml = Prism.languages.markup, Prism.languages.svg = Prism.languages.markup;
-Prism.languages.css = { comment: /\/\*[\w\W]*?\*\//, atrule: { pattern: /@[\w-]+?.*?(;|(?=\s*\{))/i, inside: { rule: /@[\w-]+/ } }, url: /url\((?:(["'])(\\(?:\r\n|[\w\W])|(?!\1)[^\\\r\n])*\1|.*?)\)/i, selector: /[^\{\}\s][^\{\};]*?(?=\s*\{)/, string: { pattern: /("|')(\\(?:\r\n|[\w\W])|(?!\1)[^\\\r\n])*\1/, greedy: !0 }, property: /(\b|\B)[\w-]+(?=\s*:)/i, important: /\B!important\b/i, "function": /[-a-z0-9]+(?=\()/i, punctuation: /[(){};:]/ }, Prism.languages.css.atrule.inside.rest = Prism.util.clone(Prism.languages.css), Prism.languages.markup && (Prism.languages.insertBefore("markup", "tag", { style: { pattern: /(<style[\w\W]*?>)[\w\W]*?(?=<\/style>)/i, lookbehind: !0, inside: Prism.languages.css, alias: "language-css" } }), Prism.languages.insertBefore("inside", "attr-value", { "style-attr": { pattern: /\s*style=("|').*?\1/i, inside: { "attr-name": { pattern: /^\s*style/i, inside: Prism.languages.markup.tag.inside }, punctuation: /^\s*=\s*['"]|['"]\s*$/, "attr-value": { pattern: /.+/i, inside: Prism.languages.css } }, alias: "language-css" } }, Prism.languages.markup.tag));
-Prism.languages.clike = { comment: [{ pattern: /(^|[^\\])\/\*[\w\W]*?\*\//, lookbehind: !0 }, { pattern: /(^|[^\\:])\/\/.*/, lookbehind: !0 }], string: { pattern: /(["'])(\\(?:\r\n|[\s\S])|(?!\1)[^\\\r\n])*\1/, greedy: !0 }, "class-name": { pattern: /((?:\b(?:class|interface|extends|implements|trait|instanceof|new)\s+)|(?:catch\s+\())[a-z0-9_\.\\]+/i, lookbehind: !0, inside: { punctuation: /(\.|\\)/ } }, keyword: /\b(if|else|while|do|for|return|in|instanceof|function|new|try|throw|catch|finally|null|break|continue)\b/, "boolean": /\b(true|false)\b/, "function": /[a-z0-9_]+(?=\()/i, number: /\b-?(?:0x[\da-f]+|\d*\.?\d+(?:e[+-]?\d+)?)\b/i, operator: /--?|\+\+?|!=?=?|<=?|>=?|==?=?|&&?|\|\|?|\?|\*|\/|~|\^|%/, punctuation: /[{}[\];(),.:]/ };
-Prism.languages.javascript = Prism.languages.extend("clike", { keyword: /\b(as|async|await|break|case|catch|class|const|continue|debugger|default|delete|do|else|enum|export|extends|finally|for|from|function|get|if|implements|import|in|instanceof|interface|let|new|null|of|package|private|protected|public|return|set|static|super|switch|this|throw|try|typeof|var|void|while|with|yield)\b/, number: /\b-?(0x[\dA-Fa-f]+|0b[01]+|0o[0-7]+|\d*\.?\d+([Ee][+-]?\d+)?|NaN|Infinity)\b/, "function": /[_$a-zA-Z\xA0-\uFFFF][_$a-zA-Z0-9\xA0-\uFFFF]*(?=\()/i, operator: /--?|\+\+?|!=?=?|<=?|>=?|==?=?|&&?|\|\|?|\?|\*\*?|\/|~|\^|%|\.{3}/ }), Prism.languages.insertBefore("javascript", "keyword", { regex: { pattern: /(^|[^\/])\/(?!\/)(\[.+?]|\\.|[^\/\\\r\n])+\/[gimyu]{0,5}(?=\s*($|[\r\n,.;})]))/, lookbehind: !0, greedy: !0 } }), Prism.languages.insertBefore("javascript", "string", { "template-string": { pattern: /`(?:\\\\|\\?[^\\])*?`/, greedy: !0, inside: { interpolation: { pattern: /\$\{[^}]+\}/, inside: { "interpolation-punctuation": { pattern: /^\$\{|\}$/, alias: "punctuation" }, rest: Prism.languages.javascript } }, string: /[\s\S]+/ } } }), Prism.languages.markup && Prism.languages.insertBefore("markup", "tag", { script: { pattern: /(<script[\w\W]*?>)[\w\W]*?(?=<\/script>)/i, lookbehind: !0, inside: Prism.languages.javascript, alias: "language-javascript" } }), Prism.languages.js = Prism.languages.javascript;
-!function (e) {
-  var t = { variable: [{ pattern: /\$?\(\([\w\W]+?\)\)/, inside: { variable: [{ pattern: /(^\$\(\([\w\W]+)\)\)/, lookbehind: !0 }, /^\$\(\(/], number: /\b-?(?:0x[\dA-Fa-f]+|\d*\.?\d+(?:[Ee]-?\d+)?)\b/, operator: /--?|-=|\+\+?|\+=|!=?|~|\*\*?|\*=|\/=?|%=?|<<=?|>>=?|<=?|>=?|==?|&&?|&=|\^=?|\|\|?|\|=|\?|:/, punctuation: /\(\(?|\)\)?|,|;/ } }, { pattern: /\$\([^)]+\)|`[^`]+`/, inside: { variable: /^\$\(|^`|\)$|`$/ } }, /\$(?:[a-z0-9_#\?\*!@]+|\{[^}]+\})/i] };e.languages.bash = { shebang: { pattern: /^#!\s*\/bin\/bash|^#!\s*\/bin\/sh/, alias: "important" }, comment: { pattern: /(^|[^"{\\])#.*/, lookbehind: !0 }, string: [{ pattern: /((?:^|[^<])<<\s*)(?:"|')?(\w+?)(?:"|')?\s*\r?\n(?:[\s\S])*?\r?\n\2/g, lookbehind: !0, greedy: !0, inside: t }, { pattern: /(["'])(?:\\\\|\\?[^\\])*?\1/g, greedy: !0, inside: t }], variable: t.variable, "function": { pattern: /(^|\s|;|\||&)(?:alias|apropos|apt-get|aptitude|aspell|awk|basename|bash|bc|bg|builtin|bzip2|cal|cat|cd|cfdisk|chgrp|chmod|chown|chroot|chkconfig|cksum|clear|cmp|comm|command|cp|cron|crontab|csplit|cut|date|dc|dd|ddrescue|df|diff|diff3|dig|dir|dircolors|dirname|dirs|dmesg|du|egrep|eject|enable|env|ethtool|eval|exec|expand|expect|export|expr|fdformat|fdisk|fg|fgrep|file|find|fmt|fold|format|free|fsck|ftp|fuser|gawk|getopts|git|grep|groupadd|groupdel|groupmod|groups|gzip|hash|head|help|hg|history|hostname|htop|iconv|id|ifconfig|ifdown|ifup|import|install|jobs|join|kill|killall|less|link|ln|locate|logname|logout|look|lpc|lpr|lprint|lprintd|lprintq|lprm|ls|lsof|make|man|mkdir|mkfifo|mkisofs|mknod|more|most|mount|mtools|mtr|mv|mmv|nano|netstat|nice|nl|nohup|notify-send|npm|nslookup|open|op|passwd|paste|pathchk|ping|pkill|popd|pr|printcap|printenv|printf|ps|pushd|pv|pwd|quota|quotacheck|quotactl|ram|rar|rcp|read|readarray|readonly|reboot|rename|renice|remsync|rev|rm|rmdir|rsync|screen|scp|sdiff|sed|seq|service|sftp|shift|shopt|shutdown|sleep|slocate|sort|source|split|ssh|stat|strace|su|sudo|sum|suspend|sync|tail|tar|tee|test|time|timeout|times|touch|top|traceroute|trap|tr|tsort|tty|type|ulimit|umask|umount|unalias|uname|unexpand|uniq|units|unrar|unshar|uptime|useradd|userdel|usermod|users|uuencode|uudecode|v|vdir|vi|vmstat|wait|watch|wc|wget|whereis|which|who|whoami|write|xargs|xdg-open|yes|zip)(?=$|\s|;|\||&)/, lookbehind: !0 }, keyword: { pattern: /(^|\s|;|\||&)(?:let|:|\.|if|then|else|elif|fi|for|break|continue|while|in|case|function|select|do|done|until|echo|exit|return|set|declare)(?=$|\s|;|\||&)/, lookbehind: !0 }, "boolean": { pattern: /(^|\s|;|\||&)(?:true|false)(?=$|\s|;|\||&)/, lookbehind: !0 }, operator: /&&?|\|\|?|==?|!=?|<<<?|>>|<=?|>=?|=~/, punctuation: /\$?\(\(?|\)\)?|\.\.|[{}[\];]/ };var a = t.variable[1].inside;a["function"] = e.languages.bash["function"], a.keyword = e.languages.bash.keyword, a.boolean = e.languages.bash.boolean, a.operator = e.languages.bash.operator, a.punctuation = e.languages.bash.punctuation;
-}(Prism);
-Prism.languages.json = { property: /"(?:\\.|[^\\"])*"(?=\s*:)/gi, string: /"(?!:)(?:\\.|[^\\"])*"(?!:)/g, number: /\b-?(0x[\dA-Fa-f]+|\d*\.?\d+([Ee][+-]?\d+)?)\b/g, punctuation: /[{}[\]);,]/g, operator: /:/g, "boolean": /\b(true|false)\b/gi, "null": /\bnull\b/gi }, Prism.languages.jsonp = Prism.languages.json;
-Prism.languages.markdown = Prism.languages.extend("markup", {}), Prism.languages.insertBefore("markdown", "prolog", { blockquote: { pattern: /^>(?:[\t ]*>)*/m, alias: "punctuation" }, code: [{ pattern: /^(?: {4}|\t).+/m, alias: "keyword" }, { pattern: /``.+?``|`[^`\n]+`/, alias: "keyword" }], title: [{ pattern: /\w+.*(?:\r?\n|\r)(?:==+|--+)/, alias: "important", inside: { punctuation: /==+$|--+$/ } }, { pattern: /(^\s*)#+.+/m, lookbehind: !0, alias: "important", inside: { punctuation: /^#+|#+$/ } }], hr: { pattern: /(^\s*)([*-])([\t ]*\2){2,}(?=\s*$)/m, lookbehind: !0, alias: "punctuation" }, list: { pattern: /(^\s*)(?:[*+-]|\d+\.)(?=[\t ].)/m, lookbehind: !0, alias: "punctuation" }, "url-reference": { pattern: /!?\[[^\]]+\]:[\t ]+(?:\S+|<(?:\\.|[^>\\])+>)(?:[\t ]+(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\)))?/, inside: { variable: { pattern: /^(!?\[)[^\]]+/, lookbehind: !0 }, string: /(?:"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|\((?:\\.|[^)\\])*\))$/, punctuation: /^[\[\]!:]|[<>]/ }, alias: "url" }, bold: { pattern: /(^|[^\\])(\*\*|__)(?:(?:\r?\n|\r)(?!\r?\n|\r)|.)+?\2/, lookbehind: !0, inside: { punctuation: /^\*\*|^__|\*\*$|__$/ } }, italic: { pattern: /(^|[^\\])([*_])(?:(?:\r?\n|\r)(?!\r?\n|\r)|.)+?\2/, lookbehind: !0, inside: { punctuation: /^[*_]|[*_]$/ } }, url: { pattern: /!?\[[^\]]+\](?:\([^\s)]+(?:[\t ]+"(?:\\.|[^"\\])*")?\)| ?\[[^\]\n]*\])/, inside: { variable: { pattern: /(!?\[)[^\]]+(?=\]$)/, lookbehind: !0 }, string: { pattern: /"(?:\\.|[^"\\])*"(?=\)$)/ } } } }), Prism.languages.markdown.bold.inside.url = Prism.util.clone(Prism.languages.markdown.url), Prism.languages.markdown.italic.inside.url = Prism.util.clone(Prism.languages.markdown.url), Prism.languages.markdown.bold.inside.italic = Prism.util.clone(Prism.languages.markdown.italic), Prism.languages.markdown.italic.inside.bold = Prism.util.clone(Prism.languages.markdown.bold);
-Prism.languages.php = Prism.languages.extend("clike", { keyword: /\b(and|or|xor|array|as|break|case|cfunction|class|const|continue|declare|default|die|do|else|elseif|enddeclare|endfor|endforeach|endif|endswitch|endwhile|extends|for|foreach|function|include|include_once|global|if|new|return|static|switch|use|require|require_once|var|while|abstract|interface|public|implements|private|protected|parent|throw|null|echo|print|trait|namespace|final|yield|goto|instanceof|finally|try|catch)\b/i, constant: /\b[A-Z0-9_]{2,}\b/, comment: { pattern: /(^|[^\\])(?:\/\*[\w\W]*?\*\/|\/\/.*)/, lookbehind: !0, greedy: !0 } }), Prism.languages.insertBefore("php", "class-name", { "shell-comment": { pattern: /(^|[^\\])#.*/, lookbehind: !0, alias: "comment" } }), Prism.languages.insertBefore("php", "keyword", { delimiter: /\?>|<\?(?:php)?/i, variable: /\$\w+\b/i, "package": { pattern: /(\\|namespace\s+|use\s+)[\w\\]+/, lookbehind: !0, inside: { punctuation: /\\/ } } }), Prism.languages.insertBefore("php", "operator", { property: { pattern: /(->)[\w]+/, lookbehind: !0 } }), Prism.languages.markup && (Prism.hooks.add("before-highlight", function (e) {
-  "php" === e.language && (e.tokenStack = [], e.backupCode = e.code, e.code = e.code.replace(/(?:<\?php|<\?)[\w\W]*?(?:\?>)/gi, function (a) {
-    return e.tokenStack.push(a), "{{{PHP" + e.tokenStack.length + "}}}";
-  }));
-}), Prism.hooks.add("before-insert", function (e) {
-  "php" === e.language && (e.code = e.backupCode, delete e.backupCode);
-}), Prism.hooks.add("after-highlight", function (e) {
-  if ("php" === e.language) {
-    for (var a, n = 0; a = e.tokenStack[n]; n++) {
-      e.highlightedCode = e.highlightedCode.replace("{{{PHP" + (n + 1) + "}}}", Prism.highlight(a, e.grammar, "php").replace(/\$/g, "$$$$"));
-    }e.element.innerHTML = e.highlightedCode;
-  }
-}), Prism.hooks.add("wrap", function (e) {
-  "php" === e.language && "markup" === e.type && (e.content = e.content.replace(/(\{\{\{PHP[0-9]+\}\}\})/g, '<span class="token php">$1</span>'));
-}), Prism.languages.insertBefore("php", "comment", { markup: { pattern: /<[^?]\/?(.*?)>/, inside: Prism.languages.markup }, php: /\{\{\{PHP[0-9]+\}\}\}/ }));
-Prism.languages.insertBefore("php", "variable", { "this": /\$this\b/, global: /\$(?:_(?:SERVER|GET|POST|FILES|REQUEST|SESSION|ENV|COOKIE)|GLOBALS|HTTP_RAW_POST_DATA|argc|argv|php_errormsg|http_response_header)/, scope: { pattern: /\b[\w\\]+::/, inside: { keyword: /(static|self|parent)/, punctuation: /(::|\\)/ } } });
-Prism.languages.scss = Prism.languages.extend("css", { comment: { pattern: /(^|[^\\])(?:\/\*[\w\W]*?\*\/|\/\/.*)/, lookbehind: !0 }, atrule: { pattern: /@[\w-]+(?:\([^()]+\)|[^(])*?(?=\s+[{;])/, inside: { rule: /@[\w-]+/ } }, url: /(?:[-a-z]+-)*url(?=\()/i, selector: { pattern: /(?=\S)[^@;\{\}\(\)]?([^@;\{\}\(\)]|&|#\{\$[-_\w]+\})+(?=\s*\{(\}|\s|[^\}]+(:|\{)[^\}]+))/m, inside: { parent: { pattern: /&/, alias: "important" }, placeholder: /%[-_\w]+/, variable: /\$[-_\w]+|#\{\$[-_\w]+\}/ } } }), Prism.languages.insertBefore("scss", "atrule", { keyword: [/@(?:if|else(?: if)?|for|each|while|import|extend|debug|warn|mixin|include|function|return|content)/i, { pattern: /( +)(?:from|through)(?= )/, lookbehind: !0 }] }), Prism.languages.scss.property = { pattern: /(?:[\w-]|\$[-_\w]+|#\{\$[-_\w]+\})+(?=\s*:)/i, inside: { variable: /\$[-_\w]+|#\{\$[-_\w]+\}/ } }, Prism.languages.insertBefore("scss", "important", { variable: /\$[-_\w]+|#\{\$[-_\w]+\}/ }), Prism.languages.insertBefore("scss", "function", { placeholder: { pattern: /%[-_\w]+/, alias: "selector" }, statement: { pattern: /\B!(?:default|optional)\b/i, alias: "keyword" }, "boolean": /\b(?:true|false)\b/, "null": /\bnull\b/, operator: { pattern: /(\s)(?:[-+*\/%]|[=!]=|<=?|>=?|and|or|not)(?=\s)/, lookbehind: !0 } }), Prism.languages.scss.atrule.inside.rest = Prism.util.clone(Prism.languages.scss);
-!function () {
-  function e(e, t) {
-    return Array.prototype.slice.call((t || document).querySelectorAll(e));
-  }function t(e, t) {
-    return t = " " + t + " ", (" " + e.className + " ").replace(/[\n\t]/g, " ").indexOf(t) > -1;
-  }function n(e, n, i) {
-    for (var o, a = n.replace(/\s+/g, "").split(","), l = +e.getAttribute("data-line-offset") || 0, d = r() ? parseInt : parseFloat, c = d(getComputedStyle(e).lineHeight), s = 0; o = a[s++];) {
-      o = o.split("-");var u = +o[0],
-          m = +o[1] || u,
-          h = document.createElement("div");h.textContent = Array(m - u + 2).join(" \n"), h.setAttribute("aria-hidden", "true"), h.className = (i || "") + " line-highlight", t(e, "line-numbers") || (h.setAttribute("data-start", u), m > u && h.setAttribute("data-end", m)), h.style.top = (u - l - 1) * c + "px", t(e, "line-numbers") ? e.appendChild(h) : (e.querySelector("code") || e).appendChild(h);
-    }
-  }function i() {
-    var t = location.hash.slice(1);e(".temporary.line-highlight").forEach(function (e) {
-      e.parentNode.removeChild(e);
-    });var i = (t.match(/\.([\d,-]+)$/) || [, ""])[1];if (i && !document.getElementById(t)) {
-      var r = t.slice(0, t.lastIndexOf(".")),
-          o = document.getElementById(r);o && (o.hasAttribute("data-line") || o.setAttribute("data-line", ""), n(o, i, "temporary "), document.querySelector(".temporary.line-highlight").scrollIntoView());
-    }
-  }if ("undefined" != typeof self && self.Prism && self.document && document.querySelector) {
-    var r = function () {
-      var e;return function () {
-        if ("undefined" == typeof e) {
-          var t = document.createElement("div");t.style.fontSize = "13px", t.style.lineHeight = "1.5", t.style.padding = 0, t.style.border = 0, t.innerHTML = "&nbsp;<br />&nbsp;", document.body.appendChild(t), e = 38 === t.offsetHeight, document.body.removeChild(t);
-        }return e;
-      };
-    }(),
-        o = 0;Prism.hooks.add("complete", function (t) {
-      var r = t.element.parentNode,
-          a = r && r.getAttribute("data-line");r && a && /pre/i.test(r.nodeName) && (clearTimeout(o), e(".line-highlight", r).forEach(function (e) {
-        e.parentNode.removeChild(e);
-      }), n(r, a), o = setTimeout(i, 1));
-    }), window.addEventListener && window.addEventListener("hashchange", i);
-  }
-}();
-!function () {
-  "undefined" != typeof self && self.Prism && self.document && Prism.hooks.add("complete", function (e) {
-    if (e.code) {
-      var t = e.element.parentNode,
-          s = /\s*\bline-numbers\b\s*/;if (t && /pre/i.test(t.nodeName) && (s.test(t.className) || s.test(e.element.className)) && !e.element.querySelector(".line-numbers-rows")) {
-        s.test(e.element.className) && (e.element.className = e.element.className.replace(s, "")), s.test(t.className) || (t.className += " line-numbers");var n,
-            a = e.code.match(/\n(?!$)/g),
-            l = a ? a.length + 1 : 1,
-            r = new Array(l + 1);r = r.join("<span></span>"), n = document.createElement("span"), n.setAttribute("aria-hidden", "true"), n.className = "line-numbers-rows", n.innerHTML = r, t.hasAttribute("data-start") && (t.style.counterReset = "linenumber " + (parseInt(t.getAttribute("data-start"), 10) - 1)), e.element.appendChild(n);
-      }
-    }
-  });
-}();
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ }),
-/* 37 */
+/* 39 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(47);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(52);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Vendor_prism__ = __webpack_require__(36);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Vendor_prism__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Vendor_prism___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Vendor_prism__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Interface_TestModel__ = __webpack_require__(10);
 
@@ -20178,10 +20579,10 @@ window.axios.defaults.headers.common = {
 };
 
 /***/ }),
-/* 38 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(11)();
+exports = module.exports = __webpack_require__(12)();
 // imports
 
 
@@ -20192,21 +20593,21 @@ exports.push([module.i, "/**\n * Default\n */\n/**\n * Bulma\n */\n/**\n * Boots
 
 
 /***/ }),
-/* 39 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(11)();
+exports = module.exports = __webpack_require__(12)();
 // imports
 
 
 // module
-exports.push([module.i, "\n@-webkit-keyframes spinAround {\nfrom {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n}\nto {\n    -webkit-transform: rotate(359deg);\n            transform: rotate(359deg);\n}\n}\n@keyframes spinAround {\nfrom {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n}\nto {\n    -webkit-transform: rotate(359deg);\n            transform: rotate(359deg);\n}\n}\n.input,\n.textarea {\n  -moz-appearance: none;\n  -webkit-appearance: none;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: none;\n  border-radius: 3px;\n  box-shadow: none;\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  font-size: 1rem;\n  height: 2.285em;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  line-height: 1.5;\n  padding-left: 0.75em;\n  padding-right: 0.75em;\n  position: relative;\n  vertical-align: top;\n  background-color: white;\n  border: 1px solid #dbdbdb;\n  color: #363636;\n  box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);\n  max-width: 100%;\n  width: 100%;\n}\n.input:focus, .input.is-focused, .input:active, .input.is-active,\n  .textarea:focus,\n  .textarea.is-focused,\n  .textarea:active,\n  .textarea.is-active {\n    outline: none;\n}\n.input[disabled], .input.is-disabled,\n  .textarea[disabled],\n  .textarea.is-disabled {\n    pointer-events: none;\n}\n.input:hover, .input.is-hovered,\n  .textarea:hover,\n  .textarea.is-hovered {\n    border-color: #b5b5b5;\n}\n.input:focus, .input.is-focused, .input:active, .input.is-active,\n  .textarea:focus,\n  .textarea.is-focused,\n  .textarea:active,\n  .textarea.is-active {\n    border-color: #00d1b2;\n}\n.input[disabled], .input.is-disabled,\n  .textarea[disabled],\n  .textarea.is-disabled {\n    background-color: whitesmoke;\n    border-color: whitesmoke;\n    box-shadow: none;\n    color: #7a7a7a;\n}\n.input[disabled]::-moz-placeholder, .input.is-disabled::-moz-placeholder,\n    .textarea[disabled]::-moz-placeholder,\n    .textarea.is-disabled::-moz-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[disabled]::-webkit-input-placeholder, .input.is-disabled::-webkit-input-placeholder,\n    .textarea[disabled]::-webkit-input-placeholder,\n    .textarea.is-disabled::-webkit-input-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[disabled]:-moz-placeholder, .input.is-disabled:-moz-placeholder,\n    .textarea[disabled]:-moz-placeholder,\n    .textarea.is-disabled:-moz-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[disabled]:-ms-input-placeholder, .input.is-disabled:-ms-input-placeholder,\n    .textarea[disabled]:-ms-input-placeholder,\n    .textarea.is-disabled:-ms-input-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[type=\"search\"],\n  .textarea[type=\"search\"] {\n    border-radius: 290486px;\n}\n.input.is-white,\n  .textarea.is-white {\n    border-color: white;\n}\n.input.is-black,\n  .textarea.is-black {\n    border-color: #0a0a0a;\n}\n.input.is-light,\n  .textarea.is-light {\n    border-color: whitesmoke;\n}\n.input.is-dark,\n  .textarea.is-dark {\n    border-color: #363636;\n}\n.input.is-primary,\n  .textarea.is-primary {\n    border-color: #00d1b2;\n}\n.input.is-info,\n  .textarea.is-info {\n    border-color: #539bb9;\n}\n.input.is-success,\n  .textarea.is-success {\n    border-color: #23d160;\n}\n.input.is-warning,\n  .textarea.is-warning {\n    border-color: #ffdd57;\n}\n.input.is-danger,\n  .textarea.is-danger {\n    border-color: #ff3860;\n}\n.input.is-small,\n  .textarea.is-small {\n    border-radius: 2px;\n    font-size: 0.75rem;\n}\n.input.is-medium,\n  .textarea.is-medium {\n    font-size: 1.25rem;\n}\n.input.is-large,\n  .textarea.is-large {\n    font-size: 1.5rem;\n}\n.input.is-fullwidth,\n  .textarea.is-fullwidth {\n    display: block;\n    width: 100%;\n}\n.input.is-inline,\n  .textarea.is-inline {\n    display: inline;\n    width: auto;\n}\n.textarea {\n  display: block;\n  line-height: 1.25;\n  max-height: 600px;\n  max-width: 100%;\n  min-height: 120px;\n  min-width: 100%;\n  padding: 10px;\n  resize: vertical;\n}\n.checkbox,\n.radio {\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  cursor: pointer;\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  position: relative;\n  vertical-align: top;\n}\n.checkbox input,\n  .radio input {\n    cursor: pointer;\n    margin-right: 0.5em;\n}\n.checkbox:hover,\n  .radio:hover {\n    color: #363636;\n}\n.checkbox.is-disabled,\n  .radio.is-disabled {\n    color: #7a7a7a;\n    pointer-events: none;\n}\n.checkbox.is-disabled input,\n    .radio.is-disabled input {\n      pointer-events: none;\n}\n.radio + .radio {\n  margin-left: 0.5em;\n}\n.select {\n  display: inline-block;\n  height: 2.5em;\n  position: relative;\n  vertical-align: top;\n}\n.select:after {\n    border: 1px solid #00d1b2;\n    border-right: 0;\n    border-top: 0;\n    content: \" \";\n    display: block;\n    height: 0.5em;\n    pointer-events: none;\n    position: absolute;\n    -webkit-transform: rotate(-45deg);\n            transform: rotate(-45deg);\n    width: 0.5em;\n    margin-top: -0.375em;\n    right: 1.125em;\n    top: 50%;\n    z-index: 4;\n}\n.select select {\n    -moz-appearance: none;\n    -webkit-appearance: none;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    border: none;\n    border-radius: 3px;\n    box-shadow: none;\n    display: -webkit-inline-box;\n    display: -ms-inline-flexbox;\n    display: inline-flex;\n    font-size: 1rem;\n    height: 2.285em;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    line-height: 1.5;\n    padding-left: 0.75em;\n    padding-right: 0.75em;\n    position: relative;\n    vertical-align: top;\n    background-color: white;\n    border: 1px solid #dbdbdb;\n    color: #363636;\n    cursor: pointer;\n    display: block;\n    font-size: 1em;\n    outline: none;\n    padding-right: 2.5em;\n}\n.select select:focus, .select select.is-focused, .select select:active, .select select.is-active {\n      outline: none;\n}\n.select select[disabled], .select select.is-disabled {\n      pointer-events: none;\n}\n.select select:hover, .select select.is-hovered {\n      border-color: #b5b5b5;\n}\n.select select:focus, .select select.is-focused, .select select:active, .select select.is-active {\n      border-color: #00d1b2;\n}\n.select select[disabled], .select select.is-disabled {\n      background-color: whitesmoke;\n      border-color: whitesmoke;\n      box-shadow: none;\n      color: #7a7a7a;\n}\n.select select[disabled]::-moz-placeholder, .select select.is-disabled::-moz-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select[disabled]::-webkit-input-placeholder, .select select.is-disabled::-webkit-input-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select[disabled]:-moz-placeholder, .select select.is-disabled:-moz-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select[disabled]:-ms-input-placeholder, .select select.is-disabled:-ms-input-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select:hover {\n      border-color: #b5b5b5;\n}\n.select select::ms-expand {\n      display: none;\n}\n.select:hover:after {\n    border-color: #363636;\n}\n.select.is-small {\n    border-radius: 2px;\n    font-size: 0.75rem;\n}\n.select.is-medium {\n    font-size: 1.25rem;\n}\n.select.is-large {\n    font-size: 1.5rem;\n}\n.select.is-fullwidth {\n    width: 100%;\n}\n.select.is-fullwidth select {\n      width: 100%;\n}\n.label {\n  color: #363636;\n  display: block;\n  font-weight: bold;\n}\n.label:not(:last-child) {\n    margin-bottom: 0.5em;\n}\n.help {\n  display: block;\n  font-size: 0.75rem;\n  margin-top: 5px;\n}\n.help.is-white {\n    color: white;\n}\n.help.is-black {\n    color: #0a0a0a;\n}\n.help.is-light {\n    color: whitesmoke;\n}\n.help.is-dark {\n    color: #363636;\n}\n.help.is-primary {\n    color: #00d1b2;\n}\n.help.is-info {\n    color: #539bb9;\n}\n.help.is-success {\n    color: #23d160;\n}\n.help.is-warning {\n    color: #ffdd57;\n}\n.help.is-danger {\n    color: #ff3860;\n}\n@media screen and (max-width: 768px) {\n.control-label {\n    margin-bottom: 0.5em;\n}\n}\n@media screen and (min-width: 769px) {\n.control-label {\n    -ms-flex-preferred-size: 0;\n        flex-basis: 0;\n    -webkit-box-flex: 1;\n        -ms-flex-positive: 1;\n            flex-grow: 1;\n    -ms-flex-negative: 0;\n        flex-shrink: 0;\n    margin-right: 1.5em;\n    padding-top: 0.5em;\n    text-align: right;\n}\n}\n.control {\n  position: relative;\n  text-align: left;\n}\n.control:not(:last-child) {\n    margin-bottom: 0.75rem;\n}\n.control.has-addons {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n}\n.control.has-addons .button,\n    .control.has-addons .input,\n    .control.has-addons .select {\n      border-radius: 0;\n      margin-right: -1px;\n      width: auto;\n}\n.control.has-addons .button:hover,\n      .control.has-addons .input:hover,\n      .control.has-addons .select:hover {\n        z-index: 2;\n}\n.control.has-addons .button:focus, .control.has-addons .button:active,\n      .control.has-addons .input:focus,\n      .control.has-addons .input:active,\n      .control.has-addons .select:focus,\n      .control.has-addons .select:active {\n        z-index: 3;\n}\n.control.has-addons .button:first-child,\n      .control.has-addons .input:first-child,\n      .control.has-addons .select:first-child {\n        border-radius: 3px 0 0 3px;\n}\n.control.has-addons .button:first-child select,\n        .control.has-addons .input:first-child select,\n        .control.has-addons .select:first-child select {\n          border-radius: 3px 0 0 3px;\n}\n.control.has-addons .button:last-child,\n      .control.has-addons .input:last-child,\n      .control.has-addons .select:last-child {\n        border-radius: 0 3px 3px 0;\n}\n.control.has-addons .button:last-child select,\n        .control.has-addons .input:last-child select,\n        .control.has-addons .select:last-child select {\n          border-radius: 0 3px 3px 0;\n}\n.control.has-addons .button.is-expanded,\n      .control.has-addons .input.is-expanded,\n      .control.has-addons .select.is-expanded {\n        -webkit-box-flex: 1;\n            -ms-flex-positive: 1;\n                flex-grow: 1;\n        -ms-flex-negative: 0;\n            flex-shrink: 0;\n}\n.control.has-addons .select select:hover {\n      z-index: 2;\n}\n.control.has-addons .select select:focus, .control.has-addons .select select:active {\n      z-index: 3;\n}\n.control.has-addons.has-addons-centered {\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n}\n.control.has-addons.has-addons-right {\n      -webkit-box-pack: end;\n          -ms-flex-pack: end;\n              justify-content: flex-end;\n}\n.control.has-addons.has-addons-fullwidth .button,\n    .control.has-addons.has-addons-fullwidth .input,\n    .control.has-addons.has-addons-fullwidth .select {\n      -webkit-box-flex: 1;\n          -ms-flex-positive: 1;\n              flex-grow: 1;\n      -ms-flex-negative: 0;\n          flex-shrink: 0;\n}\n.control.has-icon .icon {\n    color: #dbdbdb;\n    pointer-events: none;\n    position: absolute;\n    top: 1.25rem;\n    z-index: 4;\n}\n.control.has-icon .input:focus + .icon {\n    color: #7a7a7a;\n}\n.control.has-icon .input.is-small + .icon {\n    top: 0.9375rem;\n}\n.control.has-icon .input.is-medium + .icon {\n    top: 1.5625rem;\n}\n.control.has-icon .input.is-large + .icon {\n    top: 1.875rem;\n}\n.control.has-icon:not(.has-icon-right) .icon {\n    left: 1.25rem;\n    -webkit-transform: translateX(-50%) translateY(-50%);\n            transform: translateX(-50%) translateY(-50%);\n}\n.control.has-icon:not(.has-icon-right) .input {\n    padding-left: 2.5em;\n}\n.control.has-icon:not(.has-icon-right) .input.is-small + .icon {\n      left: 0.9375rem;\n}\n.control.has-icon:not(.has-icon-right) .input.is-medium + .icon {\n      left: 1.5625rem;\n}\n.control.has-icon:not(.has-icon-right) .input.is-large + .icon {\n      left: 1.875rem;\n}\n.control.has-icon.has-icon-right .icon {\n    right: 1.25rem;\n    -webkit-transform: translateX(50%) translateY(-50%);\n            transform: translateX(50%) translateY(-50%);\n}\n.control.has-icon.has-icon-right .input {\n    padding-right: 2.5em;\n}\n.control.has-icon.has-icon-right .input.is-small + .icon {\n      right: 0.9375rem;\n}\n.control.has-icon.has-icon-right .input.is-medium + .icon {\n      right: 1.5625rem;\n}\n.control.has-icon.has-icon-right .input.is-large + .icon {\n      right: 1.875rem;\n}\n.control.is-grouped {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n}\n.control.is-grouped > .control {\n      -ms-flex-preferred-size: 0;\n          flex-basis: 0;\n      -ms-flex-negative: 0;\n          flex-shrink: 0;\n}\n.control.is-grouped > .control:not(:last-child) {\n        margin-bottom: 0;\n        margin-right: 0.75rem;\n}\n.control.is-grouped > .control.is-expanded {\n        -webkit-box-flex: 1;\n            -ms-flex-positive: 1;\n                flex-grow: 1;\n        -ms-flex-negative: 1;\n            flex-shrink: 1;\n}\n.control.is-grouped.is-grouped-centered {\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n}\n.control.is-grouped.is-grouped-right {\n      -webkit-box-pack: end;\n          -ms-flex-pack: end;\n              justify-content: flex-end;\n}\n@media screen and (min-width: 769px) {\n.control.is-horizontal {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n}\n.control.is-horizontal > .control {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -ms-flex-preferred-size: 0;\n            flex-basis: 0;\n        -webkit-box-flex: 5;\n            -ms-flex-positive: 5;\n                flex-grow: 5;\n        -ms-flex-negative: 1;\n            flex-shrink: 1;\n}\n}\n.control.is-loading:after {\n    -webkit-animation: spinAround 500ms infinite linear;\n            animation: spinAround 500ms infinite linear;\n    border: 2px solid #dbdbdb;\n    border-radius: 290486px;\n    border-right-color: transparent;\n    border-top-color: transparent;\n    content: \"\";\n    display: block;\n    height: 1rem;\n    position: relative;\n    width: 1rem;\n    position: absolute !important;\n    right: 0.75em;\n    top: 0.75em;\n}\n.button {\n  -moz-appearance: none;\n  -webkit-appearance: none;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: none;\n  border-radius: 3px;\n  box-shadow: none;\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  font-size: 1rem;\n  height: 2.285em;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  line-height: 1.5;\n  padding-left: 0.75em;\n  padding-right: 0.75em;\n  position: relative;\n  vertical-align: top;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  background-color: white;\n  border: 1px solid #dbdbdb;\n  color: #363636;\n  cursor: pointer;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  padding-left: 0.75em;\n  padding-right: 0.75em;\n  text-align: center;\n  white-space: nowrap;\n}\n.button:focus, .button.is-focused, .button:active, .button.is-active {\n    outline: none;\n}\n.button[disabled], .button.is-disabled {\n    pointer-events: none;\n}\n.button strong {\n    color: inherit;\n}\n.button .icon:first-child:not(:last-child) {\n    margin-left: -0.25rem;\n    margin-right: 0.5rem;\n}\n.button .icon:last-child:not(:first-child) {\n    margin-left: 0.5rem;\n    margin-right: -0.25rem;\n}\n.button .icon:first-child:last-child {\n    margin-left: calc(-1px + -0.25rem);\n    margin-right: calc(-1px + -0.25rem);\n}\n.button .icon.is-small:first-child:not(:last-child) {\n    margin-left: 0rem;\n}\n.button .icon.is-small:last-child:not(:first-child) {\n    margin-right: 0rem;\n}\n.button .icon.is-small:first-child:last-child {\n    margin-left: calc(-1px + 0rem);\n    margin-right: calc(-1px + 0rem);\n}\n.button .icon.is-medium:first-child:not(:last-child) {\n    margin-left: -0.5rem;\n}\n.button .icon.is-medium:last-child:not(:first-child) {\n    margin-right: -0.5rem;\n}\n.button .icon.is-medium:first-child:last-child {\n    margin-left: calc(-1px + -0.5rem);\n    margin-right: calc(-1px + -0.5rem);\n}\n.button .icon.is-large:first-child:not(:last-child) {\n    margin-left: -1rem;\n}\n.button .icon.is-large:last-child:not(:first-child) {\n    margin-right: -1rem;\n}\n.button .icon.is-large:first-child:last-child {\n    margin-left: calc(-1px + -1rem);\n    margin-right: calc(-1px + -1rem);\n}\n.button:hover, .button.is-hovered {\n    border-color: #b5b5b5;\n    color: #363636;\n}\n.button:focus, .button.is-focused {\n    border-color: #00d1b2;\n    box-shadow: 0 0 0.5em rgba(0, 209, 178, 0.25);\n    color: #363636;\n}\n.button:active, .button.is-active {\n    border-color: #4a4a4a;\n    box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n    color: #363636;\n}\n.button.is-link {\n    background-color: transparent;\n    border-color: transparent;\n    color: #4a4a4a;\n    text-decoration: underline;\n}\n.button.is-link:hover, .button.is-link.is-hovered, .button.is-link:focus, .button.is-link.is-focused, .button.is-link:active, .button.is-link.is-active {\n      background-color: whitesmoke;\n      color: #363636;\n}\n.button.is-white {\n    background-color: white;\n    border-color: transparent;\n    color: #0a0a0a;\n}\n.button.is-white:hover, .button.is-white.is-hovered {\n      background-color: #f9f9f9;\n      border-color: transparent;\n      color: #0a0a0a;\n}\n.button.is-white:focus, .button.is-white.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(255, 255, 255, 0.25);\n      color: #0a0a0a;\n}\n.button.is-white:active, .button.is-white.is-active {\n      background-color: #f2f2f2;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #0a0a0a;\n}\n.button.is-white.is-inverted {\n      background-color: #0a0a0a;\n      color: white;\n}\n.button.is-white.is-inverted:hover {\n        background-color: black;\n}\n.button.is-white.is-loading:after {\n      border-color: transparent transparent #0a0a0a #0a0a0a !important;\n}\n.button.is-white.is-outlined {\n      background-color: transparent;\n      border-color: white;\n      color: white;\n}\n.button.is-white.is-outlined:hover, .button.is-white.is-outlined:focus {\n        background-color: white;\n        border-color: white;\n        color: #0a0a0a;\n}\n.button.is-white.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #0a0a0a;\n      color: #0a0a0a;\n}\n.button.is-white.is-inverted.is-outlined:hover, .button.is-white.is-inverted.is-outlined:focus {\n        background-color: #0a0a0a;\n        color: white;\n}\n.button.is-black {\n    background-color: #0a0a0a;\n    border-color: transparent;\n    color: white;\n}\n.button.is-black:hover, .button.is-black.is-hovered {\n      background-color: #040404;\n      border-color: transparent;\n      color: white;\n}\n.button.is-black:focus, .button.is-black.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(10, 10, 10, 0.25);\n      color: white;\n}\n.button.is-black:active, .button.is-black.is-active {\n      background-color: black;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: white;\n}\n.button.is-black.is-inverted {\n      background-color: white;\n      color: #0a0a0a;\n}\n.button.is-black.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-black.is-loading:after {\n      border-color: transparent transparent white white !important;\n}\n.button.is-black.is-outlined {\n      background-color: transparent;\n      border-color: #0a0a0a;\n      color: #0a0a0a;\n}\n.button.is-black.is-outlined:hover, .button.is-black.is-outlined:focus {\n        background-color: #0a0a0a;\n        border-color: #0a0a0a;\n        color: white;\n}\n.button.is-black.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: white;\n      color: white;\n}\n.button.is-black.is-inverted.is-outlined:hover, .button.is-black.is-inverted.is-outlined:focus {\n        background-color: white;\n        color: #0a0a0a;\n}\n.button.is-light {\n    background-color: whitesmoke;\n    border-color: transparent;\n    color: #363636;\n}\n.button.is-light:hover, .button.is-light.is-hovered {\n      background-color: #eeeeee;\n      border-color: transparent;\n      color: #363636;\n}\n.button.is-light:focus, .button.is-light.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(245, 245, 245, 0.25);\n      color: #363636;\n}\n.button.is-light:active, .button.is-light.is-active {\n      background-color: #e8e8e8;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #363636;\n}\n.button.is-light.is-inverted {\n      background-color: #363636;\n      color: whitesmoke;\n}\n.button.is-light.is-inverted:hover {\n        background-color: #292929;\n}\n.button.is-light.is-loading:after {\n      border-color: transparent transparent #363636 #363636 !important;\n}\n.button.is-light.is-outlined {\n      background-color: transparent;\n      border-color: whitesmoke;\n      color: whitesmoke;\n}\n.button.is-light.is-outlined:hover, .button.is-light.is-outlined:focus {\n        background-color: whitesmoke;\n        border-color: whitesmoke;\n        color: #363636;\n}\n.button.is-light.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #363636;\n      color: #363636;\n}\n.button.is-light.is-inverted.is-outlined:hover, .button.is-light.is-inverted.is-outlined:focus {\n        background-color: #363636;\n        color: whitesmoke;\n}\n.button.is-dark {\n    background-color: #363636;\n    border-color: transparent;\n    color: whitesmoke;\n}\n.button.is-dark:hover, .button.is-dark.is-hovered {\n      background-color: #2f2f2f;\n      border-color: transparent;\n      color: whitesmoke;\n}\n.button.is-dark:focus, .button.is-dark.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(54, 54, 54, 0.25);\n      color: whitesmoke;\n}\n.button.is-dark:active, .button.is-dark.is-active {\n      background-color: #292929;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: whitesmoke;\n}\n.button.is-dark.is-inverted {\n      background-color: whitesmoke;\n      color: #363636;\n}\n.button.is-dark.is-inverted:hover {\n        background-color: #e8e8e8;\n}\n.button.is-dark.is-loading:after {\n      border-color: transparent transparent whitesmoke whitesmoke !important;\n}\n.button.is-dark.is-outlined {\n      background-color: transparent;\n      border-color: #363636;\n      color: #363636;\n}\n.button.is-dark.is-outlined:hover, .button.is-dark.is-outlined:focus {\n        background-color: #363636;\n        border-color: #363636;\n        color: whitesmoke;\n}\n.button.is-dark.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: whitesmoke;\n      color: whitesmoke;\n}\n.button.is-dark.is-inverted.is-outlined:hover, .button.is-dark.is-inverted.is-outlined:focus {\n        background-color: whitesmoke;\n        color: #363636;\n}\n.button.is-primary {\n    background-color: #00d1b2;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-primary:hover, .button.is-primary.is-hovered {\n      background-color: #00c4a7;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-primary:focus, .button.is-primary.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(0, 209, 178, 0.25);\n      color: #fff;\n}\n.button.is-primary:active, .button.is-primary.is-active {\n      background-color: #00b89c;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-primary.is-inverted {\n      background-color: #fff;\n      color: #00d1b2;\n}\n.button.is-primary.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-primary.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-primary.is-outlined {\n      background-color: transparent;\n      border-color: #00d1b2;\n      color: #00d1b2;\n}\n.button.is-primary.is-outlined:hover, .button.is-primary.is-outlined:focus {\n        background-color: #00d1b2;\n        border-color: #00d1b2;\n        color: #fff;\n}\n.button.is-primary.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-primary.is-inverted.is-outlined:hover, .button.is-primary.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #00d1b2;\n}\n.button.is-info {\n    background-color: #539bb9;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-info:hover, .button.is-info.is-hovered {\n      background-color: #4a96b5;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-info:focus, .button.is-info.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(83, 155, 185, 0.25);\n      color: #fff;\n}\n.button.is-info:active, .button.is-info.is-active {\n      background-color: #468eac;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-info.is-inverted {\n      background-color: #fff;\n      color: #539bb9;\n}\n.button.is-info.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-info.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-info.is-outlined {\n      background-color: transparent;\n      border-color: #539bb9;\n      color: #539bb9;\n}\n.button.is-info.is-outlined:hover, .button.is-info.is-outlined:focus {\n        background-color: #539bb9;\n        border-color: #539bb9;\n        color: #fff;\n}\n.button.is-info.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-info.is-inverted.is-outlined:hover, .button.is-info.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #539bb9;\n}\n.button.is-success {\n    background-color: #23d160;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-success:hover, .button.is-success.is-hovered {\n      background-color: #22c65b;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-success:focus, .button.is-success.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(35, 209, 96, 0.25);\n      color: #fff;\n}\n.button.is-success:active, .button.is-success.is-active {\n      background-color: #20bc56;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-success.is-inverted {\n      background-color: #fff;\n      color: #23d160;\n}\n.button.is-success.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-success.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-success.is-outlined {\n      background-color: transparent;\n      border-color: #23d160;\n      color: #23d160;\n}\n.button.is-success.is-outlined:hover, .button.is-success.is-outlined:focus {\n        background-color: #23d160;\n        border-color: #23d160;\n        color: #fff;\n}\n.button.is-success.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-success.is-inverted.is-outlined:hover, .button.is-success.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #23d160;\n}\n.button.is-warning {\n    background-color: #ffdd57;\n    border-color: transparent;\n    color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning:hover, .button.is-warning.is-hovered {\n      background-color: #ffdb4a;\n      border-color: transparent;\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning:focus, .button.is-warning.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(255, 221, 87, 0.25);\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning:active, .button.is-warning.is-active {\n      background-color: #ffd83d;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-inverted {\n      background-color: rgba(0, 0, 0, 0.7);\n      color: #ffdd57;\n}\n.button.is-warning.is-inverted:hover {\n        background-color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-loading:after {\n      border-color: transparent transparent rgba(0, 0, 0, 0.7) rgba(0, 0, 0, 0.7) !important;\n}\n.button.is-warning.is-outlined {\n      background-color: transparent;\n      border-color: #ffdd57;\n      color: #ffdd57;\n}\n.button.is-warning.is-outlined:hover, .button.is-warning.is-outlined:focus {\n        background-color: #ffdd57;\n        border-color: #ffdd57;\n        color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: rgba(0, 0, 0, 0.7);\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-inverted.is-outlined:hover, .button.is-warning.is-inverted.is-outlined:focus {\n        background-color: rgba(0, 0, 0, 0.7);\n        color: #ffdd57;\n}\n.button.is-danger {\n    background-color: #ff3860;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-danger:hover, .button.is-danger.is-hovered {\n      background-color: #ff2b56;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-danger:focus, .button.is-danger.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(255, 56, 96, 0.25);\n      color: #fff;\n}\n.button.is-danger:active, .button.is-danger.is-active {\n      background-color: #ff1f4b;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-danger.is-inverted {\n      background-color: #fff;\n      color: #ff3860;\n}\n.button.is-danger.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-danger.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-danger.is-outlined {\n      background-color: transparent;\n      border-color: #ff3860;\n      color: #ff3860;\n}\n.button.is-danger.is-outlined:hover, .button.is-danger.is-outlined:focus {\n        background-color: #ff3860;\n        border-color: #ff3860;\n        color: #fff;\n}\n.button.is-danger.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-danger.is-inverted.is-outlined:hover, .button.is-danger.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #ff3860;\n}\n.button.is-small {\n    border-radius: 2px;\n    font-size: 0.75rem;\n}\n.button.is-small .icon:first-child:not(:last-child) {\n      margin-left: -0.375rem;\n      margin-right: 0.375rem;\n}\n.button.is-small .icon:last-child:not(:first-child) {\n      margin-left: 0.375rem;\n      margin-right: -0.375rem;\n}\n.button.is-small .icon:first-child:last-child {\n      margin-left: calc(-1px + -0.375rem);\n      margin-right: calc(-1px + -0.375rem);\n}\n.button.is-small .icon.is-small:first-child:not(:last-child) {\n      margin-left: -0.125rem;\n}\n.button.is-small .icon.is-small:last-child:not(:first-child) {\n      margin-right: -0.125rem;\n}\n.button.is-small .icon.is-small:first-child:last-child {\n      margin-left: calc(-1px + -0.125rem);\n      margin-right: calc(-1px + -0.125rem);\n}\n.button.is-small .icon.is-medium:first-child:not(:last-child) {\n      margin-left: -0.625rem;\n}\n.button.is-small .icon.is-medium:last-child:not(:first-child) {\n      margin-right: -0.625rem;\n}\n.button.is-small .icon.is-medium:first-child:last-child {\n      margin-left: calc(-1px + -0.625rem);\n      margin-right: calc(-1px + -0.625rem);\n}\n.button.is-small .icon.is-large:first-child:not(:last-child) {\n      margin-left: -1.125rem;\n}\n.button.is-small .icon.is-large:last-child:not(:first-child) {\n      margin-right: -1.125rem;\n}\n.button.is-small .icon.is-large:first-child:last-child {\n      margin-left: calc(-1px + -1.125rem);\n      margin-right: calc(-1px + -1.125rem);\n}\n.button.is-medium {\n    font-size: 1.25rem;\n}\n.button.is-medium .icon:first-child:not(:last-child) {\n      margin-left: -0.125rem;\n      margin-right: 0.625rem;\n}\n.button.is-medium .icon:last-child:not(:first-child) {\n      margin-left: 0.625rem;\n      margin-right: -0.125rem;\n}\n.button.is-medium .icon:first-child:last-child {\n      margin-left: calc(-1px + -0.125rem);\n      margin-right: calc(-1px + -0.125rem);\n}\n.button.is-medium .icon.is-small:first-child:not(:last-child) {\n      margin-left: 0.125rem;\n}\n.button.is-medium .icon.is-small:last-child:not(:first-child) {\n      margin-right: 0.125rem;\n}\n.button.is-medium .icon.is-small:first-child:last-child {\n      margin-left: calc(-1px + 0.125rem);\n      margin-right: calc(-1px + 0.125rem);\n}\n.button.is-medium .icon.is-medium:first-child:not(:last-child) {\n      margin-left: -0.375rem;\n}\n.button.is-medium .icon.is-medium:last-child:not(:first-child) {\n      margin-right: -0.375rem;\n}\n.button.is-medium .icon.is-medium:first-child:last-child {\n      margin-left: calc(-1px + -0.375rem);\n      margin-right: calc(-1px + -0.375rem);\n}\n.button.is-medium .icon.is-large:first-child:not(:last-child) {\n      margin-left: -0.875rem;\n}\n.button.is-medium .icon.is-large:last-child:not(:first-child) {\n      margin-right: -0.875rem;\n}\n.button.is-medium .icon.is-large:first-child:last-child {\n      margin-left: calc(-1px + -0.875rem);\n      margin-right: calc(-1px + -0.875rem);\n}\n.button.is-large {\n    font-size: 1.5rem;\n}\n.button.is-large .icon:first-child:not(:last-child) {\n      margin-left: 0rem;\n      margin-right: 0.75rem;\n}\n.button.is-large .icon:last-child:not(:first-child) {\n      margin-left: 0.75rem;\n      margin-right: 0rem;\n}\n.button.is-large .icon:first-child:last-child {\n      margin-left: calc(-1px + 0rem);\n      margin-right: calc(-1px + 0rem);\n}\n.button.is-large .icon.is-small:first-child:not(:last-child) {\n      margin-left: 0.25rem;\n}\n.button.is-large .icon.is-small:last-child:not(:first-child) {\n      margin-right: 0.25rem;\n}\n.button.is-large .icon.is-small:first-child:last-child {\n      margin-left: calc(-1px + 0.25rem);\n      margin-right: calc(-1px + 0.25rem);\n}\n.button.is-large .icon.is-medium:first-child:not(:last-child) {\n      margin-left: -0.25rem;\n}\n.button.is-large .icon.is-medium:last-child:not(:first-child) {\n      margin-right: -0.25rem;\n}\n.button.is-large .icon.is-medium:first-child:last-child {\n      margin-left: calc(-1px + -0.25rem);\n      margin-right: calc(-1px + -0.25rem);\n}\n.button.is-large .icon.is-large:first-child:not(:last-child) {\n      margin-left: -0.75rem;\n}\n.button.is-large .icon.is-large:last-child:not(:first-child) {\n      margin-right: -0.75rem;\n}\n.button.is-large .icon.is-large:first-child:last-child {\n      margin-left: calc(-1px + -0.75rem);\n      margin-right: calc(-1px + -0.75rem);\n}\n.button[disabled], .button.is-disabled {\n    opacity: 0.5;\n}\n.button.is-fullwidth {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    width: 100%;\n}\n.button.is-loading {\n    color: transparent !important;\n    pointer-events: none;\n}\n.button.is-loading:after {\n      -webkit-animation: spinAround 500ms infinite linear;\n              animation: spinAround 500ms infinite linear;\n      border: 2px solid #dbdbdb;\n      border-radius: 290486px;\n      border-right-color: transparent;\n      border-top-color: transparent;\n      content: \"\";\n      display: block;\n      height: 1rem;\n      position: relative;\n      width: 1rem;\n      left: 50%;\n      margin-left: -8px;\n      margin-top: -8px;\n      position: absolute;\n      top: 50%;\n      position: absolute !important;\n}\n.label {\n  font-size: 12px;\n}\n", ""]);
+exports.push([module.i, "\n@-webkit-keyframes spinAround {\nfrom {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n}\nto {\n    -webkit-transform: rotate(359deg);\n            transform: rotate(359deg);\n}\n}\n@keyframes spinAround {\nfrom {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n}\nto {\n    -webkit-transform: rotate(359deg);\n            transform: rotate(359deg);\n}\n}\n.input,\n.textarea {\n  -moz-appearance: none;\n  -webkit-appearance: none;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: none;\n  border-radius: 3px;\n  box-shadow: none;\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  font-size: 1rem;\n  height: 2.285em;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  line-height: 1.5;\n  padding-left: 0.75em;\n  padding-right: 0.75em;\n  position: relative;\n  vertical-align: top;\n  background-color: white;\n  border: 1px solid #dbdbdb;\n  color: #363636;\n  box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);\n  max-width: 100%;\n  width: 100%;\n}\n.input:focus, .input.is-focused, .input:active, .input.is-active,\n  .textarea:focus,\n  .textarea.is-focused,\n  .textarea:active,\n  .textarea.is-active {\n    outline: none;\n}\n.input[disabled], .input.is-disabled,\n  .textarea[disabled],\n  .textarea.is-disabled {\n    pointer-events: none;\n}\n.input:hover, .input.is-hovered,\n  .textarea:hover,\n  .textarea.is-hovered {\n    border-color: #b5b5b5;\n}\n.input:focus, .input.is-focused, .input:active, .input.is-active,\n  .textarea:focus,\n  .textarea.is-focused,\n  .textarea:active,\n  .textarea.is-active {\n    border-color: #00d1b2;\n}\n.input[disabled], .input.is-disabled,\n  .textarea[disabled],\n  .textarea.is-disabled {\n    background-color: whitesmoke;\n    border-color: whitesmoke;\n    box-shadow: none;\n    color: #7a7a7a;\n}\n.input[disabled]::-moz-placeholder, .input.is-disabled::-moz-placeholder,\n    .textarea[disabled]::-moz-placeholder,\n    .textarea.is-disabled::-moz-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[disabled]::-webkit-input-placeholder, .input.is-disabled::-webkit-input-placeholder,\n    .textarea[disabled]::-webkit-input-placeholder,\n    .textarea.is-disabled::-webkit-input-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[disabled]:-moz-placeholder, .input.is-disabled:-moz-placeholder,\n    .textarea[disabled]:-moz-placeholder,\n    .textarea.is-disabled:-moz-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[disabled]:-ms-input-placeholder, .input.is-disabled:-ms-input-placeholder,\n    .textarea[disabled]:-ms-input-placeholder,\n    .textarea.is-disabled:-ms-input-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[type=\"search\"],\n  .textarea[type=\"search\"] {\n    border-radius: 290486px;\n}\n.input.is-white,\n  .textarea.is-white {\n    border-color: white;\n}\n.input.is-black,\n  .textarea.is-black {\n    border-color: #0a0a0a;\n}\n.input.is-light,\n  .textarea.is-light {\n    border-color: whitesmoke;\n}\n.input.is-dark,\n  .textarea.is-dark {\n    border-color: #363636;\n}\n.input.is-primary,\n  .textarea.is-primary {\n    border-color: #00d1b2;\n}\n.input.is-info,\n  .textarea.is-info {\n    border-color: #539bb9;\n}\n.input.is-success,\n  .textarea.is-success {\n    border-color: #23d160;\n}\n.input.is-warning,\n  .textarea.is-warning {\n    border-color: #ffdd57;\n}\n.input.is-danger,\n  .textarea.is-danger {\n    border-color: #ff3860;\n}\n.input.is-small,\n  .textarea.is-small {\n    border-radius: 2px;\n    font-size: 0.75rem;\n}\n.input.is-medium,\n  .textarea.is-medium {\n    font-size: 1.25rem;\n}\n.input.is-large,\n  .textarea.is-large {\n    font-size: 1.5rem;\n}\n.input.is-fullwidth,\n  .textarea.is-fullwidth {\n    display: block;\n    width: 100%;\n}\n.input.is-inline,\n  .textarea.is-inline {\n    display: inline;\n    width: auto;\n}\n.textarea {\n  display: block;\n  line-height: 1.25;\n  max-height: 600px;\n  max-width: 100%;\n  min-height: 120px;\n  min-width: 100%;\n  padding: 10px;\n  resize: vertical;\n}\n.checkbox,\n.radio {\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  cursor: pointer;\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  position: relative;\n  vertical-align: top;\n}\n.checkbox input,\n  .radio input {\n    cursor: pointer;\n    margin-right: 0.5em;\n}\n.checkbox:hover,\n  .radio:hover {\n    color: #363636;\n}\n.checkbox.is-disabled,\n  .radio.is-disabled {\n    color: #7a7a7a;\n    pointer-events: none;\n}\n.checkbox.is-disabled input,\n    .radio.is-disabled input {\n      pointer-events: none;\n}\n.radio + .radio {\n  margin-left: 0.5em;\n}\n.select {\n  display: inline-block;\n  height: 2.5em;\n  position: relative;\n  vertical-align: top;\n}\n.select:after {\n    border: 1px solid #00d1b2;\n    border-right: 0;\n    border-top: 0;\n    content: \" \";\n    display: block;\n    height: 0.5em;\n    pointer-events: none;\n    position: absolute;\n    -webkit-transform: rotate(-45deg);\n            transform: rotate(-45deg);\n    width: 0.5em;\n    margin-top: -0.375em;\n    right: 1.125em;\n    top: 50%;\n    z-index: 4;\n}\n.select select {\n    -moz-appearance: none;\n    -webkit-appearance: none;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    border: none;\n    border-radius: 3px;\n    box-shadow: none;\n    display: -webkit-inline-box;\n    display: -ms-inline-flexbox;\n    display: inline-flex;\n    font-size: 1rem;\n    height: 2.285em;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    line-height: 1.5;\n    padding-left: 0.75em;\n    padding-right: 0.75em;\n    position: relative;\n    vertical-align: top;\n    background-color: white;\n    border: 1px solid #dbdbdb;\n    color: #363636;\n    cursor: pointer;\n    display: block;\n    font-size: 1em;\n    outline: none;\n    padding-right: 2.5em;\n}\n.select select:focus, .select select.is-focused, .select select:active, .select select.is-active {\n      outline: none;\n}\n.select select[disabled], .select select.is-disabled {\n      pointer-events: none;\n}\n.select select:hover, .select select.is-hovered {\n      border-color: #b5b5b5;\n}\n.select select:focus, .select select.is-focused, .select select:active, .select select.is-active {\n      border-color: #00d1b2;\n}\n.select select[disabled], .select select.is-disabled {\n      background-color: whitesmoke;\n      border-color: whitesmoke;\n      box-shadow: none;\n      color: #7a7a7a;\n}\n.select select[disabled]::-moz-placeholder, .select select.is-disabled::-moz-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select[disabled]::-webkit-input-placeholder, .select select.is-disabled::-webkit-input-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select[disabled]:-moz-placeholder, .select select.is-disabled:-moz-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select[disabled]:-ms-input-placeholder, .select select.is-disabled:-ms-input-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select:hover {\n      border-color: #b5b5b5;\n}\n.select select::ms-expand {\n      display: none;\n}\n.select:hover:after {\n    border-color: #363636;\n}\n.select.is-small {\n    border-radius: 2px;\n    font-size: 0.75rem;\n}\n.select.is-medium {\n    font-size: 1.25rem;\n}\n.select.is-large {\n    font-size: 1.5rem;\n}\n.select.is-fullwidth {\n    width: 100%;\n}\n.select.is-fullwidth select {\n      width: 100%;\n}\n.label {\n  color: #363636;\n  display: block;\n  font-weight: bold;\n}\n.label:not(:last-child) {\n    margin-bottom: 0.5em;\n}\n.help {\n  display: block;\n  font-size: 0.75rem;\n  margin-top: 5px;\n}\n.help.is-white {\n    color: white;\n}\n.help.is-black {\n    color: #0a0a0a;\n}\n.help.is-light {\n    color: whitesmoke;\n}\n.help.is-dark {\n    color: #363636;\n}\n.help.is-primary {\n    color: #00d1b2;\n}\n.help.is-info {\n    color: #539bb9;\n}\n.help.is-success {\n    color: #23d160;\n}\n.help.is-warning {\n    color: #ffdd57;\n}\n.help.is-danger {\n    color: #ff3860;\n}\n@media screen and (max-width: 768px) {\n.control-label {\n    margin-bottom: 0.5em;\n}\n}\n@media screen and (min-width: 769px) {\n.control-label {\n    -ms-flex-preferred-size: 0;\n        flex-basis: 0;\n    -webkit-box-flex: 1;\n        -ms-flex-positive: 1;\n            flex-grow: 1;\n    -ms-flex-negative: 0;\n        flex-shrink: 0;\n    margin-right: 1.5em;\n    padding-top: 0.5em;\n    text-align: right;\n}\n}\n.control {\n  position: relative;\n  text-align: left;\n}\n.control:not(:last-child) {\n    margin-bottom: 0.75rem;\n}\n.control.has-addons {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n}\n.control.has-addons .button,\n    .control.has-addons .input,\n    .control.has-addons .select {\n      border-radius: 0;\n      margin-right: -1px;\n      width: auto;\n}\n.control.has-addons .button:hover,\n      .control.has-addons .input:hover,\n      .control.has-addons .select:hover {\n        z-index: 2;\n}\n.control.has-addons .button:focus, .control.has-addons .button:active,\n      .control.has-addons .input:focus,\n      .control.has-addons .input:active,\n      .control.has-addons .select:focus,\n      .control.has-addons .select:active {\n        z-index: 3;\n}\n.control.has-addons .button:first-child,\n      .control.has-addons .input:first-child,\n      .control.has-addons .select:first-child {\n        border-radius: 3px 0 0 3px;\n}\n.control.has-addons .button:first-child select,\n        .control.has-addons .input:first-child select,\n        .control.has-addons .select:first-child select {\n          border-radius: 3px 0 0 3px;\n}\n.control.has-addons .button:last-child,\n      .control.has-addons .input:last-child,\n      .control.has-addons .select:last-child {\n        border-radius: 0 3px 3px 0;\n}\n.control.has-addons .button:last-child select,\n        .control.has-addons .input:last-child select,\n        .control.has-addons .select:last-child select {\n          border-radius: 0 3px 3px 0;\n}\n.control.has-addons .button.is-expanded,\n      .control.has-addons .input.is-expanded,\n      .control.has-addons .select.is-expanded {\n        -webkit-box-flex: 1;\n            -ms-flex-positive: 1;\n                flex-grow: 1;\n        -ms-flex-negative: 0;\n            flex-shrink: 0;\n}\n.control.has-addons .select select:hover {\n      z-index: 2;\n}\n.control.has-addons .select select:focus, .control.has-addons .select select:active {\n      z-index: 3;\n}\n.control.has-addons.has-addons-centered {\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n}\n.control.has-addons.has-addons-right {\n      -webkit-box-pack: end;\n          -ms-flex-pack: end;\n              justify-content: flex-end;\n}\n.control.has-addons.has-addons-fullwidth .button,\n    .control.has-addons.has-addons-fullwidth .input,\n    .control.has-addons.has-addons-fullwidth .select {\n      -webkit-box-flex: 1;\n          -ms-flex-positive: 1;\n              flex-grow: 1;\n      -ms-flex-negative: 0;\n          flex-shrink: 0;\n}\n.control.has-icon .icon {\n    color: #dbdbdb;\n    pointer-events: none;\n    position: absolute;\n    top: 1.25rem;\n    z-index: 4;\n}\n.control.has-icon .input:focus + .icon {\n    color: #7a7a7a;\n}\n.control.has-icon .input.is-small + .icon {\n    top: 0.9375rem;\n}\n.control.has-icon .input.is-medium + .icon {\n    top: 1.5625rem;\n}\n.control.has-icon .input.is-large + .icon {\n    top: 1.875rem;\n}\n.control.has-icon:not(.has-icon-right) .icon {\n    left: 1.25rem;\n    -webkit-transform: translateX(-50%) translateY(-50%);\n            transform: translateX(-50%) translateY(-50%);\n}\n.control.has-icon:not(.has-icon-right) .input {\n    padding-left: 2.5em;\n}\n.control.has-icon:not(.has-icon-right) .input.is-small + .icon {\n      left: 0.9375rem;\n}\n.control.has-icon:not(.has-icon-right) .input.is-medium + .icon {\n      left: 1.5625rem;\n}\n.control.has-icon:not(.has-icon-right) .input.is-large + .icon {\n      left: 1.875rem;\n}\n.control.has-icon.has-icon-right .icon {\n    right: 1.25rem;\n    -webkit-transform: translateX(50%) translateY(-50%);\n            transform: translateX(50%) translateY(-50%);\n}\n.control.has-icon.has-icon-right .input {\n    padding-right: 2.5em;\n}\n.control.has-icon.has-icon-right .input.is-small + .icon {\n      right: 0.9375rem;\n}\n.control.has-icon.has-icon-right .input.is-medium + .icon {\n      right: 1.5625rem;\n}\n.control.has-icon.has-icon-right .input.is-large + .icon {\n      right: 1.875rem;\n}\n.control.is-grouped {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n}\n.control.is-grouped > .control {\n      -ms-flex-preferred-size: 0;\n          flex-basis: 0;\n      -ms-flex-negative: 0;\n          flex-shrink: 0;\n}\n.control.is-grouped > .control:not(:last-child) {\n        margin-bottom: 0;\n        margin-right: 0.75rem;\n}\n.control.is-grouped > .control.is-expanded {\n        -webkit-box-flex: 1;\n            -ms-flex-positive: 1;\n                flex-grow: 1;\n        -ms-flex-negative: 1;\n            flex-shrink: 1;\n}\n.control.is-grouped.is-grouped-centered {\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n}\n.control.is-grouped.is-grouped-right {\n      -webkit-box-pack: end;\n          -ms-flex-pack: end;\n              justify-content: flex-end;\n}\n@media screen and (min-width: 769px) {\n.control.is-horizontal {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n}\n.control.is-horizontal > .control {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -ms-flex-preferred-size: 0;\n            flex-basis: 0;\n        -webkit-box-flex: 5;\n            -ms-flex-positive: 5;\n                flex-grow: 5;\n        -ms-flex-negative: 1;\n            flex-shrink: 1;\n}\n}\n.control.is-loading:after {\n    -webkit-animation: spinAround 500ms infinite linear;\n            animation: spinAround 500ms infinite linear;\n    border: 2px solid #dbdbdb;\n    border-radius: 290486px;\n    border-right-color: transparent;\n    border-top-color: transparent;\n    content: \"\";\n    display: block;\n    height: 1rem;\n    position: relative;\n    width: 1rem;\n    position: absolute !important;\n    right: 0.75em;\n    top: 0.75em;\n}\n.button {\n  -moz-appearance: none;\n  -webkit-appearance: none;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: none;\n  border-radius: 3px;\n  box-shadow: none;\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  font-size: 1rem;\n  height: 2.285em;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  line-height: 1.5;\n  padding-left: 0.75em;\n  padding-right: 0.75em;\n  position: relative;\n  vertical-align: top;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  background-color: white;\n  border: 1px solid #dbdbdb;\n  color: #363636;\n  cursor: pointer;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  padding-left: 0.75em;\n  padding-right: 0.75em;\n  text-align: center;\n  white-space: nowrap;\n}\n.button:focus, .button.is-focused, .button:active, .button.is-active {\n    outline: none;\n}\n.button[disabled], .button.is-disabled {\n    pointer-events: none;\n}\n.button strong {\n    color: inherit;\n}\n.button .icon:first-child:not(:last-child) {\n    margin-left: -0.25rem;\n    margin-right: 0.5rem;\n}\n.button .icon:last-child:not(:first-child) {\n    margin-left: 0.5rem;\n    margin-right: -0.25rem;\n}\n.button .icon:first-child:last-child {\n    margin-left: calc(-1px + -0.25rem);\n    margin-right: calc(-1px + -0.25rem);\n}\n.button .icon.is-small:first-child:not(:last-child) {\n    margin-left: 0rem;\n}\n.button .icon.is-small:last-child:not(:first-child) {\n    margin-right: 0rem;\n}\n.button .icon.is-small:first-child:last-child {\n    margin-left: calc(-1px + 0rem);\n    margin-right: calc(-1px + 0rem);\n}\n.button .icon.is-medium:first-child:not(:last-child) {\n    margin-left: -0.5rem;\n}\n.button .icon.is-medium:last-child:not(:first-child) {\n    margin-right: -0.5rem;\n}\n.button .icon.is-medium:first-child:last-child {\n    margin-left: calc(-1px + -0.5rem);\n    margin-right: calc(-1px + -0.5rem);\n}\n.button .icon.is-large:first-child:not(:last-child) {\n    margin-left: -1rem;\n}\n.button .icon.is-large:last-child:not(:first-child) {\n    margin-right: -1rem;\n}\n.button .icon.is-large:first-child:last-child {\n    margin-left: calc(-1px + -1rem);\n    margin-right: calc(-1px + -1rem);\n}\n.button:hover, .button.is-hovered {\n    border-color: #b5b5b5;\n    color: #363636;\n}\n.button:focus, .button.is-focused {\n    border-color: #00d1b2;\n    box-shadow: 0 0 0.5em rgba(0, 209, 178, 0.25);\n    color: #363636;\n}\n.button:active, .button.is-active {\n    border-color: #4a4a4a;\n    box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n    color: #363636;\n}\n.button.is-link {\n    background-color: transparent;\n    border-color: transparent;\n    color: #4a4a4a;\n    text-decoration: underline;\n}\n.button.is-link:hover, .button.is-link.is-hovered, .button.is-link:focus, .button.is-link.is-focused, .button.is-link:active, .button.is-link.is-active {\n      background-color: whitesmoke;\n      color: #363636;\n}\n.button.is-white {\n    background-color: white;\n    border-color: transparent;\n    color: #0a0a0a;\n}\n.button.is-white:hover, .button.is-white.is-hovered {\n      background-color: #f9f9f9;\n      border-color: transparent;\n      color: #0a0a0a;\n}\n.button.is-white:focus, .button.is-white.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(255, 255, 255, 0.25);\n      color: #0a0a0a;\n}\n.button.is-white:active, .button.is-white.is-active {\n      background-color: #f2f2f2;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #0a0a0a;\n}\n.button.is-white.is-inverted {\n      background-color: #0a0a0a;\n      color: white;\n}\n.button.is-white.is-inverted:hover {\n        background-color: black;\n}\n.button.is-white.is-loading:after {\n      border-color: transparent transparent #0a0a0a #0a0a0a !important;\n}\n.button.is-white.is-outlined {\n      background-color: transparent;\n      border-color: white;\n      color: white;\n}\n.button.is-white.is-outlined:hover, .button.is-white.is-outlined:focus {\n        background-color: white;\n        border-color: white;\n        color: #0a0a0a;\n}\n.button.is-white.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #0a0a0a;\n      color: #0a0a0a;\n}\n.button.is-white.is-inverted.is-outlined:hover, .button.is-white.is-inverted.is-outlined:focus {\n        background-color: #0a0a0a;\n        color: white;\n}\n.button.is-black {\n    background-color: #0a0a0a;\n    border-color: transparent;\n    color: white;\n}\n.button.is-black:hover, .button.is-black.is-hovered {\n      background-color: #040404;\n      border-color: transparent;\n      color: white;\n}\n.button.is-black:focus, .button.is-black.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(10, 10, 10, 0.25);\n      color: white;\n}\n.button.is-black:active, .button.is-black.is-active {\n      background-color: black;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: white;\n}\n.button.is-black.is-inverted {\n      background-color: white;\n      color: #0a0a0a;\n}\n.button.is-black.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-black.is-loading:after {\n      border-color: transparent transparent white white !important;\n}\n.button.is-black.is-outlined {\n      background-color: transparent;\n      border-color: #0a0a0a;\n      color: #0a0a0a;\n}\n.button.is-black.is-outlined:hover, .button.is-black.is-outlined:focus {\n        background-color: #0a0a0a;\n        border-color: #0a0a0a;\n        color: white;\n}\n.button.is-black.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: white;\n      color: white;\n}\n.button.is-black.is-inverted.is-outlined:hover, .button.is-black.is-inverted.is-outlined:focus {\n        background-color: white;\n        color: #0a0a0a;\n}\n.button.is-light {\n    background-color: whitesmoke;\n    border-color: transparent;\n    color: #363636;\n}\n.button.is-light:hover, .button.is-light.is-hovered {\n      background-color: #eeeeee;\n      border-color: transparent;\n      color: #363636;\n}\n.button.is-light:focus, .button.is-light.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(245, 245, 245, 0.25);\n      color: #363636;\n}\n.button.is-light:active, .button.is-light.is-active {\n      background-color: #e8e8e8;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #363636;\n}\n.button.is-light.is-inverted {\n      background-color: #363636;\n      color: whitesmoke;\n}\n.button.is-light.is-inverted:hover {\n        background-color: #292929;\n}\n.button.is-light.is-loading:after {\n      border-color: transparent transparent #363636 #363636 !important;\n}\n.button.is-light.is-outlined {\n      background-color: transparent;\n      border-color: whitesmoke;\n      color: whitesmoke;\n}\n.button.is-light.is-outlined:hover, .button.is-light.is-outlined:focus {\n        background-color: whitesmoke;\n        border-color: whitesmoke;\n        color: #363636;\n}\n.button.is-light.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #363636;\n      color: #363636;\n}\n.button.is-light.is-inverted.is-outlined:hover, .button.is-light.is-inverted.is-outlined:focus {\n        background-color: #363636;\n        color: whitesmoke;\n}\n.button.is-dark {\n    background-color: #363636;\n    border-color: transparent;\n    color: whitesmoke;\n}\n.button.is-dark:hover, .button.is-dark.is-hovered {\n      background-color: #2f2f2f;\n      border-color: transparent;\n      color: whitesmoke;\n}\n.button.is-dark:focus, .button.is-dark.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(54, 54, 54, 0.25);\n      color: whitesmoke;\n}\n.button.is-dark:active, .button.is-dark.is-active {\n      background-color: #292929;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: whitesmoke;\n}\n.button.is-dark.is-inverted {\n      background-color: whitesmoke;\n      color: #363636;\n}\n.button.is-dark.is-inverted:hover {\n        background-color: #e8e8e8;\n}\n.button.is-dark.is-loading:after {\n      border-color: transparent transparent whitesmoke whitesmoke !important;\n}\n.button.is-dark.is-outlined {\n      background-color: transparent;\n      border-color: #363636;\n      color: #363636;\n}\n.button.is-dark.is-outlined:hover, .button.is-dark.is-outlined:focus {\n        background-color: #363636;\n        border-color: #363636;\n        color: whitesmoke;\n}\n.button.is-dark.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: whitesmoke;\n      color: whitesmoke;\n}\n.button.is-dark.is-inverted.is-outlined:hover, .button.is-dark.is-inverted.is-outlined:focus {\n        background-color: whitesmoke;\n        color: #363636;\n}\n.button.is-primary {\n    background-color: #00d1b2;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-primary:hover, .button.is-primary.is-hovered {\n      background-color: #00c4a7;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-primary:focus, .button.is-primary.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(0, 209, 178, 0.25);\n      color: #fff;\n}\n.button.is-primary:active, .button.is-primary.is-active {\n      background-color: #00b89c;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-primary.is-inverted {\n      background-color: #fff;\n      color: #00d1b2;\n}\n.button.is-primary.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-primary.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-primary.is-outlined {\n      background-color: transparent;\n      border-color: #00d1b2;\n      color: #00d1b2;\n}\n.button.is-primary.is-outlined:hover, .button.is-primary.is-outlined:focus {\n        background-color: #00d1b2;\n        border-color: #00d1b2;\n        color: #fff;\n}\n.button.is-primary.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-primary.is-inverted.is-outlined:hover, .button.is-primary.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #00d1b2;\n}\n.button.is-info {\n    background-color: #539bb9;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-info:hover, .button.is-info.is-hovered {\n      background-color: #4a96b5;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-info:focus, .button.is-info.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(83, 155, 185, 0.25);\n      color: #fff;\n}\n.button.is-info:active, .button.is-info.is-active {\n      background-color: #468eac;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-info.is-inverted {\n      background-color: #fff;\n      color: #539bb9;\n}\n.button.is-info.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-info.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-info.is-outlined {\n      background-color: transparent;\n      border-color: #539bb9;\n      color: #539bb9;\n}\n.button.is-info.is-outlined:hover, .button.is-info.is-outlined:focus {\n        background-color: #539bb9;\n        border-color: #539bb9;\n        color: #fff;\n}\n.button.is-info.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-info.is-inverted.is-outlined:hover, .button.is-info.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #539bb9;\n}\n.button.is-success {\n    background-color: #23d160;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-success:hover, .button.is-success.is-hovered {\n      background-color: #22c65b;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-success:focus, .button.is-success.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(35, 209, 96, 0.25);\n      color: #fff;\n}\n.button.is-success:active, .button.is-success.is-active {\n      background-color: #20bc56;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-success.is-inverted {\n      background-color: #fff;\n      color: #23d160;\n}\n.button.is-success.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-success.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-success.is-outlined {\n      background-color: transparent;\n      border-color: #23d160;\n      color: #23d160;\n}\n.button.is-success.is-outlined:hover, .button.is-success.is-outlined:focus {\n        background-color: #23d160;\n        border-color: #23d160;\n        color: #fff;\n}\n.button.is-success.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-success.is-inverted.is-outlined:hover, .button.is-success.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #23d160;\n}\n.button.is-warning {\n    background-color: #ffdd57;\n    border-color: transparent;\n    color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning:hover, .button.is-warning.is-hovered {\n      background-color: #ffdb4a;\n      border-color: transparent;\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning:focus, .button.is-warning.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(255, 221, 87, 0.25);\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning:active, .button.is-warning.is-active {\n      background-color: #ffd83d;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-inverted {\n      background-color: rgba(0, 0, 0, 0.7);\n      color: #ffdd57;\n}\n.button.is-warning.is-inverted:hover {\n        background-color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-loading:after {\n      border-color: transparent transparent rgba(0, 0, 0, 0.7) rgba(0, 0, 0, 0.7) !important;\n}\n.button.is-warning.is-outlined {\n      background-color: transparent;\n      border-color: #ffdd57;\n      color: #ffdd57;\n}\n.button.is-warning.is-outlined:hover, .button.is-warning.is-outlined:focus {\n        background-color: #ffdd57;\n        border-color: #ffdd57;\n        color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: rgba(0, 0, 0, 0.7);\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-inverted.is-outlined:hover, .button.is-warning.is-inverted.is-outlined:focus {\n        background-color: rgba(0, 0, 0, 0.7);\n        color: #ffdd57;\n}\n.button.is-danger {\n    background-color: #ff3860;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-danger:hover, .button.is-danger.is-hovered {\n      background-color: #ff2b56;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-danger:focus, .button.is-danger.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(255, 56, 96, 0.25);\n      color: #fff;\n}\n.button.is-danger:active, .button.is-danger.is-active {\n      background-color: #ff1f4b;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-danger.is-inverted {\n      background-color: #fff;\n      color: #ff3860;\n}\n.button.is-danger.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-danger.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-danger.is-outlined {\n      background-color: transparent;\n      border-color: #ff3860;\n      color: #ff3860;\n}\n.button.is-danger.is-outlined:hover, .button.is-danger.is-outlined:focus {\n        background-color: #ff3860;\n        border-color: #ff3860;\n        color: #fff;\n}\n.button.is-danger.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-danger.is-inverted.is-outlined:hover, .button.is-danger.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #ff3860;\n}\n.button.is-small {\n    border-radius: 2px;\n    font-size: 0.75rem;\n}\n.button.is-small .icon:first-child:not(:last-child) {\n      margin-left: -0.375rem;\n      margin-right: 0.375rem;\n}\n.button.is-small .icon:last-child:not(:first-child) {\n      margin-left: 0.375rem;\n      margin-right: -0.375rem;\n}\n.button.is-small .icon:first-child:last-child {\n      margin-left: calc(-1px + -0.375rem);\n      margin-right: calc(-1px + -0.375rem);\n}\n.button.is-small .icon.is-small:first-child:not(:last-child) {\n      margin-left: -0.125rem;\n}\n.button.is-small .icon.is-small:last-child:not(:first-child) {\n      margin-right: -0.125rem;\n}\n.button.is-small .icon.is-small:first-child:last-child {\n      margin-left: calc(-1px + -0.125rem);\n      margin-right: calc(-1px + -0.125rem);\n}\n.button.is-small .icon.is-medium:first-child:not(:last-child) {\n      margin-left: -0.625rem;\n}\n.button.is-small .icon.is-medium:last-child:not(:first-child) {\n      margin-right: -0.625rem;\n}\n.button.is-small .icon.is-medium:first-child:last-child {\n      margin-left: calc(-1px + -0.625rem);\n      margin-right: calc(-1px + -0.625rem);\n}\n.button.is-small .icon.is-large:first-child:not(:last-child) {\n      margin-left: -1.125rem;\n}\n.button.is-small .icon.is-large:last-child:not(:first-child) {\n      margin-right: -1.125rem;\n}\n.button.is-small .icon.is-large:first-child:last-child {\n      margin-left: calc(-1px + -1.125rem);\n      margin-right: calc(-1px + -1.125rem);\n}\n.button.is-medium {\n    font-size: 1.25rem;\n}\n.button.is-medium .icon:first-child:not(:last-child) {\n      margin-left: -0.125rem;\n      margin-right: 0.625rem;\n}\n.button.is-medium .icon:last-child:not(:first-child) {\n      margin-left: 0.625rem;\n      margin-right: -0.125rem;\n}\n.button.is-medium .icon:first-child:last-child {\n      margin-left: calc(-1px + -0.125rem);\n      margin-right: calc(-1px + -0.125rem);\n}\n.button.is-medium .icon.is-small:first-child:not(:last-child) {\n      margin-left: 0.125rem;\n}\n.button.is-medium .icon.is-small:last-child:not(:first-child) {\n      margin-right: 0.125rem;\n}\n.button.is-medium .icon.is-small:first-child:last-child {\n      margin-left: calc(-1px + 0.125rem);\n      margin-right: calc(-1px + 0.125rem);\n}\n.button.is-medium .icon.is-medium:first-child:not(:last-child) {\n      margin-left: -0.375rem;\n}\n.button.is-medium .icon.is-medium:last-child:not(:first-child) {\n      margin-right: -0.375rem;\n}\n.button.is-medium .icon.is-medium:first-child:last-child {\n      margin-left: calc(-1px + -0.375rem);\n      margin-right: calc(-1px + -0.375rem);\n}\n.button.is-medium .icon.is-large:first-child:not(:last-child) {\n      margin-left: -0.875rem;\n}\n.button.is-medium .icon.is-large:last-child:not(:first-child) {\n      margin-right: -0.875rem;\n}\n.button.is-medium .icon.is-large:first-child:last-child {\n      margin-left: calc(-1px + -0.875rem);\n      margin-right: calc(-1px + -0.875rem);\n}\n.button.is-large {\n    font-size: 1.5rem;\n}\n.button.is-large .icon:first-child:not(:last-child) {\n      margin-left: 0rem;\n      margin-right: 0.75rem;\n}\n.button.is-large .icon:last-child:not(:first-child) {\n      margin-left: 0.75rem;\n      margin-right: 0rem;\n}\n.button.is-large .icon:first-child:last-child {\n      margin-left: calc(-1px + 0rem);\n      margin-right: calc(-1px + 0rem);\n}\n.button.is-large .icon.is-small:first-child:not(:last-child) {\n      margin-left: 0.25rem;\n}\n.button.is-large .icon.is-small:last-child:not(:first-child) {\n      margin-right: 0.25rem;\n}\n.button.is-large .icon.is-small:first-child:last-child {\n      margin-left: calc(-1px + 0.25rem);\n      margin-right: calc(-1px + 0.25rem);\n}\n.button.is-large .icon.is-medium:first-child:not(:last-child) {\n      margin-left: -0.25rem;\n}\n.button.is-large .icon.is-medium:last-child:not(:first-child) {\n      margin-right: -0.25rem;\n}\n.button.is-large .icon.is-medium:first-child:last-child {\n      margin-left: calc(-1px + -0.25rem);\n      margin-right: calc(-1px + -0.25rem);\n}\n.button.is-large .icon.is-large:first-child:not(:last-child) {\n      margin-left: -0.75rem;\n}\n.button.is-large .icon.is-large:last-child:not(:first-child) {\n      margin-right: -0.75rem;\n}\n.button.is-large .icon.is-large:first-child:last-child {\n      margin-left: calc(-1px + -0.75rem);\n      margin-right: calc(-1px + -0.75rem);\n}\n.button[disabled], .button.is-disabled {\n    opacity: 0.5;\n}\n.button.is-fullwidth {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    width: 100%;\n}\n.button.is-loading {\n    color: transparent !important;\n    pointer-events: none;\n}\n.button.is-loading:after {\n      -webkit-animation: spinAround 500ms infinite linear;\n              animation: spinAround 500ms infinite linear;\n      border: 2px solid #dbdbdb;\n      border-radius: 290486px;\n      border-right-color: transparent;\n      border-top-color: transparent;\n      content: \"\";\n      display: block;\n      height: 1rem;\n      position: relative;\n      width: 1rem;\n      left: 50%;\n      margin-left: -8px;\n      margin-top: -8px;\n      position: absolute;\n      top: 50%;\n      position: absolute !important;\n}\n.label {\n  font-size: 12px;\n}\nh4 {\n  margin: 10px 0 10px !important;\n}\n", ""]);
 
 // exports
 
 
 /***/ }),
-/* 40 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* global define */
@@ -20673,20 +21074,405 @@ exports.push([module.i, "\n@-webkit-keyframes spinAround {\nfrom {\n    -webkit-
 
 
 /***/ }),
-/* 41 */
+/* 43 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var stringify = __webpack_require__(45);
+var parse = __webpack_require__(44);
+var formats = __webpack_require__(14);
+
+module.exports = {
+    formats: formats,
+    parse: parse,
+    stringify: stringify
+};
+
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(15);
+
+var has = Object.prototype.hasOwnProperty;
+
+var defaults = {
+    allowDots: false,
+    allowPrototypes: false,
+    arrayLimit: 20,
+    decoder: utils.decode,
+    delimiter: '&',
+    depth: 5,
+    parameterLimit: 1000,
+    plainObjects: false,
+    strictNullHandling: false
+};
+
+var parseValues = function parseValues(str, options) {
+    var obj = {};
+    var parts = str.split(options.delimiter, options.parameterLimit === Infinity ? undefined : options.parameterLimit);
+
+    for (var i = 0; i < parts.length; ++i) {
+        var part = parts[i];
+        var pos = part.indexOf(']=') === -1 ? part.indexOf('=') : part.indexOf(']=') + 1;
+
+        var key, val;
+        if (pos === -1) {
+            key = options.decoder(part);
+            val = options.strictNullHandling ? null : '';
+        } else {
+            key = options.decoder(part.slice(0, pos));
+            val = options.decoder(part.slice(pos + 1));
+        }
+        if (has.call(obj, key)) {
+            obj[key] = [].concat(obj[key]).concat(val);
+        } else {
+            obj[key] = val;
+        }
+    }
+
+    return obj;
+};
+
+var parseObject = function parseObject(chain, val, options) {
+    if (!chain.length) {
+        return val;
+    }
+
+    var root = chain.shift();
+
+    var obj;
+    if (root === '[]') {
+        obj = [];
+        obj = obj.concat(parseObject(chain, val, options));
+    } else {
+        obj = options.plainObjects ? Object.create(null) : {};
+        var cleanRoot = root[0] === '[' && root[root.length - 1] === ']' ? root.slice(1, root.length - 1) : root;
+        var index = parseInt(cleanRoot, 10);
+        if (
+            !isNaN(index) &&
+            root !== cleanRoot &&
+            String(index) === cleanRoot &&
+            index >= 0 &&
+            (options.parseArrays && index <= options.arrayLimit)
+        ) {
+            obj = [];
+            obj[index] = parseObject(chain, val, options);
+        } else {
+            obj[cleanRoot] = parseObject(chain, val, options);
+        }
+    }
+
+    return obj;
+};
+
+var parseKeys = function parseKeys(givenKey, val, options) {
+    if (!givenKey) {
+        return;
+    }
+
+    // Transform dot notation to bracket notation
+    var key = options.allowDots ? givenKey.replace(/\.([^\.\[]+)/g, '[$1]') : givenKey;
+
+    // The regex chunks
+
+    var parent = /^([^\[\]]*)/;
+    var child = /(\[[^\[\]]*\])/g;
+
+    // Get the parent
+
+    var segment = parent.exec(key);
+
+    // Stash the parent if it exists
+
+    var keys = [];
+    if (segment[1]) {
+        // If we aren't using plain objects, optionally prefix keys
+        // that would overwrite object prototype properties
+        if (!options.plainObjects && has.call(Object.prototype, segment[1])) {
+            if (!options.allowPrototypes) {
+                return;
+            }
+        }
+
+        keys.push(segment[1]);
+    }
+
+    // Loop through children appending to the array until we hit depth
+
+    var i = 0;
+    while ((segment = child.exec(key)) !== null && i < options.depth) {
+        i += 1;
+        if (!options.plainObjects && has.call(Object.prototype, segment[1].replace(/\[|\]/g, ''))) {
+            if (!options.allowPrototypes) {
+                continue;
+            }
+        }
+        keys.push(segment[1]);
+    }
+
+    // If there's a remainder, just add whatever is left
+
+    if (segment) {
+        keys.push('[' + key.slice(segment.index) + ']');
+    }
+
+    return parseObject(keys, val, options);
+};
+
+module.exports = function (str, opts) {
+    var options = opts || {};
+
+    if (options.decoder !== null && options.decoder !== undefined && typeof options.decoder !== 'function') {
+        throw new TypeError('Decoder has to be a function.');
+    }
+
+    options.delimiter = typeof options.delimiter === 'string' || utils.isRegExp(options.delimiter) ? options.delimiter : defaults.delimiter;
+    options.depth = typeof options.depth === 'number' ? options.depth : defaults.depth;
+    options.arrayLimit = typeof options.arrayLimit === 'number' ? options.arrayLimit : defaults.arrayLimit;
+    options.parseArrays = options.parseArrays !== false;
+    options.decoder = typeof options.decoder === 'function' ? options.decoder : defaults.decoder;
+    options.allowDots = typeof options.allowDots === 'boolean' ? options.allowDots : defaults.allowDots;
+    options.plainObjects = typeof options.plainObjects === 'boolean' ? options.plainObjects : defaults.plainObjects;
+    options.allowPrototypes = typeof options.allowPrototypes === 'boolean' ? options.allowPrototypes : defaults.allowPrototypes;
+    options.parameterLimit = typeof options.parameterLimit === 'number' ? options.parameterLimit : defaults.parameterLimit;
+    options.strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
+
+    if (str === '' || str === null || typeof str === 'undefined') {
+        return options.plainObjects ? Object.create(null) : {};
+    }
+
+    var tempObj = typeof str === 'string' ? parseValues(str, options) : str;
+    var obj = options.plainObjects ? Object.create(null) : {};
+
+    // Iterate over the keys and setup the new object
+
+    var keys = Object.keys(tempObj);
+    for (var i = 0; i < keys.length; ++i) {
+        var key = keys[i];
+        var newObj = parseKeys(key, tempObj[key], options);
+        obj = utils.merge(obj, newObj, options);
+    }
+
+    return utils.compact(obj);
+};
+
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(15);
+var formats = __webpack_require__(14);
+
+var arrayPrefixGenerators = {
+    brackets: function brackets(prefix) {
+        return prefix + '[]';
+    },
+    indices: function indices(prefix, key) {
+        return prefix + '[' + key + ']';
+    },
+    repeat: function repeat(prefix) {
+        return prefix;
+    }
+};
+
+var toISO = Date.prototype.toISOString;
+
+var defaults = {
+    delimiter: '&',
+    encode: true,
+    encoder: utils.encode,
+    serializeDate: function serializeDate(date) {
+        return toISO.call(date);
+    },
+    skipNulls: false,
+    strictNullHandling: false
+};
+
+var stringify = function stringify(object, prefix, generateArrayPrefix, strictNullHandling, skipNulls, encoder, filter, sort, allowDots, serializeDate, formatter) {
+    var obj = object;
+    if (typeof filter === 'function') {
+        obj = filter(prefix, obj);
+    } else if (obj instanceof Date) {
+        obj = serializeDate(obj);
+    } else if (obj === null) {
+        if (strictNullHandling) {
+            return encoder ? encoder(prefix) : prefix;
+        }
+
+        obj = '';
+    }
+
+    if (typeof obj === 'string' || typeof obj === 'number' || typeof obj === 'boolean' || utils.isBuffer(obj)) {
+        if (encoder) {
+            return [formatter(encoder(prefix)) + '=' + formatter(encoder(obj))];
+        }
+        return [formatter(prefix) + '=' + formatter(String(obj))];
+    }
+
+    var values = [];
+
+    if (typeof obj === 'undefined') {
+        return values;
+    }
+
+    var objKeys;
+    if (Array.isArray(filter)) {
+        objKeys = filter;
+    } else {
+        var keys = Object.keys(obj);
+        objKeys = sort ? keys.sort(sort) : keys;
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (skipNulls && obj[key] === null) {
+            continue;
+        }
+
+        if (Array.isArray(obj)) {
+            values = values.concat(stringify(
+                obj[key],
+                generateArrayPrefix(prefix, key),
+                generateArrayPrefix,
+                strictNullHandling,
+                skipNulls,
+                encoder,
+                filter,
+                sort,
+                allowDots,
+                serializeDate,
+                formatter
+            ));
+        } else {
+            values = values.concat(stringify(
+                obj[key],
+                prefix + (allowDots ? '.' + key : '[' + key + ']'),
+                generateArrayPrefix,
+                strictNullHandling,
+                skipNulls,
+                encoder,
+                filter,
+                sort,
+                allowDots,
+                serializeDate,
+                formatter
+            ));
+        }
+    }
+
+    return values;
+};
+
+module.exports = function (object, opts) {
+    var obj = object;
+    var options = opts || {};
+    var delimiter = typeof options.delimiter === 'undefined' ? defaults.delimiter : options.delimiter;
+    var strictNullHandling = typeof options.strictNullHandling === 'boolean' ? options.strictNullHandling : defaults.strictNullHandling;
+    var skipNulls = typeof options.skipNulls === 'boolean' ? options.skipNulls : defaults.skipNulls;
+    var encode = typeof options.encode === 'boolean' ? options.encode : defaults.encode;
+    var encoder = encode ? (typeof options.encoder === 'function' ? options.encoder : defaults.encoder) : null;
+    var sort = typeof options.sort === 'function' ? options.sort : null;
+    var allowDots = typeof options.allowDots === 'undefined' ? false : options.allowDots;
+    var serializeDate = typeof options.serializeDate === 'function' ? options.serializeDate : defaults.serializeDate;
+    if (typeof options.format === 'undefined') {
+        options.format = formats.default;
+    } else if (!Object.prototype.hasOwnProperty.call(formats.formatters, options.format)) {
+        throw new TypeError('Unknown format option provided.');
+    }
+    var formatter = formats.formatters[options.format];
+    var objKeys;
+    var filter;
+
+    if (options.encoder !== null && options.encoder !== undefined && typeof options.encoder !== 'function') {
+        throw new TypeError('Encoder has to be a function.');
+    }
+
+    if (typeof options.filter === 'function') {
+        filter = options.filter;
+        obj = filter('', obj);
+    } else if (Array.isArray(options.filter)) {
+        filter = options.filter;
+        objKeys = filter;
+    }
+
+    var keys = [];
+
+    if (typeof obj !== 'object' || obj === null) {
+        return '';
+    }
+
+    var arrayFormat;
+    if (options.arrayFormat in arrayPrefixGenerators) {
+        arrayFormat = options.arrayFormat;
+    } else if ('indices' in options) {
+        arrayFormat = options.indices ? 'indices' : 'repeat';
+    } else {
+        arrayFormat = 'indices';
+    }
+
+    var generateArrayPrefix = arrayPrefixGenerators[arrayFormat];
+
+    if (!objKeys) {
+        objKeys = Object.keys(obj);
+    }
+
+    if (sort) {
+        objKeys.sort(sort);
+    }
+
+    for (var i = 0; i < objKeys.length; ++i) {
+        var key = objKeys[i];
+
+        if (skipNulls && obj[key] === null) {
+            continue;
+        }
+
+        keys = keys.concat(stringify(
+            obj[key],
+            key,
+            generateArrayPrefix,
+            strictNullHandling,
+            skipNulls,
+            encoder,
+            filter,
+            sort,
+            allowDots,
+            serializeDate,
+            formatter
+        ));
+    }
+
+    return keys.join(delimiter);
+};
+
+
+/***/ }),
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(45)
+__webpack_require__(50)
 
 /* script */
-__vue_exports__ = __webpack_require__(33)
+__vue_exports__ = __webpack_require__(36)
 
 /* template */
-var __vue_template__ = __webpack_require__(43)
+var __vue_template__ = __webpack_require__(48)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -20722,20 +21508,20 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 42 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __vue_exports__, __vue_options__
 var __vue_styles__ = {}
 
 /* styles */
-__webpack_require__(46)
+__webpack_require__(51)
 
 /* script */
-__vue_exports__ = __webpack_require__(34)
+__vue_exports__ = __webpack_require__(37)
 
 /* template */
-var __vue_template__ = __webpack_require__(44)
+var __vue_template__ = __webpack_require__(49)
 __vue_options__ = __vue_exports__ = __vue_exports__ || {}
 if (
   typeof __vue_exports__.default === "object" ||
@@ -20771,7 +21557,7 @@ module.exports = __vue_exports__
 
 
 /***/ }),
-/* 43 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
@@ -20834,19 +21620,22 @@ if (false) {
 }
 
 /***/ }),
-/* 44 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "rapidjs-class-builder"
   }, [_c('h2', {
+    staticClass: "title is-3",
     attrs: {
       "id": "class-builder"
     }
   }, [_vm._v("Class Builder")]), _vm._v(" "), _c('div', {
     staticClass: "rapidjs-class-builder__form"
-  }, [_c('h4', [_vm._v("Core")]), _vm._v(" "), _c('div', {
+  }, [_c('h4', {
+    staticClass: "subtitle is-5 is-info"
+  }, [_vm._v("Core")]), _vm._v(" "), _c('div', {
     staticClass: "fb-grid row"
   }, [_c('div', {
     staticClass: "fb-grid col-md-3"
@@ -20863,6 +21652,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input is-small is-info",
     attrs: {
+      "tabindex": "1",
       "type": "text"
     },
     domProps: {
@@ -20889,6 +21679,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input is-small is-info",
     attrs: {
+      "tabindex": "2",
       "type": "text"
     },
     domProps: {
@@ -20915,6 +21706,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input is-small is-info",
     attrs: {
+      "tabindex": "3",
       "type": "text"
     },
     domProps: {
@@ -20941,6 +21733,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "input is-small is-info",
     attrs: {
+      "tabindex": "4",
       "type": "text"
     },
     domProps: {
@@ -20952,29 +21745,31 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.model.routeDelimeter = $event.target.value
       }
     }
-  })])])]), _vm._v(" "), _c('h4', [_vm._v("Overrides")]), _vm._v(" "), _c('div', {
+  })])])]), _vm._v(" "), _c('h4', {
+    staticClass: "subtitle is-5 is-info"
+  }, [_vm._v("Routes")]), _vm._v(" "), _c('div', {
     staticClass: "fb-grid row"
   }, [_c('div', {
-    staticClass: "fb-grid col-md-3"
+    staticClass: "fb-grid col-md-4"
   }, [_c('span', {
     staticClass: "label"
   }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.options.overrideModelRoute),
-      expression: "options.overrideModelRoute"
+      value: (_vm.overrides.routes.model),
+      expression: "overrides.routes.model"
     }],
     attrs: {
-      "selected": _vm.options.overrideModelRoute,
+      "selected": _vm.overrides.routes.model,
       "color": "blue"
     },
     domProps: {
-      "value": (_vm.options.overrideModelRoute)
+      "value": (_vm.overrides.routes.model)
     },
     on: {
       "input": [function($event) {
-        _vm.options.overrideModelRoute = $event
+        _vm.overrides.routes.model = $event
       }, function($event) {
         _vm.resetRouteOverride('model')
       }]
@@ -20983,7 +21778,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "control has-addons"
   }, [_c('span', {
     class: {
-      'button is-info is-small': true, 'is-disabled': !_vm.options.overrideModelRoute
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.routes.model
     }
   }, [_vm._v("routes.model:")]), _vm._v(" "), _c('input', {
     directives: [{
@@ -20993,10 +21788,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "model.config.routes.model"
     }],
     class: {
-      'input is-small is-info': true, 'is-disabled': !_vm.options.overrideModelRoute
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.routes.model
     },
     attrs: {
-      "disabled": !_vm.options.overrideModelRoute,
+      "tabindex": "5",
+      "disabled": !_vm.overrides.routes.model,
       "type": "text"
     },
     domProps: {
@@ -21009,26 +21805,26 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid col-md-3"
+    staticClass: "fb-grid col-md-4"
   }, [_c('span', {
     staticClass: "label"
   }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.options.overrideCollectionRoute),
-      expression: "options.overrideCollectionRoute"
+      value: (_vm.overrides.routes.collection),
+      expression: "overrides.routes.collection"
     }],
     attrs: {
-      "selected": _vm.options.overrideCollectionRoute,
+      "selected": _vm.overrides.routes.collection,
       "color": "blue"
     },
     domProps: {
-      "value": (_vm.options.overrideCollectionRoute)
+      "value": (_vm.overrides.routes.collection)
     },
     on: {
       "input": [function($event) {
-        _vm.options.overrideCollectionRoute = $event
+        _vm.overrides.routes.collection = $event
       }, function($event) {
         _vm.resetRouteOverride('collection')
       }]
@@ -21037,7 +21833,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "control has-addons"
   }, [_c('span', {
     class: {
-      'button is-info is-small': true, 'is-disabled': !_vm.options.overrideCollectionRoute
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.routes.collection
     }
   }, [_vm._v("routes.collection:")]), _vm._v(" "), _c('input', {
     directives: [{
@@ -21047,10 +21843,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "model.config.routes.collection"
     }],
     class: {
-      'input is-small is-info': true, 'is-disabled': !_vm.options.overrideCollectionRoute
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.routes.collection
     },
     attrs: {
-      "disabled": !_vm.options.overrideCollectionRoute,
+      "tabindex": "6",
+      "disabled": !_vm.overrides.routes.collection,
       "type": "text"
     },
     domProps: {
@@ -21062,7 +21859,343 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.model.config.routes.collection = $event.target.value
       }
     }
-  })])])]), _vm._v(" "), _c('h4', [_vm._v("Options")]), _vm._v(" "), _c('div', {
+  })])])]), _vm._v(" "), _c('h4', {
+    staticClass: "subtitle is-5 is-info"
+  }, [_vm._v("Suffixes")]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid row"
+  }, [_c('div', {
+    staticClass: "fb-grid col-md-4"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.overrides.suffixes.create),
+      expression: "overrides.suffixes.create"
+    }],
+    attrs: {
+      "selected": _vm.overrides.suffixes.create,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.overrides.suffixes.create)
+    },
+    on: {
+      "input": function($event) {
+        _vm.overrides.suffixes.create = $event
+      }
+    }
+  })], 1), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    class: {
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.suffixes.create
+    }
+  }, [_vm._v("suffixes.create:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.suffixes.create),
+      expression: "model.config.suffixes.create"
+    }],
+    class: {
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.suffixes.create
+    },
+    attrs: {
+      "tabindex": "6",
+      "disabled": !_vm.overrides.suffixes.create,
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.config.suffixes.create)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.config.suffixes.create = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-4"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.overrides.suffixes.update),
+      expression: "overrides.suffixes.update"
+    }],
+    attrs: {
+      "selected": _vm.overrides.suffixes.update,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.overrides.suffixes.update)
+    },
+    on: {
+      "input": function($event) {
+        _vm.overrides.suffixes.update = $event
+      }
+    }
+  })], 1), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    class: {
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.suffixes.update
+    }
+  }, [_vm._v("suffixes.update:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.suffixes.update),
+      expression: "model.config.suffixes.update"
+    }],
+    class: {
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.suffixes.update
+    },
+    attrs: {
+      "tabindex": "7",
+      "disabled": !_vm.overrides.suffixes.update,
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.config.suffixes.update)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.config.suffixes.update = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-4"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.overrides.suffixes.delete),
+      expression: "overrides.suffixes.delete"
+    }],
+    attrs: {
+      "selected": _vm.overrides.suffixes.delete,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.overrides.suffixes.delete)
+    },
+    on: {
+      "input": function($event) {
+        _vm.overrides.suffixes.delete = $event
+      }
+    }
+  })], 1), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    class: {
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.suffixes.delete
+    }
+  }, [_vm._v("suffixes.delete:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.suffixes.delete),
+      expression: "model.config.suffixes.delete"
+    }],
+    class: {
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.suffixes.delete
+    },
+    attrs: {
+      "tabindex": "8",
+      "disabled": !_vm.overrides.suffixes.delete,
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.config.suffixes.delete)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.config.suffixes.delete = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('h4', {
+    staticClass: "subtitle is-5 is-info"
+  }, [_vm._v("Methods")]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid row"
+  }, [_c('div', {
+    staticClass: "fb-grid col-md-4"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.overrides.methods.create),
+      expression: "overrides.methods.create"
+    }],
+    attrs: {
+      "selected": _vm.overrides.methods.create,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.overrides.methods.create)
+    },
+    on: {
+      "input": [function($event) {
+        _vm.overrides.methods.create = $event
+      }, function($event) {
+        _vm.resetRouteOverride('model')
+      }]
+    }
+  })], 1), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    class: {
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.methods.create
+    }
+  }, [_vm._v("methods.create:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.methods.create),
+      expression: "model.config.methods.create"
+    }],
+    class: {
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.methods.create
+    },
+    attrs: {
+      "tabindex": "9",
+      "disabled": !_vm.overrides.methods.create,
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.config.methods.create)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.config.methods.create = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    staticClass: "help is-info"
+  }, [_vm._v("Available methods: get, delete, head, post, put, patch")])]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-4"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.overrides.methods.update),
+      expression: "overrides.methods.update"
+    }],
+    attrs: {
+      "selected": _vm.overrides.methods.update,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.overrides.methods.update)
+    },
+    on: {
+      "input": [function($event) {
+        _vm.overrides.methods.update = $event
+      }, function($event) {
+        _vm.resetRouteOverride('collection')
+      }]
+    }
+  })], 1), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    class: {
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.methods.update
+    }
+  }, [_vm._v("methods.update:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.methods.update),
+      expression: "model.config.methods.update"
+    }],
+    class: {
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.methods.update
+    },
+    attrs: {
+      "tabindex": "10",
+      "disabled": !_vm.overrides.methods.update,
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.config.methods.update)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.config.methods.update = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-4"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.overrides.methods.delete),
+      expression: "overrides.methods.delete"
+    }],
+    attrs: {
+      "selected": _vm.overrides.methods.delete,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.overrides.methods.delete)
+    },
+    on: {
+      "input": [function($event) {
+        _vm.overrides.methods.delete = $event
+      }, function($event) {
+        _vm.resetRouteOverride('collection')
+      }]
+    }
+  })], 1), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    class: {
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.methods.delete
+    }
+  }, [_vm._v("methods.delete:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.methods.delete),
+      expression: "model.config.methods.delete"
+    }],
+    class: {
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.methods.delete
+    },
+    attrs: {
+      "tabindex": "11",
+      "disabled": !_vm.overrides.methods.delete,
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.config.methods.delete)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.config.methods.delete = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('h4', {
+    staticClass: "subtitle is-5 is-info"
+  }, [_vm._v("Options")]), _vm._v(" "), _c('div', {
     staticClass: "fb-grid row"
   }, [_c('div', {
     staticClass: "fb-grid col-md-2"
@@ -21093,32 +22226,71 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fb-grid col-md-1"
   }, [_c('span', {
     staticClass: "label"
-  }, [_vm._v("keepCase")]), _vm._v(" "), _c('p', {
+  }, [_vm._v("caseSensitive")]), _vm._v(" "), _c('p', {
     staticClass: "control"
   }, [_c('switches', {
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.model.keepCase),
-      expression: "model.keepCase"
+      value: (_vm.model.caseSensitive),
+      expression: "model.caseSensitive"
     }],
     attrs: {
-      "selected": _vm.model.keepCase,
+      "selected": _vm.model.caseSensitive,
       "color": "blue"
     },
     domProps: {
-      "value": (_vm.model.keepCase)
+      "value": (_vm.model.caseSensitive)
     },
     on: {
       "input": function($event) {
-        _vm.model.keepCase = $event
+        _vm.model.caseSensitive = $event
       }
     }
-  })], 1)])])]), _vm._v(" "), _c('div', {
+  })], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-3"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("globalParameters")]), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    staticClass: "button is-info is-small"
+  }, [_vm._v("globalParameters:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.globalParameters),
+      expression: "globalParameters"
+    }],
+    staticClass: "input is-small is-info",
+    attrs: {
+      "tabindex": "12",
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.globalParameters)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.globalParameters = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    staticClass: "help is-info"
+  }, [_vm._v("Comma separate: foo=bar, this=that")])])])]), _vm._v(" "), _c('h4', {
+    staticClass: "subtitle is-5 is-info"
+  }, [_vm._v("Class Config")]), _vm._v(" "), _c('div', {
     staticClass: "rapidjs-class-builder__config"
-  }, [_c('pre', [_c('code', [_vm._v(_vm._s(_vm.config))])])]), _vm._v(" "), _c('div', {
+  }, [_c('pre', [_c('code', {
+    ref: "config",
+    staticClass: "language-json",
+    domProps: {
+      "textContent": _vm._s(_vm.config)
+    }
+  })])]), _vm._v(" "), _c('div', {
     staticClass: "test"
-  }, [_vm._v("\n        find (1)          => " + _vm._s(_vm.model.find(1)) + " "), _c('br'), _vm._v("\n        update (1)        => " + _vm._s(_vm.model.update(1)) + " "), _c('br'), _vm._v("\n        delete (1)        => " + _vm._s(_vm.model.delete(1)) + " "), _c('br'), _vm._v("\n        media ('waffles') => " + _vm._s(_vm.model.media('waffles')) + " "), _c('br'), _vm._v("\n        votes (1)         => " + _vm._s(_vm.model.votes(1)) + " "), _c('br')])])
+  }, [_vm._v("\n        create ({})         => " + _vm._s(_vm.model.create({})) + " "), _c('br'), _vm._v("\n        find (1)          => " + _vm._s(_vm.model.find(1)) + " "), _c('br'), _vm._v("\n        update (1)        => " + _vm._s(_vm.model.update(1)) + " "), _c('br'), _vm._v("\n        delete (1)        => " + _vm._s(_vm.model.delete(1)) + " "), _c('br'), _vm._v("\n        media ('waffles') => " + _vm._s(_vm.model.media('waffles')) + " "), _c('br'), _vm._v("\n        votes (1)         => " + _vm._s(_vm.model.votes(1)) + " "), _c('br')])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
@@ -21129,16 +22301,16 @@ if (false) {
 }
 
 /***/ }),
-/* 45 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(38);
+var content = __webpack_require__(40);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(13)(content, {});
+var update = __webpack_require__(16)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -21155,16 +22327,16 @@ if(false) {
 }
 
 /***/ }),
-/* 46 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(39);
+var content = __webpack_require__(41);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(13)(content, {});
+var update = __webpack_require__(16)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(false) {
@@ -21181,7 +22353,7 @@ if(false) {
 }
 
 /***/ }),
-/* 47 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -29757,7 +30929,7 @@ module.exports = Vue$3;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(3)))
 
 /***/ }),
-/* 48 */
+/* 53 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -29785,11 +30957,11 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 49 */
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(14);
-module.exports = __webpack_require__(15);
+__webpack_require__(17);
+module.exports = __webpack_require__(18);
 
 
 /***/ })

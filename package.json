@@ -10,6 +10,7 @@
     "axios": "^0.15.3",
     "bulma": "^0.3.1",
     "clipboard": "^1.5.16",
+    "flat": "^2.0.1",
     "jquery": "^3.1.1",
     "laravel-echo": "^1.2.1",
     "laravel-mix": "^0.5.0",

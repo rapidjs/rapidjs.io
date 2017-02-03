@@ -1,77 +1,187 @@
 <template>
     <div class="rapidjs-class-builder">
-        <h2 id="class-builder">Class Builder</h2>
+        <h2 class="title is-3" id="class-builder">Class Builder</h2>
+
         <div class="rapidjs-class-builder__form">
-            <h4>Core</h4>
+            <h4 class="subtitle is-5 is-info">Core</h4>
 
             <div class="fb-grid row">
                 <div class="fb-grid col-md-3">
                     <p class="control has-addons">
                         <span class="button is-info is-small">baseURL:</span>
-                        <input class="input is-small is-info" type="text" v-model="model.baseURL">
+                        <input tabindex="1" class="input is-small is-info" type="text" v-model="model.baseURL">
                     </p>
                 </div>
 
                 <div class="fb-grid col-md-3">
                     <p class="control has-addons">
                         <span class="button is-info is-small">modelName:</span>
-                        <input class="input is-small is-info" type="text" v-model="model.modelName">
+                        <input tabindex="2" class="input is-small is-info" type="text" v-model="model.modelName">
                     </p>
                 </div>
 
                 <div class="fb-grid col-md-3">
                     <p class="control has-addons">
                         <span class="button is-info is-small">primaryKey:</span>
-                        <input class="input is-small is-info" type="text" v-model="model.primaryKey">
+                        <input tabindex="3" class="input is-small is-info" type="text" v-model="model.primaryKey">
                     </p>
                 </div>
 
                 <div class="fb-grid col-md-3">
                     <p class="control has-addons">
                         <span class="button is-info is-small">routeDelimeter:</span>
-                        <input class="input is-small is-info" type="text" v-model="model.routeDelimeter">
+                        <input tabindex="4" class="input is-small is-info" type="text" v-model="model.routeDelimeter">
                     </p>
                 </div>
             </div>
 
-            <h4>Overrides</h4>
+            <h4 class="subtitle is-5 is-info">Routes</h4>
 
             <div class="fb-grid row">
 
-                <div class="fb-grid col-md-3">
+                <div class="fb-grid col-md-4">
                     <span class="label">
                         Override <br>
-                        <switches v-model="options.overrideModelRoute" :selected="options.overrideModelRoute" color="blue" @input="resetRouteOverride('model')"></switches>
+                        <switches v-model="overrides.routes.model" :selected="overrides.routes.model" color="blue" @input="resetRouteOverride('model')"></switches>
                     </span>
 
                     <p class="control has-addons">
-                        <span :class="{ 'button is-info is-small' : true, 'is-disabled' : !options.overrideModelRoute }">routes.model:</span>
+                        <span :class="{ 'button is-info is-small' : true, 'is-disabled' : !overrides.routes.model }">routes.model:</span>
 
-                        <input :disabled="!options.overrideModelRoute"
-                               :class="{ 'input is-small is-info' : true, 'is-disabled' : !options.overrideModelRoute }"
+                        <input tabindex="5" :disabled="!overrides.routes.model"
+                               :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.routes.model }"
                                type="text"
                                v-model="model.config.routes.model">
                     </p>
                 </div>
 
-                <div class="fb-grid col-md-3">
+                <div class="fb-grid col-md-4">
                     <span class="label">
                         Override <br>
-                        <switches v-model="options.overrideCollectionRoute" :selected="options.overrideCollectionRoute" color="blue" @input="resetRouteOverride('collection')"></switches>
+                        <switches v-model="overrides.routes.collection" :selected="overrides.routes.collection" color="blue" @input="resetRouteOverride('collection')"></switches>
                     </span>
 
                     <p class="control has-addons">
-                        <span :class="{ 'button is-info is-small' : true, 'is-disabled' : !options.overrideCollectionRoute }">routes.collection:</span>
+                        <span :class="{ 'button is-info is-small' : true, 'is-disabled' : !overrides.routes.collection }">routes.collection:</span>
 
-                        <input :disabled="!options.overrideCollectionRoute"
-                               :class="{ 'input is-small is-info' : true, 'is-disabled' : !options.overrideCollectionRoute }"
+                        <input tabindex="6" :disabled="!overrides.routes.collection"
+                               :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.routes.collection }"
                                type="text"
                                v-model="model.config.routes.collection">
                     </p>
                 </div>
             </div>
 
-            <h4>Options</h4>
+            <h4 class="subtitle is-5 is-info">Suffixes</h4>
+
+            <div class="fb-grid row">
+
+                <div class="fb-grid col-md-4">
+                    <span class="label">
+                        Override <br>
+                        <switches v-model="overrides.suffixes.create" :selected="overrides.suffixes.create" color="blue"></switches>
+                    </span>
+
+                    <p class="control has-addons">
+                        <span :class="{ 'button is-info is-small' : true, 'is-disabled' : !overrides.suffixes.create }">suffixes.create:</span>
+
+                        <input tabindex="6" :disabled="!overrides.suffixes.create"
+                               :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.suffixes.create }"
+                               type="text"
+                               v-model="model.config.suffixes.create">
+                    </p>
+                </div>
+
+                <div class="fb-grid col-md-4">
+                    <span class="label">
+                        Override <br>
+                        <switches v-model="overrides.suffixes.update" :selected="overrides.suffixes.update" color="blue"></switches>
+                    </span>
+
+                    <p class="control has-addons">
+                        <span :class="{ 'button is-info is-small' : true, 'is-disabled' : !overrides.suffixes.update }">suffixes.update:</span>
+
+                        <input tabindex="7" :disabled="!overrides.suffixes.update"
+                               :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.suffixes.update }"
+                               type="text"
+                               v-model="model.config.suffixes.update">
+                    </p>
+                </div>
+
+                <div class="fb-grid col-md-4">
+                    <span class="label">
+                        Override <br>
+                        <switches v-model="overrides.suffixes.delete" :selected="overrides.suffixes.delete" color="blue"></switches>
+                    </span>
+
+                    <p class="control has-addons">
+                        <span :class="{ 'button is-info is-small' : true, 'is-disabled' : !overrides.suffixes.delete }">suffixes.delete:</span>
+
+                        <input tabindex="8" :disabled="!overrides.suffixes.delete"
+                               :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.suffixes.delete }"
+                               type="text"
+                               v-model="model.config.suffixes.delete">
+                    </p>
+                </div>
+            </div>
+
+            <h4 class="subtitle is-5 is-info">Methods</h4>
+
+            <div class="fb-grid row">
+
+                <div class="fb-grid col-md-4">
+                    <span class="label">
+                        Override <br>
+                        <switches v-model="overrides.methods.create" :selected="overrides.methods.create" color="blue" @input="resetRouteOverride('model')"></switches>
+                    </span>
+
+                    <p class="control has-addons">
+                        <span :class="{ 'button is-info is-small' : true, 'is-disabled' : !overrides.methods.create }">methods.create:</span>
+
+                        <input tabindex="9" :disabled="!overrides.methods.create"
+                               :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.methods.create }"
+                               type="text"
+                               v-model="model.config.methods.create">
+                    </p>
+
+                    <span class="help is-info">Available methods: get, delete, head, post, put, patch</span>
+
+                </div>
+
+                <div class="fb-grid col-md-4">
+                    <span class="label">
+                        Override <br>
+                        <switches v-model="overrides.methods.update" :selected="overrides.methods.update" color="blue" @input="resetRouteOverride('collection')"></switches>
+                    </span>
+
+                    <p class="control has-addons">
+                        <span :class="{ 'button is-info is-small' : true, 'is-disabled' : !overrides.methods.update }">methods.update:</span>
+
+                        <input tabindex="10" :disabled="!overrides.methods.update"
+                               :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.methods.update }"
+                               type="text"
+                               v-model="model.config.methods.update">
+                    </p>
+                </div>
+
+                <div class="fb-grid col-md-4">
+                    <span class="label">
+                        Override <br>
+                        <switches v-model="overrides.methods.delete" :selected="overrides.methods.delete" color="blue" @input="resetRouteOverride('collection')"></switches>
+                    </span>
+
+                    <p class="control has-addons">
+                        <span :class="{ 'button is-info is-small' : true, 'is-disabled' : !overrides.methods.delete }">methods.delete:</span>
+
+                        <input tabindex="11" :disabled="!overrides.methods.delete"
+                               :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.methods.delete }"
+                               type="text"
+                               v-model="model.config.methods.delete">
+                    </p>
+                </div>
+            </div>
+
+            <h4 class="subtitle is-5 is-info">Options</h4>
 
             <div class="fb-grid row">
                 <div class="fb-grid col-md-2">
@@ -83,23 +193,41 @@
                 </div>
 
                 <div class="fb-grid col-md-1">
-                    <span class="label">keepCase</span>
+                    <span class="label">caseSensitive</span>
 
                     <p class="control">
-                        <switches v-model="model.keepCase" :selected="model.keepCase" color="blue"></switches>
+                        <switches v-model="model.caseSensitive" :selected="model.caseSensitive" color="blue"></switches>
                     </p>
+                </div>
+
+                <div class="fb-grid col-md-3">
+                    <span class="label">globalParameters</span>
+
+                    <p class="control has-addons">
+                        <span class="button is-info is-small">globalParameters:</span>
+
+                        <input tabindex="12"
+                               class="input is-small is-info"
+                               type="text"
+                               v-model="globalParameters">
+                    </p>
+
+                    <span class="help is-info">Comma separate: foo=bar, this=that</span>
                 </div>
             </div>
         </div>
 
-        <div class="rapidjs-class-builder__config"><pre><code class="language-json">{{ config }}</code></pre></div>
+        <h4 class="subtitle is-5 is-info">Class Config</h4>
+        <div class="rapidjs-class-builder__config"><pre><code class="language-json" ref="config" v-text="config"></code></pre></div>
 
         <div class="test">
+            create ({})         => {{ model.create({}) }} <br>
             find (1)          => {{ model.find(1) }} <br>
             update (1)        => {{ model.update(1) }} <br>
             delete (1)        => {{ model.delete(1) }} <br>
             media ('waffles') => {{ model.media('waffles') }} <br>
             votes (1)         => {{ model.votes(1) }} <br>
+
             <!-- posts (1)         => {{ model.posts(1) }} <br> -->
             <!-- all ({ foo: bar }) => {{ model.all ({ foo: 'bar' }) }} <br> -->
             <!-- {{ model.sanitizeUrl(model.baseURL + '/' + model.collection.makeUrl( 'bum', 'boo', '?' + qs.stringify({ 'boob': 'bum' }))) }} -->
@@ -111,6 +239,8 @@
     import TestModel from './../Interface/TestModel';
     import Switches from 'vue-switches';
     import _ from 'lodash';
+    import prism from './../Vendor/prism';
+    import qs from 'qs';
 
     export default {
         name: 'class-builder',
@@ -118,16 +248,35 @@
         data () {
             return {
                 model: TestModel,
+
+                globalParameters: '',
+
                 defaults: {
                     primaryKey: '-',
                     trailingSlash: false,
-                    keepCase: false,
+                    caseSensitive: false,
                     routeDelimeter: '-',
                 },
-                options: {
-                    overrideModelRoute: false,
-                    overrideCollectionRoute: false
+
+                overrides: {
+                    routes: {
+                        model: false,
+                        collection: false
+                    },
+
+                    suffixes: {
+                        create: false,
+                        update: false,
+                        delete: false,
+                    },
+
+                    methods: {
+                        create: false,
+                        update: false,
+                        delete: false,
+                    }
                 }
+
             }
         },
 
@@ -138,8 +287,13 @@
         methods: {
             resetRouteOverride (route) {
                 let func = `set${_.capitalize(route)}Route`;
-
                 this.model[func]();
+            }
+        },
+
+        watch: {
+            config () {
+                setTimeout(() => { prism.highlightElement(this.$refs.config); }, 1);
             }
         },
 
@@ -150,7 +304,7 @@
                     modelName     : this.model.modelName,
                     primaryKey    : this.model.primaryKey,
                     trailingSlash : this.model.config.trailingSlash,
-                    keepCase      : this.model.keepCase,
+                    caseSensitive : this.model.caseSensitive,
                     routeDelimeter: this.model.routeDelimeter
                 };
 
@@ -160,22 +314,48 @@
                     }
                 });
 
-                if(this.options.overrideModelRoute || this.options.overrideCollectionRoute) {
-                    config.routes = {};
-
-                    if(this.options.overrideModelRoute) {
-                        config.routes.model = this.model.config.routes.model;
-                    }
-
-                    if(this.options.overrideCollectionRoute) {
-                        config.routes.collection = this.model.config.routes.collection;
-                    }
-
+                if(this.parsedGlobalParams) {
+                    this.model.config.globalParameters = this.parsedGlobalParams;
+                    config.globalParameters            = this.model.config.globalParameters;
                 }
 
+                _.forEach(this.overrides, (overrides, key) => {
+
+                    let configOverride = {};
+
+                    _.forEach(overrides, (val, k) => {
+                        if(val) {
+                            configOverride[k] = this.model.config[key][k];
+                        }
+                    });
+
+                    if(!_.isEmpty(configOverride)) {
+                        config[key] = configOverride;
+                    }
+
+                });
+
                 return config;
+            },
+
+            parsedGlobalParams () {
+                let rawParams = this.globalParameters.trim().split(',').filter(v => v != ''),
+                    parsedParams = {};
+
+                if(rawParams.length) {
+                    _.forEach(rawParams, (val, key) => {
+                        let parsed = qs.parse(val.trim());
+                        parsedParams[Object.keys(parsed).shift()] = Object.values(parsed).shift();
+                    });
+
+                    return parsedParams;
+                }
+
+                return null;
             }
         }
+
+
     }
 </script>
 
@@ -185,8 +365,13 @@
     @import '~bulma/sass/utilities/all';
     @import '~bulma/sass/elements/form';
     @import '~bulma/sass/elements/button';
+    // @import '~bulma/sass/elements/title';
 
     .label {
         font-size: 12px;
+    }
+
+    h4 {
+        margin: 10px 0 10px !important;
     }
 </style>

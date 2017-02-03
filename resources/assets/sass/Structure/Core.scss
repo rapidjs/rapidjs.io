@@ -35,6 +35,15 @@ body {
 }
 
 
+h2 {
+    &:before {
+        content: '#';
+        color: $color-blue;
+        opacity: .8;
+        margin-right: 5px;
+    }
+}
+
 
 @include when-wider-than(tablet) {
     .wrapper {

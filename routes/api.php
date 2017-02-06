@@ -18,3 +18,12 @@ use Illuminate\Http\Request;
 // });
 
 //
+
+
+Route::get('/user/{id}', function (Request $request) {
+    return $request->all();
+});
+
+Route::post('/user/{id}/update', function (Request $request) {
+    return $request->all();
+});

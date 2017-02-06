@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import axios from 'axios';
 import prism from './Vendor/prism';
-import TestModel from './Interface/TestModel';
+import UserModel from './Interface/UserModel';
 
 window.Vue = Vue;
 
-window.rapidjs = TestModel;
+window.rapidjs = UserModel;
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of

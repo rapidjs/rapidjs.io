@@ -1,14 +1,15 @@
 import axios from 'axios';
 import _ from 'lodash';
 import pluralize from 'pluralize';
-import qs from 'qs';
+import Debugger from './Debugger';
+import Logger from './Logger';
 
-class Model {
+class Rapid {
     constructor (config) {
         let defaults = {
             modelName: this.constructor.name,
 
-            primaryKey: 'id',
+            primaryKey: '',
 
             baseURL: 'api',
 
@@ -19,7 +20,10 @@ class Model {
             routeDelimeter: '-',
 
             globalParameters: {
-
+                /**
+                 * Need an option for global GET and POST params...
+                 * what if we want to do /users/drew/save?api_key=12345
+                 */
             },
 
             suffixes: {
@@ -59,18 +63,11 @@ class Model {
             this.setCollectionRoute();
         }
 
-        this.api = axios.create({
-            baseURL: this.config.baseURL.replace(/\/$/, '')
-        });
+        this.api = axios.create(_.defaultsDeep({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
 
         this.currentRoute = 'model';
 
-        if(this.debug) {
-            this._debug = {
-                lastUrl: '',
-                lastRequest: {}
-            };
-        }
+        this.debugger = this.debug ? new Debugger(this) : false;
 
     }
 
@@ -82,7 +79,7 @@ class Model {
         if(this.config.trailingSlash) {
             params.push('');
         }
-
+        console.log(params);
         let url = this.sanitizeUrl([this.config.routes[this.currentRoute]].concat(params).join('/'));
 
         // reset currentRoute
@@ -132,6 +129,11 @@ class Model {
         return this.updateOrDelete('update', ...params);
     }
 
+    // alias
+    save (...params) {
+        return this.update(...params);
+    }
+
     // delete (id = 0, data, options)
     delete (...params) {
         return this.updateOrDelete('delete', ...params);
@@ -148,7 +150,7 @@ class Model {
      */
 
     all (data, options) {
-        return this.get(this.collection.makeUrl(), data, options);
+        return this.request('get', this.collection.makeUrl(), data, options);
     }
 
     /**
@@ -162,21 +164,23 @@ class Model {
             urlParams.push(value);
         }
 
-        return this.get(this.makeUrl(...urlParams), data, options);
+        return this.request('get', this.makeUrl(...urlParams), data, options);
     }
 
     /**
      * Relationships
      */
+    // primray key, foreign key, relation
+    hasRelationship (relation, primaryKey, foreignKey, data, requestOptions) {
+        let url = '';
 
-    hasRelationship (key, relation, data, requestOptions) {
-        let url = this.makeUrl(key, relation);
-
-        if(_.isArray(relation)) {
-            url = this.makeUrl(key, ...relation);
+        if(_.isArray(foreignKey)) {
+            url = this.makeUrl(primaryKey, relation, ...foreignKey);
+        } else {
+            url = this.makeUrl(primaryKey, relation, foreignKey)
         }
 
-        return this.get(url, data, requestOptions);
+        return this.request('get', url, data, requestOptions);
     }
 
     belongsTo (relation, key, data, keyValue, requestOptions) {
@@ -190,63 +194,37 @@ class Model {
         urlParams.push(key);
         urlParams.push(this.routes[route]);
 
-        return this.get(this.any.makeUrl(...urlParams), data, requestOptions);
-    }
-
-    _setLastUrl(type, url, params = {}) {
-        if(['put', 'post', 'patch'].includes(type)) {
-            this._debug.lastUrl = this.sanitizeUrl([this.baseURL, url].join('/')) + qs.stringify(params);
-        } else {
-            let urlParams = params.shift().params,
-                stringified = urlParams ? '?' + qs.stringify(urlParams) : '';
-
-            this._debug.lastUrl = this.sanitizeUrl([this.baseURL, url].join('/')) + stringified;
-        }
-    }
-
-    _setLastRequest (type, url, data = {}, options = {}) {
-        this._debug.lastRequest = {
-            type,
-            url,
-            data,
-            options
-        };
-    }
-
-    rerun () {
-        if(this._debug.lastRequest) {
-            const { type, url, data, options } = this._debug.lastRequest;
-            return this.request(type, url, data, options);
-        }
-
-        return false;
+        return this.request('get', this.any.makeUrl(...urlParams), data, requestOptions);
     }
 
     /**
      * The Request
      */
-    request (type, url, data = {}, options = {}) {
-        let params = [];
 
-        this._setLastRequest(type, url, data = {}, options = {});
+    parseRequestParams (type, data, options) {
+        let params = [];
 
         if(['put', 'post', 'patch'].includes(type)) {
             data = _.defaultsDeep(data, this.config.globalParameters);
             params.push(data);
             params.push(options);
+
         } else {
             options.params = _.defaultsDeep(data, this.config.globalParameters);
             params.push(options);
         }
 
-        this._setLastUrl(type, url, params);
+        return params;
+    }
+
+    request (type, url, data = {}, options = {}) {
 
         if(this.debug) {
-            return this._debug.url;
+            return this.debugger.fakeRequest(type, url, data, options);
         }
 
         return new Promise((resolve, reject) => {
-            this.api[type].call(this, this.sanitizeUrl(url), ...params)
+            this.api[type].call(this, this.sanitizeUrl(url), ...this.parseRequestParams(type, data, options))
                  .then(response => {
                     /**
                      * return entire response
@@ -260,8 +238,55 @@ class Model {
     }
 
     /**
+     * to build a request url
+     */
+    buildRequest (type, urlParams, data, options) {
+        let url = _.isArray(urlParams) ? this.makeUrl(...urlParams) : this.makeUrl(urlParams);
+
+        return this.request(type, url, data, options);
+    }
+
+    get (...params) {
+        return this.buildRequest('get', ...params);
+    }
+
+    post (...params) {
+        return this.buildRequest('post', ...params);
+    }
+
+    put (...params) {
+        return this.buildRequest('put', ...params);
+    }
+
+    patch (...params) {
+        return this.buildRequest('patch', ...params);
+    }
+
+    head (...params) {
+        return this.buildRequest('head', ...params);
+    }
+
+    post (...params) {
+        return this.buildRequest('post', ...params);
+    }
+
+    // fix this
+    // delete (url, params) {
+    //     return this.request('delete', url, params);
+    // }
+
+
+    /**
      * Setters and Getters
      */
+
+    get debug () {
+        return this.config.debug;
+    }
+
+    set debug (val) {
+        Logger.warn('debug mode must explcitly be turned on via the constructor in config.debug');
+    }
 
     get collection () {
         this.currentRoute = 'collection';
@@ -333,11 +358,6 @@ class Model {
         this.setCollectionRoute();
     }
 
-
-    get debug () {
-        return this.config.debug;
-    }
-
     // functions to build a collection route for relationships
     setModelRoute () {
         let route = _.kebabCase(this.config.modelName).replace(/-/g, this.config.routeDelimeter);
@@ -362,13 +382,7 @@ class Model {
 
 
 
-    get (url, data, options) {
-        return this.request('get', url, data, options);
-    }
 
-    post (url, data, options) {
-        return this.request('post', url, data, options);
-    }
 
 
     // // fix this
@@ -389,4 +403,4 @@ class Model {
     // }
 }
 
-export default Model;
+export default Rapid;

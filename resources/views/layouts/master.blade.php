@@ -54,6 +54,12 @@ Post.collection.findBy('category', 'featured', { limit: 20 }).then(function (res
     console.log(response.data.posts);
 });
 
+User.auth().then((response) => {
+    if(!response.data.loggedIn) {
+        // login
+    }
+});
+
 </code></pre>
                     </div>
                     <class-builder></class-builder>

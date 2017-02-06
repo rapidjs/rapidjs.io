@@ -222,13 +222,13 @@
 
         <div class="test">
             create ({})         => {{ model.create({}) }} <br>
-            find (1)          => {{ model.find(1) }} <br>
+            <!-- find (1)          => {{ model.find(1) }} <br>
             update (1)        => {{ model.update(1) }} <br>
             delete (1)        => {{ model.delete(1) }} <br>
             media ('waffles') => {{ model.media('waffles') }} <br>
-            votes (1)         => {{ model.votes(1) }} <br>
+            votes (1)         => {{ model.votes(1) }} <br> -->
 
-            {{ model._debug }}
+            <!-- {{ model._debug }} -->
 
             <!-- posts (1)         => {{ model.posts(1) }} <br> -->
             <!-- all ({ foo: bar }) => {{ model.all ({ foo: 'bar' }) }} <br> -->

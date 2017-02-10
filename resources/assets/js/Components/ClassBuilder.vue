@@ -111,16 +111,16 @@
                 <div class="fb-grid col-md-4">
                     <span class="label">
                         Override <br>
-                        <switches v-model="overrides.suffixes.delete" :selected="overrides.suffixes.delete" color="blue"></switches>
+                        <switches v-model="overrides.suffixes.destroy" :selected="overrides.suffixes.destroy" color="blue"></switches>
                     </span>
 
                     <p class="control has-addons">
-                        <span :class="{ 'button is-info is-small' : true, 'is-disabled' : !overrides.suffixes.delete }">suffixes.delete:</span>
+                        <span :class="{ 'button is-info is-small' : true, 'is-disabled' : !overrides.suffixes.destroy }">suffixes.destroy:</span>
 
-                        <input tabindex="8" :disabled="!overrides.suffixes.delete"
-                               :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.suffixes.delete }"
+                        <input tabindex="8" :disabled="!overrides.suffixes.destroy"
+                               :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.suffixes.destroy }"
                                type="text"
-                               v-model="model.config.suffixes.delete">
+                               v-model="model.config.suffixes.destroy">
                     </p>
                 </div>
             </div>
@@ -144,7 +144,7 @@
                                v-model="model.config.methods.create">
                     </p>
 
-                    <span class="help is-info">Available methods: get, delete, head, post, put, patch</span>
+                    <span class="help is-info">Available methods: get, destroy, head, post, put, patch</span>
 
                 </div>
 
@@ -167,16 +167,16 @@
                 <div class="fb-grid col-md-4">
                     <span class="label">
                         Override <br>
-                        <switches v-model="overrides.methods.delete" :selected="overrides.methods.delete" color="blue" @input="resetRouteOverride('collection')"></switches>
+                        <switches v-model="overrides.methods.destroy" :selected="overrides.methods.destroy" color="blue" @input="resetRouteOverride('collection')"></switches>
                     </span>
 
                     <p class="control has-addons">
-                        <span :class="{ 'button is-info is-small' : true, 'is-disabled' : !overrides.methods.delete }">methods.delete:</span>
+                        <span :class="{ 'button is-info is-small' : true, 'is-disabled' : !overrides.methods.destroy }">methods.destroy:</span>
 
-                        <input tabindex="11" :disabled="!overrides.methods.delete"
-                               :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.methods.delete }"
+                        <input tabindex="11" :disabled="!overrides.methods.destroy"
+                               :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.methods.destroy }"
                                type="text"
-                               v-model="model.config.methods.delete">
+                               v-model="model.config.methods.destroy">
                     </p>
                 </div>
             </div>
@@ -221,11 +221,14 @@
         <div class="rapidjs-class-builder__config"><pre><code class="language-json" ref="config" v-text="config"></code></pre></div>
 
         <div class="test">
-            create ({})         => {{ model.create({}) }} <br>
-            <!-- find (1)          => {{ model.find(1) }} <br>
+            create ({ name: 'drew' })         => {{ model.create({ name: 'drew' }) }} <br>
+            find (1)          => {{ model.find(1) }} <br>
+            findBy ('name', 'drew')          => {{ model.findBy('name', 'drew') }} <br>
+            collection.findBy ('status', 'active')          => {{ model.findBy('status', 'active')  }} <br>
+            <!-- all ({ status: 'active' })          => {{ model.all({ status: 'active' }) }} <br> -->
             update (1)        => {{ model.update(1) }} <br>
-            delete (1)        => {{ model.delete(1) }} <br>
-            media ('waffles') => {{ model.media('waffles') }} <br>
+            destroy (1)        => {{ model.destroy(1) }} <br>
+            <!-- media ('waffles') => {{ model.media('waffles') }} <br>
             votes (1)         => {{ model.votes(1) }} <br> -->
 
             <!-- {{ model._debug }} -->
@@ -269,13 +272,13 @@
                     suffixes: {
                         create: false,
                         update: false,
-                        delete: false,
+                        destroy: false,
                     },
 
                     methods: {
                         create: false,
                         update: false,
-                        delete: false,
+                        destroy: false,
                     }
                 }
 

@@ -20,10 +20,10 @@ class TestModel extends Rapid {
 }
 
 export default new TestModel({
-    baseURL: 'https://api.instagram.com/v1',
+    // baseURL: 'https://my-api.com/v1',
     modelName: 'user',
     debug: true,
     globalParameters: {
-        access_token: '367549238.0a57b32.c15e943278e443a29f44ee4aaf6e0384'
+
     }
 });

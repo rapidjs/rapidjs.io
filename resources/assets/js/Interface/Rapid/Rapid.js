@@ -31,13 +31,13 @@ class Rapid {
             suffixes: {
                 create : 'create',
                 update : 'update',
-                delete : 'delete',
+                destroy : 'destroy',
             },
 
             methods: {
                 create : 'post',
                 update : 'post',
-                delete : 'post'
+                destroy : 'post'
             },
 
             routes: {
@@ -45,6 +45,8 @@ class Rapid {
                 collection : '',
                 any        : ''
             },
+
+            defaultRoute: 'model',
 
             debug: false,
 
@@ -67,7 +69,7 @@ class Rapid {
 
         this.api = axios.create(_.defaultsDeep({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
 
-        this.currentRoute = 'model';
+        this.currentRoute = this.config.defaultRoute;
 
         this.debugger = this.debug ? new Debugger(this) : false;
 
@@ -91,7 +93,7 @@ class Rapid {
     }
 
     sanitizeUrl (url) {
-        return url.replace(/([^:]\/)\/+/g, '$1');
+        return url.replace(/([^:]\/)\/+/g, '$1').replace(/\?$/, '');
     }
 
 
@@ -103,7 +105,7 @@ class Rapid {
         return this.model.findBy(this.config.primaryKey, id);
     }
 
-    updateOrDelete(method, ...params) {
+    updateOrDestroy(method, ...params) {
         let urlParams = [],
             id        = params[0],
             data      = params[1],
@@ -128,7 +130,7 @@ class Rapid {
 
     // update (id = 0, data, options) {
     update (...params) {
-        return this.updateOrDelete('update', ...params);
+        return this.updateOrDestroy('update', ...params);
     }
 
     // alias
@@ -137,13 +139,8 @@ class Rapid {
     }
 
     // remove this to replace with destroy
-    // delete (id = 0, data, options)
-    delete (...params) {
-        return this.updateOrDelete('delete', ...params);
-    }
-
     destroy (...params) {
-        return this.updateOrDelete('delete', ...params);
+        return this.updateOrDestroy('destroy', ...params);
     }
 
     create (data, options) {
@@ -233,13 +230,10 @@ class Rapid {
         return new Promise((resolve, reject) => {
             this.api[type].call(this, this.sanitizeUrl(url), ...this.parseRequestParams(type, data, options))
                  .then(response => {
-                    /**
-                     * return entire response
-                     */
-                    resolve(response.data);
+                    resolve(response);
                  })
                  .catch(error => {
-                    reject(error.response.data);
+                    reject(error.response);
                  });
         });
     }
@@ -277,12 +271,6 @@ class Rapid {
         return this.buildRequest('post', ...params);
     }
 
-    // fix this
-    // delete (url, params) {
-    //     return this.request('delete', url, params);
-    // }
-
-
     /**
      * Setters and Getters
      */
@@ -313,6 +301,15 @@ class Rapid {
     get routes () {
         return this.config.routes;
     }
+
+    // set config (val) {
+    //     console.log(val);
+    //     // potentially loop through to set on model using setters
+    //     // val.forEach((k, v) => {
+    //     //     this[k] = v;
+    //     // })
+    //
+    // }
 
 
     get baseURL () {
@@ -385,29 +382,6 @@ class Rapid {
 
         this.config.routes.collection = route;
     }
-
-
-
-
-
-
-
-    // // fix this
-    // // delete (url, params) {
-    // //     return this.request('delete', url, params);
-    // // }
-    //
-    // head (url, params) {
-    //     return this.request('head', url, params);
-    // }
-    //
-    // put (url, params) {
-    //     return this.request('put', url, params);
-    // }
-    //
-    // patch (url, params) {
-    //     return this.request('patch', url, params);
-    // }
 }
 
 export default Rapid;

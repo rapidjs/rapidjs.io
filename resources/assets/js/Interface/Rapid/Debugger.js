@@ -35,6 +35,8 @@ export default class {
             lastUrl = this.caller.sanitizeUrl([this.caller.baseURL, url].join('/')) + stringified;
         }
 
+        lastUrl = this.caller.sanitizeUrl(lastUrl);
+
         this.data.lastUrl = lastUrl;
 
         return lastUrl;

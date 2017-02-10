@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 45);
+/******/ 	return __webpack_require__(__webpack_require__.s = 58);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -380,7 +380,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(28);
+var normalizeHeaderName = __webpack_require__(35);
 
 var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 var DEFAULT_CONTENT_TYPE = {
@@ -690,7 +690,7 @@ module.exports = g;
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(14);
+module.exports = __webpack_require__(21);
 
 /***/ }),
 /* 5 */
@@ -700,12 +700,12 @@ module.exports = __webpack_require__(14);
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(20);
-var buildURL = __webpack_require__(23);
-var parseHeaders = __webpack_require__(29);
-var isURLSameOrigin = __webpack_require__(27);
+var settle = __webpack_require__(27);
+var buildURL = __webpack_require__(30);
+var parseHeaders = __webpack_require__(36);
+var isURLSameOrigin = __webpack_require__(34);
 var createError = __webpack_require__(8);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(22);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(29);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -801,7 +801,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(25);
+      var cookies = __webpack_require__(32);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -922,7 +922,7 @@ module.exports = function isCancel(value) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(19);
+var enhanceError = __webpack_require__(26);
 
 /**
  * Create an Error with the specified message, config, error code, and response.
@@ -959,1150 +959,537 @@ module.exports = function bind(fn, thisArg) {
 
 /***/ }),
 /* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var replace = String.prototype.replace;
-var percentTwenties = /%20/g;
-
-module.exports = {
-    'default': 'RFC3986',
-    formatters: {
-        RFC1738: function (value) {
-            return replace.call(value, percentTwenties, '+');
-        },
-        RFC3986: function (value) {
-            return value;
-        }
-    },
-    RFC1738: 'RFC1738',
-    RFC3986: 'RFC3986'
-};
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var has = Object.prototype.hasOwnProperty;
-
-var hexTable = (function () {
-    var array = [];
-    for (var i = 0; i < 256; ++i) {
-        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
-    }
-
-    return array;
-}());
-
-exports.arrayToObject = function (source, options) {
-    var obj = options && options.plainObjects ? Object.create(null) : {};
-    for (var i = 0; i < source.length; ++i) {
-        if (typeof source[i] !== 'undefined') {
-            obj[i] = source[i];
-        }
-    }
-
-    return obj;
-};
-
-exports.merge = function (target, source, options) {
-    if (!source) {
-        return target;
-    }
-
-    if (typeof source !== 'object') {
-        if (Array.isArray(target)) {
-            target.push(source);
-        } else if (typeof target === 'object') {
-            target[source] = true;
-        } else {
-            return [target, source];
-        }
-
-        return target;
-    }
-
-    if (typeof target !== 'object') {
-        return [target].concat(source);
-    }
-
-    var mergeTarget = target;
-    if (Array.isArray(target) && !Array.isArray(source)) {
-        mergeTarget = exports.arrayToObject(target, options);
-    }
-
-    if (Array.isArray(target) && Array.isArray(source)) {
-        source.forEach(function (item, i) {
-            if (has.call(target, i)) {
-                if (target[i] && typeof target[i] === 'object') {
-                    target[i] = exports.merge(target[i], item, options);
-                } else {
-                    target.push(item);
-                }
-            } else {
-                target[i] = item;
-            }
-        });
-        return target;
-    }
-
-    return Object.keys(source).reduce(function (acc, key) {
-        var value = source[key];
-
-        if (Object.prototype.hasOwnProperty.call(acc, key)) {
-            acc[key] = exports.merge(acc[key], value, options);
-        } else {
-            acc[key] = value;
-        }
-        return acc;
-    }, mergeTarget);
-};
-
-exports.decode = function (str) {
-    try {
-        return decodeURIComponent(str.replace(/\+/g, ' '));
-    } catch (e) {
-        return str;
-    }
-};
-
-exports.encode = function (str) {
-    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
-    // It has been adapted here for stricter adherence to RFC 3986
-    if (str.length === 0) {
-        return str;
-    }
-
-    var string = typeof str === 'string' ? str : String(str);
-
-    var out = '';
-    for (var i = 0; i < string.length; ++i) {
-        var c = string.charCodeAt(i);
-
-        if (
-            c === 0x2D || // -
-            c === 0x2E || // .
-            c === 0x5F || // _
-            c === 0x7E || // ~
-            (c >= 0x30 && c <= 0x39) || // 0-9
-            (c >= 0x41 && c <= 0x5A) || // a-z
-            (c >= 0x61 && c <= 0x7A) // A-Z
-        ) {
-            out += string.charAt(i);
-            continue;
-        }
-
-        if (c < 0x80) {
-            out = out + hexTable[c];
-            continue;
-        }
-
-        if (c < 0x800) {
-            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        if (c < 0xD800 || c >= 0xE000) {
-            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
-            continue;
-        }
-
-        i += 1;
-        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
-        out += hexTable[0xF0 | (c >> 18)] + hexTable[0x80 | ((c >> 12) & 0x3F)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)];
-    }
-
-    return out;
-};
-
-exports.compact = function (obj, references) {
-    if (typeof obj !== 'object' || obj === null) {
-        return obj;
-    }
-
-    var refs = references || [];
-    var lookup = refs.indexOf(obj);
-    if (lookup !== -1) {
-        return refs[lookup];
-    }
-
-    refs.push(obj);
-
-    if (Array.isArray(obj)) {
-        var compacted = [];
-
-        for (var i = 0; i < obj.length; ++i) {
-            if (obj[i] && typeof obj[i] === 'object') {
-                compacted.push(exports.compact(obj[i], refs));
-            } else if (typeof obj[i] !== 'undefined') {
-                compacted.push(obj[i]);
-            }
-        }
-
-        return compacted;
-    }
-
-    var keys = Object.keys(obj);
-    keys.forEach(function (key) {
-        obj[key] = exports.compact(obj[key], refs);
-    });
-
-    return obj;
-};
-
-exports.isRegExp = function (obj) {
-    return Object.prototype.toString.call(obj) === '[object RegExp]';
-};
-
-exports.isBuffer = function (obj) {
-    if (obj === null || typeof obj === 'undefined') {
-        return false;
-    }
-
-    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
-};
-
-
-/***/ }),
-/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(36);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_ClassBuilder__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_ClassBuilder___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Components_ClassBuilder__);
-
-
-
-new Vue({
-    el: '#app',
-
-    data: function data() {
-        return {};
-    },
-    mounted: function mounted() {},
-
-
-    computed: {},
-
-    components: {
-        ClassBuilder: __WEBPACK_IMPORTED_MODULE_1__Components_ClassBuilder___default.a
-    }
-});
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var bind = __webpack_require__(9);
-var Axios = __webpack_require__(16);
-var defaults = __webpack_require__(1);
-
-/**
- * Create an instance of Axios
- *
- * @param {Object} defaultConfig The default config for the instance
- * @return {Axios} A new instance of Axios
- */
-function createInstance(defaultConfig) {
-  var context = new Axios(defaultConfig);
-  var instance = bind(Axios.prototype.request, context);
-
-  // Copy axios.prototype to instance
-  utils.extend(instance, Axios.prototype, context);
-
-  // Copy context to instance
-  utils.extend(instance, context);
-
-  return instance;
-}
-
-// Create the default instance to be exported
-var axios = createInstance(defaults);
-
-// Expose Axios class to allow class inheritance
-axios.Axios = Axios;
-
-// Factory for creating new instances
-axios.create = function create(instanceConfig) {
-  return createInstance(utils.merge(defaults, instanceConfig));
-};
-
-// Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(6);
-axios.CancelToken = __webpack_require__(15);
-axios.isCancel = __webpack_require__(7);
-
-// Expose all/spread
-axios.all = function all(promises) {
-  return Promise.all(promises);
-};
-axios.spread = __webpack_require__(30);
-
-module.exports = axios;
-
-// Allow use of default import syntax in TypeScript
-module.exports.default = axios;
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Cancel = __webpack_require__(6);
-
-/**
- * A `CancelToken` is an object that can be used to request cancellation of an operation.
- *
- * @class
- * @param {Function} executor The executor function.
- */
-function CancelToken(executor) {
-  if (typeof executor !== 'function') {
-    throw new TypeError('executor must be a function.');
-  }
-
-  var resolvePromise;
-  this.promise = new Promise(function promiseExecutor(resolve) {
-    resolvePromise = resolve;
-  });
-
-  var token = this;
-  executor(function cancel(message) {
-    if (token.reason) {
-      // Cancellation has already been requested
-      return;
-    }
-
-    token.reason = new Cancel(message);
-    resolvePromise(token.reason);
-  });
-}
-
-/**
- * Throws a `Cancel` if cancellation has been requested.
- */
-CancelToken.prototype.throwIfRequested = function throwIfRequested() {
-  if (this.reason) {
-    throw this.reason;
-  }
-};
-
-/**
- * Returns an object that contains a new `CancelToken` and a function that, when called,
- * cancels the `CancelToken`.
- */
-CancelToken.source = function source() {
-  var cancel;
-  var token = new CancelToken(function executor(c) {
-    cancel = c;
-  });
-  return {
-    token: token,
-    cancel: cancel
-  };
-};
-
-module.exports = CancelToken;
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var defaults = __webpack_require__(1);
-var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(17);
-var dispatchRequest = __webpack_require__(18);
-var isAbsoluteURL = __webpack_require__(26);
-var combineURLs = __webpack_require__(24);
-
-/**
- * Create a new instance of Axios
- *
- * @param {Object} instanceConfig The default config for the instance
- */
-function Axios(instanceConfig) {
-  this.defaults = instanceConfig;
-  this.interceptors = {
-    request: new InterceptorManager(),
-    response: new InterceptorManager()
-  };
-}
-
-/**
- * Dispatch a request
- *
- * @param {Object} config The config specific for this request (merged with this.defaults)
- */
-Axios.prototype.request = function request(config) {
-  /*eslint no-param-reassign:0*/
-  // Allow for axios('example/url'[, config]) a la fetch API
-  if (typeof config === 'string') {
-    config = utils.merge({
-      url: arguments[0]
-    }, arguments[1]);
-  }
-
-  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
-
-  // Support baseURL config
-  if (config.baseURL && !isAbsoluteURL(config.url)) {
-    config.url = combineURLs(config.baseURL, config.url);
-  }
-
-  // Hook up interceptors middleware
-  var chain = [dispatchRequest, undefined];
-  var promise = Promise.resolve(config);
-
-  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
-    chain.unshift(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
-    chain.push(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  while (chain.length) {
-    promise = promise.then(chain.shift(), chain.shift());
-  }
-
-  return promise;
-};
-
-// Provide aliases for supported request methods
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function(url, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url
-    }));
-  };
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function(url, data, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url,
-      data: data
-    }));
-  };
-});
-
-module.exports = Axios;
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-function InterceptorManager() {
-  this.handlers = [];
-}
-
-/**
- * Add a new interceptor to the stack
- *
- * @param {Function} fulfilled The function to handle `then` for a `Promise`
- * @param {Function} rejected The function to handle `reject` for a `Promise`
- *
- * @return {Number} An ID used to remove interceptor later
- */
-InterceptorManager.prototype.use = function use(fulfilled, rejected) {
-  this.handlers.push({
-    fulfilled: fulfilled,
-    rejected: rejected
-  });
-  return this.handlers.length - 1;
-};
-
-/**
- * Remove an interceptor from the stack
- *
- * @param {Number} id The ID that was returned by `use`
- */
-InterceptorManager.prototype.eject = function eject(id) {
-  if (this.handlers[id]) {
-    this.handlers[id] = null;
-  }
-};
-
-/**
- * Iterate over all the registered interceptors
- *
- * This method is particularly useful for skipping over any
- * interceptors that may have become `null` calling `eject`.
- *
- * @param {Function} fn The function to call for each interceptor
- */
-InterceptorManager.prototype.forEach = function forEach(fn) {
-  utils.forEach(this.handlers, function forEachHandler(h) {
-    if (h !== null) {
-      fn(h);
-    }
-  });
-};
-
-module.exports = InterceptorManager;
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var transformData = __webpack_require__(21);
-var isCancel = __webpack_require__(7);
-var defaults = __webpack_require__(1);
-
-/**
- * Throws a `Cancel` if cancellation has been requested.
- */
-function throwIfCancellationRequested(config) {
-  if (config.cancelToken) {
-    config.cancelToken.throwIfRequested();
-  }
-}
-
-/**
- * Dispatch a request to the server using the configured adapter.
- *
- * @param {object} config The config that is to be used for the request
- * @returns {Promise} The Promise to be fulfilled
- */
-module.exports = function dispatchRequest(config) {
-  throwIfCancellationRequested(config);
-
-  // Ensure headers exist
-  config.headers = config.headers || {};
-
-  // Transform request data
-  config.data = transformData(
-    config.data,
-    config.headers,
-    config.transformRequest
-  );
-
-  // Flatten headers
-  config.headers = utils.merge(
-    config.headers.common || {},
-    config.headers[config.method] || {},
-    config.headers || {}
-  );
-
-  utils.forEach(
-    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
-    function cleanHeaderConfig(method) {
-      delete config.headers[method];
-    }
-  );
-
-  var adapter = config.adapter || defaults.adapter;
-
-  return adapter(config).then(function onAdapterResolution(response) {
-    throwIfCancellationRequested(config);
-
-    // Transform response data
-    response.data = transformData(
-      response.data,
-      response.headers,
-      config.transformResponse
-    );
-
-    return response;
-  }, function onAdapterRejection(reason) {
-    if (!isCancel(reason)) {
-      throwIfCancellationRequested(config);
-
-      // Transform response data
-      if (reason && reason.response) {
-        reason.response.data = transformData(
-          reason.response.data,
-          reason.response.headers,
-          config.transformResponse
-        );
-      }
-    }
-
-    return Promise.reject(reason);
-  });
-};
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Update an Error with the specified config, error code, and response.
- *
- * @param {Error} error The error to update.
- * @param {Object} config The config.
- * @param {string} [code] The error code (for example, 'ECONNABORTED').
- @ @param {Object} [response] The response.
- * @returns {Error} The error.
- */
-module.exports = function enhanceError(error, config, code, response) {
-  error.config = config;
-  if (code) {
-    error.code = code;
-  }
-  error.response = response;
-  return error;
-};
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var createError = __webpack_require__(8);
-
-/**
- * Resolve or reject a Promise based on response status.
- *
- * @param {Function} resolve A function that resolves the promise.
- * @param {Function} reject A function that rejects the promise.
- * @param {object} response The response.
- */
-module.exports = function settle(resolve, reject, response) {
-  var validateStatus = response.config.validateStatus;
-  // Note: status is not exposed by XDomainRequest
-  if (!response.status || !validateStatus || validateStatus(response.status)) {
-    resolve(response);
-  } else {
-    reject(createError(
-      'Request failed with status code ' + response.status,
-      response.config,
-      null,
-      response
-    ));
-  }
-};
-
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-/**
- * Transform the data for a request or a response
- *
- * @param {Object|String} data The data to be transformed
- * @param {Array} headers The headers for the request or response
- * @param {Array|Function} fns A single function or Array of functions
- * @returns {*} The resulting transformed data
- */
-module.exports = function transformData(data, headers, fns) {
-  /*eslint no-param-reassign:0*/
-  utils.forEach(fns, function transform(fn) {
-    data = fn(data, headers);
-  });
-
-  return data;
-};
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
-
-var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
-
-function E() {
-  this.message = 'String contains an invalid character';
-}
-E.prototype = new Error;
-E.prototype.code = 5;
-E.prototype.name = 'InvalidCharacterError';
-
-function btoa(input) {
-  var str = String(input);
-  var output = '';
-  for (
-    // initialize result and counter
-    var block, charCode, idx = 0, map = chars;
-    // if the next str index does not exist:
-    //   change the mapping table to "="
-    //   check if d has no fractional digits
-    str.charAt(idx | 0) || (map = '=', idx % 1);
-    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
-    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
-  ) {
-    charCode = str.charCodeAt(idx += 3 / 4);
-    if (charCode > 0xFF) {
-      throw new E();
-    }
-    block = block << 8 | charCode;
-  }
-  return output;
-}
-
-module.exports = btoa;
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-function encode(val) {
-  return encodeURIComponent(val).
-    replace(/%40/gi, '@').
-    replace(/%3A/gi, ':').
-    replace(/%24/g, '$').
-    replace(/%2C/gi, ',').
-    replace(/%20/g, '+').
-    replace(/%5B/gi, '[').
-    replace(/%5D/gi, ']');
-}
-
-/**
- * Build a URL by appending params to the end
- *
- * @param {string} url The base of the url (e.g., http://www.google.com)
- * @param {object} [params] The params to be appended
- * @returns {string} The formatted url
- */
-module.exports = function buildURL(url, params, paramsSerializer) {
-  /*eslint no-param-reassign:0*/
-  if (!params) {
-    return url;
-  }
-
-  var serializedParams;
-  if (paramsSerializer) {
-    serializedParams = paramsSerializer(params);
-  } else if (utils.isURLSearchParams(params)) {
-    serializedParams = params.toString();
-  } else {
-    var parts = [];
-
-    utils.forEach(params, function serialize(val, key) {
-      if (val === null || typeof val === 'undefined') {
-        return;
-      }
-
-      if (utils.isArray(val)) {
-        key = key + '[]';
-      }
-
-      if (!utils.isArray(val)) {
-        val = [val];
-      }
-
-      utils.forEach(val, function parseValue(v) {
-        if (utils.isDate(v)) {
-          v = v.toISOString();
-        } else if (utils.isObject(v)) {
-          v = JSON.stringify(v);
-        }
-        parts.push(encode(key) + '=' + encode(v));
-      });
-    });
-
-    serializedParams = parts.join('&');
-  }
-
-  if (serializedParams) {
-    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
-  }
-
-  return url;
-};
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Creates a new URL by combining the specified URLs
- *
- * @param {string} baseURL The base URL
- * @param {string} relativeURL The relative URL
- * @returns {string} The combined URL
- */
-module.exports = function combineURLs(baseURL, relativeURL) {
-  return baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '');
-};
-
-
-/***/ }),
-/* 25 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs support document.cookie
-  (function standardBrowserEnv() {
-    return {
-      write: function write(name, value, expires, path, domain, secure) {
-        var cookie = [];
-        cookie.push(name + '=' + encodeURIComponent(value));
-
-        if (utils.isNumber(expires)) {
-          cookie.push('expires=' + new Date(expires).toGMTString());
-        }
-
-        if (utils.isString(path)) {
-          cookie.push('path=' + path);
-        }
-
-        if (utils.isString(domain)) {
-          cookie.push('domain=' + domain);
-        }
-
-        if (secure === true) {
-          cookie.push('secure');
-        }
-
-        document.cookie = cookie.join('; ');
-      },
-
-      read: function read(name) {
-        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
-        return (match ? decodeURIComponent(match[3]) : null);
-      },
-
-      remove: function remove(name) {
-        this.write(name, '', Date.now() - 86400000);
-      }
-    };
-  })() :
-
-  // Non standard browser env (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return {
-      write: function write() {},
-      read: function read() { return null; },
-      remove: function remove() {}
-    };
-  })()
-);
-
-
-/***/ }),
-/* 26 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Determines whether the specified URL is absolute
- *
- * @param {string} url The URL to test
- * @returns {boolean} True if the specified URL is absolute, otherwise false
- */
-module.exports = function isAbsoluteURL(url) {
-  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
-  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
-  // by any combination of letters, digits, plus, period, or hyphen.
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
-};
-
-
-/***/ }),
-/* 27 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-module.exports = (
-  utils.isStandardBrowserEnv() ?
-
-  // Standard browser envs have full support of the APIs needed to test
-  // whether the request URL is of the same origin as current location.
-  (function standardBrowserEnv() {
-    var msie = /(msie|trident)/i.test(navigator.userAgent);
-    var urlParsingNode = document.createElement('a');
-    var originURL;
-
-    /**
-    * Parse a URL to discover it's components
-    *
-    * @param {String} url The URL to be parsed
-    * @returns {Object}
-    */
-    function resolveURL(url) {
-      var href = url;
-
-      if (msie) {
-        // IE needs attribute set twice to normalize properties
-        urlParsingNode.setAttribute('href', href);
-        href = urlParsingNode.href;
-      }
-
-      urlParsingNode.setAttribute('href', href);
-
-      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
-      return {
-        href: urlParsingNode.href,
-        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
-        host: urlParsingNode.host,
-        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
-        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
-        hostname: urlParsingNode.hostname,
-        port: urlParsingNode.port,
-        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
-                  urlParsingNode.pathname :
-                  '/' + urlParsingNode.pathname
-      };
-    }
-
-    originURL = resolveURL(window.location.href);
-
-    /**
-    * Determine if a URL shares the same origin as the current location
-    *
-    * @param {String} requestURL The URL to test
-    * @returns {boolean} True if URL shares the same origin, otherwise false
-    */
-    return function isURLSameOrigin(requestURL) {
-      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
-      return (parsed.protocol === originURL.protocol &&
-            parsed.host === originURL.host);
-    };
-  })() :
-
-  // Non standard browser envs (web workers, react-native) lack needed support.
-  (function nonStandardBrowserEnv() {
-    return function isURLSameOrigin() {
-      return true;
-    };
-  })()
-);
-
-
-/***/ }),
-/* 28 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-module.exports = function normalizeHeaderName(headers, normalizedName) {
-  utils.forEach(headers, function processHeader(value, name) {
-    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
-      headers[normalizedName] = value;
-      delete headers[name];
-    }
-  });
-};
-
-
-/***/ }),
-/* 29 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-
-/**
- * Parse headers into an object
- *
- * ```
- * Date: Wed, 27 Aug 2014 08:58:49 GMT
- * Content-Type: application/json
- * Connection: keep-alive
- * Transfer-Encoding: chunked
- * ```
- *
- * @param {String} headers Headers needing to be parsed
- * @returns {Object} Headers parsed into an object
- */
-module.exports = function parseHeaders(headers) {
-  var parsed = {};
-  var key;
-  var val;
-  var i;
-
-  if (!headers) { return parsed; }
-
-  utils.forEach(headers.split('\n'), function parser(line) {
-    i = line.indexOf(':');
-    key = utils.trim(line.substr(0, i)).toLowerCase();
-    val = utils.trim(line.substr(i + 1));
-
-    if (key) {
-      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
-    }
-  });
-
-  return parsed;
-};
-
-
-/***/ }),
-/* 30 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Syntactic sugar for invoking a function and expanding an array for arguments.
- *
- * Common use case would be to use `Function.prototype.apply`.
- *
- *  ```js
- *  function f(x, y, z) {}
- *  var args = [1, 2, 3];
- *  f.apply(null, args);
- *  ```
- *
- * With `spread` this example can be re-written.
- *
- *  ```js
- *  spread(function(x, y, z) {})([1, 2, 3]);
- *  ```
- *
- * @param {Function} callback
- * @returns {Function}
- */
-module.exports = function spread(callback) {
-  return function wrap(arr) {
-    return callback.apply(null, arr);
-  };
-};
-
-
-/***/ }),
-/* 31 */,
-/* 32 */,
-/* 33 */,
-/* 34 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Rapid_Rapid__ = __webpack_require__(51);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+var Logger = function () {
+    function Logger(prefix) {
+        _classCallCheck(this, Logger);
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-var TestModel = function (_Rapid) {
-    _inherits(TestModel, _Rapid);
-
-    function TestModel() {
-        _classCallCheck(this, TestModel);
-
-        return _possibleConstructorReturn(this, (TestModel.__proto__ || Object.getPrototypeOf(TestModel)).apply(this, arguments));
+        this.prefix = prefix;
     }
 
-    _createClass(TestModel, [{
-        key: 'posts',
-        value: function posts(id, params) {
-            return this.collection.belongsTo('posts', id, params);
+    _createClass(Logger, [{
+        key: 'debug',
+        value: function debug(message) {
+            console.info('[' + this.prefix + ']: ' + message);
         }
     }, {
-        key: 'media',
-        value: function media(id, params) {
-            return this.collection.hasRelationship(id, ['media', 'recent'], params);
-            // return this.model.hasRelationship(id, ['media', 'recent'], params).get();
+        key: 'log',
+        value: function log(message) {
+            console.log('[' + this.prefix + ']:', message);
         }
     }, {
-        key: 'recentMedia',
-        value: function recentMedia(id, params) {
-            // return this.media(id, params).append('recent');
-        }
-    }, {
-        key: 'votes',
-        value: function votes(id, params) {
-            return this.model.hasRelationship(id, 'votes', params);
+        key: 'warn',
+        value: function warn(message) {
+            console.warn('[' + this.prefix + ' warn]:', message);
         }
     }]);
 
-    return TestModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Rapid_Rapid__["a" /* default */]);
+    return Logger;
+}();
 
-/* harmony default export */ __webpack_exports__["a"] = new TestModel({
-    baseURL: 'https://api.instagram.com/v1',
-    modelName: 'user',
-    debug: true,
-    globalParameters: {
-        access_token: '367549238.0a57b32.c15e943278e443a29f44ee4aaf6e0384'
-    }
-});
+/* harmony default export */ __webpack_exports__["a"] = new Logger('rapid js');
 
 /***/ }),
-/* 35 */
+/* 11 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_pluralize__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_pluralize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_pluralize__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Debugger__ = __webpack_require__(40);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Logger__ = __webpack_require__(10);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+// get only lodash libs needed
+
+
+// remove thsi if you can
+
+
+var Rapid = function () {
+    function Rapid(config) {
+        _classCallCheck(this, Rapid);
+
+        var defaults = {
+            modelName: this.constructor.name,
+
+            primaryKey: '',
+
+            baseURL: 'api',
+
+            trailingSlash: false,
+
+            caseSensitive: false,
+
+            routeDelimeter: '-',
+
+            globalParameters: {
+                /**
+                 * Need an option for global GET and POST params...
+                 * what if we want to do /users/drew/save?api_key=12345
+                 */
+            },
+
+            suffixes: {
+                create: 'create',
+                update: 'update',
+                destroy: 'destroy'
+            },
+
+            methods: {
+                create: 'post',
+                update: 'post',
+                destroy: 'post'
+            },
+
+            routes: {
+                model: '',
+                collection: '',
+                any: ''
+            },
+
+            defaultRoute: 'model',
+
+            debug: false,
+
+            apiConfig: {}
+        };
+
+        config = config || {};
+
+        this.config = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.defaultsDeep(config, defaults);
+
+        if (!this.config.routes.model) {
+            this.setModelRoute();
+        }
+
+        if (!this.config.routes.collection) {
+            this.setCollectionRoute();
+        }
+
+        this.api = __WEBPACK_IMPORTED_MODULE_0_axios___default.a.create(__WEBPACK_IMPORTED_MODULE_1_lodash___default.a.defaultsDeep({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
+
+        this.currentRoute = this.config.defaultRoute;
+
+        this.debugger = this.debug ? new __WEBPACK_IMPORTED_MODULE_3__Debugger__["a" /* default */](this) : false;
+    }
+
+    /**
+     * URL functions
+     */
+
+
+    _createClass(Rapid, [{
+        key: 'makeUrl',
+        value: function makeUrl() {
+            for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
+                params[_key] = arguments[_key];
+            }
+
+            if (this.config.trailingSlash) {
+                params.push('');
+            }
+            console.log(params);
+            var url = this.sanitizeUrl([this.config.routes[this.currentRoute]].concat(params).join('/'));
+
+            // reset currentRoute
+            this.currentRoute = 'model';
+
+            return url;
+        }
+    }, {
+        key: 'sanitizeUrl',
+        value: function sanitizeUrl(url) {
+            return url.replace(/([^:]\/)\/+/g, '$1').replace(/\?$/, '');
+        }
+
+        /**
+         * Model Only Functions
+         */
+
+    }, {
+        key: 'find',
+        value: function find(id) {
+            return this.model.findBy(this.config.primaryKey, id);
+        }
+    }, {
+        key: 'updateOrDestroy',
+        value: function updateOrDestroy(method) {
+            var _model$makeUrl;
+
+            var urlParams = [],
+                id = arguments.length <= 1 ? undefined : arguments[1],
+                data = arguments.length <= 2 ? undefined : arguments[2],
+                options = arguments.length <= 3 ? undefined : arguments[3];
+
+            if (Number.isInteger(id)) {
+                if (this.primaryKey) {
+                    urlParams.push(this.primaryKey);
+                }
+                urlParams.push(id);
+            } else {
+                data = arguments.length <= 1 ? undefined : arguments[1];
+                options = arguments.length <= 2 ? undefined : arguments[2];
+            }
+
+            if (this.config.suffixes[method]) {
+                urlParams.push(this.config.suffixes[method]);
+            }
+
+            return this.request(this.config.methods[method], (_model$makeUrl = this.model.makeUrl).call.apply(_model$makeUrl, [this].concat(urlParams)), data, options);
+        }
+
+        // update (id = 0, data, options) {
+
+    }, {
+        key: 'update',
+        value: function update() {
+            for (var _len2 = arguments.length, params = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                params[_key2] = arguments[_key2];
+            }
+
+            return this.updateOrDestroy.apply(this, ['update'].concat(params));
+        }
+
+        // alias
+
+    }, {
+        key: 'save',
+        value: function save() {
+            return this.update.apply(this, arguments);
+        }
+
+        // remove this to replace with destroy
+
+    }, {
+        key: 'destroy',
+        value: function destroy() {
+            for (var _len3 = arguments.length, params = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                params[_key3] = arguments[_key3];
+            }
+
+            return this.updateOrDestroy.apply(this, ['destroy'].concat(params));
+        }
+    }, {
+        key: 'create',
+        value: function create(data, options) {
+            return this.request(this.config.methods.create, this.model.makeUrl(this.config.suffixes.create), data, options);
+        }
+
+        /**
+         * Collection Only Functions
+         */
+
+    }, {
+        key: 'all',
+        value: function all(data, options) {
+            return this.request('get', this.collection.makeUrl(), data, options);
+        }
+
+        /**
+         * Collection and Model functions
+         */
+
+    }, {
+        key: 'findBy',
+        value: function findBy(key, value, data, options) {
+            var urlParams = [key];
+
+            if (value) {
+                urlParams.push(value);
+            }
+
+            return this.request('get', this.makeUrl.apply(this, urlParams), data, options);
+        }
+
+        /**
+         * Relationships
+         */
+        // primray key, foreign key, relation
+
+    }, {
+        key: 'hasRelationship',
+        value: function hasRelationship(relation, primaryKey, foreignKey, data, requestOptions) {
+            var url = '';
+
+            if (__WEBPACK_IMPORTED_MODULE_1_lodash___default.a.isArray(foreignKey)) {
+                url = this.makeUrl.apply(this, [primaryKey, relation].concat(_toConsumableArray(foreignKey)));
+            } else {
+                url = this.makeUrl(primaryKey, relation, foreignKey);
+            }
+
+            return this.request('get', url, data, requestOptions);
+        }
+    }, {
+        key: 'belongsTo',
+        value: function belongsTo(relation, key, data, keyValue, requestOptions) {
+            var _any;
+
+            var route = this.currentRoute,
+                urlParams = [relation];
+
+            if (keyValue) {
+                urlParams.push(keyValue);
+            }
+
+            urlParams.push(key);
+            urlParams.push(this.routes[route]);
+
+            return this.request('get', (_any = this.any).makeUrl.apply(_any, urlParams), data, requestOptions);
+        }
+
+        /**
+         * The Request
+         */
+
+    }, {
+        key: 'parseRequestParams',
+        value: function parseRequestParams(type, data, options) {
+            var params = [];
+
+            if (['put', 'post', 'patch'].includes(type)) {
+                data = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.defaultsDeep(data, this.config.globalParameters);
+                params.push(data);
+                params.push(options);
+            } else {
+                options.params = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.defaultsDeep(data, this.config.globalParameters);
+                params.push(options);
+            }
+
+            return params;
+        }
+    }, {
+        key: 'request',
+        value: function request(type, url) {
+            var _this = this;
+
+            var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+            var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
+
+            if (this.debug) {
+                return this.debugger.fakeRequest(type, url, data, options);
+            }
+
+            return new Promise(function (resolve, reject) {
+                var _api$type;
+
+                (_api$type = _this.api[type]).call.apply(_api$type, [_this, _this.sanitizeUrl(url)].concat(_toConsumableArray(_this.parseRequestParams(type, data, options)))).then(function (response) {
+                    resolve(response);
+                }).catch(function (error) {
+                    reject(error.response);
+                });
+            });
+        }
+
+        /**
+         * to build a request url
+         */
+
+    }, {
+        key: 'buildRequest',
+        value: function buildRequest(type, urlParams, data, options) {
+            var url = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.isArray(urlParams) ? this.makeUrl.apply(this, _toConsumableArray(urlParams)) : this.makeUrl(urlParams);
+
+            return this.request(type, url, data, options);
+        }
+    }, {
+        key: 'get',
+        value: function get() {
+            for (var _len4 = arguments.length, params = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+                params[_key4] = arguments[_key4];
+            }
+
+            return this.buildRequest.apply(this, ['get'].concat(params));
+        }
+    }, {
+        key: 'post',
+        value: function post() {
+            for (var _len5 = arguments.length, params = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+                params[_key5] = arguments[_key5];
+            }
+
+            return this.buildRequest.apply(this, ['post'].concat(params));
+        }
+    }, {
+        key: 'put',
+        value: function put() {
+            for (var _len6 = arguments.length, params = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+                params[_key6] = arguments[_key6];
+            }
+
+            return this.buildRequest.apply(this, ['put'].concat(params));
+        }
+    }, {
+        key: 'patch',
+        value: function patch() {
+            for (var _len7 = arguments.length, params = Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
+                params[_key7] = arguments[_key7];
+            }
+
+            return this.buildRequest.apply(this, ['patch'].concat(params));
+        }
+    }, {
+        key: 'head',
+        value: function head() {
+            for (var _len8 = arguments.length, params = Array(_len8), _key8 = 0; _key8 < _len8; _key8++) {
+                params[_key8] = arguments[_key8];
+            }
+
+            return this.buildRequest.apply(this, ['head'].concat(params));
+        }
+    }, {
+        key: 'post',
+        value: function post() {
+            for (var _len9 = arguments.length, params = Array(_len9), _key9 = 0; _key9 < _len9; _key9++) {
+                params[_key9] = arguments[_key9];
+            }
+
+            return this.buildRequest.apply(this, ['post'].concat(params));
+        }
+
+        /**
+         * Setters and Getters
+         */
+
+    }, {
+        key: 'setModelRoute',
+
+
+        // functions to build a collection route for relationships
+        value: function setModelRoute() {
+            var route = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.kebabCase(this.config.modelName).replace(/-/g, this.config.routeDelimeter);
+
+            if (this.config.caseSensitive) {
+                route = this.config.modelName;
+            }
+
+            this.config.routes.model = route;
+        }
+    }, {
+        key: 'setCollectionRoute',
+        value: function setCollectionRoute() {
+            var route = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.kebabCase(__WEBPACK_IMPORTED_MODULE_2_pluralize___default()(this.config.modelName)).replace(/-/g, this.config.routeDelimeter);
+
+            if (this.config.caseSensitive) {
+                route = __WEBPACK_IMPORTED_MODULE_2_pluralize___default()(this.config.modelName);
+            }
+
+            this.config.routes.collection = route;
+        }
+    }, {
+        key: 'debug',
+        get: function get() {
+            return this.config.debug;
+        },
+        set: function set(val) {
+            __WEBPACK_IMPORTED_MODULE_4__Logger__["a" /* default */].warn('debug mode must explcitly be turned on via the constructor in config.debug');
+        }
+    }, {
+        key: 'collection',
+        get: function get() {
+            this.currentRoute = 'collection';
+            return this;
+        }
+    }, {
+        key: 'model',
+        get: function get() {
+            this.currentRoute = 'model';
+            return this;
+        }
+    }, {
+        key: 'any',
+        get: function get() {
+            this.currentRoute = 'any';
+            return this;
+        }
+    }, {
+        key: 'routes',
+        get: function get() {
+            return this.config.routes;
+        }
+
+        // set config (val) {
+        //     console.log(val);
+        //     // potentially loop through to set on model using setters
+        //     // val.forEach((k, v) => {
+        //     //     this[k] = v;
+        //     // })
+        //
+        // }
+
+
+    }, {
+        key: 'baseURL',
+        get: function get() {
+            return this.config.baseURL;
+        },
+        set: function set(url) {
+            this.config.baseURL = this.sanitizeUrl(url);
+        }
+    }, {
+        key: 'primaryKey',
+        get: function get() {
+            return this.config.primaryKey;
+        },
+        set: function set(val) {
+            this.config.primaryKey = val;
+        }
+    }, {
+        key: 'modelName',
+        get: function get() {
+            return this.config.modelName;
+        },
+        set: function set(val) {
+            this.config.modelName = val;
+            this.setModelRoute();
+            this.setCollectionRoute();
+        }
+    }, {
+        key: 'routeDelimeter',
+        get: function get() {
+            return this.config.routeDelimeter;
+        },
+        set: function set(val) {
+            this.config.routeDelimeter = val;
+            this.setModelRoute();
+            this.setCollectionRoute();
+        }
+    }, {
+        key: 'caseSensitive',
+        get: function get() {
+            return this.config.caseSensitive;
+        },
+        set: function set(val) {
+            this.config.caseSensitive = val;
+            this.setModelRoute();
+            this.setCollectionRoute();
+        }
+    }]);
+
+    return Rapid;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = Rapid;
+
+/***/ }),
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {/* http://prismjs.com/download.html?themes=prism&languages=markup+css+clike+javascript+bash+json+markdown+php+php-extras+scss&plugins=line-highlight+line-numbers */
@@ -2300,39 +1687,63 @@ Prism.languages.scss = Prism.languages.extend("css", { comment: { pattern: /(^|[
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 36 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/* 13 */
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(43);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Vendor_prism__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Vendor_prism___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Vendor_prism__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Interface_UserModel__ = __webpack_require__(52);
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+// css base code, injected by the css-loader
+module.exports = function() {
+	var list = [];
 
+	// return the list of modules as css string
+	list.toString = function toString() {
+		var result = [];
+		for(var i = 0; i < this.length; i++) {
+			var item = this[i];
+			if(item[2]) {
+				result.push("@media " + item[2] + "{" + item[1] + "}");
+			} else {
+				result.push(item[1]);
+			}
+		}
+		return result.join("");
+	};
 
-
-
-
-window.Vue = __WEBPACK_IMPORTED_MODULE_0_vue___default.a;
-
-window.rapidjs = __WEBPACK_IMPORTED_MODULE_3__Interface_UserModel__["a" /* default */];
-
-/**
- * We'll register a HTTP interceptor to attach the "CSRF" header to each of
- * the outgoing requests issued by this application. The CSRF middleware
- * included with Laravel will automatically verify the header's value.
- */
-
-window.axios = __WEBPACK_IMPORTED_MODULE_1_axios___default.a;
-window.axios.defaults.headers.common = {
-  'X-Requested-With': 'XMLHttpRequest'
+	// import a list of modules into the list
+	list.i = function(modules, mediaQuery) {
+		if(typeof modules === "string")
+			modules = [[null, modules, ""]];
+		var alreadyImportedModules = {};
+		for(var i = 0; i < this.length; i++) {
+			var id = this[i][0];
+			if(typeof id === "number")
+				alreadyImportedModules[id] = true;
+		}
+		for(i = 0; i < modules.length; i++) {
+			var item = modules[i];
+			// skip already imported module
+			// this implementation is not 100% perfect for weird media query combinations
+			//  when a module is imported multiple times with different media queries.
+			//  I hope this will never occur (Hey this way we have smaller bundles)
+			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+				if(mediaQuery && !item[2]) {
+					item[2] = mediaQuery;
+				} else if(mediaQuery) {
+					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+				}
+				list.push(item);
+			}
+		}
+	};
+	return list;
 };
 
+
 /***/ }),
-/* 37 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global, module) {var __WEBPACK_AMD_DEFINE_RESULT__;/**
@@ -19421,10 +18832,2080 @@ window.axios.defaults.headers.common = {
   }
 }.call(this));
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(44)(module)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3), __webpack_require__(57)(module)))
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var replace = String.prototype.replace;
+var percentTwenties = /%20/g;
+
+module.exports = {
+    'default': 'RFC3986',
+    formatters: {
+        RFC1738: function (value) {
+            return replace.call(value, percentTwenties, '+');
+        },
+        RFC3986: function (value) {
+            return value;
+        }
+    },
+    RFC1738: 'RFC1738',
+    RFC3986: 'RFC3986'
+};
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var stringify = __webpack_require__(48);
+var parse = __webpack_require__(47);
+var formats = __webpack_require__(15);
+
+module.exports = {
+    formats: formats,
+    parse: parse,
+    stringify: stringify
+};
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var has = Object.prototype.hasOwnProperty;
+
+var hexTable = (function () {
+    var array = [];
+    for (var i = 0; i < 256; ++i) {
+        array.push('%' + ((i < 16 ? '0' : '') + i.toString(16)).toUpperCase());
+    }
+
+    return array;
+}());
+
+exports.arrayToObject = function (source, options) {
+    var obj = options && options.plainObjects ? Object.create(null) : {};
+    for (var i = 0; i < source.length; ++i) {
+        if (typeof source[i] !== 'undefined') {
+            obj[i] = source[i];
+        }
+    }
+
+    return obj;
+};
+
+exports.merge = function (target, source, options) {
+    if (!source) {
+        return target;
+    }
+
+    if (typeof source !== 'object') {
+        if (Array.isArray(target)) {
+            target.push(source);
+        } else if (typeof target === 'object') {
+            target[source] = true;
+        } else {
+            return [target, source];
+        }
+
+        return target;
+    }
+
+    if (typeof target !== 'object') {
+        return [target].concat(source);
+    }
+
+    var mergeTarget = target;
+    if (Array.isArray(target) && !Array.isArray(source)) {
+        mergeTarget = exports.arrayToObject(target, options);
+    }
+
+    if (Array.isArray(target) && Array.isArray(source)) {
+        source.forEach(function (item, i) {
+            if (has.call(target, i)) {
+                if (target[i] && typeof target[i] === 'object') {
+                    target[i] = exports.merge(target[i], item, options);
+                } else {
+                    target.push(item);
+                }
+            } else {
+                target[i] = item;
+            }
+        });
+        return target;
+    }
+
+    return Object.keys(source).reduce(function (acc, key) {
+        var value = source[key];
+
+        if (Object.prototype.hasOwnProperty.call(acc, key)) {
+            acc[key] = exports.merge(acc[key], value, options);
+        } else {
+            acc[key] = value;
+        }
+        return acc;
+    }, mergeTarget);
+};
+
+exports.decode = function (str) {
+    try {
+        return decodeURIComponent(str.replace(/\+/g, ' '));
+    } catch (e) {
+        return str;
+    }
+};
+
+exports.encode = function (str) {
+    // This code was originally written by Brian White (mscdex) for the io.js core querystring library.
+    // It has been adapted here for stricter adherence to RFC 3986
+    if (str.length === 0) {
+        return str;
+    }
+
+    var string = typeof str === 'string' ? str : String(str);
+
+    var out = '';
+    for (var i = 0; i < string.length; ++i) {
+        var c = string.charCodeAt(i);
+
+        if (
+            c === 0x2D || // -
+            c === 0x2E || // .
+            c === 0x5F || // _
+            c === 0x7E || // ~
+            (c >= 0x30 && c <= 0x39) || // 0-9
+            (c >= 0x41 && c <= 0x5A) || // a-z
+            (c >= 0x61 && c <= 0x7A) // A-Z
+        ) {
+            out += string.charAt(i);
+            continue;
+        }
+
+        if (c < 0x80) {
+            out = out + hexTable[c];
+            continue;
+        }
+
+        if (c < 0x800) {
+            out = out + (hexTable[0xC0 | (c >> 6)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        if (c < 0xD800 || c >= 0xE000) {
+            out = out + (hexTable[0xE0 | (c >> 12)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)]);
+            continue;
+        }
+
+        i += 1;
+        c = 0x10000 + (((c & 0x3FF) << 10) | (string.charCodeAt(i) & 0x3FF));
+        out += hexTable[0xF0 | (c >> 18)] + hexTable[0x80 | ((c >> 12) & 0x3F)] + hexTable[0x80 | ((c >> 6) & 0x3F)] + hexTable[0x80 | (c & 0x3F)];
+    }
+
+    return out;
+};
+
+exports.compact = function (obj, references) {
+    if (typeof obj !== 'object' || obj === null) {
+        return obj;
+    }
+
+    var refs = references || [];
+    var lookup = refs.indexOf(obj);
+    if (lookup !== -1) {
+        return refs[lookup];
+    }
+
+    refs.push(obj);
+
+    if (Array.isArray(obj)) {
+        var compacted = [];
+
+        for (var i = 0; i < obj.length; ++i) {
+            if (obj[i] && typeof obj[i] === 'object') {
+                compacted.push(exports.compact(obj[i], refs));
+            } else if (typeof obj[i] !== 'undefined') {
+                compacted.push(obj[i]);
+            }
+        }
+
+        return compacted;
+    }
+
+    var keys = Object.keys(obj);
+    keys.forEach(function (key) {
+        obj[key] = exports.compact(obj[key], refs);
+    });
+
+    return obj;
+};
+
+exports.isRegExp = function (obj) {
+    return Object.prototype.toString.call(obj) === '[object RegExp]';
+};
+
+exports.isBuffer = function (obj) {
+    if (obj === null || typeof obj === 'undefined') {
+        return false;
+    }
+
+    return !!(obj.constructor && obj.constructor.isBuffer && obj.constructor.isBuffer(obj));
+};
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports) {
+
+/*
+	MIT License http://www.opensource.org/licenses/mit-license.php
+	Author Tobias Koppers @sokra
+*/
+var stylesInDom = {},
+	memoize = function(fn) {
+		var memo;
+		return function () {
+			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+			return memo;
+		};
+	},
+	isOldIE = memoize(function() {
+		return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+	}),
+	getHeadElement = memoize(function () {
+		return document.head || document.getElementsByTagName("head")[0];
+	}),
+	singletonElement = null,
+	singletonCounter = 0,
+	styleElementsInsertedAtTop = [];
+
+module.exports = function(list, options) {
+	if(typeof DEBUG !== "undefined" && DEBUG) {
+		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+	}
+
+	options = options || {};
+	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+	// tags it will allow on a page
+	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+
+	// By default, add <style> tags to the bottom of <head>.
+	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+
+	var styles = listToStyles(list);
+	addStylesToDom(styles, options);
+
+	return function update(newList) {
+		var mayRemove = [];
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			domStyle.refs--;
+			mayRemove.push(domStyle);
+		}
+		if(newList) {
+			var newStyles = listToStyles(newList);
+			addStylesToDom(newStyles, options);
+		}
+		for(var i = 0; i < mayRemove.length; i++) {
+			var domStyle = mayRemove[i];
+			if(domStyle.refs === 0) {
+				for(var j = 0; j < domStyle.parts.length; j++)
+					domStyle.parts[j]();
+				delete stylesInDom[domStyle.id];
+			}
+		}
+	};
+}
+
+function addStylesToDom(styles, options) {
+	for(var i = 0; i < styles.length; i++) {
+		var item = styles[i];
+		var domStyle = stylesInDom[item.id];
+		if(domStyle) {
+			domStyle.refs++;
+			for(var j = 0; j < domStyle.parts.length; j++) {
+				domStyle.parts[j](item.parts[j]);
+			}
+			for(; j < item.parts.length; j++) {
+				domStyle.parts.push(addStyle(item.parts[j], options));
+			}
+		} else {
+			var parts = [];
+			for(var j = 0; j < item.parts.length; j++) {
+				parts.push(addStyle(item.parts[j], options));
+			}
+			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+		}
+	}
+}
+
+function listToStyles(list) {
+	var styles = [];
+	var newStyles = {};
+	for(var i = 0; i < list.length; i++) {
+		var item = list[i];
+		var id = item[0];
+		var css = item[1];
+		var media = item[2];
+		var sourceMap = item[3];
+		var part = {css: css, media: media, sourceMap: sourceMap};
+		if(!newStyles[id])
+			styles.push(newStyles[id] = {id: id, parts: [part]});
+		else
+			newStyles[id].parts.push(part);
+	}
+	return styles;
+}
+
+function insertStyleElement(options, styleElement) {
+	var head = getHeadElement();
+	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+	if (options.insertAt === "top") {
+		if(!lastStyleElementInsertedAtTop) {
+			head.insertBefore(styleElement, head.firstChild);
+		} else if(lastStyleElementInsertedAtTop.nextSibling) {
+			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+		} else {
+			head.appendChild(styleElement);
+		}
+		styleElementsInsertedAtTop.push(styleElement);
+	} else if (options.insertAt === "bottom") {
+		head.appendChild(styleElement);
+	} else {
+		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+	}
+}
+
+function removeStyleElement(styleElement) {
+	styleElement.parentNode.removeChild(styleElement);
+	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+	if(idx >= 0) {
+		styleElementsInsertedAtTop.splice(idx, 1);
+	}
+}
+
+function createStyleElement(options) {
+	var styleElement = document.createElement("style");
+	styleElement.type = "text/css";
+	insertStyleElement(options, styleElement);
+	return styleElement;
+}
+
+function addStyle(obj, options) {
+	var styleElement, update, remove;
+
+	if (options.singleton) {
+		var styleIndex = singletonCounter++;
+		styleElement = singletonElement || (singletonElement = createStyleElement(options));
+		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+	} else {
+		styleElement = createStyleElement(options);
+		update = applyToTag.bind(null, styleElement);
+		remove = function() {
+			removeStyleElement(styleElement);
+		};
+	}
+
+	update(obj);
+
+	return function updateStyle(newObj) {
+		if(newObj) {
+			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+				return;
+			update(obj = newObj);
+		} else {
+			remove();
+		}
+	};
+}
+
+var replaceText = (function () {
+	var textStore = [];
+
+	return function (index, replacement) {
+		textStore[index] = replacement;
+		return textStore.filter(Boolean).join('\n');
+	};
+})();
+
+function applyToSingletonTag(styleElement, index, remove, obj) {
+	var css = remove ? "" : obj.css;
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = replaceText(index, css);
+	} else {
+		var cssNode = document.createTextNode(css);
+		var childNodes = styleElement.childNodes;
+		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+		if (childNodes.length) {
+			styleElement.insertBefore(cssNode, childNodes[index]);
+		} else {
+			styleElement.appendChild(cssNode);
+		}
+	}
+}
+
+function applyToTag(styleElement, obj) {
+	var css = obj.css;
+	var media = obj.media;
+	var sourceMap = obj.sourceMap;
+
+	if (media) {
+		styleElement.setAttribute("media", media);
+	}
+
+	if (sourceMap) {
+		// https://developer.chrome.com/devtools/docs/javascript-debugging
+		// this makes source maps inside style tags work properly in Chrome
+		css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */';
+		// http://stackoverflow.com/a/26603875
+		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+	}
+
+	if (styleElement.styleSheet) {
+		styleElement.styleSheet.cssText = css;
+	} else {
+		while(styleElement.firstChild) {
+			styleElement.removeChild(styleElement.firstChild);
+		}
+		styleElement.appendChild(document.createTextNode(css));
+	}
+}
+
+
+/***/ }),
+/* 19 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__bootstrap__ = __webpack_require__(43);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_ClassBuilder__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Components_ClassBuilder___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Components_ClassBuilder__);
+
+
+
+new Vue({
+    el: '#app',
+
+    data: function data() {
+        return {};
+    },
+    mounted: function mounted() {},
+
+
+    computed: {},
+
+    components: {
+        ClassBuilder: __WEBPACK_IMPORTED_MODULE_1__Components_ClassBuilder___default.a
+    }
+});
+
+/***/ }),
+/* 20 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+var bind = __webpack_require__(9);
+var Axios = __webpack_require__(23);
+var defaults = __webpack_require__(1);
+
+/**
+ * Create an instance of Axios
+ *
+ * @param {Object} defaultConfig The default config for the instance
+ * @return {Axios} A new instance of Axios
+ */
+function createInstance(defaultConfig) {
+  var context = new Axios(defaultConfig);
+  var instance = bind(Axios.prototype.request, context);
+
+  // Copy axios.prototype to instance
+  utils.extend(instance, Axios.prototype, context);
+
+  // Copy context to instance
+  utils.extend(instance, context);
+
+  return instance;
+}
+
+// Create the default instance to be exported
+var axios = createInstance(defaults);
+
+// Expose Axios class to allow class inheritance
+axios.Axios = Axios;
+
+// Factory for creating new instances
+axios.create = function create(instanceConfig) {
+  return createInstance(utils.merge(defaults, instanceConfig));
+};
+
+// Expose Cancel & CancelToken
+axios.Cancel = __webpack_require__(6);
+axios.CancelToken = __webpack_require__(22);
+axios.isCancel = __webpack_require__(7);
+
+// Expose all/spread
+axios.all = function all(promises) {
+  return Promise.all(promises);
+};
+axios.spread = __webpack_require__(37);
+
+module.exports = axios;
+
+// Allow use of default import syntax in TypeScript
+module.exports.default = axios;
+
+
+/***/ }),
+/* 22 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var Cancel = __webpack_require__(6);
+
+/**
+ * A `CancelToken` is an object that can be used to request cancellation of an operation.
+ *
+ * @class
+ * @param {Function} executor The executor function.
+ */
+function CancelToken(executor) {
+  if (typeof executor !== 'function') {
+    throw new TypeError('executor must be a function.');
+  }
+
+  var resolvePromise;
+  this.promise = new Promise(function promiseExecutor(resolve) {
+    resolvePromise = resolve;
+  });
+
+  var token = this;
+  executor(function cancel(message) {
+    if (token.reason) {
+      // Cancellation has already been requested
+      return;
+    }
+
+    token.reason = new Cancel(message);
+    resolvePromise(token.reason);
+  });
+}
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+CancelToken.prototype.throwIfRequested = function throwIfRequested() {
+  if (this.reason) {
+    throw this.reason;
+  }
+};
+
+/**
+ * Returns an object that contains a new `CancelToken` and a function that, when called,
+ * cancels the `CancelToken`.
+ */
+CancelToken.source = function source() {
+  var cancel;
+  var token = new CancelToken(function executor(c) {
+    cancel = c;
+  });
+  return {
+    token: token,
+    cancel: cancel
+  };
+};
+
+module.exports = CancelToken;
+
+
+/***/ }),
+/* 23 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var defaults = __webpack_require__(1);
+var utils = __webpack_require__(0);
+var InterceptorManager = __webpack_require__(24);
+var dispatchRequest = __webpack_require__(25);
+var isAbsoluteURL = __webpack_require__(33);
+var combineURLs = __webpack_require__(31);
+
+/**
+ * Create a new instance of Axios
+ *
+ * @param {Object} instanceConfig The default config for the instance
+ */
+function Axios(instanceConfig) {
+  this.defaults = instanceConfig;
+  this.interceptors = {
+    request: new InterceptorManager(),
+    response: new InterceptorManager()
+  };
+}
+
+/**
+ * Dispatch a request
+ *
+ * @param {Object} config The config specific for this request (merged with this.defaults)
+ */
+Axios.prototype.request = function request(config) {
+  /*eslint no-param-reassign:0*/
+  // Allow for axios('example/url'[, config]) a la fetch API
+  if (typeof config === 'string') {
+    config = utils.merge({
+      url: arguments[0]
+    }, arguments[1]);
+  }
+
+  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
+
+  // Support baseURL config
+  if (config.baseURL && !isAbsoluteURL(config.url)) {
+    config.url = combineURLs(config.baseURL, config.url);
+  }
+
+  // Hook up interceptors middleware
+  var chain = [dispatchRequest, undefined];
+  var promise = Promise.resolve(config);
+
+  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+    chain.unshift(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+    chain.push(interceptor.fulfilled, interceptor.rejected);
+  });
+
+  while (chain.length) {
+    promise = promise.then(chain.shift(), chain.shift());
+  }
+
+  return promise;
+};
+
+// Provide aliases for supported request methods
+utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url
+    }));
+  };
+});
+
+utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
+  /*eslint func-names:0*/
+  Axios.prototype[method] = function(url, data, config) {
+    return this.request(utils.merge(config || {}, {
+      method: method,
+      url: url,
+      data: data
+    }));
+  };
+});
+
+module.exports = Axios;
+
+
+/***/ }),
+/* 24 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+function InterceptorManager() {
+  this.handlers = [];
+}
+
+/**
+ * Add a new interceptor to the stack
+ *
+ * @param {Function} fulfilled The function to handle `then` for a `Promise`
+ * @param {Function} rejected The function to handle `reject` for a `Promise`
+ *
+ * @return {Number} An ID used to remove interceptor later
+ */
+InterceptorManager.prototype.use = function use(fulfilled, rejected) {
+  this.handlers.push({
+    fulfilled: fulfilled,
+    rejected: rejected
+  });
+  return this.handlers.length - 1;
+};
+
+/**
+ * Remove an interceptor from the stack
+ *
+ * @param {Number} id The ID that was returned by `use`
+ */
+InterceptorManager.prototype.eject = function eject(id) {
+  if (this.handlers[id]) {
+    this.handlers[id] = null;
+  }
+};
+
+/**
+ * Iterate over all the registered interceptors
+ *
+ * This method is particularly useful for skipping over any
+ * interceptors that may have become `null` calling `eject`.
+ *
+ * @param {Function} fn The function to call for each interceptor
+ */
+InterceptorManager.prototype.forEach = function forEach(fn) {
+  utils.forEach(this.handlers, function forEachHandler(h) {
+    if (h !== null) {
+      fn(h);
+    }
+  });
+};
+
+module.exports = InterceptorManager;
+
+
+/***/ }),
+/* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+var transformData = __webpack_require__(28);
+var isCancel = __webpack_require__(7);
+var defaults = __webpack_require__(1);
+
+/**
+ * Throws a `Cancel` if cancellation has been requested.
+ */
+function throwIfCancellationRequested(config) {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+}
+
+/**
+ * Dispatch a request to the server using the configured adapter.
+ *
+ * @param {object} config The config that is to be used for the request
+ * @returns {Promise} The Promise to be fulfilled
+ */
+module.exports = function dispatchRequest(config) {
+  throwIfCancellationRequested(config);
+
+  // Ensure headers exist
+  config.headers = config.headers || {};
+
+  // Transform request data
+  config.data = transformData(
+    config.data,
+    config.headers,
+    config.transformRequest
+  );
+
+  // Flatten headers
+  config.headers = utils.merge(
+    config.headers.common || {},
+    config.headers[config.method] || {},
+    config.headers || {}
+  );
+
+  utils.forEach(
+    ['delete', 'get', 'head', 'post', 'put', 'patch', 'common'],
+    function cleanHeaderConfig(method) {
+      delete config.headers[method];
+    }
+  );
+
+  var adapter = config.adapter || defaults.adapter;
+
+  return adapter(config).then(function onAdapterResolution(response) {
+    throwIfCancellationRequested(config);
+
+    // Transform response data
+    response.data = transformData(
+      response.data,
+      response.headers,
+      config.transformResponse
+    );
+
+    return response;
+  }, function onAdapterRejection(reason) {
+    if (!isCancel(reason)) {
+      throwIfCancellationRequested(config);
+
+      // Transform response data
+      if (reason && reason.response) {
+        reason.response.data = transformData(
+          reason.response.data,
+          reason.response.headers,
+          config.transformResponse
+        );
+      }
+    }
+
+    return Promise.reject(reason);
+  });
+};
+
+
+/***/ }),
+/* 26 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Update an Error with the specified config, error code, and response.
+ *
+ * @param {Error} error The error to update.
+ * @param {Object} config The config.
+ * @param {string} [code] The error code (for example, 'ECONNABORTED').
+ @ @param {Object} [response] The response.
+ * @returns {Error} The error.
+ */
+module.exports = function enhanceError(error, config, code, response) {
+  error.config = config;
+  if (code) {
+    error.code = code;
+  }
+  error.response = response;
+  return error;
+};
+
+
+/***/ }),
+/* 27 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var createError = __webpack_require__(8);
+
+/**
+ * Resolve or reject a Promise based on response status.
+ *
+ * @param {Function} resolve A function that resolves the promise.
+ * @param {Function} reject A function that rejects the promise.
+ * @param {object} response The response.
+ */
+module.exports = function settle(resolve, reject, response) {
+  var validateStatus = response.config.validateStatus;
+  // Note: status is not exposed by XDomainRequest
+  if (!response.status || !validateStatus || validateStatus(response.status)) {
+    resolve(response);
+  } else {
+    reject(createError(
+      'Request failed with status code ' + response.status,
+      response.config,
+      null,
+      response
+    ));
+  }
+};
+
+
+/***/ }),
+/* 28 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+/**
+ * Transform the data for a request or a response
+ *
+ * @param {Object|String} data The data to be transformed
+ * @param {Array} headers The headers for the request or response
+ * @param {Array|Function} fns A single function or Array of functions
+ * @returns {*} The resulting transformed data
+ */
+module.exports = function transformData(data, headers, fns) {
+  /*eslint no-param-reassign:0*/
+  utils.forEach(fns, function transform(fn) {
+    data = fn(data, headers);
+  });
+
+  return data;
+};
+
+
+/***/ }),
+/* 29 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+// btoa polyfill for IE<10 courtesy https://github.com/davidchambers/Base64.js
+
+var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+
+function E() {
+  this.message = 'String contains an invalid character';
+}
+E.prototype = new Error;
+E.prototype.code = 5;
+E.prototype.name = 'InvalidCharacterError';
+
+function btoa(input) {
+  var str = String(input);
+  var output = '';
+  for (
+    // initialize result and counter
+    var block, charCode, idx = 0, map = chars;
+    // if the next str index does not exist:
+    //   change the mapping table to "="
+    //   check if d has no fractional digits
+    str.charAt(idx | 0) || (map = '=', idx % 1);
+    // "8 - idx % 1 * 8" generates the sequence 2, 4, 6, 8
+    output += map.charAt(63 & block >> 8 - idx % 1 * 8)
+  ) {
+    charCode = str.charCodeAt(idx += 3 / 4);
+    if (charCode > 0xFF) {
+      throw new E();
+    }
+    block = block << 8 | charCode;
+  }
+  return output;
+}
+
+module.exports = btoa;
+
+
+/***/ }),
+/* 30 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+function encode(val) {
+  return encodeURIComponent(val).
+    replace(/%40/gi, '@').
+    replace(/%3A/gi, ':').
+    replace(/%24/g, '$').
+    replace(/%2C/gi, ',').
+    replace(/%20/g, '+').
+    replace(/%5B/gi, '[').
+    replace(/%5D/gi, ']');
+}
+
+/**
+ * Build a URL by appending params to the end
+ *
+ * @param {string} url The base of the url (e.g., http://www.google.com)
+ * @param {object} [params] The params to be appended
+ * @returns {string} The formatted url
+ */
+module.exports = function buildURL(url, params, paramsSerializer) {
+  /*eslint no-param-reassign:0*/
+  if (!params) {
+    return url;
+  }
+
+  var serializedParams;
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params);
+  } else if (utils.isURLSearchParams(params)) {
+    serializedParams = params.toString();
+  } else {
+    var parts = [];
+
+    utils.forEach(params, function serialize(val, key) {
+      if (val === null || typeof val === 'undefined') {
+        return;
+      }
+
+      if (utils.isArray(val)) {
+        key = key + '[]';
+      }
+
+      if (!utils.isArray(val)) {
+        val = [val];
+      }
+
+      utils.forEach(val, function parseValue(v) {
+        if (utils.isDate(v)) {
+          v = v.toISOString();
+        } else if (utils.isObject(v)) {
+          v = JSON.stringify(v);
+        }
+        parts.push(encode(key) + '=' + encode(v));
+      });
+    });
+
+    serializedParams = parts.join('&');
+  }
+
+  if (serializedParams) {
+    url += (url.indexOf('?') === -1 ? '?' : '&') + serializedParams;
+  }
+
+  return url;
+};
+
+
+/***/ }),
+/* 31 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Creates a new URL by combining the specified URLs
+ *
+ * @param {string} baseURL The base URL
+ * @param {string} relativeURL The relative URL
+ * @returns {string} The combined URL
+ */
+module.exports = function combineURLs(baseURL, relativeURL) {
+  return baseURL.replace(/\/+$/, '') + '/' + relativeURL.replace(/^\/+/, '');
+};
+
+
+/***/ }),
+/* 32 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs support document.cookie
+  (function standardBrowserEnv() {
+    return {
+      write: function write(name, value, expires, path, domain, secure) {
+        var cookie = [];
+        cookie.push(name + '=' + encodeURIComponent(value));
+
+        if (utils.isNumber(expires)) {
+          cookie.push('expires=' + new Date(expires).toGMTString());
+        }
+
+        if (utils.isString(path)) {
+          cookie.push('path=' + path);
+        }
+
+        if (utils.isString(domain)) {
+          cookie.push('domain=' + domain);
+        }
+
+        if (secure === true) {
+          cookie.push('secure');
+        }
+
+        document.cookie = cookie.join('; ');
+      },
+
+      read: function read(name) {
+        var match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
+        return (match ? decodeURIComponent(match[3]) : null);
+      },
+
+      remove: function remove(name) {
+        this.write(name, '', Date.now() - 86400000);
+      }
+    };
+  })() :
+
+  // Non standard browser env (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return {
+      write: function write() {},
+      read: function read() { return null; },
+      remove: function remove() {}
+    };
+  })()
+);
+
+
+/***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the specified URL is absolute
+ *
+ * @param {string} url The URL to test
+ * @returns {boolean} True if the specified URL is absolute, otherwise false
+ */
+module.exports = function isAbsoluteURL(url) {
+  // A URL is considered absolute if it begins with "<scheme>://" or "//" (protocol-relative URL).
+  // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
+  // by any combination of letters, digits, plus, period, or hyphen.
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+/* 34 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+module.exports = (
+  utils.isStandardBrowserEnv() ?
+
+  // Standard browser envs have full support of the APIs needed to test
+  // whether the request URL is of the same origin as current location.
+  (function standardBrowserEnv() {
+    var msie = /(msie|trident)/i.test(navigator.userAgent);
+    var urlParsingNode = document.createElement('a');
+    var originURL;
+
+    /**
+    * Parse a URL to discover it's components
+    *
+    * @param {String} url The URL to be parsed
+    * @returns {Object}
+    */
+    function resolveURL(url) {
+      var href = url;
+
+      if (msie) {
+        // IE needs attribute set twice to normalize properties
+        urlParsingNode.setAttribute('href', href);
+        href = urlParsingNode.href;
+      }
+
+      urlParsingNode.setAttribute('href', href);
+
+      // urlParsingNode provides the UrlUtils interface - http://url.spec.whatwg.org/#urlutils
+      return {
+        href: urlParsingNode.href,
+        protocol: urlParsingNode.protocol ? urlParsingNode.protocol.replace(/:$/, '') : '',
+        host: urlParsingNode.host,
+        search: urlParsingNode.search ? urlParsingNode.search.replace(/^\?/, '') : '',
+        hash: urlParsingNode.hash ? urlParsingNode.hash.replace(/^#/, '') : '',
+        hostname: urlParsingNode.hostname,
+        port: urlParsingNode.port,
+        pathname: (urlParsingNode.pathname.charAt(0) === '/') ?
+                  urlParsingNode.pathname :
+                  '/' + urlParsingNode.pathname
+      };
+    }
+
+    originURL = resolveURL(window.location.href);
+
+    /**
+    * Determine if a URL shares the same origin as the current location
+    *
+    * @param {String} requestURL The URL to test
+    * @returns {boolean} True if URL shares the same origin, otherwise false
+    */
+    return function isURLSameOrigin(requestURL) {
+      var parsed = (utils.isString(requestURL)) ? resolveURL(requestURL) : requestURL;
+      return (parsed.protocol === originURL.protocol &&
+            parsed.host === originURL.host);
+    };
+  })() :
+
+  // Non standard browser envs (web workers, react-native) lack needed support.
+  (function nonStandardBrowserEnv() {
+    return function isURLSameOrigin() {
+      return true;
+    };
+  })()
+);
+
+
+/***/ }),
+/* 35 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+module.exports = function normalizeHeaderName(headers, normalizedName) {
+  utils.forEach(headers, function processHeader(value, name) {
+    if (name !== normalizedName && name.toUpperCase() === normalizedName.toUpperCase()) {
+      headers[normalizedName] = value;
+      delete headers[name];
+    }
+  });
+};
+
+
+/***/ }),
+/* 36 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var utils = __webpack_require__(0);
+
+/**
+ * Parse headers into an object
+ *
+ * ```
+ * Date: Wed, 27 Aug 2014 08:58:49 GMT
+ * Content-Type: application/json
+ * Connection: keep-alive
+ * Transfer-Encoding: chunked
+ * ```
+ *
+ * @param {String} headers Headers needing to be parsed
+ * @returns {Object} Headers parsed into an object
+ */
+module.exports = function parseHeaders(headers) {
+  var parsed = {};
+  var key;
+  var val;
+  var i;
+
+  if (!headers) { return parsed; }
+
+  utils.forEach(headers.split('\n'), function parser(line) {
+    i = line.indexOf(':');
+    key = utils.trim(line.substr(0, i)).toLowerCase();
+    val = utils.trim(line.substr(i + 1));
+
+    if (key) {
+      parsed[key] = parsed[key] ? parsed[key] + ', ' + val : val;
+    }
+  });
+
+  return parsed;
+};
+
+
+/***/ }),
+/* 37 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Syntactic sugar for invoking a function and expanding an array for arguments.
+ *
+ * Common use case would be to use `Function.prototype.apply`.
+ *
+ *  ```js
+ *  function f(x, y, z) {}
+ *  var args = [1, 2, 3];
+ *  f.apply(null, args);
+ *  ```
+ *
+ * With `spread` this example can be re-written.
+ *
+ *  ```js
+ *  spread(function(x, y, z) {})([1, 2, 3]);
+ *  ```
+ *
+ * @param {Function} callback
+ * @returns {Function}
+ */
+module.exports = function spread(callback) {
+  return function wrap(arr) {
+    return callback.apply(null, arr);
+  };
+};
+
 
 /***/ }),
 /* 38 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    name: 'switches',
+
+    props: {
+        selected: false,
+
+        disabled: false,
+
+        label: '',
+
+        textEnabled: {
+            default: ''
+        },
+
+        textDisabled: {
+            default: ''
+        },
+
+        color: {
+            default: 'default'
+        },
+
+        theme: {
+            default: 'default'
+        }
+    },
+
+    data: function data() {
+        return {
+            enabled: !!this.selected
+        };
+    },
+    mounted: function mounted() {
+        this.$emit('input', this.enabled = !!this.selected);
+    },
+
+
+    watch: {
+        enabled: function enabled(val) {
+            this.$emit('input', val);
+        },
+        selected: function selected(val) {
+            this.enabled = !!val;
+        }
+    },
+
+    computed: {
+        classObject: function classObject() {
+            var _ref;
+
+            var color = this.color,
+                enabled = this.enabled,
+                theme = this.theme,
+                disabled = this.disabled;
+
+
+            return _ref = {
+                'vue-switcher': true
+            }, _defineProperty(_ref, 'vue-switcher--unchecked', !enabled), _defineProperty(_ref, 'vue-switcher--disabled', disabled), _defineProperty(_ref, 'vue-switcher-theme--' + theme, color), _defineProperty(_ref, 'vue-switcher-color--' + color, color), _ref;
+        }
+    }
+};
+
+/***/ }),
+/* 39 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Interface_TestModel__ = __webpack_require__(41);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_switches__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_switches___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_switches__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Vendor_prism__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Vendor_prism___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Vendor_prism__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_qs__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_qs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_qs__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = {
+    name: 'class-builder',
+
+    data: function data() {
+        return {
+            model: __WEBPACK_IMPORTED_MODULE_0__Interface_TestModel__["a" /* default */],
+
+            globalParameters: '',
+
+            defaults: {
+                primaryKey: '-',
+                trailingSlash: false,
+                caseSensitive: false,
+                routeDelimeter: '-'
+            },
+
+            overrides: {
+                routes: {
+                    model: false,
+                    collection: false
+                },
+
+                suffixes: {
+                    create: false,
+                    update: false,
+                    destroy: false
+                },
+
+                methods: {
+                    create: false,
+                    update: false,
+                    destroy: false
+                }
+            }
+
+        };
+    },
+
+
+    components: {
+        Switches: __WEBPACK_IMPORTED_MODULE_1_vue_switches___default.a
+    },
+
+    methods: {
+        resetRouteOverride: function resetRouteOverride(route) {
+            var func = 'set' + __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.capitalize(route) + 'Route';
+            this.model[func]();
+        }
+    },
+
+    watch: {
+        config: function config() {
+            var _this = this;
+
+            setTimeout(function () {
+                __WEBPACK_IMPORTED_MODULE_3__Vendor_prism___default.a.highlightElement(_this.$refs.config);
+            }, 1);
+        }
+    },
+
+    computed: {
+        config: function config() {
+            var _this2 = this;
+
+            var config = {
+                baseURL: this.model.baseURL,
+                modelName: this.model.modelName,
+                primaryKey: this.model.primaryKey,
+                trailingSlash: this.model.config.trailingSlash,
+                caseSensitive: this.model.caseSensitive,
+                routeDelimeter: this.model.routeDelimeter
+            };
+
+            __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.forEach(this.defaults, function (val, k) {
+                if (config[k] == val) {
+                    delete config[k];
+                }
+            });
+
+            if (this.parsedGlobalParams) {
+                this.model.config.globalParameters = this.parsedGlobalParams;
+                config.globalParameters = this.model.config.globalParameters;
+            }
+
+            __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.forEach(this.overrides, function (overrides, key) {
+
+                var configOverride = {};
+
+                __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.forEach(overrides, function (val, k) {
+                    if (val) {
+                        configOverride[k] = _this2.model.config[key][k];
+                    }
+                });
+
+                if (!__WEBPACK_IMPORTED_MODULE_2_lodash___default.a.isEmpty(configOverride)) {
+                    config[key] = configOverride;
+                }
+            });
+
+            return config;
+        },
+        parsedGlobalParams: function parsedGlobalParams() {
+            var rawParams = this.globalParameters.trim().split(',').filter(function (v) {
+                return v != '';
+            }),
+                parsedParams = {};
+
+            if (rawParams.length) {
+                __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.forEach(rawParams, function (val, key) {
+                    var parsed = __WEBPACK_IMPORTED_MODULE_4_qs___default.a.parse(val.trim());
+                    parsedParams[Object.keys(parsed).shift()] = Object.values(parsed).shift();
+                });
+
+                return parsedParams;
+            }
+
+            return null;
+        }
+    }
+
+};
+
+/***/ }),
+/* 40 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_stack_trace__ = __webpack_require__(49);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_stack_trace___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_stack_trace__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Logger__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_qs__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_qs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_qs__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+
+
+var _class = function () {
+    function _class(caller) {
+        _classCallCheck(this, _class);
+
+        this.caller = caller;
+        this.data = {};
+    }
+
+    _createClass(_class, [{
+        key: 'fakeRequest',
+        value: function fakeRequest(type, url) {
+            var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+            var options = arguments[3];
+
+            var trace = __WEBPACK_IMPORTED_MODULE_0_stack_trace___default.a.get(),
+                length = trace.length,
+                lastTrace = trace[length - 2],
+                params = this.caller.parseRequestParams(type, data, options),
+                lastUrl = this.setLastUrl.apply(this, [type, url].concat(_toConsumableArray(params)));
+
+            this.setLastRequest.apply(this, arguments);
+
+            __WEBPACK_IMPORTED_MODULE_1__Logger__["a" /* default */].debug(this.caller.modelName + '.' + lastTrace.getFunctionName() + ' made a ' + type + ' request (' + lastUrl + ')');
+            __WEBPACK_IMPORTED_MODULE_1__Logger__["a" /* default */].log(params);
+
+            return lastUrl;
+        }
+    }, {
+        key: 'setLastUrl',
+        value: function setLastUrl(type, url) {
+            var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+
+            var lastUrl = '';
+
+            if (['put', 'post', 'patch'].includes(type)) {
+                lastUrl = this.caller.sanitizeUrl([this.caller.baseURL, url].join('/')) + '?' + __WEBPACK_IMPORTED_MODULE_2_qs___default.a.stringify(params);
+            } else {
+                var urlParams = params.params,
+                    stringified = urlParams ? '?' + __WEBPACK_IMPORTED_MODULE_2_qs___default.a.stringify(urlParams) : '';
+
+                lastUrl = this.caller.sanitizeUrl([this.caller.baseURL, url].join('/')) + stringified;
+            }
+
+            lastUrl = this.caller.sanitizeUrl(lastUrl);
+
+            this.data.lastUrl = lastUrl;
+
+            return lastUrl;
+        }
+    }, {
+        key: 'setLastRequest',
+        value: function setLastRequest(type, url) {
+            var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+            var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
+            this.data.lastRequest = {
+                type: type,
+                url: url,
+                data: data,
+                options: options
+            };
+        }
+    }]);
+
+    return _class;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = _class;
+
+/***/ }),
+/* 41 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Rapid_Rapid__ = __webpack_require__(11);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var TestModel = function (_Rapid) {
+    _inherits(TestModel, _Rapid);
+
+    function TestModel() {
+        _classCallCheck(this, TestModel);
+
+        return _possibleConstructorReturn(this, (TestModel.__proto__ || Object.getPrototypeOf(TestModel)).apply(this, arguments));
+    }
+
+    _createClass(TestModel, [{
+        key: 'posts',
+        value: function posts(id, params) {
+            return this.collection.belongsTo('posts', id, params);
+        }
+    }, {
+        key: 'media',
+        value: function media(id, params) {
+            return this.collection.hasRelationship(id, ['media', 'recent'], params);
+            // return this.model.hasRelationship(id, ['media', 'recent'], params).get();
+        }
+    }, {
+        key: 'recentMedia',
+        value: function recentMedia(id, params) {
+            // return this.media(id, params).append('recent');
+        }
+    }, {
+        key: 'votes',
+        value: function votes(id, params) {
+            return this.model.hasRelationship(id, 'votes', params);
+        }
+    }]);
+
+    return TestModel;
+}(__WEBPACK_IMPORTED_MODULE_0__Rapid_Rapid__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = new TestModel({
+    // baseURL: 'https://my-api.com/v1',
+    modelName: 'user',
+    debug: true,
+    globalParameters: {}
+});
+
+/***/ }),
+/* 42 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Rapid_Rapid__ = __webpack_require__(11);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var UserModel = function (_Rapid) {
+    _inherits(UserModel, _Rapid);
+
+    function UserModel() {
+        _classCallCheck(this, UserModel);
+
+        return _possibleConstructorReturn(this, (UserModel.__proto__ || Object.getPrototypeOf(UserModel)).apply(this, arguments));
+    }
+
+    _createClass(UserModel, [{
+        key: 'auth',
+        value: function auth(id) {
+            // return this.model.get(this.makeUrl('current'));
+            // this.model.get(['current', id, 'meta'], data, options);
+            return this.model.get(id);
+        }
+    }, {
+        key: 'saveOrder',
+        value: function saveOrder(id, order) {
+            return this.model.post(['order', 'update'], order);
+        }
+    }, {
+        key: 'orderInfo',
+        value: function orderInfo(userId, orderId) {
+            return this.collection.hasRelationship('order', userId, orderId);
+            // return this.model.post(['order', 'update'], order);
+        }
+    }, {
+        key: 'posts',
+        value: function posts(id, params) {
+            return this.collection.hasRelationship(id, ['posts', 'comments'], params);
+        }
+    }, {
+        key: 'media',
+        value: function media(id, params) {
+            return this.collection.belongsTo(id, 'media', params, 12);
+        }
+    }, {
+        key: 'votes',
+        value: function votes(id, params) {
+            return this.model.hasRelationship(id, 'votes', params);
+        }
+    }]);
+
+    return UserModel;
+}(__WEBPACK_IMPORTED_MODULE_0__Rapid_Rapid__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = new UserModel({
+    modelName: 'user',
+    debug: true,
+    globalParameters: {}
+});
+
+/***/ }),
+/* 43 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Vendor_prism__ = __webpack_require__(12);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Vendor_prism___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Vendor_prism__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Interface_UserModel__ = __webpack_require__(42);
+
+
+
+
+
+window.Vue = __WEBPACK_IMPORTED_MODULE_0_vue___default.a;
+
+window.rapidjs = __WEBPACK_IMPORTED_MODULE_3__Interface_UserModel__["a" /* default */];
+
+/**
+ * We'll register a HTTP interceptor to attach the "CSRF" header to each of
+ * the outgoing requests issued by this application. The CSRF middleware
+ * included with Laravel will automatically verify the header's value.
+ */
+
+window.axios = __WEBPACK_IMPORTED_MODULE_1_axios___default.a;
+window.axios.defaults.headers.common = {
+  'X-Requested-With': 'XMLHttpRequest'
+};
+
+/***/ }),
+/* 44 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(13)();
+// imports
+
+
+// module
+exports.push([module.i, "/**\n * Default\n */\n/**\n * Bulma\n */\n/**\n * Bootstrap\n */\n.vue-switcher {\n  position: relative;\n  display: inline-block;\n}\n.vue-switcher__label {\n    display: block;\n    font-size: 10px;\n    margin-bottom: 5px;\n}\n.vue-switcher input {\n    opacity: 0;\n    width: 100%;\n    height: 100%;\n    position: absolute;\n    z-index: 1;\n    cursor: pointer;\n}\n.vue-switcher div {\n    height: 10px;\n    width: 40px;\n    position: relative;\n    border-radius: 30px;\n    display: -ms-flex;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    cursor: pointer;\n}\n.vue-switcher div:after {\n      content: '';\n      height: 18px;\n      width: 18px;\n      border-radius: 100px;\n      display: block;\n      -webkit-transition: all ease .3s;\n      transition: all ease .3s;\n      position: absolute;\n      left: 100%;\n      margin-left: -17px;\n      cursor: pointer;\n      top: -4px;\n}\n.vue-switcher--unchecked div {\n    -webkit-box-pack: end;\n        -ms-flex-pack: end;\n            justify-content: flex-end;\n}\n.vue-switcher--unchecked div:after {\n      left: 15px;\n}\n.vue-switcher--disabled div {\n    opacity: .3;\n}\n.vue-switcher--disabled input {\n    cursor: not-allowed;\n}\n.vue-switcher-theme--default.vue-switcher-color--default div {\n    background-color: #b7b7b7;\n}\n.vue-switcher-theme--default.vue-switcher-color--default div:after {\n      background-color: #9d9d9d;\n}\n.vue-switcher-theme--default.vue-switcher-color--default.vue-switcher--unchecked div {\n    background-color: #aaa;\n}\n.vue-switcher-theme--default.vue-switcher-color--default.vue-switcher--unchecked div:after {\n      background-color: #c4c4c4;\n}\n.vue-switcher-theme--default.vue-switcher-color--blue div {\n    background-color: #77b0c8;\n}\n.vue-switcher-theme--default.vue-switcher-color--blue div:after {\n      background-color: #539bb9;\n}\n.vue-switcher-theme--default.vue-switcher-color--blue.vue-switcher--unchecked div {\n    background-color: #c0dae5;\n}\n.vue-switcher-theme--default.vue-switcher-color--blue.vue-switcher--unchecked div:after {\n      background-color: #77b0c8;\n}\n.vue-switcher-theme--default.vue-switcher-color--red div {\n    background-color: #c87777;\n}\n.vue-switcher-theme--default.vue-switcher-color--red div:after {\n      background-color: #b95353;\n}\n.vue-switcher-theme--default.vue-switcher-color--red.vue-switcher--unchecked div {\n    background-color: #e5c0c0;\n}\n.vue-switcher-theme--default.vue-switcher-color--red.vue-switcher--unchecked div:after {\n      background-color: #c87777;\n}\n.vue-switcher-theme--default.vue-switcher-color--yellow div {\n    background-color: #c9c377;\n}\n.vue-switcher-theme--default.vue-switcher-color--yellow div:after {\n      background-color: #bab353;\n}\n.vue-switcher-theme--default.vue-switcher-color--yellow.vue-switcher--unchecked div {\n    background-color: #e6e3c0;\n}\n.vue-switcher-theme--default.vue-switcher-color--yellow.vue-switcher--unchecked div:after {\n      background-color: #c9c377;\n}\n.vue-switcher-theme--default.vue-switcher-color--orange div {\n    background-color: #c89577;\n}\n.vue-switcher-theme--default.vue-switcher-color--orange div:after {\n      background-color: #b97953;\n}\n.vue-switcher-theme--default.vue-switcher-color--orange.vue-switcher--unchecked div {\n    background-color: #e5cec0;\n}\n.vue-switcher-theme--default.vue-switcher-color--orange.vue-switcher--unchecked div:after {\n      background-color: #c89577;\n}\n.vue-switcher-theme--default.vue-switcher-color--green div {\n    background-color: #77c88d;\n}\n.vue-switcher-theme--default.vue-switcher-color--green div:after {\n      background-color: #53b96e;\n}\n.vue-switcher-theme--default.vue-switcher-color--green.vue-switcher--unchecked div {\n    background-color: #c0e5ca;\n}\n.vue-switcher-theme--default.vue-switcher-color--green.vue-switcher--unchecked div:after {\n      background-color: #77c88d;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--default div {\n    background-color: gainsboro;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--default div:after {\n      background-color: #f5f5f5;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--default.vue-switcher--unchecked div {\n    background-color: #e8e8e8;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--default.vue-switcher--unchecked div:after {\n      background-color: #f5f5f5;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--primary div {\n    background-color: #05ffda;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--primary div:after {\n      background-color: #00d1b2;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--primary.vue-switcher--unchecked div {\n    background-color: #6bffe9;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--primary.vue-switcher--unchecked div:after {\n      background-color: #05ffda;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--blue div {\n    background-color: #5e91e3;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--blue div:after {\n      background-color: #3273dc;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--blue.vue-switcher--unchecked div {\n    background-color: #b5ccf2;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--blue.vue-switcher--unchecked div:after {\n      background-color: #5e91e3;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--red div {\n    background-color: #ff6b89;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--red div:after {\n      background-color: #ff3860;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--red.vue-switcher--unchecked div {\n    background-color: #ffd1da;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--red.vue-switcher--unchecked div:after {\n      background-color: #ff6b89;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--yellow div {\n    background-color: #ffe78a;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--yellow div:after {\n      background-color: #ffdd57;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--yellow.vue-switcher--unchecked div {\n    background-color: #fffcf0;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--yellow.vue-switcher--unchecked div:after {\n      background-color: #ffe78a;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--green div {\n    background-color: #3dde75;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--green div:after {\n      background-color: #22c65b;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--green.vue-switcher--unchecked div {\n    background-color: #94edb3;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--green.vue-switcher--unchecked div:after {\n      background-color: #3dde75;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--default div {\n    background-color: #e6e6e6;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--default div:after {\n      background-color: #f0f0f0;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--default.vue-switcher--unchecked div {\n    background-color: whitesmoke;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--default.vue-switcher--unchecked div:after {\n      background-color: #f0f0f0;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--primary div {\n    background-color: #4f93ce;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--primary div:after {\n      background-color: #337ab7;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--primary.vue-switcher--unchecked div {\n    background-color: #9fc4e4;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--primary.vue-switcher--unchecked div:after {\n      background-color: #4f93ce;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--success div {\n    background-color: #80c780;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--success div:after {\n      background-color: #5cb85c;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--success.vue-switcher--unchecked div {\n    background-color: #c7e6c7;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--success.vue-switcher--unchecked div:after {\n      background-color: #80c780;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--info div {\n    background-color: #85d0e7;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--info div:after {\n      background-color: #5bc0de;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--info.vue-switcher--unchecked div {\n    background-color: #daf1f8;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--info.vue-switcher--unchecked div:after {\n      background-color: #85d0e7;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--warning div {\n    background-color: #f4c37d;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--warning div:after {\n      background-color: #f0ad4e;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--warning.vue-switcher--unchecked div {\n    background-color: #fceedb;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--warning.vue-switcher--unchecked div:after {\n      background-color: #f4c37d;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--danger div {\n    background-color: #d9534f;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--danger div:after {\n      background-color: #c9302c;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--danger.vue-switcher--unchecked div {\n    background-color: #eba5a3;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--danger.vue-switcher--unchecked div:after {\n      background-color: #d9534f;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 45 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(13)();
+// imports
+
+
+// module
+exports.push([module.i, "\n@-webkit-keyframes spinAround {\nfrom {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n}\nto {\n    -webkit-transform: rotate(359deg);\n            transform: rotate(359deg);\n}\n}\n@keyframes spinAround {\nfrom {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n}\nto {\n    -webkit-transform: rotate(359deg);\n            transform: rotate(359deg);\n}\n}\n.input,\n.textarea {\n  -moz-appearance: none;\n  -webkit-appearance: none;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: none;\n  border-radius: 3px;\n  box-shadow: none;\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  font-size: 1rem;\n  height: 2.285em;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  line-height: 1.5;\n  padding-left: 0.75em;\n  padding-right: 0.75em;\n  position: relative;\n  vertical-align: top;\n  background-color: white;\n  border: 1px solid #dbdbdb;\n  color: #363636;\n  box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);\n  max-width: 100%;\n  width: 100%;\n}\n.input:focus, .input.is-focused, .input:active, .input.is-active,\n  .textarea:focus,\n  .textarea.is-focused,\n  .textarea:active,\n  .textarea.is-active {\n    outline: none;\n}\n.input[disabled], .input.is-disabled,\n  .textarea[disabled],\n  .textarea.is-disabled {\n    pointer-events: none;\n}\n.input:hover, .input.is-hovered,\n  .textarea:hover,\n  .textarea.is-hovered {\n    border-color: #b5b5b5;\n}\n.input:focus, .input.is-focused, .input:active, .input.is-active,\n  .textarea:focus,\n  .textarea.is-focused,\n  .textarea:active,\n  .textarea.is-active {\n    border-color: #00d1b2;\n}\n.input[disabled], .input.is-disabled,\n  .textarea[disabled],\n  .textarea.is-disabled {\n    background-color: whitesmoke;\n    border-color: whitesmoke;\n    box-shadow: none;\n    color: #7a7a7a;\n}\n.input[disabled]::-moz-placeholder, .input.is-disabled::-moz-placeholder,\n    .textarea[disabled]::-moz-placeholder,\n    .textarea.is-disabled::-moz-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[disabled]::-webkit-input-placeholder, .input.is-disabled::-webkit-input-placeholder,\n    .textarea[disabled]::-webkit-input-placeholder,\n    .textarea.is-disabled::-webkit-input-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[disabled]:-moz-placeholder, .input.is-disabled:-moz-placeholder,\n    .textarea[disabled]:-moz-placeholder,\n    .textarea.is-disabled:-moz-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[disabled]:-ms-input-placeholder, .input.is-disabled:-ms-input-placeholder,\n    .textarea[disabled]:-ms-input-placeholder,\n    .textarea.is-disabled:-ms-input-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[type=\"search\"],\n  .textarea[type=\"search\"] {\n    border-radius: 290486px;\n}\n.input.is-white,\n  .textarea.is-white {\n    border-color: white;\n}\n.input.is-black,\n  .textarea.is-black {\n    border-color: #0a0a0a;\n}\n.input.is-light,\n  .textarea.is-light {\n    border-color: whitesmoke;\n}\n.input.is-dark,\n  .textarea.is-dark {\n    border-color: #363636;\n}\n.input.is-primary,\n  .textarea.is-primary {\n    border-color: #00d1b2;\n}\n.input.is-info,\n  .textarea.is-info {\n    border-color: #539bb9;\n}\n.input.is-success,\n  .textarea.is-success {\n    border-color: #23d160;\n}\n.input.is-warning,\n  .textarea.is-warning {\n    border-color: #ffdd57;\n}\n.input.is-danger,\n  .textarea.is-danger {\n    border-color: #ff3860;\n}\n.input.is-small,\n  .textarea.is-small {\n    border-radius: 2px;\n    font-size: 0.75rem;\n}\n.input.is-medium,\n  .textarea.is-medium {\n    font-size: 1.25rem;\n}\n.input.is-large,\n  .textarea.is-large {\n    font-size: 1.5rem;\n}\n.input.is-fullwidth,\n  .textarea.is-fullwidth {\n    display: block;\n    width: 100%;\n}\n.input.is-inline,\n  .textarea.is-inline {\n    display: inline;\n    width: auto;\n}\n.textarea {\n  display: block;\n  line-height: 1.25;\n  max-height: 600px;\n  max-width: 100%;\n  min-height: 120px;\n  min-width: 100%;\n  padding: 10px;\n  resize: vertical;\n}\n.checkbox,\n.radio {\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  cursor: pointer;\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  position: relative;\n  vertical-align: top;\n}\n.checkbox input,\n  .radio input {\n    cursor: pointer;\n    margin-right: 0.5em;\n}\n.checkbox:hover,\n  .radio:hover {\n    color: #363636;\n}\n.checkbox.is-disabled,\n  .radio.is-disabled {\n    color: #7a7a7a;\n    pointer-events: none;\n}\n.checkbox.is-disabled input,\n    .radio.is-disabled input {\n      pointer-events: none;\n}\n.radio + .radio {\n  margin-left: 0.5em;\n}\n.select {\n  display: inline-block;\n  height: 2.5em;\n  position: relative;\n  vertical-align: top;\n}\n.select:after {\n    border: 1px solid #00d1b2;\n    border-right: 0;\n    border-top: 0;\n    content: \" \";\n    display: block;\n    height: 0.5em;\n    pointer-events: none;\n    position: absolute;\n    -webkit-transform: rotate(-45deg);\n            transform: rotate(-45deg);\n    width: 0.5em;\n    margin-top: -0.375em;\n    right: 1.125em;\n    top: 50%;\n    z-index: 4;\n}\n.select select {\n    -moz-appearance: none;\n    -webkit-appearance: none;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    border: none;\n    border-radius: 3px;\n    box-shadow: none;\n    display: -webkit-inline-box;\n    display: -ms-inline-flexbox;\n    display: inline-flex;\n    font-size: 1rem;\n    height: 2.285em;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    line-height: 1.5;\n    padding-left: 0.75em;\n    padding-right: 0.75em;\n    position: relative;\n    vertical-align: top;\n    background-color: white;\n    border: 1px solid #dbdbdb;\n    color: #363636;\n    cursor: pointer;\n    display: block;\n    font-size: 1em;\n    outline: none;\n    padding-right: 2.5em;\n}\n.select select:focus, .select select.is-focused, .select select:active, .select select.is-active {\n      outline: none;\n}\n.select select[disabled], .select select.is-disabled {\n      pointer-events: none;\n}\n.select select:hover, .select select.is-hovered {\n      border-color: #b5b5b5;\n}\n.select select:focus, .select select.is-focused, .select select:active, .select select.is-active {\n      border-color: #00d1b2;\n}\n.select select[disabled], .select select.is-disabled {\n      background-color: whitesmoke;\n      border-color: whitesmoke;\n      box-shadow: none;\n      color: #7a7a7a;\n}\n.select select[disabled]::-moz-placeholder, .select select.is-disabled::-moz-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select[disabled]::-webkit-input-placeholder, .select select.is-disabled::-webkit-input-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select[disabled]:-moz-placeholder, .select select.is-disabled:-moz-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select[disabled]:-ms-input-placeholder, .select select.is-disabled:-ms-input-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select:hover {\n      border-color: #b5b5b5;\n}\n.select select::ms-expand {\n      display: none;\n}\n.select:hover:after {\n    border-color: #363636;\n}\n.select.is-small {\n    border-radius: 2px;\n    font-size: 0.75rem;\n}\n.select.is-medium {\n    font-size: 1.25rem;\n}\n.select.is-large {\n    font-size: 1.5rem;\n}\n.select.is-fullwidth {\n    width: 100%;\n}\n.select.is-fullwidth select {\n      width: 100%;\n}\n.label {\n  color: #363636;\n  display: block;\n  font-weight: bold;\n}\n.label:not(:last-child) {\n    margin-bottom: 0.5em;\n}\n.help {\n  display: block;\n  font-size: 0.75rem;\n  margin-top: 5px;\n}\n.help.is-white {\n    color: white;\n}\n.help.is-black {\n    color: #0a0a0a;\n}\n.help.is-light {\n    color: whitesmoke;\n}\n.help.is-dark {\n    color: #363636;\n}\n.help.is-primary {\n    color: #00d1b2;\n}\n.help.is-info {\n    color: #539bb9;\n}\n.help.is-success {\n    color: #23d160;\n}\n.help.is-warning {\n    color: #ffdd57;\n}\n.help.is-danger {\n    color: #ff3860;\n}\n@media screen and (max-width: 768px) {\n.control-label {\n    margin-bottom: 0.5em;\n}\n}\n@media screen and (min-width: 769px) {\n.control-label {\n    -ms-flex-preferred-size: 0;\n        flex-basis: 0;\n    -webkit-box-flex: 1;\n        -ms-flex-positive: 1;\n            flex-grow: 1;\n    -ms-flex-negative: 0;\n        flex-shrink: 0;\n    margin-right: 1.5em;\n    padding-top: 0.5em;\n    text-align: right;\n}\n}\n.control {\n  position: relative;\n  text-align: left;\n}\n.control:not(:last-child) {\n    margin-bottom: 0.75rem;\n}\n.control.has-addons {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n}\n.control.has-addons .button,\n    .control.has-addons .input,\n    .control.has-addons .select {\n      border-radius: 0;\n      margin-right: -1px;\n      width: auto;\n}\n.control.has-addons .button:hover,\n      .control.has-addons .input:hover,\n      .control.has-addons .select:hover {\n        z-index: 2;\n}\n.control.has-addons .button:focus, .control.has-addons .button:active,\n      .control.has-addons .input:focus,\n      .control.has-addons .input:active,\n      .control.has-addons .select:focus,\n      .control.has-addons .select:active {\n        z-index: 3;\n}\n.control.has-addons .button:first-child,\n      .control.has-addons .input:first-child,\n      .control.has-addons .select:first-child {\n        border-radius: 3px 0 0 3px;\n}\n.control.has-addons .button:first-child select,\n        .control.has-addons .input:first-child select,\n        .control.has-addons .select:first-child select {\n          border-radius: 3px 0 0 3px;\n}\n.control.has-addons .button:last-child,\n      .control.has-addons .input:last-child,\n      .control.has-addons .select:last-child {\n        border-radius: 0 3px 3px 0;\n}\n.control.has-addons .button:last-child select,\n        .control.has-addons .input:last-child select,\n        .control.has-addons .select:last-child select {\n          border-radius: 0 3px 3px 0;\n}\n.control.has-addons .button.is-expanded,\n      .control.has-addons .input.is-expanded,\n      .control.has-addons .select.is-expanded {\n        -webkit-box-flex: 1;\n            -ms-flex-positive: 1;\n                flex-grow: 1;\n        -ms-flex-negative: 0;\n            flex-shrink: 0;\n}\n.control.has-addons .select select:hover {\n      z-index: 2;\n}\n.control.has-addons .select select:focus, .control.has-addons .select select:active {\n      z-index: 3;\n}\n.control.has-addons.has-addons-centered {\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n}\n.control.has-addons.has-addons-right {\n      -webkit-box-pack: end;\n          -ms-flex-pack: end;\n              justify-content: flex-end;\n}\n.control.has-addons.has-addons-fullwidth .button,\n    .control.has-addons.has-addons-fullwidth .input,\n    .control.has-addons.has-addons-fullwidth .select {\n      -webkit-box-flex: 1;\n          -ms-flex-positive: 1;\n              flex-grow: 1;\n      -ms-flex-negative: 0;\n          flex-shrink: 0;\n}\n.control.has-icon .icon {\n    color: #dbdbdb;\n    pointer-events: none;\n    position: absolute;\n    top: 1.25rem;\n    z-index: 4;\n}\n.control.has-icon .input:focus + .icon {\n    color: #7a7a7a;\n}\n.control.has-icon .input.is-small + .icon {\n    top: 0.9375rem;\n}\n.control.has-icon .input.is-medium + .icon {\n    top: 1.5625rem;\n}\n.control.has-icon .input.is-large + .icon {\n    top: 1.875rem;\n}\n.control.has-icon:not(.has-icon-right) .icon {\n    left: 1.25rem;\n    -webkit-transform: translateX(-50%) translateY(-50%);\n            transform: translateX(-50%) translateY(-50%);\n}\n.control.has-icon:not(.has-icon-right) .input {\n    padding-left: 2.5em;\n}\n.control.has-icon:not(.has-icon-right) .input.is-small + .icon {\n      left: 0.9375rem;\n}\n.control.has-icon:not(.has-icon-right) .input.is-medium + .icon {\n      left: 1.5625rem;\n}\n.control.has-icon:not(.has-icon-right) .input.is-large + .icon {\n      left: 1.875rem;\n}\n.control.has-icon.has-icon-right .icon {\n    right: 1.25rem;\n    -webkit-transform: translateX(50%) translateY(-50%);\n            transform: translateX(50%) translateY(-50%);\n}\n.control.has-icon.has-icon-right .input {\n    padding-right: 2.5em;\n}\n.control.has-icon.has-icon-right .input.is-small + .icon {\n      right: 0.9375rem;\n}\n.control.has-icon.has-icon-right .input.is-medium + .icon {\n      right: 1.5625rem;\n}\n.control.has-icon.has-icon-right .input.is-large + .icon {\n      right: 1.875rem;\n}\n.control.is-grouped {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n}\n.control.is-grouped > .control {\n      -ms-flex-preferred-size: 0;\n          flex-basis: 0;\n      -ms-flex-negative: 0;\n          flex-shrink: 0;\n}\n.control.is-grouped > .control:not(:last-child) {\n        margin-bottom: 0;\n        margin-right: 0.75rem;\n}\n.control.is-grouped > .control.is-expanded {\n        -webkit-box-flex: 1;\n            -ms-flex-positive: 1;\n                flex-grow: 1;\n        -ms-flex-negative: 1;\n            flex-shrink: 1;\n}\n.control.is-grouped.is-grouped-centered {\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n}\n.control.is-grouped.is-grouped-right {\n      -webkit-box-pack: end;\n          -ms-flex-pack: end;\n              justify-content: flex-end;\n}\n@media screen and (min-width: 769px) {\n.control.is-horizontal {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n}\n.control.is-horizontal > .control {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -ms-flex-preferred-size: 0;\n            flex-basis: 0;\n        -webkit-box-flex: 5;\n            -ms-flex-positive: 5;\n                flex-grow: 5;\n        -ms-flex-negative: 1;\n            flex-shrink: 1;\n}\n}\n.control.is-loading:after {\n    -webkit-animation: spinAround 500ms infinite linear;\n            animation: spinAround 500ms infinite linear;\n    border: 2px solid #dbdbdb;\n    border-radius: 290486px;\n    border-right-color: transparent;\n    border-top-color: transparent;\n    content: \"\";\n    display: block;\n    height: 1rem;\n    position: relative;\n    width: 1rem;\n    position: absolute !important;\n    right: 0.75em;\n    top: 0.75em;\n}\n.button {\n  -moz-appearance: none;\n  -webkit-appearance: none;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: none;\n  border-radius: 3px;\n  box-shadow: none;\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  font-size: 1rem;\n  height: 2.285em;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  line-height: 1.5;\n  padding-left: 0.75em;\n  padding-right: 0.75em;\n  position: relative;\n  vertical-align: top;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  background-color: white;\n  border: 1px solid #dbdbdb;\n  color: #363636;\n  cursor: pointer;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  padding-left: 0.75em;\n  padding-right: 0.75em;\n  text-align: center;\n  white-space: nowrap;\n}\n.button:focus, .button.is-focused, .button:active, .button.is-active {\n    outline: none;\n}\n.button[disabled], .button.is-disabled {\n    pointer-events: none;\n}\n.button strong {\n    color: inherit;\n}\n.button .icon:first-child:not(:last-child) {\n    margin-left: -0.25rem;\n    margin-right: 0.5rem;\n}\n.button .icon:last-child:not(:first-child) {\n    margin-left: 0.5rem;\n    margin-right: -0.25rem;\n}\n.button .icon:first-child:last-child {\n    margin-left: calc(-1px + -0.25rem);\n    margin-right: calc(-1px + -0.25rem);\n}\n.button .icon.is-small:first-child:not(:last-child) {\n    margin-left: 0rem;\n}\n.button .icon.is-small:last-child:not(:first-child) {\n    margin-right: 0rem;\n}\n.button .icon.is-small:first-child:last-child {\n    margin-left: calc(-1px + 0rem);\n    margin-right: calc(-1px + 0rem);\n}\n.button .icon.is-medium:first-child:not(:last-child) {\n    margin-left: -0.5rem;\n}\n.button .icon.is-medium:last-child:not(:first-child) {\n    margin-right: -0.5rem;\n}\n.button .icon.is-medium:first-child:last-child {\n    margin-left: calc(-1px + -0.5rem);\n    margin-right: calc(-1px + -0.5rem);\n}\n.button .icon.is-large:first-child:not(:last-child) {\n    margin-left: -1rem;\n}\n.button .icon.is-large:last-child:not(:first-child) {\n    margin-right: -1rem;\n}\n.button .icon.is-large:first-child:last-child {\n    margin-left: calc(-1px + -1rem);\n    margin-right: calc(-1px + -1rem);\n}\n.button:hover, .button.is-hovered {\n    border-color: #b5b5b5;\n    color: #363636;\n}\n.button:focus, .button.is-focused {\n    border-color: #00d1b2;\n    box-shadow: 0 0 0.5em rgba(0, 209, 178, 0.25);\n    color: #363636;\n}\n.button:active, .button.is-active {\n    border-color: #4a4a4a;\n    box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n    color: #363636;\n}\n.button.is-link {\n    background-color: transparent;\n    border-color: transparent;\n    color: #4a4a4a;\n    text-decoration: underline;\n}\n.button.is-link:hover, .button.is-link.is-hovered, .button.is-link:focus, .button.is-link.is-focused, .button.is-link:active, .button.is-link.is-active {\n      background-color: whitesmoke;\n      color: #363636;\n}\n.button.is-white {\n    background-color: white;\n    border-color: transparent;\n    color: #0a0a0a;\n}\n.button.is-white:hover, .button.is-white.is-hovered {\n      background-color: #f9f9f9;\n      border-color: transparent;\n      color: #0a0a0a;\n}\n.button.is-white:focus, .button.is-white.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(255, 255, 255, 0.25);\n      color: #0a0a0a;\n}\n.button.is-white:active, .button.is-white.is-active {\n      background-color: #f2f2f2;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #0a0a0a;\n}\n.button.is-white.is-inverted {\n      background-color: #0a0a0a;\n      color: white;\n}\n.button.is-white.is-inverted:hover {\n        background-color: black;\n}\n.button.is-white.is-loading:after {\n      border-color: transparent transparent #0a0a0a #0a0a0a !important;\n}\n.button.is-white.is-outlined {\n      background-color: transparent;\n      border-color: white;\n      color: white;\n}\n.button.is-white.is-outlined:hover, .button.is-white.is-outlined:focus {\n        background-color: white;\n        border-color: white;\n        color: #0a0a0a;\n}\n.button.is-white.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #0a0a0a;\n      color: #0a0a0a;\n}\n.button.is-white.is-inverted.is-outlined:hover, .button.is-white.is-inverted.is-outlined:focus {\n        background-color: #0a0a0a;\n        color: white;\n}\n.button.is-black {\n    background-color: #0a0a0a;\n    border-color: transparent;\n    color: white;\n}\n.button.is-black:hover, .button.is-black.is-hovered {\n      background-color: #040404;\n      border-color: transparent;\n      color: white;\n}\n.button.is-black:focus, .button.is-black.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(10, 10, 10, 0.25);\n      color: white;\n}\n.button.is-black:active, .button.is-black.is-active {\n      background-color: black;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: white;\n}\n.button.is-black.is-inverted {\n      background-color: white;\n      color: #0a0a0a;\n}\n.button.is-black.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-black.is-loading:after {\n      border-color: transparent transparent white white !important;\n}\n.button.is-black.is-outlined {\n      background-color: transparent;\n      border-color: #0a0a0a;\n      color: #0a0a0a;\n}\n.button.is-black.is-outlined:hover, .button.is-black.is-outlined:focus {\n        background-color: #0a0a0a;\n        border-color: #0a0a0a;\n        color: white;\n}\n.button.is-black.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: white;\n      color: white;\n}\n.button.is-black.is-inverted.is-outlined:hover, .button.is-black.is-inverted.is-outlined:focus {\n        background-color: white;\n        color: #0a0a0a;\n}\n.button.is-light {\n    background-color: whitesmoke;\n    border-color: transparent;\n    color: #363636;\n}\n.button.is-light:hover, .button.is-light.is-hovered {\n      background-color: #eeeeee;\n      border-color: transparent;\n      color: #363636;\n}\n.button.is-light:focus, .button.is-light.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(245, 245, 245, 0.25);\n      color: #363636;\n}\n.button.is-light:active, .button.is-light.is-active {\n      background-color: #e8e8e8;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #363636;\n}\n.button.is-light.is-inverted {\n      background-color: #363636;\n      color: whitesmoke;\n}\n.button.is-light.is-inverted:hover {\n        background-color: #292929;\n}\n.button.is-light.is-loading:after {\n      border-color: transparent transparent #363636 #363636 !important;\n}\n.button.is-light.is-outlined {\n      background-color: transparent;\n      border-color: whitesmoke;\n      color: whitesmoke;\n}\n.button.is-light.is-outlined:hover, .button.is-light.is-outlined:focus {\n        background-color: whitesmoke;\n        border-color: whitesmoke;\n        color: #363636;\n}\n.button.is-light.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #363636;\n      color: #363636;\n}\n.button.is-light.is-inverted.is-outlined:hover, .button.is-light.is-inverted.is-outlined:focus {\n        background-color: #363636;\n        color: whitesmoke;\n}\n.button.is-dark {\n    background-color: #363636;\n    border-color: transparent;\n    color: whitesmoke;\n}\n.button.is-dark:hover, .button.is-dark.is-hovered {\n      background-color: #2f2f2f;\n      border-color: transparent;\n      color: whitesmoke;\n}\n.button.is-dark:focus, .button.is-dark.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(54, 54, 54, 0.25);\n      color: whitesmoke;\n}\n.button.is-dark:active, .button.is-dark.is-active {\n      background-color: #292929;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: whitesmoke;\n}\n.button.is-dark.is-inverted {\n      background-color: whitesmoke;\n      color: #363636;\n}\n.button.is-dark.is-inverted:hover {\n        background-color: #e8e8e8;\n}\n.button.is-dark.is-loading:after {\n      border-color: transparent transparent whitesmoke whitesmoke !important;\n}\n.button.is-dark.is-outlined {\n      background-color: transparent;\n      border-color: #363636;\n      color: #363636;\n}\n.button.is-dark.is-outlined:hover, .button.is-dark.is-outlined:focus {\n        background-color: #363636;\n        border-color: #363636;\n        color: whitesmoke;\n}\n.button.is-dark.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: whitesmoke;\n      color: whitesmoke;\n}\n.button.is-dark.is-inverted.is-outlined:hover, .button.is-dark.is-inverted.is-outlined:focus {\n        background-color: whitesmoke;\n        color: #363636;\n}\n.button.is-primary {\n    background-color: #00d1b2;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-primary:hover, .button.is-primary.is-hovered {\n      background-color: #00c4a7;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-primary:focus, .button.is-primary.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(0, 209, 178, 0.25);\n      color: #fff;\n}\n.button.is-primary:active, .button.is-primary.is-active {\n      background-color: #00b89c;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-primary.is-inverted {\n      background-color: #fff;\n      color: #00d1b2;\n}\n.button.is-primary.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-primary.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-primary.is-outlined {\n      background-color: transparent;\n      border-color: #00d1b2;\n      color: #00d1b2;\n}\n.button.is-primary.is-outlined:hover, .button.is-primary.is-outlined:focus {\n        background-color: #00d1b2;\n        border-color: #00d1b2;\n        color: #fff;\n}\n.button.is-primary.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-primary.is-inverted.is-outlined:hover, .button.is-primary.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #00d1b2;\n}\n.button.is-info {\n    background-color: #539bb9;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-info:hover, .button.is-info.is-hovered {\n      background-color: #4a96b5;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-info:focus, .button.is-info.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(83, 155, 185, 0.25);\n      color: #fff;\n}\n.button.is-info:active, .button.is-info.is-active {\n      background-color: #468eac;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-info.is-inverted {\n      background-color: #fff;\n      color: #539bb9;\n}\n.button.is-info.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-info.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-info.is-outlined {\n      background-color: transparent;\n      border-color: #539bb9;\n      color: #539bb9;\n}\n.button.is-info.is-outlined:hover, .button.is-info.is-outlined:focus {\n        background-color: #539bb9;\n        border-color: #539bb9;\n        color: #fff;\n}\n.button.is-info.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-info.is-inverted.is-outlined:hover, .button.is-info.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #539bb9;\n}\n.button.is-success {\n    background-color: #23d160;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-success:hover, .button.is-success.is-hovered {\n      background-color: #22c65b;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-success:focus, .button.is-success.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(35, 209, 96, 0.25);\n      color: #fff;\n}\n.button.is-success:active, .button.is-success.is-active {\n      background-color: #20bc56;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-success.is-inverted {\n      background-color: #fff;\n      color: #23d160;\n}\n.button.is-success.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-success.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-success.is-outlined {\n      background-color: transparent;\n      border-color: #23d160;\n      color: #23d160;\n}\n.button.is-success.is-outlined:hover, .button.is-success.is-outlined:focus {\n        background-color: #23d160;\n        border-color: #23d160;\n        color: #fff;\n}\n.button.is-success.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-success.is-inverted.is-outlined:hover, .button.is-success.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #23d160;\n}\n.button.is-warning {\n    background-color: #ffdd57;\n    border-color: transparent;\n    color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning:hover, .button.is-warning.is-hovered {\n      background-color: #ffdb4a;\n      border-color: transparent;\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning:focus, .button.is-warning.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(255, 221, 87, 0.25);\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning:active, .button.is-warning.is-active {\n      background-color: #ffd83d;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-inverted {\n      background-color: rgba(0, 0, 0, 0.7);\n      color: #ffdd57;\n}\n.button.is-warning.is-inverted:hover {\n        background-color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-loading:after {\n      border-color: transparent transparent rgba(0, 0, 0, 0.7) rgba(0, 0, 0, 0.7) !important;\n}\n.button.is-warning.is-outlined {\n      background-color: transparent;\n      border-color: #ffdd57;\n      color: #ffdd57;\n}\n.button.is-warning.is-outlined:hover, .button.is-warning.is-outlined:focus {\n        background-color: #ffdd57;\n        border-color: #ffdd57;\n        color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: rgba(0, 0, 0, 0.7);\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-inverted.is-outlined:hover, .button.is-warning.is-inverted.is-outlined:focus {\n        background-color: rgba(0, 0, 0, 0.7);\n        color: #ffdd57;\n}\n.button.is-danger {\n    background-color: #ff3860;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-danger:hover, .button.is-danger.is-hovered {\n      background-color: #ff2b56;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-danger:focus, .button.is-danger.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(255, 56, 96, 0.25);\n      color: #fff;\n}\n.button.is-danger:active, .button.is-danger.is-active {\n      background-color: #ff1f4b;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-danger.is-inverted {\n      background-color: #fff;\n      color: #ff3860;\n}\n.button.is-danger.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-danger.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-danger.is-outlined {\n      background-color: transparent;\n      border-color: #ff3860;\n      color: #ff3860;\n}\n.button.is-danger.is-outlined:hover, .button.is-danger.is-outlined:focus {\n        background-color: #ff3860;\n        border-color: #ff3860;\n        color: #fff;\n}\n.button.is-danger.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-danger.is-inverted.is-outlined:hover, .button.is-danger.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #ff3860;\n}\n.button.is-small {\n    border-radius: 2px;\n    font-size: 0.75rem;\n}\n.button.is-small .icon:first-child:not(:last-child) {\n      margin-left: -0.375rem;\n      margin-right: 0.375rem;\n}\n.button.is-small .icon:last-child:not(:first-child) {\n      margin-left: 0.375rem;\n      margin-right: -0.375rem;\n}\n.button.is-small .icon:first-child:last-child {\n      margin-left: calc(-1px + -0.375rem);\n      margin-right: calc(-1px + -0.375rem);\n}\n.button.is-small .icon.is-small:first-child:not(:last-child) {\n      margin-left: -0.125rem;\n}\n.button.is-small .icon.is-small:last-child:not(:first-child) {\n      margin-right: -0.125rem;\n}\n.button.is-small .icon.is-small:first-child:last-child {\n      margin-left: calc(-1px + -0.125rem);\n      margin-right: calc(-1px + -0.125rem);\n}\n.button.is-small .icon.is-medium:first-child:not(:last-child) {\n      margin-left: -0.625rem;\n}\n.button.is-small .icon.is-medium:last-child:not(:first-child) {\n      margin-right: -0.625rem;\n}\n.button.is-small .icon.is-medium:first-child:last-child {\n      margin-left: calc(-1px + -0.625rem);\n      margin-right: calc(-1px + -0.625rem);\n}\n.button.is-small .icon.is-large:first-child:not(:last-child) {\n      margin-left: -1.125rem;\n}\n.button.is-small .icon.is-large:last-child:not(:first-child) {\n      margin-right: -1.125rem;\n}\n.button.is-small .icon.is-large:first-child:last-child {\n      margin-left: calc(-1px + -1.125rem);\n      margin-right: calc(-1px + -1.125rem);\n}\n.button.is-medium {\n    font-size: 1.25rem;\n}\n.button.is-medium .icon:first-child:not(:last-child) {\n      margin-left: -0.125rem;\n      margin-right: 0.625rem;\n}\n.button.is-medium .icon:last-child:not(:first-child) {\n      margin-left: 0.625rem;\n      margin-right: -0.125rem;\n}\n.button.is-medium .icon:first-child:last-child {\n      margin-left: calc(-1px + -0.125rem);\n      margin-right: calc(-1px + -0.125rem);\n}\n.button.is-medium .icon.is-small:first-child:not(:last-child) {\n      margin-left: 0.125rem;\n}\n.button.is-medium .icon.is-small:last-child:not(:first-child) {\n      margin-right: 0.125rem;\n}\n.button.is-medium .icon.is-small:first-child:last-child {\n      margin-left: calc(-1px + 0.125rem);\n      margin-right: calc(-1px + 0.125rem);\n}\n.button.is-medium .icon.is-medium:first-child:not(:last-child) {\n      margin-left: -0.375rem;\n}\n.button.is-medium .icon.is-medium:last-child:not(:first-child) {\n      margin-right: -0.375rem;\n}\n.button.is-medium .icon.is-medium:first-child:last-child {\n      margin-left: calc(-1px + -0.375rem);\n      margin-right: calc(-1px + -0.375rem);\n}\n.button.is-medium .icon.is-large:first-child:not(:last-child) {\n      margin-left: -0.875rem;\n}\n.button.is-medium .icon.is-large:last-child:not(:first-child) {\n      margin-right: -0.875rem;\n}\n.button.is-medium .icon.is-large:first-child:last-child {\n      margin-left: calc(-1px + -0.875rem);\n      margin-right: calc(-1px + -0.875rem);\n}\n.button.is-large {\n    font-size: 1.5rem;\n}\n.button.is-large .icon:first-child:not(:last-child) {\n      margin-left: 0rem;\n      margin-right: 0.75rem;\n}\n.button.is-large .icon:last-child:not(:first-child) {\n      margin-left: 0.75rem;\n      margin-right: 0rem;\n}\n.button.is-large .icon:first-child:last-child {\n      margin-left: calc(-1px + 0rem);\n      margin-right: calc(-1px + 0rem);\n}\n.button.is-large .icon.is-small:first-child:not(:last-child) {\n      margin-left: 0.25rem;\n}\n.button.is-large .icon.is-small:last-child:not(:first-child) {\n      margin-right: 0.25rem;\n}\n.button.is-large .icon.is-small:first-child:last-child {\n      margin-left: calc(-1px + 0.25rem);\n      margin-right: calc(-1px + 0.25rem);\n}\n.button.is-large .icon.is-medium:first-child:not(:last-child) {\n      margin-left: -0.25rem;\n}\n.button.is-large .icon.is-medium:last-child:not(:first-child) {\n      margin-right: -0.25rem;\n}\n.button.is-large .icon.is-medium:first-child:last-child {\n      margin-left: calc(-1px + -0.25rem);\n      margin-right: calc(-1px + -0.25rem);\n}\n.button.is-large .icon.is-large:first-child:not(:last-child) {\n      margin-left: -0.75rem;\n}\n.button.is-large .icon.is-large:last-child:not(:first-child) {\n      margin-right: -0.75rem;\n}\n.button.is-large .icon.is-large:first-child:last-child {\n      margin-left: calc(-1px + -0.75rem);\n      margin-right: calc(-1px + -0.75rem);\n}\n.button[disabled], .button.is-disabled {\n    opacity: 0.5;\n}\n.button.is-fullwidth {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    width: 100%;\n}\n.button.is-loading {\n    color: transparent !important;\n    pointer-events: none;\n}\n.button.is-loading:after {\n      -webkit-animation: spinAround 500ms infinite linear;\n              animation: spinAround 500ms infinite linear;\n      border: 2px solid #dbdbdb;\n      border-radius: 290486px;\n      border-right-color: transparent;\n      border-top-color: transparent;\n      content: \"\";\n      display: block;\n      height: 1rem;\n      position: relative;\n      width: 1rem;\n      left: 50%;\n      margin-left: -8px;\n      margin-top: -8px;\n      position: absolute;\n      top: 50%;\n      position: absolute !important;\n}\n.label {\n  font-size: 12px;\n}\nh4 {\n  margin: 10px 0 10px !important;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* global define */
@@ -19891,31 +21372,13 @@ window.axios.defaults.headers.common = {
 
 
 /***/ }),
-/* 39 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var stringify = __webpack_require__(41);
-var parse = __webpack_require__(40);
-var formats = __webpack_require__(10);
-
-module.exports = {
-    formats: formats,
-    parse: parse,
-    stringify: stringify
-};
-
-
-/***/ }),
-/* 40 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(11);
+var utils = __webpack_require__(17);
 
 var has = Object.prototype.hasOwnProperty;
 
@@ -20082,14 +21545,14 @@ module.exports = function (str, opts) {
 
 
 /***/ }),
-/* 41 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var utils = __webpack_require__(11);
-var formats = __webpack_require__(10);
+var utils = __webpack_require__(17);
+var formats = __webpack_require__(15);
 
 var arrayPrefixGenerators = {
     brackets: function brackets(prefix) {
@@ -20276,7 +21739,7 @@ module.exports = function (object, opts) {
 
 
 /***/ }),
-/* 42 */
+/* 49 */
 /***/ (function(module, exports) {
 
 exports.get = function(belowFn) {
@@ -20393,7 +21856,903 @@ exports._createParsedCallSite = function(properties) {
 
 
 /***/ }),
-/* 43 */
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(54)
+
+/* script */
+__vue_exports__ = __webpack_require__(38)
+
+/* template */
+var __vue_template__ = __webpack_require__(52)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/drewbartlett/Sites/rapidjs/node_modules/vue-switches/switches.vue"
+if(typeof __vue_options__.name === "undefined") {
+  __vue_options__.name = "switches"
+}__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-1723043d", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-1723043d", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional && typeof __vue_template__ !== "undefined") {console.error("[vue-loader] switches.vue: functional components are not supported with templates, they should use render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __vue_exports__, __vue_options__
+var __vue_styles__ = {}
+
+/* styles */
+__webpack_require__(55)
+
+/* script */
+__vue_exports__ = __webpack_require__(39)
+
+/* template */
+var __vue_template__ = __webpack_require__(53)
+__vue_options__ = __vue_exports__ = __vue_exports__ || {}
+if (
+  typeof __vue_exports__.default === "object" ||
+  typeof __vue_exports__.default === "function"
+) {
+if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
+__vue_options__ = __vue_exports__ = __vue_exports__.default
+}
+if (typeof __vue_options__ === "function") {
+  __vue_options__ = __vue_options__.options
+}
+__vue_options__.__file = "/Users/drewbartlett/Sites/rapidjs/resources/assets/js/Components/ClassBuilder.vue"
+if(typeof __vue_options__.name === "undefined") {
+  __vue_options__.name = "ClassBuilder"
+}__vue_options__.render = __vue_template__.render
+__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-b3ff9c64", __vue_options__)
+  } else {
+    hotAPI.reload("data-v-b3ff9c64", __vue_options__)
+  }
+})()}
+if (__vue_options__.functional && typeof __vue_template__ !== "undefined") {console.error("[vue-loader] ClassBuilder.vue: functional components are not supported with templates, they should use render functions.")}
+
+module.exports = __vue_exports__
+
+
+/***/ }),
+/* 52 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('label', {
+    class: _vm.classObject
+  }, [_c('span', {
+    staticClass: "vue-switcher__label"
+  }, [(_vm.label) ? _c('span', {
+    domProps: {
+      "textContent": _vm._s(_vm.label)
+    }
+  }) : _vm._e(), _vm._v(" "), (!_vm.label && _vm.enabled) ? _c('span', {
+    domProps: {
+      "textContent": _vm._s(_vm.textEnabled)
+    }
+  }) : _vm._e(), _vm._v(" "), (!_vm.label && !_vm.enabled) ? _c('span', {
+    domProps: {
+      "textContent": _vm._s(_vm.textDisabled)
+    }
+  }) : _vm._e()]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.enabled),
+      expression: "enabled"
+    }],
+    attrs: {
+      "type": "checkbox",
+      "disabled": _vm.disabled
+    },
+    domProps: {
+      "checked": Array.isArray(_vm.enabled) ? _vm._i(_vm.enabled, null) > -1 : (_vm.enabled)
+    },
+    on: {
+      "click": function($event) {
+        var $$a = _vm.enabled,
+          $$el = $event.target,
+          $$c = $$el.checked ? (true) : (false);
+        if (Array.isArray($$a)) {
+          var $$v = null,
+            $$i = _vm._i($$a, $$v);
+          if ($$c) {
+            $$i < 0 && (_vm.enabled = $$a.concat($$v))
+          } else {
+            $$i > -1 && (_vm.enabled = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
+          }
+        } else {
+          _vm.enabled = $$c
+        }
+      }
+    }
+  }), _vm._v(" "), _c('div')])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-1723043d", module.exports)
+  }
+}
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "rapidjs-class-builder"
+  }, [_c('h2', {
+    staticClass: "title is-3",
+    attrs: {
+      "id": "class-builder"
+    }
+  }, [_vm._v("Class Builder")]), _vm._v(" "), _c('div', {
+    staticClass: "rapidjs-class-builder__form"
+  }, [_c('h4', {
+    staticClass: "subtitle is-5 is-info"
+  }, [_vm._v("Core")]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid row"
+  }, [_c('div', {
+    staticClass: "fb-grid col-md-3"
+  }, [_c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    staticClass: "button is-info is-small"
+  }, [_vm._v("baseURL:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.baseURL),
+      expression: "model.baseURL"
+    }],
+    staticClass: "input is-small is-info",
+    attrs: {
+      "tabindex": "1",
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.baseURL)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.baseURL = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-3"
+  }, [_c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    staticClass: "button is-info is-small"
+  }, [_vm._v("modelName:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.modelName),
+      expression: "model.modelName"
+    }],
+    staticClass: "input is-small is-info",
+    attrs: {
+      "tabindex": "2",
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.modelName)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.modelName = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-3"
+  }, [_c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    staticClass: "button is-info is-small"
+  }, [_vm._v("primaryKey:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.primaryKey),
+      expression: "model.primaryKey"
+    }],
+    staticClass: "input is-small is-info",
+    attrs: {
+      "tabindex": "3",
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.primaryKey)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.primaryKey = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-3"
+  }, [_c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    staticClass: "button is-info is-small"
+  }, [_vm._v("routeDelimeter:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.routeDelimeter),
+      expression: "model.routeDelimeter"
+    }],
+    staticClass: "input is-small is-info",
+    attrs: {
+      "tabindex": "4",
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.routeDelimeter)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.routeDelimeter = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('h4', {
+    staticClass: "subtitle is-5 is-info"
+  }, [_vm._v("Routes")]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid row"
+  }, [_c('div', {
+    staticClass: "fb-grid col-md-4"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.overrides.routes.model),
+      expression: "overrides.routes.model"
+    }],
+    attrs: {
+      "selected": _vm.overrides.routes.model,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.overrides.routes.model)
+    },
+    on: {
+      "input": [function($event) {
+        _vm.overrides.routes.model = $event
+      }, function($event) {
+        _vm.resetRouteOverride('model')
+      }]
+    }
+  })], 1), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    class: {
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.routes.model
+    }
+  }, [_vm._v("routes.model:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.routes.model),
+      expression: "model.config.routes.model"
+    }],
+    class: {
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.routes.model
+    },
+    attrs: {
+      "tabindex": "5",
+      "disabled": !_vm.overrides.routes.model,
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.config.routes.model)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.config.routes.model = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-4"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.overrides.routes.collection),
+      expression: "overrides.routes.collection"
+    }],
+    attrs: {
+      "selected": _vm.overrides.routes.collection,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.overrides.routes.collection)
+    },
+    on: {
+      "input": [function($event) {
+        _vm.overrides.routes.collection = $event
+      }, function($event) {
+        _vm.resetRouteOverride('collection')
+      }]
+    }
+  })], 1), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    class: {
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.routes.collection
+    }
+  }, [_vm._v("routes.collection:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.routes.collection),
+      expression: "model.config.routes.collection"
+    }],
+    class: {
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.routes.collection
+    },
+    attrs: {
+      "tabindex": "6",
+      "disabled": !_vm.overrides.routes.collection,
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.config.routes.collection)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.config.routes.collection = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('h4', {
+    staticClass: "subtitle is-5 is-info"
+  }, [_vm._v("Suffixes")]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid row"
+  }, [_c('div', {
+    staticClass: "fb-grid col-md-4"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.overrides.suffixes.create),
+      expression: "overrides.suffixes.create"
+    }],
+    attrs: {
+      "selected": _vm.overrides.suffixes.create,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.overrides.suffixes.create)
+    },
+    on: {
+      "input": function($event) {
+        _vm.overrides.suffixes.create = $event
+      }
+    }
+  })], 1), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    class: {
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.suffixes.create
+    }
+  }, [_vm._v("suffixes.create:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.suffixes.create),
+      expression: "model.config.suffixes.create"
+    }],
+    class: {
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.suffixes.create
+    },
+    attrs: {
+      "tabindex": "6",
+      "disabled": !_vm.overrides.suffixes.create,
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.config.suffixes.create)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.config.suffixes.create = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-4"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.overrides.suffixes.update),
+      expression: "overrides.suffixes.update"
+    }],
+    attrs: {
+      "selected": _vm.overrides.suffixes.update,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.overrides.suffixes.update)
+    },
+    on: {
+      "input": function($event) {
+        _vm.overrides.suffixes.update = $event
+      }
+    }
+  })], 1), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    class: {
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.suffixes.update
+    }
+  }, [_vm._v("suffixes.update:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.suffixes.update),
+      expression: "model.config.suffixes.update"
+    }],
+    class: {
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.suffixes.update
+    },
+    attrs: {
+      "tabindex": "7",
+      "disabled": !_vm.overrides.suffixes.update,
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.config.suffixes.update)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.config.suffixes.update = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-4"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.overrides.suffixes.destroy),
+      expression: "overrides.suffixes.destroy"
+    }],
+    attrs: {
+      "selected": _vm.overrides.suffixes.destroy,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.overrides.suffixes.destroy)
+    },
+    on: {
+      "input": function($event) {
+        _vm.overrides.suffixes.destroy = $event
+      }
+    }
+  })], 1), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    class: {
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.suffixes.destroy
+    }
+  }, [_vm._v("suffixes.destroy:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.suffixes.destroy),
+      expression: "model.config.suffixes.destroy"
+    }],
+    class: {
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.suffixes.destroy
+    },
+    attrs: {
+      "tabindex": "8",
+      "disabled": !_vm.overrides.suffixes.destroy,
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.config.suffixes.destroy)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.config.suffixes.destroy = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('h4', {
+    staticClass: "subtitle is-5 is-info"
+  }, [_vm._v("Methods")]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid row"
+  }, [_c('div', {
+    staticClass: "fb-grid col-md-4"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.overrides.methods.create),
+      expression: "overrides.methods.create"
+    }],
+    attrs: {
+      "selected": _vm.overrides.methods.create,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.overrides.methods.create)
+    },
+    on: {
+      "input": [function($event) {
+        _vm.overrides.methods.create = $event
+      }, function($event) {
+        _vm.resetRouteOverride('model')
+      }]
+    }
+  })], 1), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    class: {
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.methods.create
+    }
+  }, [_vm._v("methods.create:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.methods.create),
+      expression: "model.config.methods.create"
+    }],
+    class: {
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.methods.create
+    },
+    attrs: {
+      "tabindex": "9",
+      "disabled": !_vm.overrides.methods.create,
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.config.methods.create)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.config.methods.create = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    staticClass: "help is-info"
+  }, [_vm._v("Available methods: get, destroy, head, post, put, patch")])]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-4"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.overrides.methods.update),
+      expression: "overrides.methods.update"
+    }],
+    attrs: {
+      "selected": _vm.overrides.methods.update,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.overrides.methods.update)
+    },
+    on: {
+      "input": [function($event) {
+        _vm.overrides.methods.update = $event
+      }, function($event) {
+        _vm.resetRouteOverride('collection')
+      }]
+    }
+  })], 1), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    class: {
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.methods.update
+    }
+  }, [_vm._v("methods.update:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.methods.update),
+      expression: "model.config.methods.update"
+    }],
+    class: {
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.methods.update
+    },
+    attrs: {
+      "tabindex": "10",
+      "disabled": !_vm.overrides.methods.update,
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.config.methods.update)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.config.methods.update = $event.target.value
+      }
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-4"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.overrides.methods.destroy),
+      expression: "overrides.methods.destroy"
+    }],
+    attrs: {
+      "selected": _vm.overrides.methods.destroy,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.overrides.methods.destroy)
+    },
+    on: {
+      "input": [function($event) {
+        _vm.overrides.methods.destroy = $event
+      }, function($event) {
+        _vm.resetRouteOverride('collection')
+      }]
+    }
+  })], 1), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    class: {
+      'button is-info is-small': true, 'is-disabled': !_vm.overrides.methods.destroy
+    }
+  }, [_vm._v("methods.destroy:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.methods.destroy),
+      expression: "model.config.methods.destroy"
+    }],
+    class: {
+      'input is-small is-info': true, 'is-disabled': !_vm.overrides.methods.destroy
+    },
+    attrs: {
+      "tabindex": "11",
+      "disabled": !_vm.overrides.methods.destroy,
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.model.config.methods.destroy)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.model.config.methods.destroy = $event.target.value
+      }
+    }
+  })])])]), _vm._v(" "), _c('h4', {
+    staticClass: "subtitle is-5 is-info"
+  }, [_vm._v("Options")]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid row"
+  }, [_c('div', {
+    staticClass: "fb-grid col-md-2"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("trailingSlash")]), _vm._v(" "), _c('p', {
+    staticClass: "control"
+  }, [_c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.trailingSlash),
+      expression: "model.config.trailingSlash"
+    }],
+    attrs: {
+      "selected": _vm.model.config.trailingSlash,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.model.config.trailingSlash)
+    },
+    on: {
+      "input": function($event) {
+        _vm.model.config.trailingSlash = $event
+      }
+    }
+  })], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-1"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("caseSensitive")]), _vm._v(" "), _c('p', {
+    staticClass: "control"
+  }, [_c('switches', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.caseSensitive),
+      expression: "model.caseSensitive"
+    }],
+    attrs: {
+      "selected": _vm.model.caseSensitive,
+      "color": "blue"
+    },
+    domProps: {
+      "value": (_vm.model.caseSensitive)
+    },
+    on: {
+      "input": function($event) {
+        _vm.model.caseSensitive = $event
+      }
+    }
+  })], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-3"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("globalParameters")]), _vm._v(" "), _c('p', {
+    staticClass: "control has-addons"
+  }, [_c('span', {
+    staticClass: "button is-info is-small"
+  }, [_vm._v("globalParameters:")]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.globalParameters),
+      expression: "globalParameters"
+    }],
+    staticClass: "input is-small is-info",
+    attrs: {
+      "tabindex": "12",
+      "type": "text"
+    },
+    domProps: {
+      "value": _vm._s(_vm.globalParameters)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.globalParameters = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('span', {
+    staticClass: "help is-info"
+  }, [_vm._v("Comma separate: foo=bar, this=that")])])])]), _vm._v(" "), _c('h4', {
+    staticClass: "subtitle is-5 is-info"
+  }, [_vm._v("Class Config")]), _vm._v(" "), _c('div', {
+    staticClass: "rapidjs-class-builder__config"
+  }, [_c('pre', [_c('code', {
+    ref: "config",
+    staticClass: "language-json",
+    domProps: {
+      "textContent": _vm._s(_vm.config)
+    }
+  })])]), _vm._v(" "), _c('div', {
+    staticClass: "test"
+  }, [_vm._v("\n        create ({ name: 'drew' })         => " + _vm._s(_vm.model.create({
+    name: 'drew'
+  })) + " "), _c('br'), _vm._v("\n        find (1)          => " + _vm._s(_vm.model.find(1)) + " "), _c('br'), _vm._v("\n        findBy ('name', 'drew')          => " + _vm._s(_vm.model.findBy('name', 'drew')) + " "), _c('br'), _vm._v("\n        collection.findBy ('status', 'active')          => " + _vm._s(_vm.model.findBy('status', 'active')) + " "), _c('br'), _vm._v(" "), _vm._v("\n        update (1)        => " + _vm._s(_vm.model.update(1)) + " "), _c('br'), _vm._v("\n        destroy (1)        => " + _vm._s(_vm.model.destroy(1)) + " "), _c('br')])])
+},staticRenderFns: []}
+module.exports.render._withStripped = true
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+     require("vue-hot-reload-api").rerender("data-v-b3ff9c64", module.exports)
+  }
+}
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(44);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(18)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../css-loader/index.js!./../vue-loader/lib/style-rewriter.js?id=data-v-1723043d!./../sass-loader/index.js!./../vue-loader/lib/selector.js?type=styles&index=0!./switches.vue", function() {
+			var newContent = require("!!./../css-loader/index.js!./../vue-loader/lib/style-rewriter.js?id=data-v-1723043d!./../sass-loader/index.js!./../vue-loader/lib/selector.js?type=styles&index=0!./switches.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(45);
+if(typeof content === 'string') content = [[module.i, content, '']];
+// add the styles to the DOM
+var update = __webpack_require__(18)(content, {});
+if(content.locals) module.exports = content.locals;
+// Hot Module Replacement
+if(false) {
+	// When the styles change, update the <style> tags
+	if(!content.locals) {
+		module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b3ff9c64!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ClassBuilder.vue", function() {
+			var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b3ff9c64!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ClassBuilder.vue");
+			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+			update(newContent);
+		});
+	}
+	// When the module is disposed, remove the <style> tags
+	module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 56 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -28969,7 +31328,7 @@ module.exports = Vue$3;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(3)))
 
 /***/ }),
-/* 44 */
+/* 57 */
 /***/ (function(module, exports) {
 
 module.exports = function(module) {
@@ -28997,2383 +31356,12 @@ module.exports = function(module) {
 
 
 /***/ }),
-/* 45 */
-/***/ (function(module, exports, __webpack_require__) {
-
-__webpack_require__(12);
-module.exports = __webpack_require__(13);
-
-
-/***/ }),
-/* 46 */,
-/* 47 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-// css base code, injected by the css-loader
-module.exports = function() {
-	var list = [];
-
-	// return the list of modules as css string
-	list.toString = function toString() {
-		var result = [];
-		for(var i = 0; i < this.length; i++) {
-			var item = this[i];
-			if(item[2]) {
-				result.push("@media " + item[2] + "{" + item[1] + "}");
-			} else {
-				result.push(item[1]);
-			}
-		}
-		return result.join("");
-	};
-
-	// import a list of modules into the list
-	list.i = function(modules, mediaQuery) {
-		if(typeof modules === "string")
-			modules = [[null, modules, ""]];
-		var alreadyImportedModules = {};
-		for(var i = 0; i < this.length; i++) {
-			var id = this[i][0];
-			if(typeof id === "number")
-				alreadyImportedModules[id] = true;
-		}
-		for(i = 0; i < modules.length; i++) {
-			var item = modules[i];
-			// skip already imported module
-			// this implementation is not 100% perfect for weird media query combinations
-			//  when a module is imported multiple times with different media queries.
-			//  I hope this will never occur (Hey this way we have smaller bundles)
-			if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
-				if(mediaQuery && !item[2]) {
-					item[2] = mediaQuery;
-				} else if(mediaQuery) {
-					item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
-				}
-				list.push(item);
-			}
-		}
-	};
-	return list;
-};
-
-
-/***/ }),
-/* 48 */,
-/* 49 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_stack_trace__ = __webpack_require__(42);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_stack_trace___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_stack_trace__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Logger__ = __webpack_require__(50);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_qs__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_qs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_qs__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-
-
-
-
-var _class = function () {
-    function _class(caller) {
-        _classCallCheck(this, _class);
-
-        this.caller = caller;
-        this.data = {};
-    }
-
-    _createClass(_class, [{
-        key: 'fakeRequest',
-        value: function fakeRequest(type, url) {
-            var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-            var options = arguments[3];
-
-            var trace = __WEBPACK_IMPORTED_MODULE_0_stack_trace___default.a.get(),
-                length = trace.length,
-                lastTrace = trace[length - 2],
-                params = this.caller.parseRequestParams(type, data, options),
-                lastUrl = this.setLastUrl.apply(this, [type, url].concat(_toConsumableArray(params)));
-
-            this.setLastRequest.apply(this, arguments);
-
-            __WEBPACK_IMPORTED_MODULE_1__Logger__["a" /* default */].debug(this.caller.modelName + '.' + lastTrace.getFunctionName() + ' made a ' + type + ' request (' + lastUrl + ')');
-            __WEBPACK_IMPORTED_MODULE_1__Logger__["a" /* default */].log(params);
-
-            return lastUrl;
-        }
-    }, {
-        key: 'setLastUrl',
-        value: function setLastUrl(type, url) {
-            var params = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-            var lastUrl = '';
-
-            if (['put', 'post', 'patch'].includes(type)) {
-                lastUrl = this.caller.sanitizeUrl([this.caller.baseURL, url].join('/')) + '?' + __WEBPACK_IMPORTED_MODULE_2_qs___default.a.stringify(params);
-            } else {
-                var urlParams = params.params,
-                    stringified = urlParams ? '?' + __WEBPACK_IMPORTED_MODULE_2_qs___default.a.stringify(urlParams) : '';
-
-                lastUrl = this.caller.sanitizeUrl([this.caller.baseURL, url].join('/')) + stringified;
-            }
-
-            this.data.lastUrl = lastUrl;
-
-            return lastUrl;
-        }
-    }, {
-        key: 'setLastRequest',
-        value: function setLastRequest(type, url) {
-            var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-            var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-
-            this.data.lastRequest = {
-                type: type,
-                url: url,
-                data: data,
-                options: options
-            };
-        }
-    }]);
-
-    return _class;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = _class;
-
-/***/ }),
-/* 50 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Logger = function () {
-    function Logger(prefix) {
-        _classCallCheck(this, Logger);
-
-        this.prefix = prefix;
-    }
-
-    _createClass(Logger, [{
-        key: 'debug',
-        value: function debug(message) {
-            console.info('[' + this.prefix + ']: ' + message);
-        }
-    }, {
-        key: 'log',
-        value: function log(message) {
-            console.log('[' + this.prefix + ']:', message);
-        }
-    }, {
-        key: 'warn',
-        value: function warn(message) {
-            console.warn('[' + this.prefix + ' warn]:', message);
-        }
-    }]);
-
-    return Logger;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = new Logger('rapid js');
-
-/***/ }),
-/* 51 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_pluralize__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_pluralize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_pluralize__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Debugger__ = __webpack_require__(49);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__Logger__ = __webpack_require__(50);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-
-
-
-
-
-
-var Rapid = function () {
-    function Rapid(config) {
-        _classCallCheck(this, Rapid);
-
-        var defaults = {
-            modelName: this.constructor.name,
-
-            primaryKey: '',
-
-            baseURL: 'api',
-
-            trailingSlash: false,
-
-            caseSensitive: false,
-
-            routeDelimeter: '-',
-
-            globalParameters: {
-                /**
-                 * Need an option for global GET and POST params...
-                 * what if we want to do /users/drew/save?api_key=12345
-                 */
-            },
-
-            suffixes: {
-                create: 'create',
-                update: 'update',
-                delete: 'delete'
-            },
-
-            methods: {
-                create: 'post',
-                update: 'post',
-                delete: 'post'
-            },
-
-            routes: {
-                model: '',
-                collection: '',
-                any: ''
-            },
-
-            debug: false,
-
-            apiConfig: {}
-        };
-
-        config = config || {};
-
-        this.config = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.defaultsDeep(config, defaults);
-
-        if (!this.config.routes.model) {
-            this.setModelRoute();
-        }
-
-        if (!this.config.routes.collection) {
-            this.setCollectionRoute();
-        }
-
-        this.api = __WEBPACK_IMPORTED_MODULE_0_axios___default.a.create(__WEBPACK_IMPORTED_MODULE_1_lodash___default.a.defaultsDeep({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
-
-        this.currentRoute = 'model';
-
-        this.debugger = this.debug ? new __WEBPACK_IMPORTED_MODULE_3__Debugger__["a" /* default */](this) : false;
-    }
-
-    /**
-     * URL functions
-     */
-
-
-    _createClass(Rapid, [{
-        key: 'makeUrl',
-        value: function makeUrl() {
-            for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
-                params[_key] = arguments[_key];
-            }
-
-            if (this.config.trailingSlash) {
-                params.push('');
-            }
-            console.log(params);
-            var url = this.sanitizeUrl([this.config.routes[this.currentRoute]].concat(params).join('/'));
-
-            // reset currentRoute
-            this.currentRoute = 'model';
-
-            return url;
-        }
-    }, {
-        key: 'sanitizeUrl',
-        value: function sanitizeUrl(url) {
-            return url.replace(/([^:]\/)\/+/g, '$1');
-        }
-
-        /**
-         * Model Only Functions
-         */
-
-    }, {
-        key: 'find',
-        value: function find(id) {
-            return this.model.findBy(this.config.primaryKey, id);
-        }
-    }, {
-        key: 'updateOrDelete',
-        value: function updateOrDelete(method) {
-            var _model$makeUrl;
-
-            var urlParams = [],
-                id = arguments.length <= 1 ? undefined : arguments[1],
-                data = arguments.length <= 2 ? undefined : arguments[2],
-                options = arguments.length <= 3 ? undefined : arguments[3];
-
-            if (Number.isInteger(id)) {
-                if (this.primaryKey) {
-                    urlParams.push(this.primaryKey);
-                }
-                urlParams.push(id);
-            } else {
-                data = arguments.length <= 1 ? undefined : arguments[1];
-                options = arguments.length <= 2 ? undefined : arguments[2];
-            }
-
-            if (this.config.suffixes[method]) {
-                urlParams.push(this.config.suffixes[method]);
-            }
-
-            return this.request(this.config.methods[method], (_model$makeUrl = this.model.makeUrl).call.apply(_model$makeUrl, [this].concat(urlParams)), data, options);
-        }
-
-        // update (id = 0, data, options) {
-
-    }, {
-        key: 'update',
-        value: function update() {
-            for (var _len2 = arguments.length, params = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-                params[_key2] = arguments[_key2];
-            }
-
-            return this.updateOrDelete.apply(this, ['update'].concat(params));
-        }
-
-        // alias
-
-    }, {
-        key: 'save',
-        value: function save() {
-            return this.update.apply(this, arguments);
-        }
-
-        // delete (id = 0, data, options)
-
-    }, {
-        key: 'delete',
-        value: function _delete() {
-            for (var _len3 = arguments.length, params = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-                params[_key3] = arguments[_key3];
-            }
-
-            return this.updateOrDelete.apply(this, ['delete'].concat(params));
-        }
-    }, {
-        key: 'create',
-        value: function create(data, options) {
-            return this.request(this.config.methods.create, this.model.makeUrl(this.config.suffixes.create), data, options);
-        }
-
-        /**
-         * Collection Only Functions
-         */
-
-    }, {
-        key: 'all',
-        value: function all(data, options) {
-            return this.request('get', this.collection.makeUrl(), data, options);
-        }
-
-        /**
-         * Collection and Model functions
-         */
-
-    }, {
-        key: 'findBy',
-        value: function findBy(key, value, data, options) {
-            var urlParams = [key];
-
-            if (value) {
-                urlParams.push(value);
-            }
-
-            return this.request('get', this.makeUrl.apply(this, urlParams), data, options);
-        }
-
-        /**
-         * Relationships
-         */
-        // primray key, foreign key, relation
-
-    }, {
-        key: 'hasRelationship',
-        value: function hasRelationship(relation, primaryKey, foreignKey, data, requestOptions) {
-            var url = '';
-
-            if (__WEBPACK_IMPORTED_MODULE_1_lodash___default.a.isArray(foreignKey)) {
-                url = this.makeUrl.apply(this, [primaryKey, relation].concat(_toConsumableArray(foreignKey)));
-            } else {
-                url = this.makeUrl(primaryKey, relation, foreignKey);
-            }
-
-            return this.request('get', url, data, requestOptions);
-        }
-    }, {
-        key: 'belongsTo',
-        value: function belongsTo(relation, key, data, keyValue, requestOptions) {
-            var _any;
-
-            var route = this.currentRoute,
-                urlParams = [relation];
-
-            if (keyValue) {
-                urlParams.push(keyValue);
-            }
-
-            urlParams.push(key);
-            urlParams.push(this.routes[route]);
-
-            return this.request('get', (_any = this.any).makeUrl.apply(_any, urlParams), data, requestOptions);
-        }
-
-        /**
-         * The Request
-         */
-
-    }, {
-        key: 'parseRequestParams',
-        value: function parseRequestParams(type, data, options) {
-            var params = [];
-
-            if (['put', 'post', 'patch'].includes(type)) {
-                data = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.defaultsDeep(data, this.config.globalParameters);
-                params.push(data);
-                params.push(options);
-            } else {
-                options.params = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.defaultsDeep(data, this.config.globalParameters);
-                params.push(options);
-            }
-
-            return params;
-        }
-    }, {
-        key: 'request',
-        value: function request(type, url) {
-            var _this = this;
-
-            var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-            var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
-
-
-            if (this.debug) {
-                return this.debugger.fakeRequest(type, url, data, options);
-            }
-
-            return new Promise(function (resolve, reject) {
-                var _api$type;
-
-                (_api$type = _this.api[type]).call.apply(_api$type, [_this, _this.sanitizeUrl(url)].concat(_toConsumableArray(_this.parseRequestParams(type, data, options)))).then(function (response) {
-                    /**
-                     * return entire response
-                     */
-                    resolve(response.data);
-                }).catch(function (error) {
-                    reject(error.response.data);
-                });
-            });
-        }
-
-        /**
-         * to build a request url
-         */
-
-    }, {
-        key: 'buildRequest',
-        value: function buildRequest(type, urlParams, data, options) {
-            var url = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.isArray(urlParams) ? this.makeUrl.apply(this, _toConsumableArray(urlParams)) : this.makeUrl(urlParams);
-
-            return this.request(type, url, data, options);
-        }
-    }, {
-        key: 'get',
-        value: function get() {
-            for (var _len4 = arguments.length, params = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-                params[_key4] = arguments[_key4];
-            }
-
-            return this.buildRequest.apply(this, ['get'].concat(params));
-        }
-    }, {
-        key: 'post',
-        value: function post() {
-            for (var _len5 = arguments.length, params = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-                params[_key5] = arguments[_key5];
-            }
-
-            return this.buildRequest.apply(this, ['post'].concat(params));
-        }
-    }, {
-        key: 'put',
-        value: function put() {
-            for (var _len6 = arguments.length, params = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
-                params[_key6] = arguments[_key6];
-            }
-
-            return this.buildRequest.apply(this, ['put'].concat(params));
-        }
-    }, {
-        key: 'patch',
-        value: function patch() {
-            for (var _len7 = arguments.length, params = Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
-                params[_key7] = arguments[_key7];
-            }
-
-            return this.buildRequest.apply(this, ['patch'].concat(params));
-        }
-    }, {
-        key: 'head',
-        value: function head() {
-            for (var _len8 = arguments.length, params = Array(_len8), _key8 = 0; _key8 < _len8; _key8++) {
-                params[_key8] = arguments[_key8];
-            }
-
-            return this.buildRequest.apply(this, ['head'].concat(params));
-        }
-    }, {
-        key: 'post',
-        value: function post() {
-            for (var _len9 = arguments.length, params = Array(_len9), _key9 = 0; _key9 < _len9; _key9++) {
-                params[_key9] = arguments[_key9];
-            }
-
-            return this.buildRequest.apply(this, ['post'].concat(params));
-        }
-
-        // fix this
-        // delete (url, params) {
-        //     return this.request('delete', url, params);
-        // }
-
-
-        /**
-         * Setters and Getters
-         */
-
-    }, {
-        key: 'setModelRoute',
-
-
-        // functions to build a collection route for relationships
-        value: function setModelRoute() {
-            var route = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.kebabCase(this.config.modelName).replace(/-/g, this.config.routeDelimeter);
-
-            if (this.config.caseSensitive) {
-                route = this.config.modelName;
-            }
-
-            this.config.routes.model = route;
-        }
-    }, {
-        key: 'setCollectionRoute',
-        value: function setCollectionRoute() {
-            var route = __WEBPACK_IMPORTED_MODULE_1_lodash___default.a.kebabCase(__WEBPACK_IMPORTED_MODULE_2_pluralize___default()(this.config.modelName)).replace(/-/g, this.config.routeDelimeter);
-
-            if (this.config.caseSensitive) {
-                route = __WEBPACK_IMPORTED_MODULE_2_pluralize___default()(this.config.modelName);
-            }
-
-            this.config.routes.collection = route;
-        }
-
-        // // fix this
-        // // delete (url, params) {
-        // //     return this.request('delete', url, params);
-        // // }
-        //
-        // head (url, params) {
-        //     return this.request('head', url, params);
-        // }
-        //
-        // put (url, params) {
-        //     return this.request('put', url, params);
-        // }
-        //
-        // patch (url, params) {
-        //     return this.request('patch', url, params);
-        // }
-
-    }, {
-        key: 'debug',
-        get: function get() {
-            return this.config.debug;
-        },
-        set: function set(val) {
-            __WEBPACK_IMPORTED_MODULE_4__Logger__["a" /* default */].warn('debug mode must explcitly be turned on via the constructor in config.debug');
-        }
-    }, {
-        key: 'collection',
-        get: function get() {
-            this.currentRoute = 'collection';
-            return this;
-        }
-    }, {
-        key: 'model',
-        get: function get() {
-            this.currentRoute = 'model';
-            return this;
-        }
-    }, {
-        key: 'any',
-        get: function get() {
-            this.currentRoute = 'any';
-            return this;
-        }
-    }, {
-        key: 'routes',
-        get: function get() {
-            return this.config.routes;
-        }
-    }, {
-        key: 'baseURL',
-        get: function get() {
-            return this.config.baseURL;
-        },
-        set: function set(url) {
-            this.config.baseURL = this.sanitizeUrl(url);
-        }
-    }, {
-        key: 'primaryKey',
-        get: function get() {
-            return this.config.primaryKey;
-        },
-        set: function set(val) {
-            this.config.primaryKey = val;
-        }
-    }, {
-        key: 'modelName',
-        get: function get() {
-            return this.config.modelName;
-        },
-        set: function set(val) {
-            this.config.modelName = val;
-            this.setModelRoute();
-            this.setCollectionRoute();
-        }
-    }, {
-        key: 'routeDelimeter',
-        get: function get() {
-            return this.config.routeDelimeter;
-        },
-        set: function set(val) {
-            this.config.routeDelimeter = val;
-            this.setModelRoute();
-            this.setCollectionRoute();
-        }
-    }, {
-        key: 'caseSensitive',
-        get: function get() {
-            return this.config.caseSensitive;
-        },
-        set: function set(val) {
-            this.config.caseSensitive = val;
-            this.setModelRoute();
-            this.setCollectionRoute();
-        }
-    }]);
-
-    return Rapid;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = Rapid;
-
-/***/ }),
-/* 52 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Rapid_Rapid__ = __webpack_require__(51);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-var UserModel = function (_Rapid) {
-    _inherits(UserModel, _Rapid);
-
-    function UserModel() {
-        _classCallCheck(this, UserModel);
-
-        return _possibleConstructorReturn(this, (UserModel.__proto__ || Object.getPrototypeOf(UserModel)).apply(this, arguments));
-    }
-
-    _createClass(UserModel, [{
-        key: 'auth',
-        value: function auth(id) {
-            // return this.model.get(this.makeUrl('current'));
-            // this.model.get(['current', id, 'meta'], data, options);
-            return this.model.get(id);
-        }
-    }, {
-        key: 'saveOrder',
-        value: function saveOrder(id, order) {
-            return this.model.post(['order', 'update'], order);
-        }
-    }, {
-        key: 'orderInfo',
-        value: function orderInfo(userId, orderId) {
-            return this.collection.hasRelationship('order', userId, orderId);
-            // return this.model.post(['order', 'update'], order);
-        }
-    }, {
-        key: 'posts',
-        value: function posts(id, params) {
-            return this.collection.hasRelationship(id, ['posts', 'comments'], params);
-        }
-    }, {
-        key: 'media',
-        value: function media(id, params) {
-            return this.collection.belongsTo(id, 'media', params, 12);
-        }
-    }, {
-        key: 'votes',
-        value: function votes(id, params) {
-            return this.model.hasRelationship(id, 'votes', params);
-        }
-    }]);
-
-    return UserModel;
-}(__WEBPACK_IMPORTED_MODULE_0__Rapid_Rapid__["a" /* default */]);
-
-/* harmony default export */ __webpack_exports__["a"] = new UserModel({
-    modelName: 'user',
-    debug: true,
-    globalParameters: {}
-});
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports) {
-
-/*
-	MIT License http://www.opensource.org/licenses/mit-license.php
-	Author Tobias Koppers @sokra
-*/
-var stylesInDom = {},
-	memoize = function(fn) {
-		var memo;
-		return function () {
-			if (typeof memo === "undefined") memo = fn.apply(this, arguments);
-			return memo;
-		};
-	},
-	isOldIE = memoize(function() {
-		return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
-	}),
-	getHeadElement = memoize(function () {
-		return document.head || document.getElementsByTagName("head")[0];
-	}),
-	singletonElement = null,
-	singletonCounter = 0,
-	styleElementsInsertedAtTop = [];
-
-module.exports = function(list, options) {
-	if(typeof DEBUG !== "undefined" && DEBUG) {
-		if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-	}
-
-	options = options || {};
-	// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
-	// tags it will allow on a page
-	if (typeof options.singleton === "undefined") options.singleton = isOldIE();
-
-	// By default, add <style> tags to the bottom of <head>.
-	if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
-
-	var styles = listToStyles(list);
-	addStylesToDom(styles, options);
-
-	return function update(newList) {
-		var mayRemove = [];
-		for(var i = 0; i < styles.length; i++) {
-			var item = styles[i];
-			var domStyle = stylesInDom[item.id];
-			domStyle.refs--;
-			mayRemove.push(domStyle);
-		}
-		if(newList) {
-			var newStyles = listToStyles(newList);
-			addStylesToDom(newStyles, options);
-		}
-		for(var i = 0; i < mayRemove.length; i++) {
-			var domStyle = mayRemove[i];
-			if(domStyle.refs === 0) {
-				for(var j = 0; j < domStyle.parts.length; j++)
-					domStyle.parts[j]();
-				delete stylesInDom[domStyle.id];
-			}
-		}
-	};
-}
-
-function addStylesToDom(styles, options) {
-	for(var i = 0; i < styles.length; i++) {
-		var item = styles[i];
-		var domStyle = stylesInDom[item.id];
-		if(domStyle) {
-			domStyle.refs++;
-			for(var j = 0; j < domStyle.parts.length; j++) {
-				domStyle.parts[j](item.parts[j]);
-			}
-			for(; j < item.parts.length; j++) {
-				domStyle.parts.push(addStyle(item.parts[j], options));
-			}
-		} else {
-			var parts = [];
-			for(var j = 0; j < item.parts.length; j++) {
-				parts.push(addStyle(item.parts[j], options));
-			}
-			stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
-		}
-	}
-}
-
-function listToStyles(list) {
-	var styles = [];
-	var newStyles = {};
-	for(var i = 0; i < list.length; i++) {
-		var item = list[i];
-		var id = item[0];
-		var css = item[1];
-		var media = item[2];
-		var sourceMap = item[3];
-		var part = {css: css, media: media, sourceMap: sourceMap};
-		if(!newStyles[id])
-			styles.push(newStyles[id] = {id: id, parts: [part]});
-		else
-			newStyles[id].parts.push(part);
-	}
-	return styles;
-}
-
-function insertStyleElement(options, styleElement) {
-	var head = getHeadElement();
-	var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
-	if (options.insertAt === "top") {
-		if(!lastStyleElementInsertedAtTop) {
-			head.insertBefore(styleElement, head.firstChild);
-		} else if(lastStyleElementInsertedAtTop.nextSibling) {
-			head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
-		} else {
-			head.appendChild(styleElement);
-		}
-		styleElementsInsertedAtTop.push(styleElement);
-	} else if (options.insertAt === "bottom") {
-		head.appendChild(styleElement);
-	} else {
-		throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
-	}
-}
-
-function removeStyleElement(styleElement) {
-	styleElement.parentNode.removeChild(styleElement);
-	var idx = styleElementsInsertedAtTop.indexOf(styleElement);
-	if(idx >= 0) {
-		styleElementsInsertedAtTop.splice(idx, 1);
-	}
-}
-
-function createStyleElement(options) {
-	var styleElement = document.createElement("style");
-	styleElement.type = "text/css";
-	insertStyleElement(options, styleElement);
-	return styleElement;
-}
-
-function addStyle(obj, options) {
-	var styleElement, update, remove;
-
-	if (options.singleton) {
-		var styleIndex = singletonCounter++;
-		styleElement = singletonElement || (singletonElement = createStyleElement(options));
-		update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
-		remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
-	} else {
-		styleElement = createStyleElement(options);
-		update = applyToTag.bind(null, styleElement);
-		remove = function() {
-			removeStyleElement(styleElement);
-		};
-	}
-
-	update(obj);
-
-	return function updateStyle(newObj) {
-		if(newObj) {
-			if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
-				return;
-			update(obj = newObj);
-		} else {
-			remove();
-		}
-	};
-}
-
-var replaceText = (function () {
-	var textStore = [];
-
-	return function (index, replacement) {
-		textStore[index] = replacement;
-		return textStore.filter(Boolean).join('\n');
-	};
-})();
-
-function applyToSingletonTag(styleElement, index, remove, obj) {
-	var css = remove ? "" : obj.css;
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = replaceText(index, css);
-	} else {
-		var cssNode = document.createTextNode(css);
-		var childNodes = styleElement.childNodes;
-		if (childNodes[index]) styleElement.removeChild(childNodes[index]);
-		if (childNodes.length) {
-			styleElement.insertBefore(cssNode, childNodes[index]);
-		} else {
-			styleElement.appendChild(cssNode);
-		}
-	}
-}
-
-function applyToTag(styleElement, obj) {
-	var css = obj.css;
-	var media = obj.media;
-	var sourceMap = obj.sourceMap;
-
-	if (media) {
-		styleElement.setAttribute("media", media);
-	}
-
-	if (sourceMap) {
-		// https://developer.chrome.com/devtools/docs/javascript-debugging
-		// this makes source maps inside style tags work properly in Chrome
-		css += '\n/*# sourceURL=' + sourceMap.sources[0] + ' */';
-		// http://stackoverflow.com/a/26603875
-		css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
-	}
-
-	if (styleElement.styleSheet) {
-		styleElement.styleSheet.cssText = css;
-	} else {
-		while(styleElement.firstChild) {
-			styleElement.removeChild(styleElement.firstChild);
-		}
-		styleElement.appendChild(document.createTextNode(css));
-	}
-}
-
-
-/***/ }),
-/* 54 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-/* harmony default export */ __webpack_exports__["default"] = {
-    name: 'switches',
-
-    props: {
-        selected: false,
-
-        disabled: false,
-
-        label: '',
-
-        textEnabled: {
-            default: ''
-        },
-
-        textDisabled: {
-            default: ''
-        },
-
-        color: {
-            default: 'default'
-        },
-
-        theme: {
-            default: 'default'
-        }
-    },
-
-    data: function data() {
-        return {
-            enabled: !!this.selected
-        };
-    },
-    mounted: function mounted() {
-        this.$emit('input', this.enabled = !!this.selected);
-    },
-
-
-    watch: {
-        enabled: function enabled(val) {
-            this.$emit('input', val);
-        },
-        selected: function selected(val) {
-            this.enabled = !!val;
-        }
-    },
-
-    computed: {
-        classObject: function classObject() {
-            var _ref;
-
-            var color = this.color,
-                enabled = this.enabled,
-                theme = this.theme,
-                disabled = this.disabled;
-
-
-            return _ref = {
-                'vue-switcher': true
-            }, _defineProperty(_ref, 'vue-switcher--unchecked', !enabled), _defineProperty(_ref, 'vue-switcher--disabled', disabled), _defineProperty(_ref, 'vue-switcher-theme--' + theme, color), _defineProperty(_ref, 'vue-switcher-color--' + color, color), _ref;
-        }
-    }
-};
-
-/***/ }),
-/* 55 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Interface_TestModel__ = __webpack_require__(34);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_switches__ = __webpack_require__(58);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_switches___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_switches__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash__ = __webpack_require__(37);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_lodash___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_lodash__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Vendor_prism__ = __webpack_require__(35);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__Vendor_prism___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__Vendor_prism__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_qs__ = __webpack_require__(39);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_qs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_qs__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = {
-    name: 'class-builder',
-
-    data: function data() {
-        return {
-            model: __WEBPACK_IMPORTED_MODULE_0__Interface_TestModel__["a" /* default */],
-
-            globalParameters: '',
-
-            defaults: {
-                primaryKey: '-',
-                trailingSlash: false,
-                caseSensitive: false,
-                routeDelimeter: '-'
-            },
-
-            overrides: {
-                routes: {
-                    model: false,
-                    collection: false
-                },
-
-                suffixes: {
-                    create: false,
-                    update: false,
-                    delete: false
-                },
-
-                methods: {
-                    create: false,
-                    update: false,
-                    delete: false
-                }
-            }
-
-        };
-    },
-
-
-    components: {
-        Switches: __WEBPACK_IMPORTED_MODULE_1_vue_switches___default.a
-    },
-
-    methods: {
-        resetRouteOverride: function resetRouteOverride(route) {
-            var func = 'set' + __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.capitalize(route) + 'Route';
-            this.model[func]();
-        }
-    },
-
-    watch: {
-        config: function config() {
-            var _this = this;
-
-            setTimeout(function () {
-                __WEBPACK_IMPORTED_MODULE_3__Vendor_prism___default.a.highlightElement(_this.$refs.config);
-            }, 1);
-        }
-    },
-
-    computed: {
-        config: function config() {
-            var _this2 = this;
-
-            var config = {
-                baseURL: this.model.baseURL,
-                modelName: this.model.modelName,
-                primaryKey: this.model.primaryKey,
-                trailingSlash: this.model.config.trailingSlash,
-                caseSensitive: this.model.caseSensitive,
-                routeDelimeter: this.model.routeDelimeter
-            };
-
-            __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.forEach(this.defaults, function (val, k) {
-                if (config[k] == val) {
-                    delete config[k];
-                }
-            });
-
-            if (this.parsedGlobalParams) {
-                this.model.config.globalParameters = this.parsedGlobalParams;
-                config.globalParameters = this.model.config.globalParameters;
-            }
-
-            __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.forEach(this.overrides, function (overrides, key) {
-
-                var configOverride = {};
-
-                __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.forEach(overrides, function (val, k) {
-                    if (val) {
-                        configOverride[k] = _this2.model.config[key][k];
-                    }
-                });
-
-                if (!__WEBPACK_IMPORTED_MODULE_2_lodash___default.a.isEmpty(configOverride)) {
-                    config[key] = configOverride;
-                }
-            });
-
-            return config;
-        },
-        parsedGlobalParams: function parsedGlobalParams() {
-            var rawParams = this.globalParameters.trim().split(',').filter(function (v) {
-                return v != '';
-            }),
-                parsedParams = {};
-
-            if (rawParams.length) {
-                __WEBPACK_IMPORTED_MODULE_2_lodash___default.a.forEach(rawParams, function (val, key) {
-                    var parsed = __WEBPACK_IMPORTED_MODULE_4_qs___default.a.parse(val.trim());
-                    parsedParams[Object.keys(parsed).shift()] = Object.values(parsed).shift();
-                });
-
-                return parsedParams;
-            }
-
-            return null;
-        }
-    }
-
-};
-
-/***/ }),
-/* 56 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(47)();
-// imports
-
-
-// module
-exports.push([module.i, "/**\n * Default\n */\n/**\n * Bulma\n */\n/**\n * Bootstrap\n */\n.vue-switcher {\n  position: relative;\n  display: inline-block;\n}\n.vue-switcher__label {\n    display: block;\n    font-size: 10px;\n    margin-bottom: 5px;\n}\n.vue-switcher input {\n    opacity: 0;\n    width: 100%;\n    height: 100%;\n    position: absolute;\n    z-index: 1;\n    cursor: pointer;\n}\n.vue-switcher div {\n    height: 10px;\n    width: 40px;\n    position: relative;\n    border-radius: 30px;\n    display: -ms-flex;\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    cursor: pointer;\n}\n.vue-switcher div:after {\n      content: '';\n      height: 18px;\n      width: 18px;\n      border-radius: 100px;\n      display: block;\n      -webkit-transition: all ease .3s;\n      transition: all ease .3s;\n      position: absolute;\n      left: 100%;\n      margin-left: -17px;\n      cursor: pointer;\n      top: -4px;\n}\n.vue-switcher--unchecked div {\n    -webkit-box-pack: end;\n        -ms-flex-pack: end;\n            justify-content: flex-end;\n}\n.vue-switcher--unchecked div:after {\n      left: 15px;\n}\n.vue-switcher--disabled div {\n    opacity: .3;\n}\n.vue-switcher--disabled input {\n    cursor: not-allowed;\n}\n.vue-switcher-theme--default.vue-switcher-color--default div {\n    background-color: #b7b7b7;\n}\n.vue-switcher-theme--default.vue-switcher-color--default div:after {\n      background-color: #9d9d9d;\n}\n.vue-switcher-theme--default.vue-switcher-color--default.vue-switcher--unchecked div {\n    background-color: #aaa;\n}\n.vue-switcher-theme--default.vue-switcher-color--default.vue-switcher--unchecked div:after {\n      background-color: #c4c4c4;\n}\n.vue-switcher-theme--default.vue-switcher-color--blue div {\n    background-color: #77b0c8;\n}\n.vue-switcher-theme--default.vue-switcher-color--blue div:after {\n      background-color: #539bb9;\n}\n.vue-switcher-theme--default.vue-switcher-color--blue.vue-switcher--unchecked div {\n    background-color: #c0dae5;\n}\n.vue-switcher-theme--default.vue-switcher-color--blue.vue-switcher--unchecked div:after {\n      background-color: #77b0c8;\n}\n.vue-switcher-theme--default.vue-switcher-color--red div {\n    background-color: #c87777;\n}\n.vue-switcher-theme--default.vue-switcher-color--red div:after {\n      background-color: #b95353;\n}\n.vue-switcher-theme--default.vue-switcher-color--red.vue-switcher--unchecked div {\n    background-color: #e5c0c0;\n}\n.vue-switcher-theme--default.vue-switcher-color--red.vue-switcher--unchecked div:after {\n      background-color: #c87777;\n}\n.vue-switcher-theme--default.vue-switcher-color--yellow div {\n    background-color: #c9c377;\n}\n.vue-switcher-theme--default.vue-switcher-color--yellow div:after {\n      background-color: #bab353;\n}\n.vue-switcher-theme--default.vue-switcher-color--yellow.vue-switcher--unchecked div {\n    background-color: #e6e3c0;\n}\n.vue-switcher-theme--default.vue-switcher-color--yellow.vue-switcher--unchecked div:after {\n      background-color: #c9c377;\n}\n.vue-switcher-theme--default.vue-switcher-color--orange div {\n    background-color: #c89577;\n}\n.vue-switcher-theme--default.vue-switcher-color--orange div:after {\n      background-color: #b97953;\n}\n.vue-switcher-theme--default.vue-switcher-color--orange.vue-switcher--unchecked div {\n    background-color: #e5cec0;\n}\n.vue-switcher-theme--default.vue-switcher-color--orange.vue-switcher--unchecked div:after {\n      background-color: #c89577;\n}\n.vue-switcher-theme--default.vue-switcher-color--green div {\n    background-color: #77c88d;\n}\n.vue-switcher-theme--default.vue-switcher-color--green div:after {\n      background-color: #53b96e;\n}\n.vue-switcher-theme--default.vue-switcher-color--green.vue-switcher--unchecked div {\n    background-color: #c0e5ca;\n}\n.vue-switcher-theme--default.vue-switcher-color--green.vue-switcher--unchecked div:after {\n      background-color: #77c88d;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--default div {\n    background-color: gainsboro;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--default div:after {\n      background-color: #f5f5f5;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--default.vue-switcher--unchecked div {\n    background-color: #e8e8e8;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--default.vue-switcher--unchecked div:after {\n      background-color: #f5f5f5;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--primary div {\n    background-color: #05ffda;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--primary div:after {\n      background-color: #00d1b2;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--primary.vue-switcher--unchecked div {\n    background-color: #6bffe9;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--primary.vue-switcher--unchecked div:after {\n      background-color: #05ffda;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--blue div {\n    background-color: #5e91e3;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--blue div:after {\n      background-color: #3273dc;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--blue.vue-switcher--unchecked div {\n    background-color: #b5ccf2;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--blue.vue-switcher--unchecked div:after {\n      background-color: #5e91e3;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--red div {\n    background-color: #ff6b89;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--red div:after {\n      background-color: #ff3860;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--red.vue-switcher--unchecked div {\n    background-color: #ffd1da;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--red.vue-switcher--unchecked div:after {\n      background-color: #ff6b89;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--yellow div {\n    background-color: #ffe78a;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--yellow div:after {\n      background-color: #ffdd57;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--yellow.vue-switcher--unchecked div {\n    background-color: #fffcf0;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--yellow.vue-switcher--unchecked div:after {\n      background-color: #ffe78a;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--green div {\n    background-color: #3dde75;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--green div:after {\n      background-color: #22c65b;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--green.vue-switcher--unchecked div {\n    background-color: #94edb3;\n}\n.vue-switcher-theme--bulma.vue-switcher-color--green.vue-switcher--unchecked div:after {\n      background-color: #3dde75;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--default div {\n    background-color: #e6e6e6;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--default div:after {\n      background-color: #f0f0f0;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--default.vue-switcher--unchecked div {\n    background-color: whitesmoke;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--default.vue-switcher--unchecked div:after {\n      background-color: #f0f0f0;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--primary div {\n    background-color: #4f93ce;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--primary div:after {\n      background-color: #337ab7;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--primary.vue-switcher--unchecked div {\n    background-color: #9fc4e4;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--primary.vue-switcher--unchecked div:after {\n      background-color: #4f93ce;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--success div {\n    background-color: #80c780;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--success div:after {\n      background-color: #5cb85c;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--success.vue-switcher--unchecked div {\n    background-color: #c7e6c7;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--success.vue-switcher--unchecked div:after {\n      background-color: #80c780;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--info div {\n    background-color: #85d0e7;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--info div:after {\n      background-color: #5bc0de;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--info.vue-switcher--unchecked div {\n    background-color: #daf1f8;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--info.vue-switcher--unchecked div:after {\n      background-color: #85d0e7;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--warning div {\n    background-color: #f4c37d;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--warning div:after {\n      background-color: #f0ad4e;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--warning.vue-switcher--unchecked div {\n    background-color: #fceedb;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--warning.vue-switcher--unchecked div:after {\n      background-color: #f4c37d;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--danger div {\n    background-color: #d9534f;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--danger div:after {\n      background-color: #c9302c;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--danger.vue-switcher--unchecked div {\n    background-color: #eba5a3;\n}\n.vue-switcher-theme--bootstrap.vue-switcher-color--danger.vue-switcher--unchecked div:after {\n      background-color: #d9534f;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(47)();
-// imports
-
-
-// module
-exports.push([module.i, "\n@-webkit-keyframes spinAround {\nfrom {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n}\nto {\n    -webkit-transform: rotate(359deg);\n            transform: rotate(359deg);\n}\n}\n@keyframes spinAround {\nfrom {\n    -webkit-transform: rotate(0deg);\n            transform: rotate(0deg);\n}\nto {\n    -webkit-transform: rotate(359deg);\n            transform: rotate(359deg);\n}\n}\n.input,\n.textarea {\n  -moz-appearance: none;\n  -webkit-appearance: none;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: none;\n  border-radius: 3px;\n  box-shadow: none;\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  font-size: 1rem;\n  height: 2.285em;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  line-height: 1.5;\n  padding-left: 0.75em;\n  padding-right: 0.75em;\n  position: relative;\n  vertical-align: top;\n  background-color: white;\n  border: 1px solid #dbdbdb;\n  color: #363636;\n  box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.1);\n  max-width: 100%;\n  width: 100%;\n}\n.input:focus, .input.is-focused, .input:active, .input.is-active,\n  .textarea:focus,\n  .textarea.is-focused,\n  .textarea:active,\n  .textarea.is-active {\n    outline: none;\n}\n.input[disabled], .input.is-disabled,\n  .textarea[disabled],\n  .textarea.is-disabled {\n    pointer-events: none;\n}\n.input:hover, .input.is-hovered,\n  .textarea:hover,\n  .textarea.is-hovered {\n    border-color: #b5b5b5;\n}\n.input:focus, .input.is-focused, .input:active, .input.is-active,\n  .textarea:focus,\n  .textarea.is-focused,\n  .textarea:active,\n  .textarea.is-active {\n    border-color: #00d1b2;\n}\n.input[disabled], .input.is-disabled,\n  .textarea[disabled],\n  .textarea.is-disabled {\n    background-color: whitesmoke;\n    border-color: whitesmoke;\n    box-shadow: none;\n    color: #7a7a7a;\n}\n.input[disabled]::-moz-placeholder, .input.is-disabled::-moz-placeholder,\n    .textarea[disabled]::-moz-placeholder,\n    .textarea.is-disabled::-moz-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[disabled]::-webkit-input-placeholder, .input.is-disabled::-webkit-input-placeholder,\n    .textarea[disabled]::-webkit-input-placeholder,\n    .textarea.is-disabled::-webkit-input-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[disabled]:-moz-placeholder, .input.is-disabled:-moz-placeholder,\n    .textarea[disabled]:-moz-placeholder,\n    .textarea.is-disabled:-moz-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[disabled]:-ms-input-placeholder, .input.is-disabled:-ms-input-placeholder,\n    .textarea[disabled]:-ms-input-placeholder,\n    .textarea.is-disabled:-ms-input-placeholder {\n      color: rgba(54, 54, 54, 0.3);\n}\n.input[type=\"search\"],\n  .textarea[type=\"search\"] {\n    border-radius: 290486px;\n}\n.input.is-white,\n  .textarea.is-white {\n    border-color: white;\n}\n.input.is-black,\n  .textarea.is-black {\n    border-color: #0a0a0a;\n}\n.input.is-light,\n  .textarea.is-light {\n    border-color: whitesmoke;\n}\n.input.is-dark,\n  .textarea.is-dark {\n    border-color: #363636;\n}\n.input.is-primary,\n  .textarea.is-primary {\n    border-color: #00d1b2;\n}\n.input.is-info,\n  .textarea.is-info {\n    border-color: #539bb9;\n}\n.input.is-success,\n  .textarea.is-success {\n    border-color: #23d160;\n}\n.input.is-warning,\n  .textarea.is-warning {\n    border-color: #ffdd57;\n}\n.input.is-danger,\n  .textarea.is-danger {\n    border-color: #ff3860;\n}\n.input.is-small,\n  .textarea.is-small {\n    border-radius: 2px;\n    font-size: 0.75rem;\n}\n.input.is-medium,\n  .textarea.is-medium {\n    font-size: 1.25rem;\n}\n.input.is-large,\n  .textarea.is-large {\n    font-size: 1.5rem;\n}\n.input.is-fullwidth,\n  .textarea.is-fullwidth {\n    display: block;\n    width: 100%;\n}\n.input.is-inline,\n  .textarea.is-inline {\n    display: inline;\n    width: auto;\n}\n.textarea {\n  display: block;\n  line-height: 1.25;\n  max-height: 600px;\n  max-width: 100%;\n  min-height: 120px;\n  min-width: 100%;\n  padding: 10px;\n  resize: vertical;\n}\n.checkbox,\n.radio {\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  cursor: pointer;\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  -ms-flex-wrap: wrap;\n      flex-wrap: wrap;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  position: relative;\n  vertical-align: top;\n}\n.checkbox input,\n  .radio input {\n    cursor: pointer;\n    margin-right: 0.5em;\n}\n.checkbox:hover,\n  .radio:hover {\n    color: #363636;\n}\n.checkbox.is-disabled,\n  .radio.is-disabled {\n    color: #7a7a7a;\n    pointer-events: none;\n}\n.checkbox.is-disabled input,\n    .radio.is-disabled input {\n      pointer-events: none;\n}\n.radio + .radio {\n  margin-left: 0.5em;\n}\n.select {\n  display: inline-block;\n  height: 2.5em;\n  position: relative;\n  vertical-align: top;\n}\n.select:after {\n    border: 1px solid #00d1b2;\n    border-right: 0;\n    border-top: 0;\n    content: \" \";\n    display: block;\n    height: 0.5em;\n    pointer-events: none;\n    position: absolute;\n    -webkit-transform: rotate(-45deg);\n            transform: rotate(-45deg);\n    width: 0.5em;\n    margin-top: -0.375em;\n    right: 1.125em;\n    top: 50%;\n    z-index: 4;\n}\n.select select {\n    -moz-appearance: none;\n    -webkit-appearance: none;\n    -webkit-box-align: center;\n        -ms-flex-align: center;\n            align-items: center;\n    border: none;\n    border-radius: 3px;\n    box-shadow: none;\n    display: -webkit-inline-box;\n    display: -ms-inline-flexbox;\n    display: inline-flex;\n    font-size: 1rem;\n    height: 2.285em;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n    line-height: 1.5;\n    padding-left: 0.75em;\n    padding-right: 0.75em;\n    position: relative;\n    vertical-align: top;\n    background-color: white;\n    border: 1px solid #dbdbdb;\n    color: #363636;\n    cursor: pointer;\n    display: block;\n    font-size: 1em;\n    outline: none;\n    padding-right: 2.5em;\n}\n.select select:focus, .select select.is-focused, .select select:active, .select select.is-active {\n      outline: none;\n}\n.select select[disabled], .select select.is-disabled {\n      pointer-events: none;\n}\n.select select:hover, .select select.is-hovered {\n      border-color: #b5b5b5;\n}\n.select select:focus, .select select.is-focused, .select select:active, .select select.is-active {\n      border-color: #00d1b2;\n}\n.select select[disabled], .select select.is-disabled {\n      background-color: whitesmoke;\n      border-color: whitesmoke;\n      box-shadow: none;\n      color: #7a7a7a;\n}\n.select select[disabled]::-moz-placeholder, .select select.is-disabled::-moz-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select[disabled]::-webkit-input-placeholder, .select select.is-disabled::-webkit-input-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select[disabled]:-moz-placeholder, .select select.is-disabled:-moz-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select[disabled]:-ms-input-placeholder, .select select.is-disabled:-ms-input-placeholder {\n        color: rgba(54, 54, 54, 0.3);\n}\n.select select:hover {\n      border-color: #b5b5b5;\n}\n.select select::ms-expand {\n      display: none;\n}\n.select:hover:after {\n    border-color: #363636;\n}\n.select.is-small {\n    border-radius: 2px;\n    font-size: 0.75rem;\n}\n.select.is-medium {\n    font-size: 1.25rem;\n}\n.select.is-large {\n    font-size: 1.5rem;\n}\n.select.is-fullwidth {\n    width: 100%;\n}\n.select.is-fullwidth select {\n      width: 100%;\n}\n.label {\n  color: #363636;\n  display: block;\n  font-weight: bold;\n}\n.label:not(:last-child) {\n    margin-bottom: 0.5em;\n}\n.help {\n  display: block;\n  font-size: 0.75rem;\n  margin-top: 5px;\n}\n.help.is-white {\n    color: white;\n}\n.help.is-black {\n    color: #0a0a0a;\n}\n.help.is-light {\n    color: whitesmoke;\n}\n.help.is-dark {\n    color: #363636;\n}\n.help.is-primary {\n    color: #00d1b2;\n}\n.help.is-info {\n    color: #539bb9;\n}\n.help.is-success {\n    color: #23d160;\n}\n.help.is-warning {\n    color: #ffdd57;\n}\n.help.is-danger {\n    color: #ff3860;\n}\n@media screen and (max-width: 768px) {\n.control-label {\n    margin-bottom: 0.5em;\n}\n}\n@media screen and (min-width: 769px) {\n.control-label {\n    -ms-flex-preferred-size: 0;\n        flex-basis: 0;\n    -webkit-box-flex: 1;\n        -ms-flex-positive: 1;\n            flex-grow: 1;\n    -ms-flex-negative: 0;\n        flex-shrink: 0;\n    margin-right: 1.5em;\n    padding-top: 0.5em;\n    text-align: right;\n}\n}\n.control {\n  position: relative;\n  text-align: left;\n}\n.control:not(:last-child) {\n    margin-bottom: 0.75rem;\n}\n.control.has-addons {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n}\n.control.has-addons .button,\n    .control.has-addons .input,\n    .control.has-addons .select {\n      border-radius: 0;\n      margin-right: -1px;\n      width: auto;\n}\n.control.has-addons .button:hover,\n      .control.has-addons .input:hover,\n      .control.has-addons .select:hover {\n        z-index: 2;\n}\n.control.has-addons .button:focus, .control.has-addons .button:active,\n      .control.has-addons .input:focus,\n      .control.has-addons .input:active,\n      .control.has-addons .select:focus,\n      .control.has-addons .select:active {\n        z-index: 3;\n}\n.control.has-addons .button:first-child,\n      .control.has-addons .input:first-child,\n      .control.has-addons .select:first-child {\n        border-radius: 3px 0 0 3px;\n}\n.control.has-addons .button:first-child select,\n        .control.has-addons .input:first-child select,\n        .control.has-addons .select:first-child select {\n          border-radius: 3px 0 0 3px;\n}\n.control.has-addons .button:last-child,\n      .control.has-addons .input:last-child,\n      .control.has-addons .select:last-child {\n        border-radius: 0 3px 3px 0;\n}\n.control.has-addons .button:last-child select,\n        .control.has-addons .input:last-child select,\n        .control.has-addons .select:last-child select {\n          border-radius: 0 3px 3px 0;\n}\n.control.has-addons .button.is-expanded,\n      .control.has-addons .input.is-expanded,\n      .control.has-addons .select.is-expanded {\n        -webkit-box-flex: 1;\n            -ms-flex-positive: 1;\n                flex-grow: 1;\n        -ms-flex-negative: 0;\n            flex-shrink: 0;\n}\n.control.has-addons .select select:hover {\n      z-index: 2;\n}\n.control.has-addons .select select:focus, .control.has-addons .select select:active {\n      z-index: 3;\n}\n.control.has-addons.has-addons-centered {\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n}\n.control.has-addons.has-addons-right {\n      -webkit-box-pack: end;\n          -ms-flex-pack: end;\n              justify-content: flex-end;\n}\n.control.has-addons.has-addons-fullwidth .button,\n    .control.has-addons.has-addons-fullwidth .input,\n    .control.has-addons.has-addons-fullwidth .select {\n      -webkit-box-flex: 1;\n          -ms-flex-positive: 1;\n              flex-grow: 1;\n      -ms-flex-negative: 0;\n          flex-shrink: 0;\n}\n.control.has-icon .icon {\n    color: #dbdbdb;\n    pointer-events: none;\n    position: absolute;\n    top: 1.25rem;\n    z-index: 4;\n}\n.control.has-icon .input:focus + .icon {\n    color: #7a7a7a;\n}\n.control.has-icon .input.is-small + .icon {\n    top: 0.9375rem;\n}\n.control.has-icon .input.is-medium + .icon {\n    top: 1.5625rem;\n}\n.control.has-icon .input.is-large + .icon {\n    top: 1.875rem;\n}\n.control.has-icon:not(.has-icon-right) .icon {\n    left: 1.25rem;\n    -webkit-transform: translateX(-50%) translateY(-50%);\n            transform: translateX(-50%) translateY(-50%);\n}\n.control.has-icon:not(.has-icon-right) .input {\n    padding-left: 2.5em;\n}\n.control.has-icon:not(.has-icon-right) .input.is-small + .icon {\n      left: 0.9375rem;\n}\n.control.has-icon:not(.has-icon-right) .input.is-medium + .icon {\n      left: 1.5625rem;\n}\n.control.has-icon:not(.has-icon-right) .input.is-large + .icon {\n      left: 1.875rem;\n}\n.control.has-icon.has-icon-right .icon {\n    right: 1.25rem;\n    -webkit-transform: translateX(50%) translateY(-50%);\n            transform: translateX(50%) translateY(-50%);\n}\n.control.has-icon.has-icon-right .input {\n    padding-right: 2.5em;\n}\n.control.has-icon.has-icon-right .input.is-small + .icon {\n      right: 0.9375rem;\n}\n.control.has-icon.has-icon-right .input.is-medium + .icon {\n      right: 1.5625rem;\n}\n.control.has-icon.has-icon-right .input.is-large + .icon {\n      right: 1.875rem;\n}\n.control.is-grouped {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    -webkit-box-pack: start;\n        -ms-flex-pack: start;\n            justify-content: flex-start;\n}\n.control.is-grouped > .control {\n      -ms-flex-preferred-size: 0;\n          flex-basis: 0;\n      -ms-flex-negative: 0;\n          flex-shrink: 0;\n}\n.control.is-grouped > .control:not(:last-child) {\n        margin-bottom: 0;\n        margin-right: 0.75rem;\n}\n.control.is-grouped > .control.is-expanded {\n        -webkit-box-flex: 1;\n            -ms-flex-positive: 1;\n                flex-grow: 1;\n        -ms-flex-negative: 1;\n            flex-shrink: 1;\n}\n.control.is-grouped.is-grouped-centered {\n      -webkit-box-pack: center;\n          -ms-flex-pack: center;\n              justify-content: center;\n}\n.control.is-grouped.is-grouped-right {\n      -webkit-box-pack: end;\n          -ms-flex-pack: end;\n              justify-content: flex-end;\n}\n@media screen and (min-width: 769px) {\n.control.is-horizontal {\n      display: -webkit-box;\n      display: -ms-flexbox;\n      display: flex;\n}\n.control.is-horizontal > .control {\n        display: -webkit-box;\n        display: -ms-flexbox;\n        display: flex;\n        -ms-flex-preferred-size: 0;\n            flex-basis: 0;\n        -webkit-box-flex: 5;\n            -ms-flex-positive: 5;\n                flex-grow: 5;\n        -ms-flex-negative: 1;\n            flex-shrink: 1;\n}\n}\n.control.is-loading:after {\n    -webkit-animation: spinAround 500ms infinite linear;\n            animation: spinAround 500ms infinite linear;\n    border: 2px solid #dbdbdb;\n    border-radius: 290486px;\n    border-right-color: transparent;\n    border-top-color: transparent;\n    content: \"\";\n    display: block;\n    height: 1rem;\n    position: relative;\n    width: 1rem;\n    position: absolute !important;\n    right: 0.75em;\n    top: 0.75em;\n}\n.button {\n  -moz-appearance: none;\n  -webkit-appearance: none;\n  -webkit-box-align: center;\n      -ms-flex-align: center;\n          align-items: center;\n  border: none;\n  border-radius: 3px;\n  box-shadow: none;\n  display: -webkit-inline-box;\n  display: -ms-inline-flexbox;\n  display: inline-flex;\n  font-size: 1rem;\n  height: 2.285em;\n  -webkit-box-pack: start;\n      -ms-flex-pack: start;\n          justify-content: flex-start;\n  line-height: 1.5;\n  padding-left: 0.75em;\n  padding-right: 0.75em;\n  position: relative;\n  vertical-align: top;\n  -webkit-touch-callout: none;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n  background-color: white;\n  border: 1px solid #dbdbdb;\n  color: #363636;\n  cursor: pointer;\n  -webkit-box-pack: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  padding-left: 0.75em;\n  padding-right: 0.75em;\n  text-align: center;\n  white-space: nowrap;\n}\n.button:focus, .button.is-focused, .button:active, .button.is-active {\n    outline: none;\n}\n.button[disabled], .button.is-disabled {\n    pointer-events: none;\n}\n.button strong {\n    color: inherit;\n}\n.button .icon:first-child:not(:last-child) {\n    margin-left: -0.25rem;\n    margin-right: 0.5rem;\n}\n.button .icon:last-child:not(:first-child) {\n    margin-left: 0.5rem;\n    margin-right: -0.25rem;\n}\n.button .icon:first-child:last-child {\n    margin-left: calc(-1px + -0.25rem);\n    margin-right: calc(-1px + -0.25rem);\n}\n.button .icon.is-small:first-child:not(:last-child) {\n    margin-left: 0rem;\n}\n.button .icon.is-small:last-child:not(:first-child) {\n    margin-right: 0rem;\n}\n.button .icon.is-small:first-child:last-child {\n    margin-left: calc(-1px + 0rem);\n    margin-right: calc(-1px + 0rem);\n}\n.button .icon.is-medium:first-child:not(:last-child) {\n    margin-left: -0.5rem;\n}\n.button .icon.is-medium:last-child:not(:first-child) {\n    margin-right: -0.5rem;\n}\n.button .icon.is-medium:first-child:last-child {\n    margin-left: calc(-1px + -0.5rem);\n    margin-right: calc(-1px + -0.5rem);\n}\n.button .icon.is-large:first-child:not(:last-child) {\n    margin-left: -1rem;\n}\n.button .icon.is-large:last-child:not(:first-child) {\n    margin-right: -1rem;\n}\n.button .icon.is-large:first-child:last-child {\n    margin-left: calc(-1px + -1rem);\n    margin-right: calc(-1px + -1rem);\n}\n.button:hover, .button.is-hovered {\n    border-color: #b5b5b5;\n    color: #363636;\n}\n.button:focus, .button.is-focused {\n    border-color: #00d1b2;\n    box-shadow: 0 0 0.5em rgba(0, 209, 178, 0.25);\n    color: #363636;\n}\n.button:active, .button.is-active {\n    border-color: #4a4a4a;\n    box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n    color: #363636;\n}\n.button.is-link {\n    background-color: transparent;\n    border-color: transparent;\n    color: #4a4a4a;\n    text-decoration: underline;\n}\n.button.is-link:hover, .button.is-link.is-hovered, .button.is-link:focus, .button.is-link.is-focused, .button.is-link:active, .button.is-link.is-active {\n      background-color: whitesmoke;\n      color: #363636;\n}\n.button.is-white {\n    background-color: white;\n    border-color: transparent;\n    color: #0a0a0a;\n}\n.button.is-white:hover, .button.is-white.is-hovered {\n      background-color: #f9f9f9;\n      border-color: transparent;\n      color: #0a0a0a;\n}\n.button.is-white:focus, .button.is-white.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(255, 255, 255, 0.25);\n      color: #0a0a0a;\n}\n.button.is-white:active, .button.is-white.is-active {\n      background-color: #f2f2f2;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #0a0a0a;\n}\n.button.is-white.is-inverted {\n      background-color: #0a0a0a;\n      color: white;\n}\n.button.is-white.is-inverted:hover {\n        background-color: black;\n}\n.button.is-white.is-loading:after {\n      border-color: transparent transparent #0a0a0a #0a0a0a !important;\n}\n.button.is-white.is-outlined {\n      background-color: transparent;\n      border-color: white;\n      color: white;\n}\n.button.is-white.is-outlined:hover, .button.is-white.is-outlined:focus {\n        background-color: white;\n        border-color: white;\n        color: #0a0a0a;\n}\n.button.is-white.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #0a0a0a;\n      color: #0a0a0a;\n}\n.button.is-white.is-inverted.is-outlined:hover, .button.is-white.is-inverted.is-outlined:focus {\n        background-color: #0a0a0a;\n        color: white;\n}\n.button.is-black {\n    background-color: #0a0a0a;\n    border-color: transparent;\n    color: white;\n}\n.button.is-black:hover, .button.is-black.is-hovered {\n      background-color: #040404;\n      border-color: transparent;\n      color: white;\n}\n.button.is-black:focus, .button.is-black.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(10, 10, 10, 0.25);\n      color: white;\n}\n.button.is-black:active, .button.is-black.is-active {\n      background-color: black;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: white;\n}\n.button.is-black.is-inverted {\n      background-color: white;\n      color: #0a0a0a;\n}\n.button.is-black.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-black.is-loading:after {\n      border-color: transparent transparent white white !important;\n}\n.button.is-black.is-outlined {\n      background-color: transparent;\n      border-color: #0a0a0a;\n      color: #0a0a0a;\n}\n.button.is-black.is-outlined:hover, .button.is-black.is-outlined:focus {\n        background-color: #0a0a0a;\n        border-color: #0a0a0a;\n        color: white;\n}\n.button.is-black.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: white;\n      color: white;\n}\n.button.is-black.is-inverted.is-outlined:hover, .button.is-black.is-inverted.is-outlined:focus {\n        background-color: white;\n        color: #0a0a0a;\n}\n.button.is-light {\n    background-color: whitesmoke;\n    border-color: transparent;\n    color: #363636;\n}\n.button.is-light:hover, .button.is-light.is-hovered {\n      background-color: #eeeeee;\n      border-color: transparent;\n      color: #363636;\n}\n.button.is-light:focus, .button.is-light.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(245, 245, 245, 0.25);\n      color: #363636;\n}\n.button.is-light:active, .button.is-light.is-active {\n      background-color: #e8e8e8;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #363636;\n}\n.button.is-light.is-inverted {\n      background-color: #363636;\n      color: whitesmoke;\n}\n.button.is-light.is-inverted:hover {\n        background-color: #292929;\n}\n.button.is-light.is-loading:after {\n      border-color: transparent transparent #363636 #363636 !important;\n}\n.button.is-light.is-outlined {\n      background-color: transparent;\n      border-color: whitesmoke;\n      color: whitesmoke;\n}\n.button.is-light.is-outlined:hover, .button.is-light.is-outlined:focus {\n        background-color: whitesmoke;\n        border-color: whitesmoke;\n        color: #363636;\n}\n.button.is-light.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #363636;\n      color: #363636;\n}\n.button.is-light.is-inverted.is-outlined:hover, .button.is-light.is-inverted.is-outlined:focus {\n        background-color: #363636;\n        color: whitesmoke;\n}\n.button.is-dark {\n    background-color: #363636;\n    border-color: transparent;\n    color: whitesmoke;\n}\n.button.is-dark:hover, .button.is-dark.is-hovered {\n      background-color: #2f2f2f;\n      border-color: transparent;\n      color: whitesmoke;\n}\n.button.is-dark:focus, .button.is-dark.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(54, 54, 54, 0.25);\n      color: whitesmoke;\n}\n.button.is-dark:active, .button.is-dark.is-active {\n      background-color: #292929;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: whitesmoke;\n}\n.button.is-dark.is-inverted {\n      background-color: whitesmoke;\n      color: #363636;\n}\n.button.is-dark.is-inverted:hover {\n        background-color: #e8e8e8;\n}\n.button.is-dark.is-loading:after {\n      border-color: transparent transparent whitesmoke whitesmoke !important;\n}\n.button.is-dark.is-outlined {\n      background-color: transparent;\n      border-color: #363636;\n      color: #363636;\n}\n.button.is-dark.is-outlined:hover, .button.is-dark.is-outlined:focus {\n        background-color: #363636;\n        border-color: #363636;\n        color: whitesmoke;\n}\n.button.is-dark.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: whitesmoke;\n      color: whitesmoke;\n}\n.button.is-dark.is-inverted.is-outlined:hover, .button.is-dark.is-inverted.is-outlined:focus {\n        background-color: whitesmoke;\n        color: #363636;\n}\n.button.is-primary {\n    background-color: #00d1b2;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-primary:hover, .button.is-primary.is-hovered {\n      background-color: #00c4a7;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-primary:focus, .button.is-primary.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(0, 209, 178, 0.25);\n      color: #fff;\n}\n.button.is-primary:active, .button.is-primary.is-active {\n      background-color: #00b89c;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-primary.is-inverted {\n      background-color: #fff;\n      color: #00d1b2;\n}\n.button.is-primary.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-primary.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-primary.is-outlined {\n      background-color: transparent;\n      border-color: #00d1b2;\n      color: #00d1b2;\n}\n.button.is-primary.is-outlined:hover, .button.is-primary.is-outlined:focus {\n        background-color: #00d1b2;\n        border-color: #00d1b2;\n        color: #fff;\n}\n.button.is-primary.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-primary.is-inverted.is-outlined:hover, .button.is-primary.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #00d1b2;\n}\n.button.is-info {\n    background-color: #539bb9;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-info:hover, .button.is-info.is-hovered {\n      background-color: #4a96b5;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-info:focus, .button.is-info.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(83, 155, 185, 0.25);\n      color: #fff;\n}\n.button.is-info:active, .button.is-info.is-active {\n      background-color: #468eac;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-info.is-inverted {\n      background-color: #fff;\n      color: #539bb9;\n}\n.button.is-info.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-info.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-info.is-outlined {\n      background-color: transparent;\n      border-color: #539bb9;\n      color: #539bb9;\n}\n.button.is-info.is-outlined:hover, .button.is-info.is-outlined:focus {\n        background-color: #539bb9;\n        border-color: #539bb9;\n        color: #fff;\n}\n.button.is-info.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-info.is-inverted.is-outlined:hover, .button.is-info.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #539bb9;\n}\n.button.is-success {\n    background-color: #23d160;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-success:hover, .button.is-success.is-hovered {\n      background-color: #22c65b;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-success:focus, .button.is-success.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(35, 209, 96, 0.25);\n      color: #fff;\n}\n.button.is-success:active, .button.is-success.is-active {\n      background-color: #20bc56;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-success.is-inverted {\n      background-color: #fff;\n      color: #23d160;\n}\n.button.is-success.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-success.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-success.is-outlined {\n      background-color: transparent;\n      border-color: #23d160;\n      color: #23d160;\n}\n.button.is-success.is-outlined:hover, .button.is-success.is-outlined:focus {\n        background-color: #23d160;\n        border-color: #23d160;\n        color: #fff;\n}\n.button.is-success.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-success.is-inverted.is-outlined:hover, .button.is-success.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #23d160;\n}\n.button.is-warning {\n    background-color: #ffdd57;\n    border-color: transparent;\n    color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning:hover, .button.is-warning.is-hovered {\n      background-color: #ffdb4a;\n      border-color: transparent;\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning:focus, .button.is-warning.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(255, 221, 87, 0.25);\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning:active, .button.is-warning.is-active {\n      background-color: #ffd83d;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-inverted {\n      background-color: rgba(0, 0, 0, 0.7);\n      color: #ffdd57;\n}\n.button.is-warning.is-inverted:hover {\n        background-color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-loading:after {\n      border-color: transparent transparent rgba(0, 0, 0, 0.7) rgba(0, 0, 0, 0.7) !important;\n}\n.button.is-warning.is-outlined {\n      background-color: transparent;\n      border-color: #ffdd57;\n      color: #ffdd57;\n}\n.button.is-warning.is-outlined:hover, .button.is-warning.is-outlined:focus {\n        background-color: #ffdd57;\n        border-color: #ffdd57;\n        color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: rgba(0, 0, 0, 0.7);\n      color: rgba(0, 0, 0, 0.7);\n}\n.button.is-warning.is-inverted.is-outlined:hover, .button.is-warning.is-inverted.is-outlined:focus {\n        background-color: rgba(0, 0, 0, 0.7);\n        color: #ffdd57;\n}\n.button.is-danger {\n    background-color: #ff3860;\n    border-color: transparent;\n    color: #fff;\n}\n.button.is-danger:hover, .button.is-danger.is-hovered {\n      background-color: #ff2b56;\n      border-color: transparent;\n      color: #fff;\n}\n.button.is-danger:focus, .button.is-danger.is-focused {\n      border-color: transparent;\n      box-shadow: 0 0 0.5em rgba(255, 56, 96, 0.25);\n      color: #fff;\n}\n.button.is-danger:active, .button.is-danger.is-active {\n      background-color: #ff1f4b;\n      border-color: transparent;\n      box-shadow: inset 0 1px 2px rgba(10, 10, 10, 0.2);\n      color: #fff;\n}\n.button.is-danger.is-inverted {\n      background-color: #fff;\n      color: #ff3860;\n}\n.button.is-danger.is-inverted:hover {\n        background-color: #f2f2f2;\n}\n.button.is-danger.is-loading:after {\n      border-color: transparent transparent #fff #fff !important;\n}\n.button.is-danger.is-outlined {\n      background-color: transparent;\n      border-color: #ff3860;\n      color: #ff3860;\n}\n.button.is-danger.is-outlined:hover, .button.is-danger.is-outlined:focus {\n        background-color: #ff3860;\n        border-color: #ff3860;\n        color: #fff;\n}\n.button.is-danger.is-inverted.is-outlined {\n      background-color: transparent;\n      border-color: #fff;\n      color: #fff;\n}\n.button.is-danger.is-inverted.is-outlined:hover, .button.is-danger.is-inverted.is-outlined:focus {\n        background-color: #fff;\n        color: #ff3860;\n}\n.button.is-small {\n    border-radius: 2px;\n    font-size: 0.75rem;\n}\n.button.is-small .icon:first-child:not(:last-child) {\n      margin-left: -0.375rem;\n      margin-right: 0.375rem;\n}\n.button.is-small .icon:last-child:not(:first-child) {\n      margin-left: 0.375rem;\n      margin-right: -0.375rem;\n}\n.button.is-small .icon:first-child:last-child {\n      margin-left: calc(-1px + -0.375rem);\n      margin-right: calc(-1px + -0.375rem);\n}\n.button.is-small .icon.is-small:first-child:not(:last-child) {\n      margin-left: -0.125rem;\n}\n.button.is-small .icon.is-small:last-child:not(:first-child) {\n      margin-right: -0.125rem;\n}\n.button.is-small .icon.is-small:first-child:last-child {\n      margin-left: calc(-1px + -0.125rem);\n      margin-right: calc(-1px + -0.125rem);\n}\n.button.is-small .icon.is-medium:first-child:not(:last-child) {\n      margin-left: -0.625rem;\n}\n.button.is-small .icon.is-medium:last-child:not(:first-child) {\n      margin-right: -0.625rem;\n}\n.button.is-small .icon.is-medium:first-child:last-child {\n      margin-left: calc(-1px + -0.625rem);\n      margin-right: calc(-1px + -0.625rem);\n}\n.button.is-small .icon.is-large:first-child:not(:last-child) {\n      margin-left: -1.125rem;\n}\n.button.is-small .icon.is-large:last-child:not(:first-child) {\n      margin-right: -1.125rem;\n}\n.button.is-small .icon.is-large:first-child:last-child {\n      margin-left: calc(-1px + -1.125rem);\n      margin-right: calc(-1px + -1.125rem);\n}\n.button.is-medium {\n    font-size: 1.25rem;\n}\n.button.is-medium .icon:first-child:not(:last-child) {\n      margin-left: -0.125rem;\n      margin-right: 0.625rem;\n}\n.button.is-medium .icon:last-child:not(:first-child) {\n      margin-left: 0.625rem;\n      margin-right: -0.125rem;\n}\n.button.is-medium .icon:first-child:last-child {\n      margin-left: calc(-1px + -0.125rem);\n      margin-right: calc(-1px + -0.125rem);\n}\n.button.is-medium .icon.is-small:first-child:not(:last-child) {\n      margin-left: 0.125rem;\n}\n.button.is-medium .icon.is-small:last-child:not(:first-child) {\n      margin-right: 0.125rem;\n}\n.button.is-medium .icon.is-small:first-child:last-child {\n      margin-left: calc(-1px + 0.125rem);\n      margin-right: calc(-1px + 0.125rem);\n}\n.button.is-medium .icon.is-medium:first-child:not(:last-child) {\n      margin-left: -0.375rem;\n}\n.button.is-medium .icon.is-medium:last-child:not(:first-child) {\n      margin-right: -0.375rem;\n}\n.button.is-medium .icon.is-medium:first-child:last-child {\n      margin-left: calc(-1px + -0.375rem);\n      margin-right: calc(-1px + -0.375rem);\n}\n.button.is-medium .icon.is-large:first-child:not(:last-child) {\n      margin-left: -0.875rem;\n}\n.button.is-medium .icon.is-large:last-child:not(:first-child) {\n      margin-right: -0.875rem;\n}\n.button.is-medium .icon.is-large:first-child:last-child {\n      margin-left: calc(-1px + -0.875rem);\n      margin-right: calc(-1px + -0.875rem);\n}\n.button.is-large {\n    font-size: 1.5rem;\n}\n.button.is-large .icon:first-child:not(:last-child) {\n      margin-left: 0rem;\n      margin-right: 0.75rem;\n}\n.button.is-large .icon:last-child:not(:first-child) {\n      margin-left: 0.75rem;\n      margin-right: 0rem;\n}\n.button.is-large .icon:first-child:last-child {\n      margin-left: calc(-1px + 0rem);\n      margin-right: calc(-1px + 0rem);\n}\n.button.is-large .icon.is-small:first-child:not(:last-child) {\n      margin-left: 0.25rem;\n}\n.button.is-large .icon.is-small:last-child:not(:first-child) {\n      margin-right: 0.25rem;\n}\n.button.is-large .icon.is-small:first-child:last-child {\n      margin-left: calc(-1px + 0.25rem);\n      margin-right: calc(-1px + 0.25rem);\n}\n.button.is-large .icon.is-medium:first-child:not(:last-child) {\n      margin-left: -0.25rem;\n}\n.button.is-large .icon.is-medium:last-child:not(:first-child) {\n      margin-right: -0.25rem;\n}\n.button.is-large .icon.is-medium:first-child:last-child {\n      margin-left: calc(-1px + -0.25rem);\n      margin-right: calc(-1px + -0.25rem);\n}\n.button.is-large .icon.is-large:first-child:not(:last-child) {\n      margin-left: -0.75rem;\n}\n.button.is-large .icon.is-large:last-child:not(:first-child) {\n      margin-right: -0.75rem;\n}\n.button.is-large .icon.is-large:first-child:last-child {\n      margin-left: calc(-1px + -0.75rem);\n      margin-right: calc(-1px + -0.75rem);\n}\n.button[disabled], .button.is-disabled {\n    opacity: 0.5;\n}\n.button.is-fullwidth {\n    display: -webkit-box;\n    display: -ms-flexbox;\n    display: flex;\n    width: 100%;\n}\n.button.is-loading {\n    color: transparent !important;\n    pointer-events: none;\n}\n.button.is-loading:after {\n      -webkit-animation: spinAround 500ms infinite linear;\n              animation: spinAround 500ms infinite linear;\n      border: 2px solid #dbdbdb;\n      border-radius: 290486px;\n      border-right-color: transparent;\n      border-top-color: transparent;\n      content: \"\";\n      display: block;\n      height: 1rem;\n      position: relative;\n      width: 1rem;\n      left: 50%;\n      margin-left: -8px;\n      margin-top: -8px;\n      position: absolute;\n      top: 50%;\n      position: absolute !important;\n}\n.label {\n  font-size: 12px;\n}\nh4 {\n  margin: 10px 0 10px !important;\n}\n", ""]);
-
-// exports
-
-
-/***/ }),
 /* 58 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
+__webpack_require__(19);
+module.exports = __webpack_require__(20);
 
-/* styles */
-__webpack_require__(62)
-
-/* script */
-__vue_exports__ = __webpack_require__(54)
-
-/* template */
-var __vue_template__ = __webpack_require__(60)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/drewbartlett/Sites/rapidjs/node_modules/vue-switches/switches.vue"
-if(typeof __vue_options__.name === "undefined") {
-  __vue_options__.name = "switches"
-}__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-1723043d", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-1723043d", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional && typeof __vue_template__ !== "undefined") {console.error("[vue-loader] switches.vue: functional components are not supported with templates, they should use render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-/* 59 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __vue_exports__, __vue_options__
-var __vue_styles__ = {}
-
-/* styles */
-__webpack_require__(63)
-
-/* script */
-__vue_exports__ = __webpack_require__(55)
-
-/* template */
-var __vue_template__ = __webpack_require__(61)
-__vue_options__ = __vue_exports__ = __vue_exports__ || {}
-if (
-  typeof __vue_exports__.default === "object" ||
-  typeof __vue_exports__.default === "function"
-) {
-if (Object.keys(__vue_exports__).some(function (key) { return key !== "default" && key !== "__esModule" })) {console.error("named exports are not supported in *.vue files.")}
-__vue_options__ = __vue_exports__ = __vue_exports__.default
-}
-if (typeof __vue_options__ === "function") {
-  __vue_options__ = __vue_options__.options
-}
-__vue_options__.__file = "/Users/drewbartlett/Sites/rapidjs/resources/assets/js/Components/ClassBuilder.vue"
-if(typeof __vue_options__.name === "undefined") {
-  __vue_options__.name = "ClassBuilder"
-}__vue_options__.render = __vue_template__.render
-__vue_options__.staticRenderFns = __vue_template__.staticRenderFns
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-b3ff9c64", __vue_options__)
-  } else {
-    hotAPI.reload("data-v-b3ff9c64", __vue_options__)
-  }
-})()}
-if (__vue_options__.functional && typeof __vue_template__ !== "undefined") {console.error("[vue-loader] ClassBuilder.vue: functional components are not supported with templates, they should use render functions.")}
-
-module.exports = __vue_exports__
-
-
-/***/ }),
-/* 60 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('label', {
-    class: _vm.classObject
-  }, [_c('span', {
-    staticClass: "vue-switcher__label"
-  }, [(_vm.label) ? _c('span', {
-    domProps: {
-      "textContent": _vm._s(_vm.label)
-    }
-  }) : _vm._e(), _vm._v(" "), (!_vm.label && _vm.enabled) ? _c('span', {
-    domProps: {
-      "textContent": _vm._s(_vm.textEnabled)
-    }
-  }) : _vm._e(), _vm._v(" "), (!_vm.label && !_vm.enabled) ? _c('span', {
-    domProps: {
-      "textContent": _vm._s(_vm.textDisabled)
-    }
-  }) : _vm._e()]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.enabled),
-      expression: "enabled"
-    }],
-    attrs: {
-      "type": "checkbox",
-      "disabled": _vm.disabled
-    },
-    domProps: {
-      "checked": Array.isArray(_vm.enabled) ? _vm._i(_vm.enabled, null) > -1 : (_vm.enabled)
-    },
-    on: {
-      "click": function($event) {
-        var $$a = _vm.enabled,
-          $$el = $event.target,
-          $$c = $$el.checked ? (true) : (false);
-        if (Array.isArray($$a)) {
-          var $$v = null,
-            $$i = _vm._i($$a, $$v);
-          if ($$c) {
-            $$i < 0 && (_vm.enabled = $$a.concat($$v))
-          } else {
-            $$i > -1 && (_vm.enabled = $$a.slice(0, $$i).concat($$a.slice($$i + 1)))
-          }
-        } else {
-          _vm.enabled = $$c
-        }
-      }
-    }
-  }), _vm._v(" "), _c('div')])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-1723043d", module.exports)
-  }
-}
-
-/***/ }),
-/* 61 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "rapidjs-class-builder"
-  }, [_c('h2', {
-    staticClass: "title is-3",
-    attrs: {
-      "id": "class-builder"
-    }
-  }, [_vm._v("Class Builder")]), _vm._v(" "), _c('div', {
-    staticClass: "rapidjs-class-builder__form"
-  }, [_c('h4', {
-    staticClass: "subtitle is-5 is-info"
-  }, [_vm._v("Core")]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid row"
-  }, [_c('div', {
-    staticClass: "fb-grid col-md-3"
-  }, [_c('p', {
-    staticClass: "control has-addons"
-  }, [_c('span', {
-    staticClass: "button is-info is-small"
-  }, [_vm._v("baseURL:")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.model.baseURL),
-      expression: "model.baseURL"
-    }],
-    staticClass: "input is-small is-info",
-    attrs: {
-      "tabindex": "1",
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm._s(_vm.model.baseURL)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.model.baseURL = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid col-md-3"
-  }, [_c('p', {
-    staticClass: "control has-addons"
-  }, [_c('span', {
-    staticClass: "button is-info is-small"
-  }, [_vm._v("modelName:")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.model.modelName),
-      expression: "model.modelName"
-    }],
-    staticClass: "input is-small is-info",
-    attrs: {
-      "tabindex": "2",
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm._s(_vm.model.modelName)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.model.modelName = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid col-md-3"
-  }, [_c('p', {
-    staticClass: "control has-addons"
-  }, [_c('span', {
-    staticClass: "button is-info is-small"
-  }, [_vm._v("primaryKey:")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.model.primaryKey),
-      expression: "model.primaryKey"
-    }],
-    staticClass: "input is-small is-info",
-    attrs: {
-      "tabindex": "3",
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm._s(_vm.model.primaryKey)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.model.primaryKey = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid col-md-3"
-  }, [_c('p', {
-    staticClass: "control has-addons"
-  }, [_c('span', {
-    staticClass: "button is-info is-small"
-  }, [_vm._v("routeDelimeter:")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.model.routeDelimeter),
-      expression: "model.routeDelimeter"
-    }],
-    staticClass: "input is-small is-info",
-    attrs: {
-      "tabindex": "4",
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm._s(_vm.model.routeDelimeter)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.model.routeDelimeter = $event.target.value
-      }
-    }
-  })])])]), _vm._v(" "), _c('h4', {
-    staticClass: "subtitle is-5 is-info"
-  }, [_vm._v("Routes")]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid row"
-  }, [_c('div', {
-    staticClass: "fb-grid col-md-4"
-  }, [_c('span', {
-    staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.overrides.routes.model),
-      expression: "overrides.routes.model"
-    }],
-    attrs: {
-      "selected": _vm.overrides.routes.model,
-      "color": "blue"
-    },
-    domProps: {
-      "value": (_vm.overrides.routes.model)
-    },
-    on: {
-      "input": [function($event) {
-        _vm.overrides.routes.model = $event
-      }, function($event) {
-        _vm.resetRouteOverride('model')
-      }]
-    }
-  })], 1), _vm._v(" "), _c('p', {
-    staticClass: "control has-addons"
-  }, [_c('span', {
-    class: {
-      'button is-info is-small': true, 'is-disabled': !_vm.overrides.routes.model
-    }
-  }, [_vm._v("routes.model:")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.model.config.routes.model),
-      expression: "model.config.routes.model"
-    }],
-    class: {
-      'input is-small is-info': true, 'is-disabled': !_vm.overrides.routes.model
-    },
-    attrs: {
-      "tabindex": "5",
-      "disabled": !_vm.overrides.routes.model,
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm._s(_vm.model.config.routes.model)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.model.config.routes.model = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid col-md-4"
-  }, [_c('span', {
-    staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.overrides.routes.collection),
-      expression: "overrides.routes.collection"
-    }],
-    attrs: {
-      "selected": _vm.overrides.routes.collection,
-      "color": "blue"
-    },
-    domProps: {
-      "value": (_vm.overrides.routes.collection)
-    },
-    on: {
-      "input": [function($event) {
-        _vm.overrides.routes.collection = $event
-      }, function($event) {
-        _vm.resetRouteOverride('collection')
-      }]
-    }
-  })], 1), _vm._v(" "), _c('p', {
-    staticClass: "control has-addons"
-  }, [_c('span', {
-    class: {
-      'button is-info is-small': true, 'is-disabled': !_vm.overrides.routes.collection
-    }
-  }, [_vm._v("routes.collection:")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.model.config.routes.collection),
-      expression: "model.config.routes.collection"
-    }],
-    class: {
-      'input is-small is-info': true, 'is-disabled': !_vm.overrides.routes.collection
-    },
-    attrs: {
-      "tabindex": "6",
-      "disabled": !_vm.overrides.routes.collection,
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm._s(_vm.model.config.routes.collection)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.model.config.routes.collection = $event.target.value
-      }
-    }
-  })])])]), _vm._v(" "), _c('h4', {
-    staticClass: "subtitle is-5 is-info"
-  }, [_vm._v("Suffixes")]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid row"
-  }, [_c('div', {
-    staticClass: "fb-grid col-md-4"
-  }, [_c('span', {
-    staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.overrides.suffixes.create),
-      expression: "overrides.suffixes.create"
-    }],
-    attrs: {
-      "selected": _vm.overrides.suffixes.create,
-      "color": "blue"
-    },
-    domProps: {
-      "value": (_vm.overrides.suffixes.create)
-    },
-    on: {
-      "input": function($event) {
-        _vm.overrides.suffixes.create = $event
-      }
-    }
-  })], 1), _vm._v(" "), _c('p', {
-    staticClass: "control has-addons"
-  }, [_c('span', {
-    class: {
-      'button is-info is-small': true, 'is-disabled': !_vm.overrides.suffixes.create
-    }
-  }, [_vm._v("suffixes.create:")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.model.config.suffixes.create),
-      expression: "model.config.suffixes.create"
-    }],
-    class: {
-      'input is-small is-info': true, 'is-disabled': !_vm.overrides.suffixes.create
-    },
-    attrs: {
-      "tabindex": "6",
-      "disabled": !_vm.overrides.suffixes.create,
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm._s(_vm.model.config.suffixes.create)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.model.config.suffixes.create = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid col-md-4"
-  }, [_c('span', {
-    staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.overrides.suffixes.update),
-      expression: "overrides.suffixes.update"
-    }],
-    attrs: {
-      "selected": _vm.overrides.suffixes.update,
-      "color": "blue"
-    },
-    domProps: {
-      "value": (_vm.overrides.suffixes.update)
-    },
-    on: {
-      "input": function($event) {
-        _vm.overrides.suffixes.update = $event
-      }
-    }
-  })], 1), _vm._v(" "), _c('p', {
-    staticClass: "control has-addons"
-  }, [_c('span', {
-    class: {
-      'button is-info is-small': true, 'is-disabled': !_vm.overrides.suffixes.update
-    }
-  }, [_vm._v("suffixes.update:")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.model.config.suffixes.update),
-      expression: "model.config.suffixes.update"
-    }],
-    class: {
-      'input is-small is-info': true, 'is-disabled': !_vm.overrides.suffixes.update
-    },
-    attrs: {
-      "tabindex": "7",
-      "disabled": !_vm.overrides.suffixes.update,
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm._s(_vm.model.config.suffixes.update)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.model.config.suffixes.update = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid col-md-4"
-  }, [_c('span', {
-    staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.overrides.suffixes.delete),
-      expression: "overrides.suffixes.delete"
-    }],
-    attrs: {
-      "selected": _vm.overrides.suffixes.delete,
-      "color": "blue"
-    },
-    domProps: {
-      "value": (_vm.overrides.suffixes.delete)
-    },
-    on: {
-      "input": function($event) {
-        _vm.overrides.suffixes.delete = $event
-      }
-    }
-  })], 1), _vm._v(" "), _c('p', {
-    staticClass: "control has-addons"
-  }, [_c('span', {
-    class: {
-      'button is-info is-small': true, 'is-disabled': !_vm.overrides.suffixes.delete
-    }
-  }, [_vm._v("suffixes.delete:")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.model.config.suffixes.delete),
-      expression: "model.config.suffixes.delete"
-    }],
-    class: {
-      'input is-small is-info': true, 'is-disabled': !_vm.overrides.suffixes.delete
-    },
-    attrs: {
-      "tabindex": "8",
-      "disabled": !_vm.overrides.suffixes.delete,
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm._s(_vm.model.config.suffixes.delete)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.model.config.suffixes.delete = $event.target.value
-      }
-    }
-  })])])]), _vm._v(" "), _c('h4', {
-    staticClass: "subtitle is-5 is-info"
-  }, [_vm._v("Methods")]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid row"
-  }, [_c('div', {
-    staticClass: "fb-grid col-md-4"
-  }, [_c('span', {
-    staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.overrides.methods.create),
-      expression: "overrides.methods.create"
-    }],
-    attrs: {
-      "selected": _vm.overrides.methods.create,
-      "color": "blue"
-    },
-    domProps: {
-      "value": (_vm.overrides.methods.create)
-    },
-    on: {
-      "input": [function($event) {
-        _vm.overrides.methods.create = $event
-      }, function($event) {
-        _vm.resetRouteOverride('model')
-      }]
-    }
-  })], 1), _vm._v(" "), _c('p', {
-    staticClass: "control has-addons"
-  }, [_c('span', {
-    class: {
-      'button is-info is-small': true, 'is-disabled': !_vm.overrides.methods.create
-    }
-  }, [_vm._v("methods.create:")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.model.config.methods.create),
-      expression: "model.config.methods.create"
-    }],
-    class: {
-      'input is-small is-info': true, 'is-disabled': !_vm.overrides.methods.create
-    },
-    attrs: {
-      "tabindex": "9",
-      "disabled": !_vm.overrides.methods.create,
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm._s(_vm.model.config.methods.create)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.model.config.methods.create = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('span', {
-    staticClass: "help is-info"
-  }, [_vm._v("Available methods: get, delete, head, post, put, patch")])]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid col-md-4"
-  }, [_c('span', {
-    staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.overrides.methods.update),
-      expression: "overrides.methods.update"
-    }],
-    attrs: {
-      "selected": _vm.overrides.methods.update,
-      "color": "blue"
-    },
-    domProps: {
-      "value": (_vm.overrides.methods.update)
-    },
-    on: {
-      "input": [function($event) {
-        _vm.overrides.methods.update = $event
-      }, function($event) {
-        _vm.resetRouteOverride('collection')
-      }]
-    }
-  })], 1), _vm._v(" "), _c('p', {
-    staticClass: "control has-addons"
-  }, [_c('span', {
-    class: {
-      'button is-info is-small': true, 'is-disabled': !_vm.overrides.methods.update
-    }
-  }, [_vm._v("methods.update:")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.model.config.methods.update),
-      expression: "model.config.methods.update"
-    }],
-    class: {
-      'input is-small is-info': true, 'is-disabled': !_vm.overrides.methods.update
-    },
-    attrs: {
-      "tabindex": "10",
-      "disabled": !_vm.overrides.methods.update,
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm._s(_vm.model.config.methods.update)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.model.config.methods.update = $event.target.value
-      }
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid col-md-4"
-  }, [_c('span', {
-    staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.overrides.methods.delete),
-      expression: "overrides.methods.delete"
-    }],
-    attrs: {
-      "selected": _vm.overrides.methods.delete,
-      "color": "blue"
-    },
-    domProps: {
-      "value": (_vm.overrides.methods.delete)
-    },
-    on: {
-      "input": [function($event) {
-        _vm.overrides.methods.delete = $event
-      }, function($event) {
-        _vm.resetRouteOverride('collection')
-      }]
-    }
-  })], 1), _vm._v(" "), _c('p', {
-    staticClass: "control has-addons"
-  }, [_c('span', {
-    class: {
-      'button is-info is-small': true, 'is-disabled': !_vm.overrides.methods.delete
-    }
-  }, [_vm._v("methods.delete:")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.model.config.methods.delete),
-      expression: "model.config.methods.delete"
-    }],
-    class: {
-      'input is-small is-info': true, 'is-disabled': !_vm.overrides.methods.delete
-    },
-    attrs: {
-      "tabindex": "11",
-      "disabled": !_vm.overrides.methods.delete,
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm._s(_vm.model.config.methods.delete)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.model.config.methods.delete = $event.target.value
-      }
-    }
-  })])])]), _vm._v(" "), _c('h4', {
-    staticClass: "subtitle is-5 is-info"
-  }, [_vm._v("Options")]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid row"
-  }, [_c('div', {
-    staticClass: "fb-grid col-md-2"
-  }, [_c('span', {
-    staticClass: "label"
-  }, [_vm._v("trailingSlash")]), _vm._v(" "), _c('p', {
-    staticClass: "control"
-  }, [_c('switches', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.model.config.trailingSlash),
-      expression: "model.config.trailingSlash"
-    }],
-    attrs: {
-      "selected": _vm.model.config.trailingSlash,
-      "color": "blue"
-    },
-    domProps: {
-      "value": (_vm.model.config.trailingSlash)
-    },
-    on: {
-      "input": function($event) {
-        _vm.model.config.trailingSlash = $event
-      }
-    }
-  })], 1)]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid col-md-1"
-  }, [_c('span', {
-    staticClass: "label"
-  }, [_vm._v("caseSensitive")]), _vm._v(" "), _c('p', {
-    staticClass: "control"
-  }, [_c('switches', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.model.caseSensitive),
-      expression: "model.caseSensitive"
-    }],
-    attrs: {
-      "selected": _vm.model.caseSensitive,
-      "color": "blue"
-    },
-    domProps: {
-      "value": (_vm.model.caseSensitive)
-    },
-    on: {
-      "input": function($event) {
-        _vm.model.caseSensitive = $event
-      }
-    }
-  })], 1)]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid col-md-3"
-  }, [_c('span', {
-    staticClass: "label"
-  }, [_vm._v("globalParameters")]), _vm._v(" "), _c('p', {
-    staticClass: "control has-addons"
-  }, [_c('span', {
-    staticClass: "button is-info is-small"
-  }, [_vm._v("globalParameters:")]), _vm._v(" "), _c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.globalParameters),
-      expression: "globalParameters"
-    }],
-    staticClass: "input is-small is-info",
-    attrs: {
-      "tabindex": "12",
-      "type": "text"
-    },
-    domProps: {
-      "value": _vm._s(_vm.globalParameters)
-    },
-    on: {
-      "input": function($event) {
-        if ($event.target.composing) { return; }
-        _vm.globalParameters = $event.target.value
-      }
-    }
-  })]), _vm._v(" "), _c('span', {
-    staticClass: "help is-info"
-  }, [_vm._v("Comma separate: foo=bar, this=that")])])])]), _vm._v(" "), _c('h4', {
-    staticClass: "subtitle is-5 is-info"
-  }, [_vm._v("Class Config")]), _vm._v(" "), _c('div', {
-    staticClass: "rapidjs-class-builder__config"
-  }, [_c('pre', [_c('code', {
-    ref: "config",
-    staticClass: "language-json",
-    domProps: {
-      "textContent": _vm._s(_vm.config)
-    }
-  })])]), _vm._v(" "), _c('div', {
-    staticClass: "test"
-  }, [_vm._v("\n        create ({})         => " + _vm._s(_vm.model.create({})) + " "), _c('br')])])
-},staticRenderFns: []}
-module.exports.render._withStripped = true
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-     require("vue-hot-reload-api").rerender("data-v-b3ff9c64", module.exports)
-  }
-}
-
-/***/ }),
-/* 62 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(56);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(53)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!./../css-loader/index.js!./../vue-loader/lib/style-rewriter.js?id=data-v-1723043d!./../sass-loader/index.js!./../vue-loader/lib/selector.js?type=styles&index=0!./switches.vue", function() {
-			var newContent = require("!!./../css-loader/index.js!./../vue-loader/lib/style-rewriter.js?id=data-v-1723043d!./../sass-loader/index.js!./../vue-loader/lib/selector.js?type=styles&index=0!./switches.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 63 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(57);
-if(typeof content === 'string') content = [[module.i, content, '']];
-// add the styles to the DOM
-var update = __webpack_require__(53)(content, {});
-if(content.locals) module.exports = content.locals;
-// Hot Module Replacement
-if(false) {
-	// When the styles change, update the <style> tags
-	if(!content.locals) {
-		module.hot.accept("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b3ff9c64!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ClassBuilder.vue", function() {
-			var newContent = require("!!./../../../../node_modules/css-loader/index.js!./../../../../node_modules/vue-loader/lib/style-rewriter.js?id=data-v-b3ff9c64!./../../../../node_modules/sass-loader/index.js!./../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./ClassBuilder.vue");
-			if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-			update(newContent);
-		});
-	}
-	// When the module is disposed, remove the <style> tags
-	module.hot.dispose(function() { update(); });
-}
 
 /***/ })
 /******/ ]);

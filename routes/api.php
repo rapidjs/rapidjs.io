@@ -27,3 +27,11 @@ Route::get('/user/{id}', function (Request $request) {
 Route::post('/user/{id}/update', function (Request $request) {
     return $request->all();
 });
+
+Route::post('/user/create', function (Request $request) {
+    return $request->all();
+});
+
+Route::post('/user/{id}/destroy', function (Request $request) {
+    return $request->all();
+});

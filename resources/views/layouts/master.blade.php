@@ -27,8 +27,7 @@
                     <div>
 
 <h2 id="usage">Usage</h2>
-<pre><code class="language-js">
-import Rapid from 'rapidjs';
+<pre><code class="language-js">import Rapid from 'rapidjs';
 
 class Post extends Rapid {
     /**
@@ -37,7 +36,10 @@ class Post extends Rapid {
 }
 
 export default new Post();
+</pre></code>
 
+
+<pre><code class="language-js">
 Post.find(1).then(function (response) { // GET => /api/post/id/1
     console.log(response.data.post);
 });
@@ -53,9 +55,42 @@ Post.all({ category: 'featured', limit: 20 }).then(function (response) { // GET 
 Post.collection.findBy('category', 'featured', { limit: 20 }).then(function (response) { // GET => /api/posts/category/featured?limit=20
     console.log(response.data.posts);
 });
+</pre></code>
 
-User.auth().then((response) => {
+<pre><code class="language-js">import { User } from 'rapidjs';
+
+User.auth().then((response) => { // GET => /api/user/current
     if(!response.data.loggedIn) {
+        // do something
+    }
+});
+
+User.login({ name: user, password: password }).then((response) => { // POST => /api/user/login
+    if(!response.data.error) {
+        // login
+    }
+});
+
+User.logout().then((response) => { // POST => /api/user/current
+    if(!response.data.error) {
+        // login
+    }
+});
+
+User.social('facebook', { token: 1234 }).then((response) => {
+    if(!response.data.error) {
+        // login
+    }
+});
+
+User.social('instagram', { token: 1234 }).then((response) => {
+    if(!response.data.error) {
+        // login
+    }
+});
+
+User.social('google', { token: 1234 }).then((response) => {
+    if(!response.data.error) {
         // login
     }
 });

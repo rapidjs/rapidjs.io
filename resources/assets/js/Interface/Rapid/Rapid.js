@@ -1,7 +1,9 @@
 import axios from 'axios';
 import _ from 'lodash';
+// get only lodash libs needed
 import pluralize from 'pluralize';
 import Debugger from './Debugger';
+// remove thsi if you can
 import Logger from './Logger';
 
 class Rapid {
@@ -134,8 +136,13 @@ class Rapid {
         return this.update(...params);
     }
 
+    // remove this to replace with destroy
     // delete (id = 0, data, options)
     delete (...params) {
+        return this.updateOrDelete('delete', ...params);
+    }
+
+    destroy (...params) {
         return this.updateOrDelete('delete', ...params);
     }
 

@@ -71,25 +71,7 @@ User.login({ name: user, password: password }).then((response) => { // POST => /
     }
 });
 
-User.logout().then((response) => { // POST => /api/user/current
-    if(!response.data.error) {
-        // login
-    }
-});
-
-User.social('facebook', { token: 1234 }).then((response) => {
-    if(!response.data.error) {
-        // login
-    }
-});
-
-User.social('instagram', { token: 1234 }).then((response) => {
-    if(!response.data.error) {
-        // login
-    }
-});
-
-User.social('google', { token: 1234 }).then((response) => {
+User.logout().then((response) => { // POST => /api/user/logout
     if(!response.data.error) {
         // login
     }

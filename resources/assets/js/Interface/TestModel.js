@@ -1,5 +1,8 @@
 import Rapid from './Rapid/Rapid';
 
+// http://www.stylemepretty.com/api/v2/post/770865/images
+
+
 class TestModel extends Rapid {
     posts (id, params) {
         return this.collection.belongsTo('posts', id, params);

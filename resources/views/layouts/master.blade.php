@@ -22,64 +22,14 @@
 
                     <div class="documentation fb-grid col-xs-12 col-md-10">
 
-                    <h2 id="installation">Installation</h2>
-                    <div><pre><code class="language-bash">npm i rapid-js --save</code></pre></div>
-                    <div>
+                        @include('documentation.installation')
 
-<h2 id="usage">Usage</h2>
-<pre><code class="language-js">import Rapid from 'rapidjs';
+                        @include('documentation.usage')
 
-class Post extends Rapid {
-    /**
-     * Write something awesome.
-     */
-}
+                        @include('documentation.class-builder')
 
-export default new Post();
-</pre></code>
-
-
-<pre><code class="language-js">
-Post.find(1).then(function (response) { // GET => /api/post/id/1
-    console.log(response.data.post);
-});
-
-Post.model.findBy('slug', 'my-post-name').then(function (response) { // GET => /api/post/slug/my-post-name
-    console.log(response.data.post);
-});
-
-Post.all({ category: 'featured', limit: 20 }).then(function (response) { // GET => /api/posts?category=featured&limit=20
-    console.log(response.data.posts);
-});
-
-Post.collection.findBy('category', 'featured', { limit: 20 }).then(function (response) { // GET => /api/posts/category/featured?limit=20
-    console.log(response.data.posts);
-});
-</pre></code>
-
-<pre><code class="language-js">import { User } from 'rapidjs';
-
-User.auth().then((response) => { // GET => /api/user/current
-    if(!response.data.loggedIn) {
-        // do something
-    }
-});
-
-User.login({ name: user, password: password }).then((response) => { // POST => /api/user/login
-    if(!response.data.error) {
-        // login
-    }
-});
-
-User.logout().then((response) => { // POST => /api/user/logout
-    if(!response.data.error) {
-        // login
-    }
-});
-
-</code></pre>
                     </div>
-                    <class-builder></class-builder>
+
                 </div>
                 </div>
             </div>

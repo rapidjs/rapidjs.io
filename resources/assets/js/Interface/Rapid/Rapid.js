@@ -83,7 +83,7 @@ class Rapid {
         if(this.config.trailingSlash) {
             params.push('');
         }
-        console.log(params);
+
         let url = this.sanitizeUrl([this.config.routes[this.currentRoute]].concat(params).join('/'));
 
         // reset currentRoute
@@ -93,7 +93,13 @@ class Rapid {
     }
 
     sanitizeUrl (url) {
-        return url.replace(/([^:]\/)\/+/g, '$1').replace(/\?$/, '');
+        url = url.replace(/([^:]\/)\/+/g, '$1').replace(/\?$/, '');
+
+        if(!this.config.trailingSlash) {
+            url = url.replace(/\/$/, '');
+        }
+
+        return url;
     }
 
 
@@ -174,7 +180,10 @@ class Rapid {
     /**
      * Relationships
      */
+
     // primray key, foreign key, relation
+
+
     hasRelationship (relation, primaryKey, foreignKey, data, requestOptions) {
         let url = '';
 
@@ -187,15 +196,18 @@ class Rapid {
         return this.request('get', url, data, requestOptions);
     }
 
-    belongsTo (relation, key, data, keyValue, requestOptions) {
+    /**
+     * belongsTo
+     */
+    belongsTo (relation, foreignKey, data, foreignKeyName, requestOptions) {
         let route     = this.currentRoute,
             urlParams = [relation];
 
-        if(keyValue) {
-            urlParams.push(keyValue);
+        if(foreignKeyName) {
+            urlParams.push(foreignKeyName);
         }
 
-        urlParams.push(key);
+        urlParams.push(foreignKey);
         urlParams.push(this.routes[route]);
 
         return this.request('get', this.any.makeUrl(...urlParams), data, requestOptions);

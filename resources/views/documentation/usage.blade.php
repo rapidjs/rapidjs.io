@@ -21,6 +21,14 @@ Post.all({ category: 'featured', limit: 20 }).then(function (response) { // GET 
 Post.collection.findBy('category', 'featured', { limit: 20 }).then(function (response) { // GET => /api/posts/category/featured?limit=20
     console.log(response.data.posts);
 });
+
+Post.withParams({ limit: 20 }).findBy('category', 'featured').then(function (response) { // GET => /api/posts/category/featured?limit=20
+    console.log(response.data.posts);
+});
+
+Post.withParam('status', 'published').findBy('user', 'self').then(function (response) { // GET => /api/posts/user/self?status=published
+    console.log(response.data.posts);
+});
 </pre></code>
 
 <pre><code class="language-js">import { User } from 'rapidjs';

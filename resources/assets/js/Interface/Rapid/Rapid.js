@@ -1,10 +1,13 @@
 import axios from 'axios';
-import _ from 'lodash';
-// get only lodash libs needed
+
 import pluralize from 'pluralize';
+import _defaultsDeep from 'lodash.defaultsdeep';
+import _isArray from 'lodash.isarray';
+import _kebabCase from 'lodash.kebabcase';
+
 import Debugger from './Debugger';
-// remove thsi if you can
 import Logger from './Logger';
+
 
 class Rapid {
     constructor (config) {
@@ -57,7 +60,7 @@ class Rapid {
 
         config = config || {};
 
-        this.config = _.defaultsDeep(config, defaults);
+        this.config = _defaultsDeep(config, defaults);
 
         if(!this.config.routes.model) {
             this.setModelRoute();
@@ -67,11 +70,13 @@ class Rapid {
             this.setCollectionRoute();
         }
 
-        this.api = axios.create(_.defaultsDeep({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
+        this.api          = axios.create(_defaultsDeep({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
 
         this.currentRoute = this.config.defaultRoute;
 
-        this.debugger = this.debug ? new Debugger(this) : false;
+        this.debugger     = this.debug ? new Debugger(this)     : false;
+
+        this.resetRequestData();
 
     }
 
@@ -159,8 +164,8 @@ class Rapid {
      * Collection Only Functions
      */
 
-    all (data, options) {
-        return this.request('get', this.collection.makeUrl(), data, options);
+    all () {
+        return this.collection.get();
     }
 
     /**
@@ -187,7 +192,7 @@ class Rapid {
     hasRelationship (relation, primaryKey, foreignKey, data, requestOptions) {
         let url = '';
 
-        if(_.isArray(foreignKey)) {
+        if(_isArray(foreignKey)) {
             url = this.makeUrl(primaryKey, relation, ...foreignKey);
         } else {
             url = this.makeUrl(primaryKey, relation, foreignKey)
@@ -217,46 +222,59 @@ class Rapid {
      * The Request
      */
 
-    parseRequestParams (type, data, options) {
-        let params = [];
+    parseRequestData (type) {
+        let requestData = [],
+            params        = this.requestData.params,
+            options       = this.requestData.options;
 
+        // axios handles the options differently for the request type
         if(['put', 'post', 'patch'].includes(type)) {
-            data = _.defaultsDeep(data, this.config.globalParameters);
-            params.push(data);
-            params.push(options);
-
+            params = _defaultsDeep(params, this.config.globalParameters);
+            requestData.push(params);
+            requestData.push(options);
         } else {
-            options.params = _.defaultsDeep(data, this.config.globalParameters);
-            params.push(options);
+            options.params = _defaultsDeep(params, this.config.globalParameters);
+            requestData.push(options);
         }
 
-        return params;
+        return requestData;
     }
 
-    request (type, url, data = {}, options = {}) {
+    request (type, url) {
 
         if(this.debug) {
-            return this.debugger.fakeRequest(type, url, data, options);
+            return this.debugger.fakeRequest(type, url);
         }
 
         return new Promise((resolve, reject) => {
-            this.api[type].call(this, this.sanitizeUrl(url), ...this.parseRequestParams(type, data, options))
+            this.api[type].call(this, this.sanitizeUrl(url), ...this.parseRequestData(type))
                  .then(response => {
+                    this.resetRequestData();
+
                     resolve(response);
                  })
                  .catch(error => {
+                    this.resetRequestData();
+
                     reject(error.response);
                  });
         });
     }
 
+    resetRequestData () {
+        this.requestData = {
+            params: {},
+            options: {}
+        };
+    }
+
     /**
      * to build a request url
      */
-    buildRequest (type, urlParams, data, options) {
-        let url = _.isArray(urlParams) ? this.makeUrl(...urlParams) : this.makeUrl(urlParams);
+    buildRequest (type, urlParams) {
+        let url = _isArray(urlParams) ? this.makeUrl(...urlParams) : this.makeUrl(urlParams);
 
-        return this.request(type, url, data, options);
+        return this.request(type, url);
     }
 
     get (...params) {
@@ -281,6 +299,46 @@ class Rapid {
 
     post (...params) {
         return this.buildRequest('post', ...params);
+    }
+
+
+    /**
+     * params, options, and headers
+     */
+
+    with (data = {}) {
+        this.requestData = _defaultsDeep(data, this.requestData);
+        return this;
+    }
+
+    withParams (params = {}) {
+        this.requestData.params = params;
+        return this;
+    }
+
+    withParam (key, value) {
+        this.requestData.params[key] = value;
+        return this;
+    }
+
+    withOptions (options = {}) {
+        this.requestData.options = options;
+        return this;
+    }
+
+    withOption (key, value) {
+        this.requestData.options[key] = value;
+        return this;
+    }
+
+    withHeaders (header = {}) {
+
+        return this;
+    }
+
+    withHeader (key, value) {
+
+        return this;
     }
 
     /**
@@ -376,7 +434,7 @@ class Rapid {
 
     // functions to build a collection route for relationships
     setModelRoute () {
-        let route = _.kebabCase(this.config.modelName).replace(/-/g, this.config.routeDelimeter);
+        let route = _kebabCase(this.config.modelName).replace(/-/g, this.config.routeDelimeter);
 
         if(this.config.caseSensitive) {
             route = this.config.modelName;
@@ -386,7 +444,7 @@ class Rapid {
     }
 
     setCollectionRoute () {
-        let route = _.kebabCase(pluralize(this.config.modelName)).replace(/-/g, this.config.routeDelimeter);
+        let route = _kebabCase(pluralize(this.config.modelName)).replace(/-/g, this.config.routeDelimeter);
 
         if(this.config.caseSensitive) {
             route = pluralize(this.config.modelName);

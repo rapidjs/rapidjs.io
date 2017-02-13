@@ -221,13 +221,13 @@
         <div class="rapidjs-class-builder__config"><pre><code class="language-json" ref="config" v-text="config"></code></pre></div>
 
         <div class="test">
-            create ({ name: 'drew' })         => {{ model.create({ name: 'drew' }) }} <br>
-            find (1)          => {{ model.find(1) }} <br>
-            findBy ('name', 'drew')          => {{ model.findBy('name', 'drew') }} <br>
-            collection.findBy ('status', 'active')          => {{ model.findBy('status', 'active')  }} <br>
+            <!-- create ({ name: 'drew' })         => {{ model.create({ name: 'drew' }) }} <br> -->
+            <!-- find (1)          => {{ model.find(1) }} <br>
+            findBy ('name', 'drew')          => {{ model.findBy('name', 'drew') }} <br> -->
+            <!-- collection.findBy ('status', 'active')          => {{ model.findBy('status', 'active')  }} <br> -->
             <!-- all ({ status: 'active' })          => {{ model.all({ status: 'active' }) }} <br> -->
-            update (1)        => {{ model.update(1) }} <br>
-            destroy (1)        => {{ model.destroy(1) }} <br>
+            <!-- update (1)        => {{ model.update(1) }} <br>
+            destroy (1)        => {{ model.destroy(1) }} <br> -->
             <!-- media ('waffles') => {{ model.media('waffles') }} <br>
             votes (1)         => {{ model.votes(1) }} <br> -->
 

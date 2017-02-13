@@ -33,7 +33,10 @@
     "vue-switches": "^1.0.1"
   },
   "dependencies": {
-    "babel-runtime": "^6.22.0"
+    "babel-runtime": "^6.22.0",
+    "lodash.defaultsdeep": "^4.6.0",
+    "lodash.isarray": "^4.0.0",
+    "lodash.kebabcase": "^4.1.1"
   },
   "ava": {
     "require": [

@@ -6,19 +6,24 @@ export default class {
     constructor(caller) {
         this.caller = caller;
         this.data = {};
+        this.logEnabled = true;
     }
 
-    fakeRequest (type, url, data = {}, options) {
+    fakeRequest (type, url) {
         let trace  = stackTrace.get(),
             length = trace.length,
             lastTrace = trace[length - 2],
-            params = this.caller.parseRequestParams(type, data, options),
+            params = this.caller.parseRequestData(type),
             lastUrl = this.setLastUrl(type, url, ...params);
 
         this.setLastRequest(...arguments);
+        this.caller.resetRequestData();
 
-        Logger.debug(`${this.caller.modelName}.${lastTrace.getFunctionName()} made a ${type} request (${lastUrl})`);
-        Logger.log(params);
+        if(this.logEnabled) {
+            // .${lastTrace.getFunctionName()}
+            Logger.debug(`${this.caller.modelName} made a ${type} request (${lastUrl})`);
+            Logger.log(params);
+        }
 
         return lastUrl;
     }

@@ -1,0 +1,35 @@
+.sidebar {
+    padding: 40px 0;
+
+    &__title {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 10px;
+        padding: 0;
+        font-size: 18px;
+        text-decoration: none;
+        color: $color-black;
+    }
+
+    &__nav {
+        padding: 0;
+        margin: 0 0 30px;
+        display: block;
+
+        li {
+            list-style: none;
+            margin: 0 0 5px;
+
+            a {
+                font-size: 16px;
+                display: block;
+                text-decoration: none;
+                color: $color-blue;
+
+                &:hover {
+                    color: darken($color-blue, 10%);
+                }
+            }
+        }
+    }
+}

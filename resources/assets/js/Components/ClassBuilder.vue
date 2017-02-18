@@ -291,8 +291,7 @@
 
         methods: {
             resetRouteOverride (route) {
-                let func = `set${_.capitalize(route)}Route`;
-                this.model[func]();
+                this.model.setRoute(route);
             }
         },
 

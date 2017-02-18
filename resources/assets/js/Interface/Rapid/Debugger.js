@@ -55,4 +55,10 @@ export default class {
             options
         };
     }
+
+    listRoutes () {
+        let coreFunctions = ['create', 'find', 'all', 'save', 'update', 'destroy'];
+
+        coreFunctions.forEach(func => this.caller[func].call(this.caller));
+    }
 }

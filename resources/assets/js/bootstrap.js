@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import axios from 'axios';
 import prism from './Vendor/prism';
-import UserModel from './Interface/UserModel';
+import Rapid from './Interface/Rapid/Rapid';
 
 window.Vue = Vue;
 
-window.rapidjs = UserModel;
+window.rapidjs = new Rapid({ modelName: 'Gallery', routes: { collection: 'foody' }, debug: true, baseURL: 'http://google.com//api/' });
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of

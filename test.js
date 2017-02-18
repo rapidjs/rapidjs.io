@@ -75,9 +75,17 @@ test('belongsTo produces proper URL', t => {
 
     t.is('api/post/1234/comments', myModel.debugger.data.lastUrl);
 
-    myModel.belongsTo('post', 1234, '', 'id');
+    myModel.belongsTo('post', 1234, 'id');
 
     t.is('api/post/id/1234/comments', myModel.debugger.data.lastUrl);
+
+    myModel.belongsTo('post', 1234, 'id', 'premium');
+
+    t.is('api/post/id/1234/comments/premium', myModel.debugger.data.lastUrl);
+
+    myModel.belongsTo('post', 1234, 'id', ['premium', 'latest', 'desc']);
+
+    t.is('api/post/id/1234/comments/premium/latest/desc', myModel.debugger.data.lastUrl);
 
 });
 

@@ -20,13 +20,28 @@
 
                     @include('layouts.sidebar')
 
-                    <div class="documentation fb-grid col-xs-12 col-md-10">
+                    <div class="docs fb-grid col-xs-12 col-md-10">
 
-                        @include('documentation.installation')
+                        <div class="docs__section">
+                            @include('documentation.installation')
+                        </div>
 
-                        @include('documentation.usage')
+                        <div class="docs__section">
+                            @include('documentation.usage')
+                        </div>
 
-                        @include('documentation.class-builder')
+                        <div class="docs__section">
+                            @include('documentation.class-builder')
+                        </div>
+
+                        <div class="docs__section">
+                            @include('documentation.methods.master')
+                        </div>
+
+                        <div class="docs__section">
+                            @include('documentation.configuration.master')
+                        </div>
+
 
                     </div>
 

@@ -22,7 +22,7 @@ Post.collection.findBy('category', 'featured', { limit: 20 }).then(function (res
     console.log(response.data.posts);
 });
 
-Post.withParams({ limit: 20 }).findBy('category', 'featured').then(function (response) { // GET => /api/posts/category/featured?limit=20
+Post.withParams({ limit: 20 }).findBy('category', 'featured').then((response) => { // GET => /api/posts/category/featured?limit=20
     console.log(response.data.posts);
 });
 

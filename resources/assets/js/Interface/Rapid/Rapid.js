@@ -8,7 +8,6 @@ import _kebabCase from 'lodash.kebabcase';
 import Debugger from './Debugger';
 import Logger from './Logger';
 
-
 class Rapid {
     constructor (config) {
         let defaults = {
@@ -55,29 +54,44 @@ class Rapid {
 
             apiConfig: {
 
-            }
+            },
+
+            overrides: { routes: {} }
         };
 
         config = config || {};
 
+        // I think you need to move routes to here because if people want to override them it can cause a conflict since
+        // routes are generated after the constructor and stored in the same object
+        this.routes = {
+            model      : '',
+            collection : '',
+            any        : ''
+        };
+
+        this.initialize(config, defaults);
+    }
+
+    initialize (config, defaults) {
         this.config = _defaultsDeep(config, defaults);
 
-        if(!this.config.routes.model) {
-            this.setModelRoute();
-        }
-
-        if(!this.config.routes.collection) {
-            this.setCollectionRoute();
-        }
+        this.fireSetters();
 
         this.api          = axios.create(_defaultsDeep({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
 
         this.currentRoute = this.config.defaultRoute;
 
-        this.debugger     = this.debug ? new Debugger(this)     : false;
+        this.setDebugger();
 
         this.resetRequestData();
+    }
 
+    fireSetters () {
+        ['baseURL', 'modelName', 'routeDelimeter', 'caseSensitive'].forEach(setter => this[setter] = this.config[setter]);
+    }
+
+    setDebugger () {
+        this.debugger = this.debug ? new Debugger(this) : false;
     }
 
     /**
@@ -89,10 +103,10 @@ class Rapid {
             params.push('');
         }
 
-        let url = this.sanitizeUrl([this.config.routes[this.currentRoute]].concat(params).join('/'));
+        let url = this.sanitizeUrl([this.routes[this.currentRoute]].concat(params).join('/'));
 
         // reset currentRoute
-        this.currentRoute = 'model';
+        this.currentRoute = this.config.defaultRoute;
 
         return url;
     }
@@ -154,8 +168,8 @@ class Rapid {
         return this.updateOrDestroy('destroy', ...params);
     }
 
-    create (data, options) {
-        return this.request(this.config.methods.create, this.model.makeUrl(this.config.suffixes.create), data, options);
+    create (data) {
+        return this.withParams(data).request(this.config.methods.create, this.model.makeUrl(this.config.suffixes.create));
     }
 
 
@@ -189,22 +203,22 @@ class Rapid {
     // primray key, foreign key, relation
 
 
-    hasRelationship (relation, primaryKey, foreignKey, data, requestOptions) {
-        let url = '';
+    hasRelationship (relation, primaryKey, foreignKey) {
+        let urlParams = [];
 
         if(_isArray(foreignKey)) {
-            url = this.makeUrl(primaryKey, relation, ...foreignKey);
+            urlParams = [primaryKey, relation, ...foreignKey];
         } else {
-            url = this.makeUrl(primaryKey, relation, foreignKey)
+            urlParams = [primaryKey, relation, foreignKey];
         }
 
-        return this.request('get', url, data, requestOptions);
+        return this.get(urlParams);
     }
 
     /**
      * belongsTo
      */
-    belongsTo (relation, foreignKey, data, foreignKeyName, requestOptions) {
+    belongsTo (relation, foreignKey, foreignKeyName, after) {
         let route     = this.currentRoute,
             urlParams = [relation];
 
@@ -215,7 +229,13 @@ class Rapid {
         urlParams.push(foreignKey);
         urlParams.push(this.routes[route]);
 
-        return this.request('get', this.any.makeUrl(...urlParams), data, requestOptions);
+        if(_isArray(after)) {
+            urlParams.push(...after);
+        } else {
+            urlParams.push(after);
+        }
+
+        return this.any.get(urlParams);
     }
 
     /**
@@ -297,8 +317,8 @@ class Rapid {
         return this.buildRequest('head', ...params);
     }
 
-    post (...params) {
-        return this.buildRequest('post', ...params);
+    delete (...params) {
+        return this.buildRequest('delete', ...params);
     }
 
 
@@ -368,19 +388,6 @@ class Rapid {
         return this;
     }
 
-    get routes () {
-        return this.config.routes;
-    }
-
-    // set config (val) {
-    //     console.log(val);
-    //     // potentially loop through to set on model using setters
-    //     // val.forEach((k, v) => {
-    //     //     this[k] = v;
-    //     // })
-    //
-    // }
-
 
     get baseURL () {
         return this.config.baseURL;
@@ -406,8 +413,7 @@ class Rapid {
 
     set modelName (val) {
         this.config.modelName = val;
-        this.setModelRoute();
-        this.setCollectionRoute();
+        this.setRoutes();
     }
 
 
@@ -417,8 +423,7 @@ class Rapid {
 
     set routeDelimeter (val) {
         this.config.routeDelimeter = val;
-        this.setModelRoute();
-        this.setCollectionRoute();
+        this.setRoutes();
     }
 
 
@@ -428,29 +433,32 @@ class Rapid {
 
     set caseSensitive (val) {
         this.config.caseSensitive = val;
-        this.setModelRoute();
-        this.setCollectionRoute();
+        this.setRoutes();
     }
 
-    // functions to build a collection route for relationships
-    setModelRoute () {
-        let route = _kebabCase(this.config.modelName).replace(/-/g, this.config.routeDelimeter);
+    setRoute (route) {
+        let newRoute = '',
+            formattedRoute = {
+                model      : this.config.modelName,
+                collection : pluralize(this.config.modelName),
+                any        : ''
+            };
 
-        if(this.config.caseSensitive) {
-            route = this.config.modelName;
+        if(this.config.routes[route] != '') {
+            newRoute = this.config.routes[route];
+        } else {
+            newRoute = _kebabCase(formattedRoute[route]).replace(/-/g, this.config.routeDelimeter);
+
+            if(this.config.caseSensitive) {
+                newRoute = formattedRoute[route];
+            }
         }
 
-        this.config.routes.model = route;
+        this.routes[route] = newRoute;
     }
 
-    setCollectionRoute () {
-        let route = _kebabCase(pluralize(this.config.modelName)).replace(/-/g, this.config.routeDelimeter);
-
-        if(this.config.caseSensitive) {
-            route = pluralize(this.config.modelName);
-        }
-
-        this.config.routes.collection = route;
+    setRoutes () {
+        ['model', 'collection'].forEach(route => this.setRoute(route));
     }
 }
 

@@ -55,8 +55,13 @@ class Rapid {
             apiConfig: {
 
             },
-
-            overrides: { routes: {} }
+            // switch me to routes again?
+            overrides: {
+                routes: {
+                    model: '',
+                    collection: '',
+                }
+            }
         };
 
         config = config || {};

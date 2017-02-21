@@ -28,14 +28,56 @@ return [
             [
                 'name'        => 'key',
                 'type'        => 'string',
-                'description' => 'The key to search by in the url. <code class="language-markdown">/api/`key`/value</code>'
+                'description' => 'The key to search by in the url. <code class="language-markdown">/api/post/`key`/value</code>'
             ],
 
             [
                 'name'        => 'value',
                 'type'        => 'string|int',
-                'description' => 'The value to search by in the url. <code class="language-markdown">/api/key/`value`</code>'
+                'description' => 'The value to search by in the url. <code class="language-markdown">/api/post/key/`value`</code>'
             ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'Promise'
+    ],
+
+    'all' => [
+        'name'                => 'all',
+
+        'description'         => 'Makes a GET Request on the collection route.',
+
+        'arguments'           => [
+
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'Promise'
+    ],
+
+    'update' => [
+        'name'                => 'update',
+
+        'description'         => 'Makes a <code class="language-js">config.methods.update</code> Request on the collection route base off.',
+
+        'arguments'           => [
+
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'Promise'
+    ],
+
+    'save' => [
+        'name'                => 'save',
+
+        'description'         => 'Alias of <code class="language-js">update()</code>.',
+
+        'arguments'           => [
+
         ],
 
         'since'               => '0.0.1',

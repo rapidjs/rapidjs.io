@@ -1,9 +1,9 @@
 <template>
     <div class="rapidjs-class-builder">
-        <h2 class="title is-3" id="class-builder">Class Builder</h2>
+        <h2 class="title is-3" id="config-builder">Config Builder</h2>
 
         <div class="rapidjs-class-builder__form">
-            <h4 class="subtitle is-5 is-info">Core</h4>
+            <h4 id="config-builder-core" class="subtitle is-5 is-info">Core</h4>
 
             <div class="fb-grid row">
                 <div class="fb-grid col-md-3">
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <h4 class="subtitle is-5 is-info">Routes</h4>
+            <h4 id="config-builder-overrides" class="subtitle is-5 is-info">Routes</h4>
 
             <div class="fb-grid row">
 
@@ -51,7 +51,7 @@
                         <input tabindex="5" :disabled="!overrides.routes.model"
                                :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.routes.model }"
                                type="text"
-                               v-model="model.config.routes.model">
+                               v-model="model.config.overrides.routes.model">
                     </p>
                 </div>
 
@@ -67,12 +67,12 @@
                         <input tabindex="6" :disabled="!overrides.routes.collection"
                                :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.routes.collection }"
                                type="text"
-                               v-model="model.config.routes.collection">
+                               v-model="model.config.overrides.routes.collection">
                     </p>
                 </div>
             </div>
 
-            <h4 class="subtitle is-5 is-info">Suffixes</h4>
+            <h4 id="config-builder-suffixes" class="subtitle is-5 is-info">Suffixes</h4>
 
             <div class="fb-grid row">
 
@@ -125,7 +125,7 @@
                 </div>
             </div>
 
-            <h4 class="subtitle is-5 is-info">Methods</h4>
+            <h4 id="config-builder-methods" class="subtitle is-5 is-info">Methods</h4>
 
             <div class="fb-grid row">
 
@@ -181,7 +181,7 @@
                 </div>
             </div>
 
-            <h4 class="subtitle is-5 is-info">Options</h4>
+            <h4 id="config-builder-options" class="subtitle is-5 is-info">Options</h4>
 
             <div class="fb-grid row">
                 <div class="fb-grid col-md-2">
@@ -217,7 +217,7 @@
             </div>
         </div>
 
-        <h4 class="subtitle is-5 is-info">Class Config</h4>
+        <h4 id="config-builder-overrides" class="subtitle is-5 is-info">Class Config</h4>
         <div class="rapidjs-class-builder__config"><pre><code class="language-json" ref="config" v-text="config"></code></pre></div>
 
         <div class="test">
@@ -329,7 +329,12 @@
 
                     _.forEach(overrides, (val, k) => {
                         if(val) {
-                            configOverride[k] = this.model.config[key][k];
+
+                            if(key == 'routes') {
+                                configOverride[k] = this.model.config.overrides[key][k];
+                            } else {
+                                configOverride[k] = this.model.config[key][k];
+                            }
                         }
                     });
 

@@ -170,19 +170,25 @@ return [
         'since'       => '0.0.1'
     ],
 
-    'overrides' => [
-        'name'        => 'overrides',
-
-        'type'        => 'object',
-
-        'description' => '',
-
-        'default'     => "routes: {}",
-
-        'multiline'   => false,
-
-        'since'       => '0.0.1'
-    ],
+//     'overrides' => [
+//         'name'        => 'overrides',
+//
+//         'type'        => 'object',
+//
+//         'description' => '',
+//
+//         'default'     => "
+// {
+//     routes: {
+//         model: '',
+//         collection: '',
+//     }
+// }",
+//
+//         'multiline'   => true,
+//
+//         'since'       => '0.0.1'
+//     ],
 
     'apiConfig' => [
         'name'        => 'apiConfig',

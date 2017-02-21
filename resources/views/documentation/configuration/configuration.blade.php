@@ -8,7 +8,7 @@
 
 @if($configuration['description'])
     <div class="docs__configuration__section docs__configuration__description">
-        {{ $configuration['description'] }}
+        {!! $configuration['description'] !!}
     </div>
 @endif
 

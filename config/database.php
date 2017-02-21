@@ -35,7 +35,7 @@ return [
 
         'sqlite' => [
             'driver' => 'sqlite',
-            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            'database' => env('DB_DATABASE', storage_path('database.sqlite')),
             'prefix' => '',
         ],
 
@@ -48,7 +48,7 @@ return [
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => 'thurrott_',
+            'prefix' => 'rapid_',
             'strict' => true,
             'engine' => null,
         ],

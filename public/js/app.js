@@ -1653,8 +1653,13 @@ var Rapid = function () {
             debug: false,
 
             apiConfig: {},
-
-            overrides: { routes: {} }
+            // switch me to routes again?
+            overrides: {
+                routes: {
+                    model: '',
+                    collection: ''
+                }
+            }
         };
 
         config = config || {};
@@ -4468,7 +4473,12 @@ exports.default = {
 
                 _lodash2.default.forEach(overrides, function (val, k) {
                     if (val) {
-                        configOverride[k] = _this2.model.config[key][k];
+
+                        if (key == 'routes') {
+                            configOverride[k] = _this2.model.config.overrides[key][k];
+                        } else {
+                            configOverride[k] = _this2.model.config[key][k];
+                        }
                     }
                 });
 
@@ -4966,7 +4976,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 window.Vue = _vue2.default;
 
-window.rapidjs = new _Rapid2.default({ modelName: 'Gallery', routes: { collection: 'foody' }, debug: true, baseURL: 'http://google.com//api/' });
+window.rapidjs = new _Rapid2.default({ modelName: 'user', debug: false });
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
@@ -27439,12 +27449,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('h2', {
     staticClass: "title is-3",
     attrs: {
-      "id": "class-builder"
+      "id": "config-builder"
     }
-  }, [_vm._v("Class Builder")]), _vm._v(" "), _c('div', {
+  }, [_vm._v("Config Builder")]), _vm._v(" "), _c('div', {
     staticClass: "rapidjs-class-builder__form"
   }, [_c('h4', {
-    staticClass: "subtitle is-5 is-info"
+    staticClass: "subtitle is-5 is-info",
+    attrs: {
+      "id": "config-builder-core"
+    }
   }, [_vm._v("Core")]), _vm._v(" "), _c('div', {
     staticClass: "fb-grid row"
   }, [_c('div', {
@@ -27556,7 +27569,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])])]), _vm._v(" "), _c('h4', {
-    staticClass: "subtitle is-5 is-info"
+    staticClass: "subtitle is-5 is-info",
+    attrs: {
+      "id": "config-builder-overrides"
+    }
   }, [_vm._v("Routes")]), _vm._v(" "), _c('div', {
     staticClass: "fb-grid row"
   }, [_c('div', {
@@ -27594,8 +27610,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.model.config.routes.model),
-      expression: "model.config.routes.model"
+      value: (_vm.model.config.overrides.routes.model),
+      expression: "model.config.overrides.routes.model"
     }],
     class: {
       'input is-small is-info': true, 'is-disabled': !_vm.overrides.routes.model
@@ -27606,12 +27622,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "text"
     },
     domProps: {
-      "value": _vm._s(_vm.model.config.routes.model)
+      "value": _vm._s(_vm.model.config.overrides.routes.model)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.model.config.routes.model = $event.target.value
+        _vm.model.config.overrides.routes.model = $event.target.value
       }
     }
   })])]), _vm._v(" "), _c('div', {
@@ -27649,8 +27665,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.model.config.routes.collection),
-      expression: "model.config.routes.collection"
+      value: (_vm.model.config.overrides.routes.collection),
+      expression: "model.config.overrides.routes.collection"
     }],
     class: {
       'input is-small is-info': true, 'is-disabled': !_vm.overrides.routes.collection
@@ -27661,16 +27677,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "text"
     },
     domProps: {
-      "value": _vm._s(_vm.model.config.routes.collection)
+      "value": _vm._s(_vm.model.config.overrides.routes.collection)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.model.config.routes.collection = $event.target.value
+        _vm.model.config.overrides.routes.collection = $event.target.value
       }
     }
   })])])]), _vm._v(" "), _c('h4', {
-    staticClass: "subtitle is-5 is-info"
+    staticClass: "subtitle is-5 is-info",
+    attrs: {
+      "id": "config-builder-suffixes"
+    }
   }, [_vm._v("Suffixes")]), _vm._v(" "), _c('div', {
     staticClass: "fb-grid row"
   }, [_c('div', {
@@ -27833,7 +27852,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])])]), _vm._v(" "), _c('h4', {
-    staticClass: "subtitle is-5 is-info"
+    staticClass: "subtitle is-5 is-info",
+    attrs: {
+      "id": "config-builder-methods"
+    }
   }, [_vm._v("Methods")]), _vm._v(" "), _c('div', {
     staticClass: "fb-grid row"
   }, [_c('div', {
@@ -28004,7 +28026,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })])])]), _vm._v(" "), _c('h4', {
-    staticClass: "subtitle is-5 is-info"
+    staticClass: "subtitle is-5 is-info",
+    attrs: {
+      "id": "config-builder-options"
+    }
   }, [_vm._v("Options")]), _vm._v(" "), _c('div', {
     staticClass: "fb-grid row"
   }, [_c('div', {
@@ -28089,7 +28114,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   })]), _vm._v(" "), _c('span', {
     staticClass: "help is-info"
   }, [_vm._v("Comma separate: foo=bar, this=that")])])])]), _vm._v(" "), _c('h4', {
-    staticClass: "subtitle is-5 is-info"
+    staticClass: "subtitle is-5 is-info",
+    attrs: {
+      "id": "config-builder-overrides"
+    }
   }, [_vm._v("Class Config")]), _vm._v(" "), _c('div', {
     staticClass: "rapidjs-class-builder__config"
   }, [_c('pre', [_c('code', {

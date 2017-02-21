@@ -34,14 +34,11 @@
                             @include('documentation.class-builder')
                         </div>
 
-                        <div class="docs__section">
-                            @include('documentation.methods.master')
-                        </div>
-
-                        <div class="docs__section">
-                            @include('documentation.configuration.master')
-                        </div>
-
+                        @foreach(['methods', 'configuration'] as $file)
+                            <div class="docs__section">
+                                @include('documentation.'.$file.'.master')
+                            </div>
+                        @endforeach    
 
                     </div>
 

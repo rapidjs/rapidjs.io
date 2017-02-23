@@ -28,7 +28,13 @@ class Rapid {
         this.initialize(config, defaults);
     }
 
+    boot () {
+        this.methodRoutes = [];
+    }
+
     initialize (config, defaults) {
+        this.boot();
+
         this.config = _defaultsDeep(config, defaults);
 
         this.fireSetters();

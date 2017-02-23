@@ -21,7 +21,7 @@ export default class {
 
         if(this.logEnabled) {
             // .${lastTrace.getFunctionName()}
-            Logger.debug(`${this.caller.modelName} made a ${type} request (${lastUrl})`);
+            Logger.debug(`${this.caller.config.modelName} made a ${type.toUpperCase()} request (${lastUrl})`);
             Logger.log(params);
         }
 
@@ -32,12 +32,12 @@ export default class {
         let lastUrl = '';
 
         if(['put', 'post', 'patch'].includes(type)) {
-            lastUrl = this.caller.sanitizeUrl([this.caller.baseURL, url].join('/')) + '?'+ qs.stringify(params);
+            lastUrl = this.caller.sanitizeUrl([this.caller.config.baseURL, url].join('/')) + '?'+ qs.stringify(params);
         } else {
             let urlParams = params.params,
                 stringified = urlParams ? '?' + qs.stringify(urlParams) : '';
 
-            lastUrl = this.caller.sanitizeUrl([this.caller.baseURL, url].join('/')) + stringified;
+            lastUrl = this.caller.sanitizeUrl([this.caller.config.baseURL, url].join('/')) + stringified;
         }
 
         lastUrl = this.caller.sanitizeUrl(lastUrl);
@@ -59,6 +59,6 @@ export default class {
     listRoutes () {
         let coreFunctions = ['create', 'find', 'all', 'save', 'update', 'destroy'];
 
-        coreFunctions.forEach(func => this.caller[func].call(this.caller));
+        coreFunctions.concat(this.caller.methodRoutes).forEach(func => this.caller[func].call(this.caller));
     }
 }

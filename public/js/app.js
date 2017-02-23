@@ -1631,8 +1631,15 @@ var Rapid = function () {
     }
 
     (0, _createClass3.default)(Rapid, [{
+        key: 'boot',
+        value: function boot() {
+            this.methodRoutes = [];
+        }
+    }, {
         key: 'initialize',
         value: function initialize(config, defaults) {
+            this.boot();
+
             this.config = (0, _lodash2.default)(config, defaults);
 
             this.fireSetters();
@@ -4385,7 +4392,9 @@ exports.default = {
                     update: false,
                     destroy: false
                 }
-            }
+            },
+
+            generated: {}
 
         };
     },
@@ -4395,9 +4404,30 @@ exports.default = {
         Switches: _vueSwitches2.default
     },
 
+    created: function created() {
+        this.model.debugger.logEnabled = false;
+
+        this.regenerateRoutes();
+    },
+
+
     methods: {
         resetRouteOverride: function resetRouteOverride(route) {
             this.model.setRoute(route);
+        },
+        regenerateRoutes: function regenerateRoutes() {
+            this.model.setRoutes();
+
+            this.generated = {
+                find: this.model.find(1),
+                findBy: this.model.findBy('key', 'value'),
+                all: this.model.all(),
+                create: this.model.create(),
+                update: this.model.update(2),
+                destroy: this.model.destroy(3),
+                hasRelationship: this.model.hasRelationship('tag', 123, 'latest'),
+                belongsTo: this.model.collection.belongsTo('gallery', 1234)
+            };
         }
     },
 
@@ -4405,8 +4435,12 @@ exports.default = {
         config: function config() {
             var _this = this;
 
+            this.regenerateRoutes();
+
             setTimeout(function () {
-                _prism2.default.highlightElement(_this.$refs.config);
+                ['config', 'routes'].forEach(function (k) {
+                    _prism2.default.highlightElement(_this.$refs[k]);
+                });
             }, 1);
         }
     },
@@ -4416,12 +4450,12 @@ exports.default = {
             var _this2 = this;
 
             var config = {
-                baseURL: this.model.baseURL,
-                modelName: this.model.modelName,
-                primaryKey: this.model.primaryKey,
+                baseURL: this.model.config.baseURL,
+                modelName: this.model.config.modelName,
+                primaryKey: this.model.config.primaryKey,
                 trailingSlash: this.model.config.trailingSlash,
-                caseSensitive: this.model.caseSensitive,
-                routeDelimeter: this.model.routeDelimeter
+                caseSensitive: this.model.config.caseSensitive,
+                routeDelimeter: this.model.config.routeDelimeter
             };
 
             _lodash2.default.forEach(this.defaults, function (val, k) {
@@ -4441,12 +4475,7 @@ exports.default = {
 
                 _lodash2.default.forEach(overrides, function (val, k) {
                     if (val) {
-
-                        if (key == 'routes') {
-                            configOverride[k] = _this2.model.config.overrides[key][k];
-                        } else {
-                            configOverride[k] = _this2.model.config[key][k];
-                        }
+                        configOverride[k] = _this2.model.config[key][k];
                     }
                 });
 
@@ -4477,10 +4506,6 @@ exports.default = {
     }
 
 }; //
-//
-//
-//
-//
 //
 //
 //
@@ -4779,7 +4804,7 @@ var _class = function () {
 
             if (this.logEnabled) {
                 // .${lastTrace.getFunctionName()}
-                _Logger2.default.debug(this.caller.modelName + ' made a ' + type + ' request (' + lastUrl + ')');
+                _Logger2.default.debug(this.caller.config.modelName + ' made a ' + type.toUpperCase() + ' request (' + lastUrl + ')');
                 _Logger2.default.log(params);
             }
 
@@ -4793,12 +4818,12 @@ var _class = function () {
             var lastUrl = '';
 
             if (['put', 'post', 'patch'].includes(type)) {
-                lastUrl = this.caller.sanitizeUrl([this.caller.baseURL, url].join('/')) + '?' + _qs2.default.stringify(params);
+                lastUrl = this.caller.sanitizeUrl([this.caller.config.baseURL, url].join('/')) + '?' + _qs2.default.stringify(params);
             } else {
                 var urlParams = params.params,
                     stringified = urlParams ? '?' + _qs2.default.stringify(urlParams) : '';
 
-                lastUrl = this.caller.sanitizeUrl([this.caller.baseURL, url].join('/')) + stringified;
+                lastUrl = this.caller.sanitizeUrl([this.caller.config.baseURL, url].join('/')) + stringified;
             }
 
             lastUrl = this.caller.sanitizeUrl(lastUrl);
@@ -4827,7 +4852,7 @@ var _class = function () {
 
             var coreFunctions = ['create', 'find', 'all', 'save', 'update', 'destroy'];
 
-            coreFunctions.forEach(function (func) {
+            coreFunctions.concat(this.caller.methodRoutes).forEach(function (func) {
                 return _this.caller[func].call(_this.caller);
             });
         }
@@ -4947,6 +4972,11 @@ var TestModel = function (_Rapid) {
     }
 
     (0, _createClass3.default)(TestModel, [{
+        key: 'boot',
+        value: function boot() {
+            this.methodRoutes = ['posts', 'media', 'recentMedia', 'votes'];
+        }
+    }, {
         key: 'posts',
         value: function posts(id, params) {
             return this.collection.belongsTo('posts', id, params);
@@ -4972,8 +5002,7 @@ var TestModel = function (_Rapid) {
 }(_Rapid3.default);
 
 exports.default = new TestModel({
-    // baseURL: 'https://my-api.com/v1',
-    modelName: 'user',
+    modelName: 'Photo',
     debug: true,
     globalParameters: {}
 });
@@ -27502,8 +27531,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.model.baseURL),
-      expression: "model.baseURL"
+      value: (_vm.model.config.baseURL),
+      expression: "model.config.baseURL"
     }],
     staticClass: "input is-small is-info",
     attrs: {
@@ -27511,12 +27540,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "text"
     },
     domProps: {
-      "value": _vm._s(_vm.model.baseURL)
+      "value": _vm._s(_vm.model.config.baseURL)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.model.baseURL = $event.target.value
+        _vm.model.config.baseURL = $event.target.value
       }
     }
   })])]), _vm._v(" "), _c('div', {
@@ -27529,8 +27558,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.model.modelName),
-      expression: "model.modelName"
+      value: (_vm.model.config.modelName),
+      expression: "model.config.modelName"
     }],
     staticClass: "input is-small is-info",
     attrs: {
@@ -27538,12 +27567,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "text"
     },
     domProps: {
-      "value": _vm._s(_vm.model.modelName)
+      "value": _vm._s(_vm.model.config.modelName)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.model.modelName = $event.target.value
+        _vm.model.config.modelName = $event.target.value
       }
     }
   })])]), _vm._v(" "), _c('div', {
@@ -27556,8 +27585,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.model.primaryKey),
-      expression: "model.primaryKey"
+      value: (_vm.model.config.primaryKey),
+      expression: "model.config.primaryKey"
     }],
     staticClass: "input is-small is-info",
     attrs: {
@@ -27565,12 +27594,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "text"
     },
     domProps: {
-      "value": _vm._s(_vm.model.primaryKey)
+      "value": _vm._s(_vm.model.config.primaryKey)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.model.primaryKey = $event.target.value
+        _vm.model.config.primaryKey = $event.target.value
       }
     }
   })])]), _vm._v(" "), _c('div', {
@@ -27583,8 +27612,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.model.routeDelimeter),
-      expression: "model.routeDelimeter"
+      value: (_vm.model.config.routeDelimeter),
+      expression: "model.config.routeDelimeter"
     }],
     staticClass: "input is-small is-info",
     attrs: {
@@ -27592,12 +27621,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "text"
     },
     domProps: {
-      "value": _vm._s(_vm.model.routeDelimeter)
+      "value": _vm._s(_vm.model.config.routeDelimeter)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.model.routeDelimeter = $event.target.value
+        _vm.model.config.routeDelimeter = $event.target.value
       }
     }
   })])])]), _vm._v(" "), _c('h4', {
@@ -27611,7 +27640,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fb-grid col-md-4"
   }, [_c('span', {
     staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+  }, [_vm._v("\n                        Override "), _c('br'), _vm._v(" "), _c('switches', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -27642,8 +27671,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.model.config.overrides.routes.model),
-      expression: "model.config.overrides.routes.model"
+      value: (_vm.model.config.routes.model),
+      expression: "model.config.routes.model"
     }],
     class: {
       'input is-small is-info': true, 'is-disabled': !_vm.overrides.routes.model
@@ -27654,19 +27683,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "text"
     },
     domProps: {
-      "value": _vm._s(_vm.model.config.overrides.routes.model)
+      "value": _vm._s(_vm.model.config.routes.model)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.model.config.overrides.routes.model = $event.target.value
+        _vm.model.config.routes.model = $event.target.value
       }
     }
   })])]), _vm._v(" "), _c('div', {
     staticClass: "fb-grid col-md-4"
   }, [_c('span', {
     staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+  }, [_vm._v("\n                        Override "), _c('br'), _vm._v(" "), _c('switches', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -27697,8 +27726,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.model.config.overrides.routes.collection),
-      expression: "model.config.overrides.routes.collection"
+      value: (_vm.model.config.routes.collection),
+      expression: "model.config.routes.collection"
     }],
     class: {
       'input is-small is-info': true, 'is-disabled': !_vm.overrides.routes.collection
@@ -27709,12 +27738,12 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "type": "text"
     },
     domProps: {
-      "value": _vm._s(_vm.model.config.overrides.routes.collection)
+      "value": _vm._s(_vm.model.config.routes.collection)
     },
     on: {
       "input": function($event) {
         if ($event.target.composing) { return; }
-        _vm.model.config.overrides.routes.collection = $event.target.value
+        _vm.model.config.routes.collection = $event.target.value
       }
     }
   })])])]), _vm._v(" "), _c('h4', {
@@ -27728,7 +27757,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fb-grid col-md-4"
   }, [_c('span', {
     staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+  }, [_vm._v("\n                        Override "), _c('br'), _vm._v(" "), _c('switches', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -27781,7 +27810,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fb-grid col-md-4"
   }, [_c('span', {
     staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+  }, [_vm._v("\n                        Override "), _c('br'), _vm._v(" "), _c('switches', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -27834,7 +27863,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fb-grid col-md-4"
   }, [_c('span', {
     staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+  }, [_vm._v("\n                        Override "), _c('br'), _vm._v(" "), _c('switches', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -27894,7 +27923,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fb-grid col-md-4"
   }, [_c('span', {
     staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+  }, [_vm._v("\n                        Override "), _c('br'), _vm._v(" "), _c('switches', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -27951,7 +27980,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fb-grid col-md-4"
   }, [_c('span', {
     staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+  }, [_vm._v("\n                        Override "), _c('br'), _vm._v(" "), _c('switches', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -28006,7 +28035,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "fb-grid col-md-4"
   }, [_c('span', {
     staticClass: "label"
-  }, [_vm._v("\n                    Override "), _c('br'), _vm._v(" "), _c('switches', {
+  }, [_vm._v("\n                        Override "), _c('br'), _vm._v(" "), _c('switches', {
     directives: [{
       name: "model",
       rawName: "v-model",
@@ -28099,19 +28128,19 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     directives: [{
       name: "model",
       rawName: "v-model",
-      value: (_vm.model.caseSensitive),
-      expression: "model.caseSensitive"
+      value: (_vm.model.config.caseSensitive),
+      expression: "model.config.caseSensitive"
     }],
     attrs: {
-      "selected": _vm.model.caseSensitive,
+      "selected": _vm.model.config.caseSensitive,
       "color": "blue"
     },
     domProps: {
-      "value": (_vm.model.caseSensitive)
+      "value": (_vm.model.config.caseSensitive)
     },
     on: {
       "input": function($event) {
-        _vm.model.caseSensitive = $event
+        _vm.model.config.caseSensitive = $event
       }
     }
   })], 1)]), _vm._v(" "), _c('div', {
@@ -28159,8 +28188,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "textContent": _vm._s(_vm.config)
     }
   })])]), _vm._v(" "), _c('div', {
-    staticClass: "test"
-  })])
+    staticClass: "rapidjs-class-builder__routes"
+  }, [_c('h4', {
+    staticClass: "subtitle is-5 is-info",
+    attrs: {
+      "id": "config-builder-overrides"
+    }
+  }, [_vm._v("Generated Routes")]), _vm._v(" "), _c('pre', [_c('code', {
+    ref: "routes",
+    staticClass: "language-js"
+  }, [_vm._v("find (1)                               => " + _vm._s(_vm.generated.find) + " "), _c('br'), _vm._v("\nfindBy ('key', 'value')                => " + _vm._s(_vm.generated.findBy) + " "), _c('br'), _vm._v("\nall ()                                 => " + _vm._s(_vm.generated.all) + " "), _c('br'), _vm._v("\ncreate ({})                            => " + _vm._s(_vm.generated.create) + " "), _c('br'), _vm._v("\nupdate (2)                             => " + _vm._s(_vm.generated.update) + " "), _c('br'), _vm._v("\ndestroy (3)                            => " + _vm._s(_vm.generated.destroy) + " "), _c('br'), _vm._v("\nhasRelationship ('tag', 123, 'latest') => " + _vm._s(_vm.generated.hasRelationship) + " "), _c('br'), _vm._v("\nbelongsTo ('gallery', 1234)            => " + _vm._s(_vm.generated.belongsTo) + " "), _c('br'), _vm._v("\n")])])])])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {

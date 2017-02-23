@@ -67,7 +67,7 @@ test('hasRelationship produces proper URL', t => {
 test('belongsTo produces proper URL', t => {
 
     let myModel = new Rapid({
-        modelName: 'comments',
+        modelName: 'comment',
         debug: true
     });
 

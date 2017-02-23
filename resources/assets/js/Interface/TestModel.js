@@ -4,6 +4,10 @@ import Rapid from './Rapid/Rapid';
 
 
 class TestModel extends Rapid {
+    boot () {
+        this.methodRoutes = ['posts', 'media', 'recentMedia', 'votes'];
+    }
+
     posts (id, params) {
         return this.collection.belongsTo('posts', id, params);
     }
@@ -23,8 +27,7 @@ class TestModel extends Rapid {
 }
 
 export default new TestModel({
-    // baseURL: 'https://my-api.com/v1',
-    modelName: 'user',
+    modelName: 'Photo',
     debug: true,
     globalParameters: {
 

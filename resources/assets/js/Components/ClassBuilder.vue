@@ -9,28 +9,28 @@
                 <div class="fb-grid col-md-3">
                     <p class="control has-addons">
                         <span class="button is-info is-small">baseURL:</span>
-                        <input tabindex="1" class="input is-small is-info" type="text" v-model="model.baseURL">
+                        <input tabindex="1" class="input is-small is-info" type="text" v-model="model.config.baseURL">
                     </p>
                 </div>
 
                 <div class="fb-grid col-md-3">
                     <p class="control has-addons">
                         <span class="button is-info is-small">modelName:</span>
-                        <input tabindex="2" class="input is-small is-info" type="text" v-model="model.modelName">
+                        <input tabindex="2" class="input is-small is-info" type="text" v-model="model.config.modelName">
                     </p>
                 </div>
 
                 <div class="fb-grid col-md-3">
                     <p class="control has-addons">
                         <span class="button is-info is-small">primaryKey:</span>
-                        <input tabindex="3" class="input is-small is-info" type="text" v-model="model.primaryKey">
+                        <input tabindex="3" class="input is-small is-info" type="text" v-model="model.config.primaryKey">
                     </p>
                 </div>
 
                 <div class="fb-grid col-md-3">
                     <p class="control has-addons">
                         <span class="button is-info is-small">routeDelimeter:</span>
-                        <input tabindex="4" class="input is-small is-info" type="text" v-model="model.routeDelimeter">
+                        <input tabindex="4" class="input is-small is-info" type="text" v-model="model.config.routeDelimeter">
                     </p>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                         <input tabindex="5" :disabled="!overrides.routes.model"
                                :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.routes.model }"
                                type="text"
-                               v-model="model.config.overrides.routes.model">
+                               v-model="model.config.routes.model">
                     </p>
                 </div>
 
@@ -67,7 +67,7 @@
                         <input tabindex="6" :disabled="!overrides.routes.collection"
                                :class="{ 'input is-small is-info' : true, 'is-disabled' : !overrides.routes.collection }"
                                type="text"
-                               v-model="model.config.overrides.routes.collection">
+                               v-model="model.config.routes.collection">
                     </p>
                 </div>
             </div>
@@ -196,7 +196,7 @@
                     <span class="label">caseSensitive</span>
 
                     <p class="control">
-                        <switches v-model="model.caseSensitive" :selected="model.caseSensitive" color="blue"></switches>
+                        <switches v-model="model.config.caseSensitive" :selected="model.config.caseSensitive" color="blue"></switches>
                     </p>
                 </div>
 
@@ -220,22 +220,18 @@
         <h4 id="config-builder-overrides" class="subtitle is-5 is-info">Class Config</h4>
         <div class="rapidjs-class-builder__config"><pre><code class="language-json" ref="config" v-text="config"></code></pre></div>
 
-        <div class="test">
-            <!-- create ({ name: 'drew' })         => {{ model.create({ name: 'drew' }) }} <br> -->
-            <!-- find (1)          => {{ model.find(1) }} <br>
-            findBy ('name', 'drew')          => {{ model.findBy('name', 'drew') }} <br> -->
-            <!-- collection.findBy ('status', 'active')          => {{ model.findBy('status', 'active')  }} <br> -->
-            <!-- all ({ status: 'active' })          => {{ model.all({ status: 'active' }) }} <br> -->
-            <!-- update (1)        => {{ model.update(1) }} <br>
-            destroy (1)        => {{ model.destroy(1) }} <br> -->
-            <!-- media ('waffles') => {{ model.media('waffles') }} <br>
-            votes (1)         => {{ model.votes(1) }} <br> -->
+        <div class="rapidjs-class-builder__routes">
+            <h4 id="config-builder-overrides" class="subtitle is-5 is-info">Generated Routes</h4>
 
-            <!-- {{ model._debug }} -->
-
-            <!-- posts (1)         => {{ model.posts(1) }} <br> -->
-            <!-- all ({ foo: bar }) => {{ model.all ({ foo: 'bar' }) }} <br> -->
-            <!-- {{ model.sanitizeUrl(model.baseURL + '/' + model.collection.makeUrl( 'bum', 'boo', '?' + qs.stringify({ 'boob': 'bum' }))) }} -->
+<pre><code ref="routes" class="language-js">find (1)                               => {{ generated.find }} <br>
+findBy ('key', 'value')                => {{ generated.findBy }} <br>
+all ()                                 => {{ generated.all }} <br>
+create ({})                            => {{ generated.create }} <br>
+update (2)                             => {{ generated.update }} <br>
+destroy (3)                            => {{ generated.destroy }} <br>
+hasRelationship ('tag', 123, 'latest') => {{ generated.hasRelationship }} <br>
+belongsTo ('gallery', 1234)            => {{ generated.belongsTo }} <br>
+</code></pre>
         </div>
     </div>
 </template>
@@ -280,6 +276,10 @@
                         update: false,
                         destroy: false,
                     }
+                },
+
+                generated: {
+
                 }
 
             }
@@ -289,27 +289,52 @@
             Switches
         },
 
+        created () {
+            this.model.debugger.logEnabled = false;
+
+            this.regenerateRoutes();
+        },
+
         methods: {
             resetRouteOverride (route) {
                 this.model.setRoute(route);
+            },
+
+            regenerateRoutes () {
+                this.model.setRoutes();
+
+                this.generated = {
+                    find   : this.model.find(1),
+                    findBy : this.model.findBy('key', 'value'),
+                    all    : this.model.all(),
+                    create : this.model.create(),
+                    update : this.model.update(2),
+                    destroy: this.model.destroy(3),
+                    hasRelationship: this.model.hasRelationship('tag', 123, 'latest'),
+                    belongsTo: this.model.collection.belongsTo('gallery', 1234)
+                };
             }
         },
 
         watch: {
             config () {
-                setTimeout(() => { prism.highlightElement(this.$refs.config); }, 1);
+                this.regenerateRoutes();
+
+                setTimeout(() => {
+                    ['config', 'routes'].forEach((k) => { prism.highlightElement(this.$refs[k]) });
+                }, 1);
             }
         },
 
         computed: {
             config () {
                 let config = {
-                    baseURL       : this.model.baseURL,
-                    modelName     : this.model.modelName,
-                    primaryKey    : this.model.primaryKey,
+                    baseURL       : this.model.config.baseURL,
+                    modelName     : this.model.config.modelName,
+                    primaryKey    : this.model.config.primaryKey,
                     trailingSlash : this.model.config.trailingSlash,
-                    caseSensitive : this.model.caseSensitive,
-                    routeDelimeter: this.model.routeDelimeter
+                    caseSensitive : this.model.config.caseSensitive,
+                    routeDelimeter: this.model.config.routeDelimeter
                 };
 
                 _.forEach(this.defaults, (val, k) => {
@@ -329,12 +354,7 @@
 
                     _.forEach(overrides, (val, k) => {
                         if(val) {
-
-                            if(key == 'routes') {
-                                configOverride[k] = this.model.config.overrides[key][k];
-                            } else {
-                                configOverride[k] = this.model.config[key][k];
-                            }
+                            configOverride[k] = this.model.config[key][k];
                         }
                     });
 
@@ -361,7 +381,18 @@
                 }
 
                 return null;
-            }
+            },
+
+            // generated () {
+            //     return {
+            //         find   : this.model.find(1),
+            //         findBy : this.model.findBy('key', 'value'),
+            //         all    : this.model.all(),
+            //         create : this.model.create(),
+            //         update : this.model.update(2),
+            //         destroy: this.model.destroy(3),
+            //     }
+            // }
         }
 
 

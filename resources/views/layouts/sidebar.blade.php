@@ -12,7 +12,7 @@
         <a class="sidebar__title" href="#config-builder">Config Builder</a>
 
         <ul class="sidebar__nav">
-            @foreach(['core', 'overrides', 'suffixes', 'methods', 'options'] as $nav)
+            @foreach(['core', 'overrides', 'suffixes', 'methods', 'options', 'routes'] as $nav)
                 <li><a href="#config-builder-{{ $nav }}">{{ ucfirst($nav) }}</a></li>
             @endforeach
         </ul>

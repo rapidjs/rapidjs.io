@@ -221,17 +221,17 @@
         <div class="rapidjs-class-builder__config"><pre><code class="language-json" ref="config" v-text="config"></code></pre></div>
 
         <div class="rapidjs-class-builder__routes">
-            <h4 id="config-builder-overrides" class="subtitle is-5 is-info">Generated Routes</h4>
+            <h4 id="config-builder-routes" class="subtitle is-5 is-info">Generated Routes</h4>
 
             <div class="rapidjs-class-builder__routes__inner">
-                <code class="language-js">find (1)</code>                               <span>=> {{ generated.find }}</span> <br>
-                <code class="language-js">findBy ('key', 'value')</code>                <span>=> {{ generated.findBy }}</span> <br>
-                <code class="language-js">all ()</code>                                 <span>=> {{ generated.all }}</span> <br>
-                <code class="language-js">create ({})</code>                            <span>=> {{ generated.create }}</span> <br>
-                <code class="language-js">update (2)</code>                             <span>=> {{ generated.update }}</span> <br>
-                <code class="language-js">destroy (3)</code>                            <span>=> {{ generated.destroy }}</span> <br>
-                <code class="language-js">hasRelationship ('tag', 123, 'latest')</code> <span>=> {{ generated.hasRelationship }}</span> <br>
-                <code class="language-js">collection.belongsTo ('gallery', 1234)</code> <span>=> {{ generated.belongsTo }}</span> <br>
+                <span class="code-block" v-for="(code, key) in generated">
+                    <span class="code-block__code">
+                        <code class="language-js">{{ key }} ({{ code.args.join(', ') }})</code>
+                        <i class="fa fa-long-arrow-right"></i>
+                    </span>
+
+                    <span class="code-block__route">/{{ code.path }}</span>
+                </span>
             </div>
         </div>
     </div>
@@ -279,6 +279,25 @@
                     }
                 },
 
+                defaultOverrides: {
+                    routes: {
+                        model: 'false',
+                        collection: 'false'
+                    },
+
+                    suffixes: {
+                        create: 'create',
+                        update: 'update',
+                        destroy: 'destroy',
+                    },
+
+                    methods: {
+                        create: 'post',
+                        update: 'post',
+                        destroy: 'post',
+                    }
+                },
+
                 generated: {
 
                 }
@@ -299,20 +318,21 @@
         methods: {
             resetRouteOverride (route) {
                 this.model.setRoute(route);
+                // this.model.config.routes[route]
             },
 
             regenerateRoutes () {
                 this.model.setRoutes();
 
                 this.generated = {
-                    find           : this.model.find(1),
-                    findBy         : this.model.findBy('key', 'value'),
-                    all            : this.model.all(),
-                    create         : this.model.create(),
-                    update         : this.model.update(2),
-                    destroy        : this.model.destroy(3),
-                    hasRelationship: this.model.hasRelationship('tag', 123, 'latest'),
-                    belongsTo      : this.model.collection.belongsTo('gallery', 1234)
+                    find           : { args: [1], path: this.model.find(1) },
+                    findBy         : { args: ['key', 'value'], path: this.model.findBy('key', 'value') },
+                    all            : { args: [], path: this.model.all() },
+                    create         : { args: [], path: this.model.create() },
+                    update         : { args: [2], path: this.model.update(2) },
+                    destroy        : { args: [3], path: this.model.destroy(3) },
+                    hasRelationship: { args: ['tag', 123, 'latest'], path: this.model.hasRelationship('tag', 123, 'latest') },
+                    belongsTo      : { args: ['gallery', 1234], path: this.model.collection.belongsTo('gallery', 1234) }
                 };
             }
         },
@@ -409,17 +429,34 @@
     .rapidjs-class-builder {
         &__routes {
             &__inner {
-                width: 400px;
+                width: 700px;
             }
 
-            code {
-                display: inline-block;
-                margin-right: 50px;
-            }
+            .code-block {
+                display: block;
+                font-size: 14px;
 
-            span {
-                display: inline-block;
-                text-align: right;
+                &__code {
+                    display: inline-block;
+                    margin-right: 50px;
+                    width: 295px;
+                    position: relative;
+
+                    i.fa {
+                        font-weight: bold;
+                        position: absolute;
+                        right: -20px;
+                        top: 2px;
+                        font-size: 18px;
+                    }
+                }
+
+                &__route {
+                    display: inline-block;
+                    text-align: right;
+                    color: $blue;
+                    font-size: 16px;
+                }
             }
         }
     }

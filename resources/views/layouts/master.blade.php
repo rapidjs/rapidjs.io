@@ -7,6 +7,7 @@
         <link rel="stylesheet" href="/css/app.css">
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Miriam+Libre" rel="stylesheet">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
         <title>rapid js - Write rapid js for frontend API development.</title>
     </head>

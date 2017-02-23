@@ -104,7 +104,7 @@ $configuration = [
 
         'type'        => 'object',
 
-        'description' => '',
+        'description' => 'The suffixes for the <code class="language-js">create()</code>, <code class="language-js">update()</code>, and <code class="language-js">destroy()</code> methods. If you want to override any of them, you can here.',
 
         'default'     => "{
     create  : 'create',
@@ -217,7 +217,7 @@ beforeRequest (type, url) {
 
         'type'        => 'function',
 
-        'description' => 'A method that fires each time after a request is made.',
+        'description' => 'A method that fires each time after a request is made. Note: this is an event that is fired after each request and <i>not</i> how you would retrieve the data from each individual request. ',
 
         'default'     => "
 afterRequest (response) {

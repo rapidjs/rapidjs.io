@@ -186,6 +186,14 @@ class Rapid {
         return this.get(urlParams);
     }
 
+    hasOne (relation) {
+        // take a class in and pass to hasRelationship with route
+    }
+
+    hasMany (relation) {
+
+    }
+
     /**
      * belongsTo
      */

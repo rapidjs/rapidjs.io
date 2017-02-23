@@ -10,11 +10,11 @@ export default class {
     }
 
     fakeRequest (type, url) {
-        let trace  = stackTrace.get(),
-            length = trace.length,
+        let trace     = stackTrace.get(),
+            length    = trace.length,
             lastTrace = trace[length - 2],
-            params = this.caller.parseRequestData(type),
-            lastUrl = this.setLastUrl(type, url, ...params);
+            params    = this.caller.parseRequestData(type),
+            lastUrl   = this.setLastUrl(type, url, ...params);
 
         this.setLastRequest(...arguments);
         this.caller.resetRequestData();

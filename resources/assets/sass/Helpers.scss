@@ -1,0 +1,12 @@
+.color-rapid {
+    color: $color-blue;
+}
+
+a {
+    color: $color-blue;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

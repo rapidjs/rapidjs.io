@@ -35,6 +35,7 @@
             @endforeach
         </ul>
 
+        <a class="sidebar__title" href="#debugging">Debugging</a>
 
         <a class="sidebar__title" href="#methods">Extending Rapid</a>
 

@@ -7,62 +7,13 @@ import _kebabCase from 'lodash.kebabcase';
 
 import Debugger from './Debugger';
 import Logger from './Logger';
+import Defaults from './Defaults';
 
 class Rapid {
     constructor (config) {
-        let defaults = {
-            modelName: this.constructor.name,
+        // let defaults = require('./Defaults');
+        let defaults = Defaults;
 
-            primaryKey: '',
-
-            baseURL: 'api',
-
-            trailingSlash: false,
-
-            caseSensitive: false,
-
-            routeDelimeter: '-',
-
-            globalParameters: {
-                /**
-                 * Need an option for global GET and POST params...
-                 * what if we want to do /users/drew/save?api_key=12345
-                 */
-            },
-
-            suffixes: {
-                create : 'create',
-                update : 'update',
-                destroy : 'destroy',
-            },
-
-            methods: {
-                create : 'post',
-                update : 'post',
-                destroy : 'post'
-            },
-
-            routes: {
-                model      : '',
-                collection : '',
-                any        : ''
-            },
-
-            defaultRoute: 'model',
-
-            debug: false,
-
-            apiConfig: {
-
-            },
-            // switch me to routes again?
-            overrides: {
-                routes: {
-                    model: '',
-                    collection: '',
-                }
-            }
-        };
 
         config = config || {};
 
@@ -82,9 +33,9 @@ class Rapid {
 
         this.fireSetters();
 
-        this.api          = axios.create(_defaultsDeep({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
+        this.setupAPI();
 
-        this.currentRoute = this.config.defaultRoute;
+        this.setCurrentRoute(this.config.defaultRoute);
 
         this.setDebugger();
 
@@ -97,6 +48,14 @@ class Rapid {
 
     setDebugger () {
         this.debugger = this.debug ? new Debugger(this) : false;
+    }
+
+    setupAPI () {
+        this.api = axios.create(_defaultsDeep({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
+    }
+
+    setCurrentRoute (route) {
+        this.currentRoute = route;
     }
 
     /**
@@ -142,8 +101,8 @@ class Rapid {
             options   = params[2];
 
         if(Number.isInteger(id)) {
-            if(this.primaryKey) {
-                urlParams.push(this.primaryKey);
+            if(this.config.primaryKey) {
+                urlParams.push(this.config.primaryKey);
             }
             urlParams.push(id);
         } else {
@@ -265,21 +224,37 @@ class Rapid {
         return requestData;
     }
 
+    beforeRequest (type, url) {
+        return this.config.beforeRequest(type, url);
+    }
+
+    afterRequest (response) {
+        this.config.afterRequest(response);
+    }
+
+    onError (error) {
+        this.config.onError(error);
+    }
+
     request (type, url) {
 
         if(this.debug) {
             return this.debugger.fakeRequest(type, url);
         }
 
-        return new Promise((resolve, reject) => {
+        let beforeRequest = this.beforeRequest(type, url);
+
+        return !beforeRequest ? beforeRequest : new Promise((resolve, reject) => {
             this.api[type].call(this, this.sanitizeUrl(url), ...this.parseRequestData(type))
                  .then(response => {
                     this.resetRequestData();
+                    this.afterRequest(response);
 
                     resolve(response);
                  })
                  .catch(error => {
                     this.resetRequestData();
+                    this.onError(error.response);
 
                     reject(error.response);
                  });
@@ -379,41 +354,26 @@ class Rapid {
     }
 
     get collection () {
-        this.currentRoute = 'collection';
+        this.setCurrentRoute('collection');
+
         return this;
     }
 
     get model () {
-        this.currentRoute = 'model';
+        this.setCurrentRoute('model');
+
         return this;
     }
 
     get any () {
-        this.currentRoute = 'any';
+        this.setCurrentRoute('any');
+
         return this;
-    }
-
-
-    get baseURL () {
-        return this.config.baseURL;
     }
 
     set baseURL (url) {
         this.config.baseURL = this.sanitizeUrl(url);
-    }
-
-
-    get primaryKey () {
-        return this.config.primaryKey;
-    }
-
-    set primaryKey (val) {
-        this.config.primaryKey = val;
-    }
-
-
-    get modelName () {
-        return this.config.modelName;
+        this.setupAPI();
     }
 
     set modelName (val) {
@@ -421,19 +381,9 @@ class Rapid {
         this.setRoutes();
     }
 
-
-    get routeDelimeter () {
-        return this.config.routeDelimeter;
-    }
-
     set routeDelimeter (val) {
         this.config.routeDelimeter = val;
         this.setRoutes();
-    }
-
-
-    get caseSensitive () {
-        return this.config.caseSensitive;
     }
 
     set caseSensitive (val) {

@@ -1604,63 +1604,18 @@ var _Logger = __webpack_require__(47);
 
 var _Logger2 = _interopRequireDefault(_Logger);
 
+var _Defaults = __webpack_require__(184);
+
+var _Defaults2 = _interopRequireDefault(_Defaults);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Rapid = function () {
     function Rapid(config) {
         (0, _classCallCheck3.default)(this, Rapid);
 
-        var defaults = {
-            modelName: this.constructor.name,
-
-            primaryKey: '',
-
-            baseURL: 'api',
-
-            trailingSlash: false,
-
-            caseSensitive: false,
-
-            routeDelimeter: '-',
-
-            globalParameters: {
-                /**
-                 * Need an option for global GET and POST params...
-                 * what if we want to do /users/drew/save?api_key=12345
-                 */
-            },
-
-            suffixes: {
-                create: 'create',
-                update: 'update',
-                destroy: 'destroy'
-            },
-
-            methods: {
-                create: 'post',
-                update: 'post',
-                destroy: 'post'
-            },
-
-            routes: {
-                model: '',
-                collection: '',
-                any: ''
-            },
-
-            defaultRoute: 'model',
-
-            debug: false,
-
-            apiConfig: {},
-            // switch me to routes again?
-            overrides: {
-                routes: {
-                    model: '',
-                    collection: ''
-                }
-            }
-        };
+        // let defaults = require('./Defaults');
+        var defaults = _Defaults2.default;
 
         config = config || {};
 
@@ -1682,9 +1637,9 @@ var Rapid = function () {
 
             this.fireSetters();
 
-            this.api = _axios2.default.create((0, _lodash2.default)({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
+            this.setupAPI();
 
-            this.currentRoute = this.config.defaultRoute;
+            this.setCurrentRoute(this.config.defaultRoute);
 
             this.setDebugger();
 
@@ -1703,6 +1658,16 @@ var Rapid = function () {
         key: 'setDebugger',
         value: function setDebugger() {
             this.debugger = this.debug ? new _Debugger2.default(this) : false;
+        }
+    }, {
+        key: 'setupAPI',
+        value: function setupAPI() {
+            this.api = _axios2.default.create((0, _lodash2.default)({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
+        }
+    }, {
+        key: 'setCurrentRoute',
+        value: function setCurrentRoute(route) {
+            this.currentRoute = route;
         }
 
         /**
@@ -1759,8 +1724,8 @@ var Rapid = function () {
                 options = arguments.length <= 3 ? undefined : arguments[3];
 
             if ((0, _isInteger2.default)(id)) {
-                if (this.primaryKey) {
-                    urlParams.push(this.primaryKey);
+                if (this.config.primaryKey) {
+                    urlParams.push(this.config.primaryKey);
                 }
                 urlParams.push(id);
             } else {
@@ -1909,6 +1874,21 @@ var Rapid = function () {
             return requestData;
         }
     }, {
+        key: 'beforeRequest',
+        value: function beforeRequest(type, url) {
+            return this.config.beforeRequest(type, url);
+        }
+    }, {
+        key: 'afterRequest',
+        value: function afterRequest(response) {
+            this.config.afterRequest(response);
+        }
+    }, {
+        key: 'onError',
+        value: function onError(error) {
+            this.config.onError(error);
+        }
+    }, {
         key: 'request',
         value: function request(type, url) {
             var _this2 = this;
@@ -1917,15 +1897,19 @@ var Rapid = function () {
                 return this.debugger.fakeRequest(type, url);
             }
 
-            return new _promise2.default(function (resolve, reject) {
+            var beforeRequest = this.beforeRequest(type, url);
+
+            return !beforeRequest ? beforeRequest : new _promise2.default(function (resolve, reject) {
                 var _api$type;
 
                 (_api$type = _this2.api[type]).call.apply(_api$type, [_this2, _this2.sanitizeUrl(url)].concat((0, _toConsumableArray3.default)(_this2.parseRequestData(type)))).then(function (response) {
                     _this2.resetRequestData();
+                    _this2.afterRequest(response);
 
                     resolve(response);
                 }).catch(function (error) {
                     _this2.resetRequestData();
+                    _this2.onError(error.response);
 
                     reject(error.response);
                 });
@@ -2107,60 +2091,44 @@ var Rapid = function () {
     }, {
         key: 'collection',
         get: function get() {
-            this.currentRoute = 'collection';
+            this.setCurrentRoute('collection');
+
             return this;
         }
     }, {
         key: 'model',
         get: function get() {
-            this.currentRoute = 'model';
+            this.setCurrentRoute('model');
+
             return this;
         }
     }, {
         key: 'any',
         get: function get() {
-            this.currentRoute = 'any';
+            this.setCurrentRoute('any');
+
             return this;
         }
     }, {
         key: 'baseURL',
-        get: function get() {
-            return this.config.baseURL;
-        },
         set: function set(url) {
             this.config.baseURL = this.sanitizeUrl(url);
-        }
-    }, {
-        key: 'primaryKey',
-        get: function get() {
-            return this.config.primaryKey;
-        },
-        set: function set(val) {
-            this.config.primaryKey = val;
+            this.setupAPI();
         }
     }, {
         key: 'modelName',
-        get: function get() {
-            return this.config.modelName;
-        },
         set: function set(val) {
             this.config.modelName = val;
             this.setRoutes();
         }
     }, {
         key: 'routeDelimeter',
-        get: function get() {
-            return this.config.routeDelimeter;
-        },
         set: function set(val) {
             this.config.routeDelimeter = val;
             this.setRoutes();
         }
     }, {
         key: 'caseSensitive',
-        get: function get() {
-            return this.config.caseSensitive;
-        },
         set: function set(val) {
             this.config.caseSensitive = val;
             this.setRoutes();
@@ -4976,7 +4944,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 window.Vue = _vue2.default;
 
-window.rapidjs = new _Rapid2.default({ modelName: 'user', debug: false });
+window.rapidjs = new _Rapid2.default({
+    modelName: 'user',
+    debug: false
+});
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
@@ -4986,7 +4957,7 @@ window.rapidjs = new _Rapid2.default({ modelName: 'user', debug: false });
 
 window.axios = _axios2.default;
 window.axios.defaults.headers.common = {
-  'X-Requested-With': 'XMLHttpRequest'
+    'X-Requested-With': 'XMLHttpRequest'
 };
 
 /***/ }),
@@ -36773,6 +36744,69 @@ module.exports = Vue$3;
 __webpack_require__(78);
 module.exports = __webpack_require__(79);
 
+
+/***/ }),
+/* 182 */,
+/* 183 */,
+/* 184 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    modelName: '',
+
+    primaryKey: '',
+
+    baseURL: 'api',
+
+    trailingSlash: false,
+
+    caseSensitive: false,
+
+    routeDelimeter: '-',
+
+    globalParameters: {
+        /**
+         * Need an option for global GET and POST params...
+         * what if we want to do /users/drew/save?api_key=12345
+         */
+    },
+
+    suffixes: {
+        create: 'create',
+        update: 'update',
+        destroy: 'destroy'
+    },
+
+    methods: {
+        create: 'post',
+        update: 'post',
+        destroy: 'post'
+    },
+
+    routes: {
+        model: '',
+        collection: '',
+        any: ''
+    },
+
+    defaultRoute: 'model',
+
+    debug: false,
+
+    apiConfig: {},
+
+    beforeRequest: function beforeRequest(type, url) {
+        return true;
+    },
+    afterRequest: function afterRequest(response) {},
+    onError: function onError(response) {}
+};
 
 /***/ })
 /******/ ]);

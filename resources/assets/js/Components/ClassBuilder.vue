@@ -223,15 +223,16 @@
         <div class="rapidjs-class-builder__routes">
             <h4 id="config-builder-overrides" class="subtitle is-5 is-info">Generated Routes</h4>
 
-<pre><code ref="routes" class="language-js">find (1)                               => {{ generated.find }} <br>
-findBy ('key', 'value')                => {{ generated.findBy }} <br>
-all ()                                 => {{ generated.all }} <br>
-create ({})                            => {{ generated.create }} <br>
-update (2)                             => {{ generated.update }} <br>
-destroy (3)                            => {{ generated.destroy }} <br>
-hasRelationship ('tag', 123, 'latest') => {{ generated.hasRelationship }} <br>
-belongsTo ('gallery', 1234)            => {{ generated.belongsTo }} <br>
-</code></pre>
+            <div class="rapidjs-class-builder__routes__inner">
+                <code class="language-js">find (1)</code>                               <span>=> {{ generated.find }}</span> <br>
+                <code class="language-js">findBy ('key', 'value')</code>                <span>=> {{ generated.findBy }}</span> <br>
+                <code class="language-js">all ()</code>                                 <span>=> {{ generated.all }}</span> <br>
+                <code class="language-js">create ({})</code>                            <span>=> {{ generated.create }}</span> <br>
+                <code class="language-js">update (2)</code>                             <span>=> {{ generated.update }}</span> <br>
+                <code class="language-js">destroy (3)</code>                            <span>=> {{ generated.destroy }}</span> <br>
+                <code class="language-js">hasRelationship ('tag', 123, 'latest')</code> <span>=> {{ generated.hasRelationship }}</span> <br>
+                <code class="language-js">collection.belongsTo ('gallery', 1234)</code> <span>=> {{ generated.belongsTo }}</span> <br>
+            </div>
         </div>
     </div>
 </template>
@@ -290,7 +291,7 @@ belongsTo ('gallery', 1234)            => {{ generated.belongsTo }} <br>
         },
 
         created () {
-            this.model.debugger.logEnabled = false;
+            // this.model.debugger.logEnabled = false;
 
             this.regenerateRoutes();
         },
@@ -304,14 +305,14 @@ belongsTo ('gallery', 1234)            => {{ generated.belongsTo }} <br>
                 this.model.setRoutes();
 
                 this.generated = {
-                    find   : this.model.find(1),
-                    findBy : this.model.findBy('key', 'value'),
-                    all    : this.model.all(),
-                    create : this.model.create(),
-                    update : this.model.update(2),
-                    destroy: this.model.destroy(3),
+                    find           : this.model.find(1),
+                    findBy         : this.model.findBy('key', 'value'),
+                    all            : this.model.all(),
+                    create         : this.model.create(),
+                    update         : this.model.update(2),
+                    destroy        : this.model.destroy(3),
                     hasRelationship: this.model.hasRelationship('tag', 123, 'latest'),
-                    belongsTo: this.model.collection.belongsTo('gallery', 1234)
+                    belongsTo      : this.model.collection.belongsTo('gallery', 1234)
                 };
             }
         },
@@ -321,7 +322,8 @@ belongsTo ('gallery', 1234)            => {{ generated.belongsTo }} <br>
                 this.regenerateRoutes();
 
                 setTimeout(() => {
-                    ['config', 'routes'].forEach((k) => { prism.highlightElement(this.$refs[k]) });
+                    // , 'routes'
+                    ['config'].forEach((k) => { prism.highlightElement(this.$refs[k], true) });
                 }, 1);
             }
         },
@@ -381,18 +383,7 @@ belongsTo ('gallery', 1234)            => {{ generated.belongsTo }} <br>
                 }
 
                 return null;
-            },
-
-            // generated () {
-            //     return {
-            //         find   : this.model.find(1),
-            //         findBy : this.model.findBy('key', 'value'),
-            //         all    : this.model.all(),
-            //         create : this.model.create(),
-            //         update : this.model.update(2),
-            //         destroy: this.model.destroy(3),
-            //     }
-            // }
+            }
         }
 
 
@@ -413,5 +404,23 @@ belongsTo ('gallery', 1234)            => {{ generated.belongsTo }} <br>
 
     h4 {
         margin: 10px 0 10px !important;
+    }
+
+    .rapidjs-class-builder {
+        &__routes {
+            &__inner {
+                width: 400px;
+            }
+
+            code {
+                display: inline-block;
+                margin-right: 50px;
+            }
+
+            span {
+                display: inline-block;
+                text-align: right;
+            }
+        }
     }
 </style>

@@ -76,7 +76,8 @@ class Rapid {
         let url = this.sanitizeUrl([this.routes[this.currentRoute]].concat(params).join('/'));
 
         // reset currentRoute
-        this.currentRoute = this.config.defaultRoute;
+        this.setCurrentRoute(this.config.defaultRoute);
+        console.log('was reset');
 
         return url;
     }
@@ -361,18 +362,23 @@ class Rapid {
 
     get collection () {
         this.setCurrentRoute('collection');
+        console.log('was triggered');
 
         return this;
     }
 
     get model () {
         this.setCurrentRoute('model');
+        console.log('was triggered');
+
 
         return this;
     }
 
     get any () {
         this.setCurrentRoute('any');
+        console.log('was triggered');
+
 
         return this;
     }

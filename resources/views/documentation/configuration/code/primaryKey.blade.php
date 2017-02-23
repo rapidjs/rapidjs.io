@@ -4,7 +4,7 @@ Post.update(123) // => POST /api/post/123/update
 Post.destroy(987) // => POST /api/post/987/destroy
 </code></pre>
 
-<span class="documentation__note">With the given setup you'll notice the primaryKey <code class="language-markdown">`id`</code> is included in the urls</span>
+<span class="documentation__note">With the following config you'll notice the primaryKey <code class="language-markdown">`id`</code> is included in the urls</span>
 
 <pre><code class="language-js">var Post = new Rapid({
     modelName: 'post',

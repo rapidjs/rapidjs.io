@@ -230,7 +230,7 @@
                         <i class="fa fa-long-arrow-right"></i>
                     </span>
 
-                    <span class="code-block__route">/{{ code.path }}</span>
+                    <span class="code-block__route" v-html="code.path"></span>
                 </span>
             </div>
         </div>
@@ -243,6 +243,7 @@
     import _ from 'lodash';
     import prism from './../Vendor/prism';
     import qs from 'qs';
+    import _forEach from 'lodash.foreach';
 
     export default {
         name: 'class-builder',
@@ -322,18 +323,79 @@
             },
 
             regenerateRoutes () {
+                let vm = this;
+
                 this.model.setRoutes();
 
-                this.generated = {
-                    find           : { args: [1], path: this.model.find(1) },
-                    findBy         : { args: ['key', 'value'], path: this.model.findBy('key', 'value') },
-                    all            : { args: [], path: this.model.all() },
-                    create         : { args: [], path: this.model.create() },
-                    update         : { args: [2], path: this.model.update(2) },
-                    destroy        : { args: [3], path: this.model.destroy(3) },
-                    hasRelationship: { args: ['tag', 123, 'latest'], path: this.model.hasRelationship('tag', 123, 'latest') },
-                    belongsTo      : { args: ['gallery', 1234], path: this.model.collection.belongsTo('gallery', 1234) }
+                let generated = {
+                    find: {
+                        args: [1],
+                        path: this.model.find(1),
+                        highlightPath (path) {
+                            return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                        }
+                    },
+
+                    findBy: {
+                        args: ['key', 'value'],
+                        path: this.model.findBy('key', 'value'),
+                        highlightPath (path) {
+                            return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                        }
+                    },
+
+                    all: {
+                        args: [],
+                        path: this.model.all(),
+                        highlightPath (path) {
+                            return path.replace(vm.model.routes.collection, `<b>${vm.model.routes.collection}</b>`);
+                        }
+                    },
+
+                    create: {
+                        args: [],
+                        path: this.model.create(),
+                        highlightPath (path) {
+                            return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                        }
+                    },
+
+                    update: {
+                        args: [2],
+                        path: this.model.update(2),
+                        highlightPath (path) {
+                            return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                        }
+                    },
+
+                    destroy: {
+                        args: [3],
+                        path: this.model.destroy(3),
+                        highlightPath (path) {
+                            return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                        }
+                    },
+
+                    hasRelationship: {
+                        args: ['tag', 123, 'latest'],
+                        path: this.model.hasRelationship('tag', 123, 'latest'),
+                        highlightPath (path) {
+                            return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                        }
+                    },
+
+                    belongsTo: {
+                        args: ['gallery', 1234],
+                        path: this.model.collection.belongsTo('gallery', 1234),
+                        highlightPath (path) {
+                            return path.replace(vm.model.routes.collection, `<b>${vm.model.routes.collection}</b>`);
+                        }
+                    }
                 };
+
+                _forEach(generated, (row) => { row.path = row.highlightPath(row.path); });
+
+                this.generated = generated;
             }
         },
 

@@ -186,8 +186,13 @@ class Rapid {
         return this.get(urlParams);
     }
 
-    hasOne (relation) {
+    hasOne (relation, primaryKey) {
         // take a class in and pass to hasRelationship with route
+        if(typeof relation == String) {
+            console.log('str');
+        }
+
+        console.log(typeof relation);
     }
 
     hasMany (relation) {

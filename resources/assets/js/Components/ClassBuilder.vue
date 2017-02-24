@@ -79,7 +79,7 @@
                 <div class="fb-grid col-md-4">
                     <span class="label">
                         Override <br>
-                        <switches v-model="overrides.suffixes.create" :selected="overrides.suffixes.create" color="blue"></switches>
+                        <switches v-model="overrides.suffixes.create" :selected="overrides.suffixes.create" color="blue" @input="resetDefaults('suffixes', 'create')"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -95,7 +95,7 @@
                 <div class="fb-grid col-md-4">
                     <span class="label">
                         Override <br>
-                        <switches v-model="overrides.suffixes.update" :selected="overrides.suffixes.update" color="blue"></switches>
+                        <switches v-model="overrides.suffixes.update" :selected="overrides.suffixes.update" color="blue" @input="resetDefaults('suffixes', 'update')"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -111,7 +111,7 @@
                 <div class="fb-grid col-md-4">
                     <span class="label">
                         Override <br>
-                        <switches v-model="overrides.suffixes.destroy" :selected="overrides.suffixes.destroy" color="blue"></switches>
+                        <switches v-model="overrides.suffixes.destroy" :selected="overrides.suffixes.destroy" @input="resetDefaults('suffixes', 'destroy')" color="blue"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -132,7 +132,7 @@
                 <div class="fb-grid col-md-4">
                     <span class="label">
                         Override <br>
-                        <switches v-model="overrides.methods.create" :selected="overrides.methods.create" color="blue" @input="resetRouteOverride('model')"></switches>
+                        <switches v-model="overrides.methods.create" :selected="overrides.methods.create" color="blue" @input="resetDefaults('methods', 'create')"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -151,7 +151,7 @@
                 <div class="fb-grid col-md-4">
                     <span class="label">
                         Override <br>
-                        <switches v-model="overrides.methods.update" :selected="overrides.methods.update" color="blue" @input="resetRouteOverride('collection')"></switches>
+                        <switches v-model="overrides.methods.update" :selected="overrides.methods.update" color="blue" @input="resetDefaults('methods', 'update')"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -167,7 +167,7 @@
                 <div class="fb-grid col-md-4">
                     <span class="label">
                         Override <br>
-                        <switches v-model="overrides.methods.destroy" :selected="overrides.methods.destroy" color="blue" @input="resetRouteOverride('collection')"></switches>
+                        <switches v-model="overrides.methods.destroy" :selected="overrides.methods.destroy" color="blue" @input="resetDefaults('methods', 'destroy')"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -192,7 +192,7 @@
                     </p>
                 </div>
 
-                <div class="fb-grid col-md-1">
+                <div class="fb-grid col-md-2">
                     <span class="label">caseSensitive</span>
 
                     <p class="control">
@@ -200,7 +200,7 @@
                     </p>
                 </div>
 
-                <div class="fb-grid col-md-3">
+                <div class="fb-grid col-md-4">
                     <span class="label">globalParameters</span>
 
                     <p class="control has-addons">
@@ -213,6 +213,10 @@
                     </p>
 
                     <span class="help is-info">Comma separate: foo=bar, this=that</span>
+                </div>
+
+                <div class="fb-grid col-md-2">
+                    <span class="label">defaultRoute</span>
                 </div>
             </div>
         </div>
@@ -320,6 +324,15 @@
             resetRouteOverride (route) {
                 this.model.setRoute(route);
                 // this.model.config.routes[route]
+            },
+
+            resetDefaults (parent, child) {
+
+                if(!this.overrides[parent][child]) {
+                    this.model.config[parent][child] = this.defaultOverrides[parent][child]
+                }
+
+                this.model.setRoutes();
             },
 
             regenerateRoutes () {

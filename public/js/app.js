@@ -4697,6 +4697,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
 
 exports.default = {
     name: 'class-builder',
@@ -4773,6 +4777,14 @@ exports.default = {
         resetRouteOverride: function resetRouteOverride(route) {
             this.model.setRoute(route);
             // this.model.config.routes[route]
+        },
+        resetDefaults: function resetDefaults(parent, child) {
+
+            if (!this.overrides[parent][child]) {
+                this.model.config[parent][child] = this.defaultOverrides[parent][child];
+            }
+
+            this.model.setRoutes();
         },
         regenerateRoutes: function regenerateRoutes() {
             var vm = this;
@@ -28475,9 +28487,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.overrides.suffixes.create)
     },
     on: {
-      "input": function($event) {
+      "input": [function($event) {
         _vm.overrides.suffixes.create = $event
-      }
+      }, function($event) {
+        _vm.resetDefaults('suffixes', 'create')
+      }]
     }
   })], 1), _vm._v(" "), _c('p', {
     staticClass: "control has-addons"
@@ -28528,9 +28542,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.overrides.suffixes.update)
     },
     on: {
-      "input": function($event) {
+      "input": [function($event) {
         _vm.overrides.suffixes.update = $event
-      }
+      }, function($event) {
+        _vm.resetDefaults('suffixes', 'update')
+      }]
     }
   })], 1), _vm._v(" "), _c('p', {
     staticClass: "control has-addons"
@@ -28581,9 +28597,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.overrides.suffixes.destroy)
     },
     on: {
-      "input": function($event) {
+      "input": [function($event) {
         _vm.overrides.suffixes.destroy = $event
-      }
+      }, function($event) {
+        _vm.resetDefaults('suffixes', 'destroy')
+      }]
     }
   })], 1), _vm._v(" "), _c('p', {
     staticClass: "control has-addons"
@@ -28644,7 +28662,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "input": [function($event) {
         _vm.overrides.methods.create = $event
       }, function($event) {
-        _vm.resetRouteOverride('model')
+        _vm.resetDefaults('methods', 'create')
       }]
     }
   })], 1), _vm._v(" "), _c('p', {
@@ -28701,7 +28719,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "input": [function($event) {
         _vm.overrides.methods.update = $event
       }, function($event) {
-        _vm.resetRouteOverride('collection')
+        _vm.resetDefaults('methods', 'update')
       }]
     }
   })], 1), _vm._v(" "), _c('p', {
@@ -28756,7 +28774,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "input": [function($event) {
         _vm.overrides.methods.destroy = $event
       }, function($event) {
-        _vm.resetRouteOverride('collection')
+        _vm.resetDefaults('methods', 'destroy')
       }]
     }
   })], 1), _vm._v(" "), _c('p', {
@@ -28822,7 +28840,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })], 1)]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid col-md-1"
+    staticClass: "fb-grid col-md-2"
   }, [_c('span', {
     staticClass: "label"
   }, [_vm._v("caseSensitive")]), _vm._v(" "), _c('p', {
@@ -28847,7 +28865,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     }
   })], 1)]), _vm._v(" "), _c('div', {
-    staticClass: "fb-grid col-md-3"
+    staticClass: "fb-grid col-md-4"
   }, [_c('span', {
     staticClass: "label"
   }, [_vm._v("globalParameters")]), _vm._v(" "), _c('p', {
@@ -28877,7 +28895,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('span', {
     staticClass: "help is-info"
-  }, [_vm._v("Comma separate: foo=bar, this=that")])])])]), _vm._v(" "), _c('h4', {
+  }, [_vm._v("Comma separate: foo=bar, this=that")])]), _vm._v(" "), _vm._m(0)])]), _vm._v(" "), _c('h4', {
     staticClass: "subtitle is-5 is-info",
     attrs: {
       "id": "config-builder-overrides"
@@ -28915,7 +28933,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       }
     })])
   }))])])
-},staticRenderFns: []}
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticClass: "fb-grid col-md-2"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("defaultRoute")])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

@@ -337,7 +337,7 @@
                     },
 
                     findBy: {
-                        args: ['key', 'value'],
+                        args: ["'key'", "'value'"],
                         path: this.model.findBy('key', 'value'),
                         highlightPath (path) {
                             return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
@@ -356,7 +356,9 @@
                         args: [],
                         path: this.model.create(),
                         highlightPath (path) {
-                            return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                            path = path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                            path = path.replace(vm.model.config.suffixes.create, `<span class="code-block__highlight">${vm.model.config.suffixes.create}</span>`);
+                            return path;
                         }
                     },
 
@@ -364,7 +366,9 @@
                         args: [2],
                         path: this.model.update(2),
                         highlightPath (path) {
-                            return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                            path = path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                            path = path.replace(vm.model.config.suffixes.update, `<span class="code-block__highlight">${vm.model.config.suffixes.update}</span>`);
+                            return path;
                         }
                     },
 
@@ -372,12 +376,14 @@
                         args: [3],
                         path: this.model.destroy(3),
                         highlightPath (path) {
-                            return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                            path = path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                            path = path.replace(vm.model.config.suffixes.destroy, `<span class="code-block__highlight">${vm.model.config.suffixes.destroy}</span>`);
+                            return path;
                         }
                     },
 
                     hasRelationship: {
-                        args: ['tag', 123, 'latest'],
+                        args: ["'tag'", 123, "'latest'"],
                         path: this.model.hasRelationship('tag', 123, 'latest'),
                         highlightPath (path) {
                             return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
@@ -385,7 +391,7 @@
                     },
 
                     belongsTo: {
-                        args: ['gallery', 1234],
+                        args: ["'gallery'", 1234],
                         path: this.model.collection.belongsTo('gallery', 1234),
                         highlightPath (path) {
                             return path.replace(vm.model.routes.collection, `<b>${vm.model.routes.collection}</b>`);
@@ -491,17 +497,21 @@
     .rapidjs-class-builder {
         &__routes {
             &__inner {
-                width: 700px;
+                display: -webkit-flex;
+                display: -ms-flex;
+                display: flex;
+                flex-wrap: wrap;
             }
 
             .code-block {
                 display: block;
                 font-size: 14px;
+                width: 100%;
 
                 &__code {
                     display: inline-block;
                     margin-right: 50px;
-                    width: 295px;
+                    min-width: 310px;
                     position: relative;
 
                     i.fa {
@@ -511,6 +521,11 @@
                         top: 2px;
                         font-size: 18px;
                     }
+                }
+
+                &__highlight {
+                    background: yellow;
+                    border-radius: 5px;
                 }
 
                 &__route {

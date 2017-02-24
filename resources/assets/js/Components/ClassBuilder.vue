@@ -357,7 +357,11 @@
                         path: this.model.create(),
                         highlightPath (path) {
                             path = path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
-                            path = path.replace(vm.model.config.suffixes.create, `<span class="code-block__highlight">${vm.model.config.suffixes.create}</span>`);
+
+                            if(vm.config.suffixes && 'create' in vm.config.suffixes) {
+                                path = path.replace(vm.model.config.suffixes.create, `<span class="code-block__highlight">${vm.model.config.suffixes.create}</span>`);
+                            }
+
                             return path;
                         }
                     },
@@ -367,7 +371,11 @@
                         path: this.model.update(2),
                         highlightPath (path) {
                             path = path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
-                            path = path.replace(vm.model.config.suffixes.update, `<span class="code-block__highlight">${vm.model.config.suffixes.update}</span>`);
+
+                            if(vm.config.suffixes && 'update' in vm.config.suffixes) {
+                                path = path.replace(vm.model.config.suffixes.update, `<span class="code-block__highlight">${vm.model.config.suffixes.update}</span>`);
+                            }
+
                             return path;
                         }
                     },
@@ -377,7 +385,11 @@
                         path: this.model.destroy(3),
                         highlightPath (path) {
                             path = path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
-                            path = path.replace(vm.model.config.suffixes.destroy, `<span class="code-block__highlight">${vm.model.config.suffixes.destroy}</span>`);
+
+                            if(vm.config.suffixes && 'destroy' in vm.config.suffixes) {
+                                path = path.replace(vm.model.config.suffixes.destroy, `<span class="code-block__highlight">${vm.model.config.suffixes.destroy}</span>`);
+                            }
+
                             return path;
                         }
                     },

@@ -60,7 +60,7 @@ return [
     'update' => [
         'name'                => 'update',
 
-        'description'         => 'Makes a <code class="language-js">config.methods.update</code> Request on the collection route base off.',
+        'description'         => 'Makes a <code class="language-js">config.methods.update</code> Request.',
 
         'arguments'           => [
 
@@ -78,6 +78,24 @@ return [
 
         'arguments'           => [
 
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'Promise'
+    ],
+
+    'destroy' => [
+        'name'                => 'destroy',
+
+        'description'         => 'Makes a <code class="language-js">config.methods.destroy</code> Request to the <code class="language-js">config.suffixes.destroy</code> route. If you wanted to send a request to a route that would destroy/delete your model, this would be how.',
+
+        'arguments'           => [
+            [
+                'name'        => 'id',
+                'type'        => 'int',
+                'description' => 'The id to be passed to the destroy url. In other words, the id of the model you\'d like the destroy. <code class="language-markdown">/api/photo/`1`/destroy</code>'
+            ],
         ],
 
         'since'               => '0.0.1',

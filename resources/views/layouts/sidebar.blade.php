@@ -3,7 +3,7 @@
         <a class="sidebar__title" href="#installation">Getting Started</a>
 
         <ul class="sidebar__nav">
-            @foreach(['installation', 'usage'] as $nav)
+            @foreach(['installation', 'usage', 'routes', 'axios'] as $nav)
                 <li><a href="#{{ $nav }}">{{ ucfirst($nav) }}</a></li>
             @endforeach
         </ul>

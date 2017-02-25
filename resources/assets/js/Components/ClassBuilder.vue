@@ -42,7 +42,7 @@
                 <div class="fb-grid col-md-4">
                     <span class="label">
                         Override <br>
-                        <switches v-model="overrides.routes.model" :selected="overrides.routes.model" color="blue" @input="resetRouteOverride('model')"></switches>
+                        <switches v-model="overrides.routes.model" :selected="overrides.routes.model" color="blue" @input="resetDefaults('routes', 'model')"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -58,7 +58,7 @@
                 <div class="fb-grid col-md-4">
                     <span class="label">
                         Override <br>
-                        <switches v-model="overrides.routes.collection" :selected="overrides.routes.collection" color="blue" @input="resetRouteOverride('collection')"></switches>
+                        <switches v-model="overrides.routes.collection" :selected="overrides.routes.collection" color="blue" @input="resetDefaults('routes', 'collection')"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -259,7 +259,7 @@
                 globalParameters: '',
 
                 defaults: {
-                    primaryKey: '-',
+                    primaryKey: '',
                     trailingSlash: false,
                     caseSensitive: false,
                     routeDelimeter: '-',
@@ -286,8 +286,8 @@
 
                 defaultOverrides: {
                     routes: {
-                        model: 'false',
-                        collection: 'false'
+                        model: '',
+                        collection: ''
                     },
 
                     suffixes: {

@@ -4712,7 +4712,7 @@ exports.default = {
             globalParameters: '',
 
             defaults: {
-                primaryKey: '-',
+                primaryKey: '',
                 trailingSlash: false,
                 caseSensitive: false,
                 routeDelimeter: '-'
@@ -4739,8 +4739,8 @@ exports.default = {
 
             defaultOverrides: {
                 routes: {
-                    model: 'false',
-                    collection: 'false'
+                    model: '',
+                    collection: ''
                 },
 
                 suffixes: {
@@ -28373,7 +28373,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "input": [function($event) {
         _vm.overrides.routes.model = $event
       }, function($event) {
-        _vm.resetRouteOverride('model')
+        _vm.resetDefaults('routes', 'model')
       }]
     }
   })], 1), _vm._v(" "), _c('p', {
@@ -28428,7 +28428,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "input": [function($event) {
         _vm.overrides.routes.collection = $event
       }, function($event) {
-        _vm.resetRouteOverride('collection')
+        _vm.resetDefaults('routes', 'collection')
       }]
     }
   })], 1), _vm._v(" "), _c('p', {

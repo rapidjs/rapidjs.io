@@ -54,5 +54,9 @@ export default {
 
     onError (response) {
 
+    },
+
+    parser (response) {
+        return response;
     }
 };

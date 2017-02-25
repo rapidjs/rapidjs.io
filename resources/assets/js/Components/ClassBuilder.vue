@@ -2,6 +2,10 @@
     <div class="rapidjs-class-builder">
         <h2 class="title is-3" id="config-builder">Config Builder</h2>
 
+        <p>A lot of frameworks can be confusing to learn how to configure at first or to determine what the configuration options actually do. So, I made a live config builder that can help show you what your API urls will look like based off the config you're passing in. Pretty nifty, I think.</p>
+
+        <p>Imagine your app has a <code class="language-js">"Photo"</code> model that belongs to a <code class="language-js">"Gallery"</code>. You can see below how your routes will look with nothing more than a <code class="language-js">baseURL</code> and <code class="language-js">modelName</code>.</p>
+
         <div class="rapidjs-class-builder__form">
             <h4 id="config-builder-core" class="subtitle is-5 is-info">Core</h4>
 
@@ -212,7 +216,7 @@
                                v-model="globalParameters">
                     </p>
 
-                    <span class="help is-info">Comma separate: foo=bar, this=that</span>
+                    <span class="help is-info">Comma separate: foo=bar, apikey=1234567</span>
                 </div>
 
                 <div class="fb-grid col-md-2">

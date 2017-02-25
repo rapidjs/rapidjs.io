@@ -10,53 +10,58 @@ import Logger from './Logger';
 import Defaults from './Defaults';
 
 class Rapid {
-    constructor (config) {
-        // let defaults = require('./Defaults');
-        let defaults = Defaults;
 
+    constructor (config) {
 
         config = config || {};
 
-        // I think you need to move routes to here because if people want to override them it can cause a conflict since
-        // routes are generated after the constructor and stored in the same object
-        this.routes = {
-            model      : '',
-            collection : '',
-            any        : ''
-        };
-
-        this.initialize(config, defaults);
+        this.initialize(config, Defaults);
     }
 
+    /**
+     * Set any config overrides in this method when extending
+     */
     boot () {
-        this.methodRoutes = [];
+
     }
 
     initialize (config, defaults) {
+        this.methodRoutes = []; // for debugging and registering routes
+
         this.boot();
+
+        this.initializeRoutes();
 
         this.config = _defaultsDeep(config, defaults);
 
         this.fireSetters();
 
-        this.setupAPI();
+        this.initializeAPI();
 
         this.setCurrentRoute(this.config.defaultRoute);
 
-        this.setDebugger();
+        this.initializeDebugger();
 
         this.resetRequestData();
+    }
+
+    initializeRoutes () {
+        this.routes = {
+            model      : '',
+            collection : '',
+            any        : ''
+        };
     }
 
     fireSetters () {
         ['baseURL', 'modelName', 'routeDelimeter', 'caseSensitive'].forEach(setter => this[setter] = this.config[setter]);
     }
 
-    setDebugger () {
+    initializeDebugger () {
         this.debugger = this.debug ? new Debugger(this) : false;
     }
 
-    setupAPI () {
+    initializeAPI () {
         this.api = axios.create(_defaultsDeep({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
     }
 
@@ -77,6 +82,7 @@ class Rapid {
 
         // reset currentRoute
         this.setCurrentRoute(this.config.defaultRoute);
+
         console.log('was reset');
 
         return url;
@@ -104,8 +110,7 @@ class Rapid {
     updateOrDestroy(method, ...params) {
         let urlParams = [],
             id        = params[0],
-            data      = params[1],
-            options   = params[2];
+            data      = params[1];
 
         if(Number.isInteger(id)) {
             if(this.config.primaryKey) {
@@ -114,14 +119,13 @@ class Rapid {
             urlParams.push(id);
         } else {
             data    = params[0];
-            options = params[1];
         }
 
         if(this.config.suffixes[method]) {
             urlParams.push(this.config.suffixes[method]);
         }
 
-        return this.request(this.config.methods[method], this.model.makeUrl.call(this, ...urlParams), data, options);
+        return this.request(this.config.methods[method], this.model.makeUrl.call(this, ...urlParams), data);
     }
 
     // update (id = 0, data, options) {
@@ -186,17 +190,26 @@ class Rapid {
         return this.get(urlParams);
     }
 
-    hasOne (relation, primaryKey) {
+    // what if we want to define a relationship for posting to
+    // consider this too
+
+    hasOne (relation, primaryKey, foreignKey) {
+
         // take a class in and pass to hasRelationship with route
-        if(typeof relation == String) {
-            console.log('str');
+        if(typeof relation == 'object') {
+            relation = relation.routes.model;
         }
 
-        console.log(typeof relation);
+        return this.hasRelationship(relation, primaryKey, foreignKey);
     }
 
-    hasMany (relation) {
+    hasMany (relation, primaryKey, foreignKey) {
+        // take a class in and pass to hasRelationship with route
+        if(typeof relation == 'object') {
+            relation = relation.routes.collection;
+        }
 
+        return this.hasRelationship(relation, primaryKey, foreignKey);
     }
 
     /**
@@ -220,6 +233,10 @@ class Rapid {
         }
 
         return this.any.get(urlParams);
+    }
+
+    belongsToMany () {
+
     }
 
     /**
@@ -436,6 +453,8 @@ class Rapid {
 
         this.routes[route] = newRoute;
     }
+
+    // generateRoute (routeName)
 
     setRoutes () {
         ['model', 'collection'].forEach(route => this.setRoute(route));

@@ -1,4 +1,5 @@
 import Rapid from './Rapid/Rapid';
+import UserModel from './UserModel';
 
 // http://www.stylemepretty.com/api/v2/post/770865/images
 
@@ -23,6 +24,14 @@ class TestModel extends Rapid {
 
     votes (id, params) {
         return this.model.hasRelationship(id, 'votes', params);
+    }
+
+    user () {
+        return this.hasOne(UserModel, 235, 19);
+    }
+
+    users () {
+        return this.hasMany(UserModel, 999, 'verified');
     }
 }
 

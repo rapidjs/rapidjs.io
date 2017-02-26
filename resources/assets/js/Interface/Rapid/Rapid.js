@@ -177,7 +177,10 @@ class Rapid {
 
     // primray key, foreign key, relation
 
-
+    // let this return this
+    // this should set some url params or something...
+    // or a url...idk
+    // but this should be able to use any method like this.users().get() || this.users().posts()
     hasRelationship (relation, primaryKey, foreignKey) {
         let urlParams = [];
 
@@ -415,7 +418,7 @@ class Rapid {
 
     set baseURL (url) {
         this.config.baseURL = this.sanitizeUrl(url);
-        this.setupAPI();
+        this.initializeAPI();
     }
 
     set modelName (val) {

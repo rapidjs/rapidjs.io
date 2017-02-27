@@ -4,8 +4,8 @@ import qs from 'qs';
 
 export default class {
     constructor(caller) {
-        this.caller = caller;
-        this.data = {};
+        this.caller     = caller;
+        this.data       = {};
         this.logEnabled = true;
     }
 

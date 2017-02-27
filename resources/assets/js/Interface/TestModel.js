@@ -1,5 +1,6 @@
 import Rapid from './Rapid/Rapid';
 import UserModel from './UserModel';
+import Tag from './Tag';
 
 // http://www.stylemepretty.com/api/v2/post/770865/images
 
@@ -32,6 +33,10 @@ class TestModel extends Rapid {
 
     users () {
         return this.hasMany(UserModel, 999, 'verified');
+    }
+
+    tags () {
+        return this.hasMany(Tag, 1234);
     }
 }
 

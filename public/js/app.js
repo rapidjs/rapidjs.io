@@ -922,10 +922,12 @@ var Rapid = function () {
     function Rapid(config) {
         (0, _classCallCheck3.default)(this, Rapid);
 
-
         config = config || {};
 
-        this.initialize(config, _Defaults2.default);
+        // merge defaults and config
+        config = (0, _lodash2.default)(config, _Defaults2.default);
+
+        this.initialize(config);
     }
 
     /**
@@ -936,16 +938,22 @@ var Rapid = function () {
     (0, _createClass3.default)(Rapid, [{
         key: 'boot',
         value: function boot() {}
+
+        /**
+         * Setup the all of properties.
+         */
+
     }, {
         key: 'initialize',
-        value: function initialize(config, defaults) {
+        value: function initialize(config) {
             this.methodRoutes = []; // for debugging and registering routes
+            this.urlParams = false; // for relationships
 
             this.boot();
 
             this.initializeRoutes();
 
-            this.config = (0, _lodash2.default)(config, defaults);
+            this.config = config;
 
             this.fireSetters();
 
@@ -957,6 +965,11 @@ var Rapid = function () {
 
             this.resetRequestData();
         }
+
+        /**
+         * Initialize the routes.
+         */
+
     }, {
         key: 'initializeRoutes',
         value: function initializeRoutes() {
@@ -966,6 +979,12 @@ var Rapid = function () {
                 any: ''
             };
         }
+
+        /**
+         * Fire the setters. This will make sure the routes are generated properly.
+         * Consider if this is really even necessary
+         */
+
     }, {
         key: 'fireSetters',
         value: function fireSetters() {
@@ -975,16 +994,31 @@ var Rapid = function () {
                 return _this[setter] = _this.config[setter];
             });
         }
+
+        /**
+         * Initialze the debugger if debug is set to true.
+         */
+
     }, {
         key: 'initializeDebugger',
         value: function initializeDebugger() {
-            this.debugger = this.debug ? new _Debugger2.default(this) : false;
+            this.debugger = this.config.debug ? new _Debugger2.default(this) : false;
         }
+
+        /**
+         * Initialize the API.
+         */
+
     }, {
         key: 'initializeAPI',
         value: function initializeAPI() {
             this.api = _axios2.default.create((0, _lodash2.default)({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
         }
+
+        /**
+         * Set the current route
+         */
+
     }, {
         key: 'setCurrentRoute',
         value: function setCurrentRoute(route) {
@@ -993,6 +1027,12 @@ var Rapid = function () {
 
         /**
          * URL functions
+         */
+
+        /**
+         * Based off the current route that's set this will take a set of params
+         * and split it into a URL. This will then reset the route to the default
+         * route after building the URL.
          */
 
     }, {
@@ -1015,6 +1055,12 @@ var Rapid = function () {
 
             return url;
         }
+
+        /**
+         * This just makes sure there are no double slashes and no trailing
+         * slash unless the config for it is set.
+         */
+
     }, {
         key: 'sanitizeUrl',
         value: function sanitizeUrl(url) {
@@ -1029,6 +1075,10 @@ var Rapid = function () {
 
         /**
          * Model Only Functions
+         */
+
+        /**
+         * Make a GET request to a url that would retrieve a single model.
          */
 
     }, {
@@ -1058,7 +1108,11 @@ var Rapid = function () {
                 urlParams.push(this.config.suffixes[method]);
             }
 
-            return this.request(this.config.methods[method], (_model$makeUrl = this.model.makeUrl).call.apply(_model$makeUrl, [this].concat(urlParams)), data);
+            if (method == 'update') {
+                this.withParams(data);
+            }
+
+            return this.request(this.config.methods[method], (_model$makeUrl = this.model.makeUrl).call.apply(_model$makeUrl, [this].concat(urlParams)));
         }
 
         // update (id = 0, data, options) {
@@ -1133,7 +1187,7 @@ var Rapid = function () {
         // let this return this
         // this should set some url params or something...
         // or a url...idk
-        // but this should be able to use any method like this.users().get() || this.users().posts()
+        // but this should be able to use any method like this.users().get() || this.users().post()
 
     }, {
         key: 'hasRelationship',
@@ -1146,7 +1200,9 @@ var Rapid = function () {
                 urlParams = [primaryKey, relation, foreignKey];
             }
 
-            return this.get(urlParams);
+            this.urlParams = urlParams;
+
+            return this;
         }
 
         // what if we want to define a relationship for posting to
@@ -1166,6 +1222,7 @@ var Rapid = function () {
     }, {
         key: 'hasMany',
         value: function hasMany(relation, primaryKey, foreignKey) {
+
             // take a class in and pass to hasRelationship with route
             if ((typeof relation === 'undefined' ? 'undefined' : (0, _typeof3.default)(relation)) == 'object') {
                 relation = relation.routes.collection;
@@ -1173,6 +1230,11 @@ var Rapid = function () {
 
             return this.hasRelationship(relation, primaryKey, foreignKey);
         }
+    }, {
+        key: 'registerBelongsTo',
+        value: function registerBelongsTo() {}
+        // 
+
 
         /**
          * belongsTo
@@ -1242,11 +1304,18 @@ var Rapid = function () {
             this.config.onError(error);
         }
     }, {
+        key: 'parseData',
+        value: function parseData(data) {
+            return this.config.parseData(data);
+        }
+    }, {
         key: 'request',
         value: function request(type, url) {
             var _this2 = this;
 
-            if (this.debug) {
+            type = type.toLowerCase();
+
+            if (this.config.debug) {
                 return this.debugger.fakeRequest(type, url);
             }
 
@@ -1258,6 +1327,8 @@ var Rapid = function () {
                 (_api$type = _this2.api[type]).call.apply(_api$type, [_this2, _this2.sanitizeUrl(url)].concat((0, _toConsumableArray3.default)(_this2.parseRequestData(type)))).then(function (response) {
                     _this2.resetRequestData();
                     _this2.afterRequest(response);
+
+                    response.data = _this2.parseData(response.data);
 
                     resolve(response);
                 }).catch(function (error) {
@@ -1284,6 +1355,11 @@ var Rapid = function () {
     }, {
         key: 'buildRequest',
         value: function buildRequest(type, urlParams) {
+
+            if (this.urlParams) {
+                urlParams = this.urlParams;
+            }
+
             var url = (0, _lodash4.default)(urlParams) ? this.makeUrl.apply(this, (0, _toConsumableArray3.default)(urlParams)) : this.makeUrl(urlParams);
 
             return this.request(type, url);
@@ -1383,20 +1459,6 @@ var Rapid = function () {
             this.requestData.options[key] = value;
             return this;
         }
-    }, {
-        key: 'withHeaders',
-        value: function withHeaders() {
-            var header = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-
-
-            return this;
-        }
-    }, {
-        key: 'withHeader',
-        value: function withHeader(key, value) {
-
-            return this;
-        }
 
         /**
          * Setters and Getters
@@ -1438,11 +1500,8 @@ var Rapid = function () {
         }
     }, {
         key: 'debug',
-        get: function get() {
-            return this.config.debug;
-        },
         set: function set(val) {
-            _Logger2.default.warn('debug mode must explcitly be turned on via the constructor in config.debug');
+            _Logger2.default.warn('debug mode must explicitly be turned on via the constructor in config.debug');
         }
     }, {
         key: 'collection',
@@ -2260,6 +2319,10 @@ var _UserModel = __webpack_require__(106);
 
 var _UserModel2 = _interopRequireDefault(_UserModel);
 
+var _Tag = __webpack_require__(192);
+
+var _Tag2 = _interopRequireDefault(_Tag);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // http://www.stylemepretty.com/api/v2/post/770865/images
@@ -2308,6 +2371,11 @@ var TestModel = function (_Rapid) {
         key: 'users',
         value: function users() {
             return this.hasMany(_UserModel2.default, 999, 'verified');
+        }
+    }, {
+        key: 'tags',
+        value: function tags() {
+            return this.hasMany(_Tag2.default, 1234);
         }
     }]);
     return TestModel;
@@ -4992,6 +5060,7 @@ exports.default = {
                 find: {
                     args: [1],
                     path: this.model.find(1),
+                    method: 'get',
                     highlightPath: function highlightPath(path) {
                         return path.replace(vm.model.routes.model, '<b>' + vm.model.routes.model + '</b>');
                     }
@@ -5000,6 +5069,7 @@ exports.default = {
                 findBy: {
                     args: ["'key'", "'value'"],
                     path: this.model.findBy('key', 'value'),
+                    method: 'get',
                     highlightPath: function highlightPath(path) {
                         return path.replace(vm.model.routes.model, '<b>' + vm.model.routes.model + '</b>');
                     }
@@ -5008,6 +5078,7 @@ exports.default = {
                 all: {
                     args: [],
                     path: this.model.all(),
+                    method: 'get',
                     highlightPath: function highlightPath(path) {
                         return path.replace(vm.model.routes.collection, '<b>' + vm.model.routes.collection + '</b>');
                     }
@@ -5016,6 +5087,7 @@ exports.default = {
                 create: {
                     args: [],
                     path: this.model.create(),
+                    method: this.model.config.methods.create,
                     highlightPath: function highlightPath(path) {
                         path = path.replace(vm.model.routes.model, '<b>' + vm.model.routes.model + '</b>');
 
@@ -5030,6 +5102,7 @@ exports.default = {
                 update: {
                     args: [2],
                     path: this.model.update(2),
+                    method: this.model.config.methods.update,
                     highlightPath: function highlightPath(path) {
                         path = path.replace(vm.model.routes.model, '<b>' + vm.model.routes.model + '</b>');
 
@@ -5044,6 +5117,7 @@ exports.default = {
                 destroy: {
                     args: [3],
                     path: this.model.destroy(3),
+                    method: this.model.config.methods.destroy,
                     highlightPath: function highlightPath(path) {
                         path = path.replace(vm.model.routes.model, '<b>' + vm.model.routes.model + '</b>');
 
@@ -5053,28 +5127,13 @@ exports.default = {
 
                         return path;
                     }
-                },
-
-                hasRelationship: {
-                    args: ["'tag'", 123, "'latest'"],
-                    path: this.model.hasRelationship('tag', 123, 'latest'),
-                    highlightPath: function highlightPath(path) {
-                        return path.replace(vm.model.routes.model, '<b>' + vm.model.routes.model + '</b>');
-                    }
-                },
-
-                belongsTo: {
-                    args: ["'gallery'", 1234],
-                    path: this.model.collection.belongsTo('gallery', 1234),
-                    highlightPath: function highlightPath(path) {
-                        return path.replace(vm.model.routes.collection, '<b>' + vm.model.routes.collection + '</b>');
-                    }
                 }
+
             };
 
             (0, _lodash4.default)(generated, function (row) {
                 row.path = row.highlightPath(row.path);
-            });
+            }); // `(${row.method.toUpperCase()}) ` +
 
             this.generated = generated;
         }
@@ -5334,8 +5393,8 @@ exports.default = {
     },
     afterRequest: function afterRequest(response) {},
     onError: function onError(response) {},
-    parser: function parser(response) {
-        return response;
+    parser: function parser(data) {
+        return data;
     }
 };
 
@@ -37826,6 +37885,61 @@ module.exports = Vue$3;
 __webpack_require__(83);
 module.exports = __webpack_require__(84);
 
+
+/***/ }),
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _getPrototypeOf = __webpack_require__(53);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(14);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _possibleConstructorReturn2 = __webpack_require__(56);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(55);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _Rapid2 = __webpack_require__(27);
+
+var _Rapid3 = _interopRequireDefault(_Rapid2);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Tag = function (_Rapid) {
+    (0, _inherits3.default)(Tag, _Rapid);
+
+    function Tag() {
+        (0, _classCallCheck3.default)(this, Tag);
+        return (0, _possibleConstructorReturn3.default)(this, (Tag.__proto__ || (0, _getPrototypeOf2.default)(Tag)).apply(this, arguments));
+    }
+
+    return Tag;
+}(_Rapid3.default);
+
+exports.default = new Tag({
+    modelName: 'tag',
+    debug: true,
+    globalParameters: {}
+});
 
 /***/ })
 /******/ ]);

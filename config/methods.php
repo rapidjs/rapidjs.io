@@ -133,6 +133,34 @@ return [
         'returns'             => 'Promise'
     ],
 
+    'hasOne' => [
+        'name'                => 'hasOne',
+
+        'description'         => '',
+
+        'arguments'           => [
+
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'this'
+    ],
+
+    'hasMany' => [
+        'name'                => 'hasMany',
+
+        'description'         => '',
+
+        'arguments'           => [
+
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'this'
+    ],
+
     'belongsTo' => [
         'name'                => 'belongsTo',
 

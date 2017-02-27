@@ -348,6 +348,7 @@
                     find: {
                         args: [1],
                         path: this.model.find(1),
+                        method: 'get',
                         highlightPath (path) {
                             return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
                         }
@@ -356,6 +357,7 @@
                     findBy: {
                         args: ["'key'", "'value'"],
                         path: this.model.findBy('key', 'value'),
+                        method: 'get',
                         highlightPath (path) {
                             return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
                         }
@@ -364,6 +366,7 @@
                     all: {
                         args: [],
                         path: this.model.all(),
+                        method: 'get',
                         highlightPath (path) {
                             return path.replace(vm.model.routes.collection, `<b>${vm.model.routes.collection}</b>`);
                         }
@@ -372,6 +375,7 @@
                     create: {
                         args: [],
                         path: this.model.create(),
+                        method: this.model.config.methods.create,
                         highlightPath (path) {
                             path = path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
 
@@ -386,6 +390,7 @@
                     update: {
                         args: [2],
                         path: this.model.update(2),
+                        method: this.model.config.methods.update,
                         highlightPath (path) {
                             path = path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
 
@@ -400,6 +405,7 @@
                     destroy: {
                         args: [3],
                         path: this.model.destroy(3),
+                        method: this.model.config.methods.destroy,
                         highlightPath (path) {
                             path = path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
 
@@ -411,24 +417,24 @@
                         }
                     },
 
-                    hasRelationship: {
-                        args: ["'tag'", 123, "'latest'"],
-                        path: this.model.hasRelationship('tag', 123, 'latest'),
-                        highlightPath (path) {
-                            return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
-                        }
-                    },
-
-                    belongsTo: {
-                        args: ["'gallery'", 1234],
-                        path: this.model.collection.belongsTo('gallery', 1234),
-                        highlightPath (path) {
-                            return path.replace(vm.model.routes.collection, `<b>${vm.model.routes.collection}</b>`);
-                        }
-                    }
+                    // hasRelationship: {
+                    //     args: ["'tag'", 123, "'latest'"],
+                    //     path: this.model.hasRelationship('tag', 123, 'latest').get(),
+                    //     highlightPath (path) {
+                    //         return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                    //     }
+                    // },
+                    //
+                    // belongsTo: {
+                    //     args: ["'gallery'", 1234],
+                    //     path: this.model.collection.belongsTo('gallery', 1234),
+                    //     highlightPath (path) {
+                    //         return path.replace(vm.model.routes.collection, `<b>${vm.model.routes.collection}</b>`);
+                    //     }
+                    // }
                 };
 
-                _forEach(generated, (row) => { row.path = row.highlightPath(row.path); });
+                _forEach(generated, (row) => { row.path = row.highlightPath(row.path); }); // `(${row.method.toUpperCase()}) ` +
 
                 this.generated = generated;
             }

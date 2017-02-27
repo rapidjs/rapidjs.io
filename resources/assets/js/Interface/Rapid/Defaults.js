@@ -56,7 +56,7 @@ export default {
 
     },
 
-    parser (response) {
-        return response;
+    parser (data) {
+        return data;
     }
 };

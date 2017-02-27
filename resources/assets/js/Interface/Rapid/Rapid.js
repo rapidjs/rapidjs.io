@@ -12,10 +12,13 @@ import Defaults from './Defaults';
 class Rapid {
 
     constructor (config) {
-
         config = config || {};
 
-        this.initialize(config, Defaults);
+        // merge defaults and config
+        config = _defaultsDeep(config, Defaults);
+
+        this.initialize(config);
+
     }
 
     /**
@@ -25,14 +28,18 @@ class Rapid {
 
     }
 
-    initialize (config, defaults) {
+    /**
+     * Setup the all of properties.
+     */
+    initialize (config) {
         this.methodRoutes = []; // for debugging and registering routes
+        this.urlParams = false; // for relationships
 
         this.boot();
 
         this.initializeRoutes();
 
-        this.config = _defaultsDeep(config, defaults);
+        this.config = config;
 
         this.fireSetters();
 
@@ -45,6 +52,9 @@ class Rapid {
         this.resetRequestData();
     }
 
+    /**
+     * Initialize the routes.
+     */
     initializeRoutes () {
         this.routes = {
             model      : '',
@@ -53,24 +63,43 @@ class Rapid {
         };
     }
 
+    /**
+     * Fire the setters. This will make sure the routes are generated properly.
+     * Consider if this is really even necessary
+     */
     fireSetters () {
         ['baseURL', 'modelName', 'routeDelimeter', 'caseSensitive'].forEach(setter => this[setter] = this.config[setter]);
     }
 
+    /**
+     * Initialze the debugger if debug is set to true.
+     */
     initializeDebugger () {
-        this.debugger = this.debug ? new Debugger(this) : false;
+        this.debugger = this.config.debug ? new Debugger(this) : false;
     }
 
+    /**
+     * Initialize the API.
+     */
     initializeAPI () {
         this.api = axios.create(_defaultsDeep({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
     }
 
+    /**
+     * Set the current route
+     */
     setCurrentRoute (route) {
         this.currentRoute = route;
     }
 
     /**
      * URL functions
+     */
+
+    /**
+     * Based off the current route that's set this will take a set of params
+     * and split it into a URL. This will then reset the route to the default
+     * route after building the URL.
      */
     makeUrl (...params) {
 
@@ -88,6 +117,10 @@ class Rapid {
         return url;
     }
 
+    /**
+     * This just makes sure there are no double slashes and no trailing
+     * slash unless the config for it is set.
+     */
     sanitizeUrl (url) {
         url = url.replace(/([^:]\/)\/+/g, '$1').replace(/\?$/, '');
 
@@ -103,6 +136,9 @@ class Rapid {
      * Model Only Functions
      */
 
+    /**
+     * Make a GET request to a url that would retrieve a single model.
+     */
     find (id) {
         return this.model.findBy(this.config.primaryKey, id);
     }
@@ -125,7 +161,11 @@ class Rapid {
             urlParams.push(this.config.suffixes[method]);
         }
 
-        return this.request(this.config.methods[method], this.model.makeUrl.call(this, ...urlParams), data);
+        if(method == 'update') {
+            this.withParams(data);
+        }
+
+        return this.request(this.config.methods[method], this.model.makeUrl.call(this, ...urlParams));
     }
 
     // update (id = 0, data, options) {
@@ -180,7 +220,7 @@ class Rapid {
     // let this return this
     // this should set some url params or something...
     // or a url...idk
-    // but this should be able to use any method like this.users().get() || this.users().posts()
+    // but this should be able to use any method like this.users().get() || this.users().post()
     hasRelationship (relation, primaryKey, foreignKey) {
         let urlParams = [];
 
@@ -190,7 +230,9 @@ class Rapid {
             urlParams = [primaryKey, relation, foreignKey];
         }
 
-        return this.get(urlParams);
+        this.urlParams = urlParams;
+
+        return this;
     }
 
     // what if we want to define a relationship for posting to
@@ -207,12 +249,17 @@ class Rapid {
     }
 
     hasMany (relation, primaryKey, foreignKey) {
+
         // take a class in and pass to hasRelationship with route
         if(typeof relation == 'object') {
             relation = relation.routes.collection;
         }
 
         return this.hasRelationship(relation, primaryKey, foreignKey);
+    }
+
+    registerBelongsTo () {
+        //
     }
 
     /**
@@ -240,6 +287,10 @@ class Rapid {
 
     belongsToMany () {
 
+    }
+
+    registerRelationship (name, relation) {
+        this.relationships[name] = relation;
     }
 
     /**
@@ -276,9 +327,14 @@ class Rapid {
         this.config.onError(error);
     }
 
-    request (type, url) {
+    parseData (data) {
+        return this.config.parseData(data);
+    }
 
-        if(this.debug) {
+    request (type, url) {
+        type = type.toLowerCase();
+
+        if(this.config.debug) {
             return this.debugger.fakeRequest(type, url);
         }
 
@@ -289,6 +345,8 @@ class Rapid {
                  .then(response => {
                     this.resetRequestData();
                     this.afterRequest(response);
+
+                    response.data = this.parseData(response.data);
 
                     resolve(response);
                  })
@@ -312,6 +370,11 @@ class Rapid {
      * to build a request url
      */
     buildRequest (type, urlParams) {
+
+        if(this.urlParams) {
+            urlParams = this.urlParams;
+        }
+
         let url = _isArray(urlParams) ? this.makeUrl(...urlParams) : this.makeUrl(urlParams);
 
         return this.request(type, url);
@@ -371,26 +434,12 @@ class Rapid {
         return this;
     }
 
-    withHeaders (header = {}) {
-
-        return this;
-    }
-
-    withHeader (key, value) {
-
-        return this;
-    }
-
     /**
      * Setters and Getters
      */
 
-    get debug () {
-        return this.config.debug;
-    }
-
     set debug (val) {
-        Logger.warn('debug mode must explcitly be turned on via the constructor in config.debug');
+        Logger.warn('debug mode must explicitly be turned on via the constructor in config.debug');
     }
 
     get collection () {

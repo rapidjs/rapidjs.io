@@ -822,10 +822,15 @@ var Rapid = function () {
 
             this.resetRequestData();
         }
+
+        /**
+         * Reset an URL params set from a relationship
+         */
+
     }, {
         key: 'resetURLParams',
         value: function resetURLParams() {
-            this.urlParams = false; // for relationships
+            this.urlParams = false;
         }
 
         /**
@@ -1063,6 +1068,10 @@ var Rapid = function () {
                 relation = relation.routes[routes[type]];
             }
 
+            /**
+             * No longer do we need to make ...foreignKey an array because we can do .get() ??
+             * does that make sense?
+             */
             if ((0, _lodash4.default)(foreignKey)) {
                 urlParams = [primaryKey, relation].concat((0, _toConsumableArray3.default)(foreignKey));
             } else {
@@ -1089,9 +1098,13 @@ var Rapid = function () {
         }
     }, {
         key: 'registerBelongsTo',
-        value: function registerBelongsTo() {}
-        //
-
+        value: function registerBelongsTo(type, relation) {
+            var urlParams = [],
+                routes = {
+                belongsTo: 'model',
+                belongsToMany: 'collection'
+            };
+        }
 
         /**
          * belongsTo
@@ -1151,26 +1164,6 @@ var Rapid = function () {
             return requestData;
         }
     }, {
-        key: 'beforeRequest',
-        value: function beforeRequest(type, url) {
-            return this.config.beforeRequest(type, url);
-        }
-    }, {
-        key: 'afterRequest',
-        value: function afterRequest(response) {
-            this.config.afterRequest(response);
-        }
-    }, {
-        key: 'onError',
-        value: function onError(error) {
-            this.config.onError(error);
-        }
-    }, {
-        key: 'parseData',
-        value: function parseData(data) {
-            return this.config.parseData(data);
-        }
-    }, {
         key: 'request',
         value: function request(type, url) {
             var _this2 = this;
@@ -1208,6 +1201,31 @@ var Rapid = function () {
                 params: {},
                 options: {}
             };
+        }
+
+        /**
+         * Config request methods
+         */
+
+    }, {
+        key: 'beforeRequest',
+        value: function beforeRequest(type, url) {
+            return this.config.beforeRequest(type, url);
+        }
+    }, {
+        key: 'afterRequest',
+        value: function afterRequest(response) {
+            this.config.afterRequest(response);
+        }
+    }, {
+        key: 'onError',
+        value: function onError(error) {
+            this.config.onError(error);
+        }
+    }, {
+        key: 'parseData',
+        value: function parseData(data) {
+            return this.config.parseData(data);
         }
 
         /**
@@ -2333,9 +2351,20 @@ var Logger = function () {
         (0, _classCallCheck3.default)(this, Logger);
 
         this.prefix = prefix;
+        this.firedDebugNotice = false;
+        this.fireDebugNotice();
     }
 
     (0, _createClass3.default)(Logger, [{
+        key: 'fireDebugNotice',
+        value: function fireDebugNotice() {
+            if (!this.firedDebugNotice) {
+                this.debug('You are running Rapid in debug mode. All requests will be mimicked.');
+
+                this.firedDebugNotice = true;
+            }
+        }
+    }, {
         key: 'debug',
         value: function debug(message) {
             console.info('[' + this.prefix + ']: ' + message);

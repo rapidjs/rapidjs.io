@@ -240,6 +240,10 @@ class Rapid {
             relation = relation.routes[routes[type]];
         }
 
+        /**
+         * No longer do we need to make ...foreignKey an array because we can do .get() ??
+         * does that make sense?
+         */
         if(_isArray(foreignKey)) {
             urlParams = [primaryKey, relation, ...foreignKey];
         } else {
@@ -262,8 +266,12 @@ class Rapid {
         return this.registerHasRelation('hasMany', relation, primaryKey, foreignKey);
     }
 
-    registerBelongsTo () {
-        //
+    registerBelongsTo (type, relation) {
+        let urlParams = [],
+            routes = {
+                belongsTo: 'model',
+                belongsToMany: 'collection'
+            };
     }
 
     /**

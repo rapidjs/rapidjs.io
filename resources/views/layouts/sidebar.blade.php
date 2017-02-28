@@ -27,13 +27,16 @@
         </ul>
 
 
-        <a class="sidebar__title" href="#methods">Methods</a>
+        <a class="sidebar__title" href="#methods">Basic CRUD</a>
 
         <ul class="sidebar__nav">
             @foreach(config('methods') as $method => $data)
                 <li><a href="#method-{{ $method }}">{{ $method }}</a></li>
             @endforeach
         </ul>
+
+        <a class="sidebar__title" href="#methods">Relationships</a>
+
 
         <a class="sidebar__title" href="#debugging">Debugging</a>
 

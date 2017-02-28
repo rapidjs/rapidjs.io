@@ -15,7 +15,7 @@ class TestModel extends Rapid {
     }
 
     media (id, params) {
-        return this.collection.hasRelationship(id, ['media', 'recent'], params);
+        // return this.collection.hasRelationship(id, ['media', 'recent'], params);
         // return this.model.hasRelationship(id, ['media', 'recent'], params).get();
     }
 
@@ -24,7 +24,7 @@ class TestModel extends Rapid {
     }
 
     votes (id, params) {
-        return this.model.hasRelationship(id, 'votes', params);
+        // return this.model.hasRelationship(id, 'votes', params);
     }
 
     user () {
@@ -36,7 +36,7 @@ class TestModel extends Rapid {
     }
 
     tags () {
-        return this.hasMany(Tag, 1234);
+        return this.hasMany('tags', 1234);
     }
 }
 

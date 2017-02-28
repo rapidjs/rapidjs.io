@@ -32,12 +32,14 @@ class Rapid {
      * Setup the all of properties.
      */
     initialize (config) {
-        this.methodRoutes = []; // for debugging and registering routes
-        this.urlParams = false; // for relationships
+        this.methodRoutes  = []; // for debugging and registering routes
+        this.relationships = {}; // any relationships that are now accessible
 
         this.boot();
 
         this.initializeRoutes();
+
+        this.resetURLParams();
 
         this.config = config;
 
@@ -50,6 +52,13 @@ class Rapid {
         this.initializeDebugger();
 
         this.resetRequestData();
+    }
+
+    /**
+     * Reset an URL params set from a relationship
+     */
+    resetURLParams () {
+        this.urlParams = false;
     }
 
     /**
@@ -184,7 +193,7 @@ class Rapid {
     }
 
     create (data) {
-        return this.withParams(data).request(this.config.methods.create, this.model.makeUrl(this.config.suffixes.create));
+        return this.withParams(data).buildRequest(this.config.methods.create, this.config.suffixes.create);
     }
 
 
@@ -201,14 +210,14 @@ class Rapid {
      * Collection and Model functions
      */
 
-    findBy (key, value, data, options) {
+    findBy (key, value) {
         let urlParams = [key];
 
         if(value) {
             urlParams.push(value);
         }
 
-        return this.request('get', this.makeUrl(...urlParams), data, options);
+        return this.get(urlParams);
     }
 
     /**
@@ -217,12 +226,19 @@ class Rapid {
 
     // primray key, foreign key, relation
 
-    // let this return this
-    // this should set some url params or something...
-    // or a url...idk
-    // but this should be able to use any method like this.users().get() || this.users().post()
-    hasRelationship (relation, primaryKey, foreignKey) {
-        let urlParams = [];
+    // allow for this.tags().get('green')
+    registerHasRelation (type, relation, primaryKey, foreignKey) {
+        let urlParams = [],
+            routes = {
+                hasOne: 'model',
+                hasMany: 'collection'
+            };
+
+        if(typeof relation == 'object') {
+            this.registerRelationship(relation.routes[routes[type]], relation);
+
+            relation = relation.routes[routes[type]];
+        }
 
         if(_isArray(foreignKey)) {
             urlParams = [primaryKey, relation, ...foreignKey];
@@ -239,23 +255,11 @@ class Rapid {
     // consider this too
 
     hasOne (relation, primaryKey, foreignKey) {
-
-        // take a class in and pass to hasRelationship with route
-        if(typeof relation == 'object') {
-            relation = relation.routes.model;
-        }
-
-        return this.hasRelationship(relation, primaryKey, foreignKey);
+        return this.registerHasRelation('hasOne', relation, primaryKey, foreignKey);
     }
 
     hasMany (relation, primaryKey, foreignKey) {
-
-        // take a class in and pass to hasRelationship with route
-        if(typeof relation == 'object') {
-            relation = relation.routes.collection;
-        }
-
-        return this.hasRelationship(relation, primaryKey, foreignKey);
+        return this.registerHasRelation('hasMany', relation, primaryKey, foreignKey);
     }
 
     registerBelongsTo () {
@@ -315,22 +319,6 @@ class Rapid {
         return requestData;
     }
 
-    beforeRequest (type, url) {
-        return this.config.beforeRequest(type, url);
-    }
-
-    afterRequest (response) {
-        this.config.afterRequest(response);
-    }
-
-    onError (error) {
-        this.config.onError(error);
-    }
-
-    parseData (data) {
-        return this.config.parseData(data);
-    }
-
     request (type, url) {
         type = type.toLowerCase();
 
@@ -367,12 +355,33 @@ class Rapid {
     }
 
     /**
+     * Config request methods
+     */
+    beforeRequest (type, url) {
+        return this.config.beforeRequest(type, url);
+    }
+
+    afterRequest (response) {
+        this.config.afterRequest(response);
+    }
+
+    onError (error) {
+        this.config.onError(error);
+    }
+
+    parseData (data) {
+        return this.config.parseData(data);
+    }
+
+
+    /**
      * to build a request url
      */
     buildRequest (type, urlParams) {
 
         if(this.urlParams) {
-            urlParams = this.urlParams;
+            urlParams = this.urlParams.concat(urlParams);
+            this.resetURLParams();
         }
 
         let url = _isArray(urlParams) ? this.makeUrl(...urlParams) : this.makeUrl(urlParams);

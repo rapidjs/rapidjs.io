@@ -194,23 +194,23 @@ $configuration = [
         'since'       => '0.0.1'
     ],
 
-    'beforeRequest' => [
-        'name'        => 'beforeRequest',
-
-        'type'        => 'function',
-
-        'description' => '',
-
-        'default'     => "
-beforeRequest (type, url) {
-    return true;
-}
-",
-
-        'multiline'   => true,
-
-        'since'       => '0.0.1'
-    ],
+//     'beforeRequest' => [
+//         'name'        => 'beforeRequest',
+//
+//         'type'        => 'function',
+//
+//         'description' => '',
+//
+//         'default'     => "
+// beforeRequest (type, url) {
+//     return true;
+// }
+// ",
+//
+//         'multiline'   => true,
+//
+//         'since'       => '0.0.1'
+//     ],
 
     'afterRequest' => [
         'name'        => 'afterRequest',
@@ -248,23 +248,23 @@ onError (error) {
         'since'       => '0.0.1'
     ],
 
-    'parser' => [
-        'name'        => 'parser',
-
-        'type'        => 'function',
-
-        'description' => 'If you\'d like to run all of the request\'s <code class="language-js">response.data</code> through a parser before returning it in the promise, you can do so here.',
-
-        'default'     => "
-parser (data) {
-    return data;
-}
-",
-
-        'multiline'   => true,
-
-        'since'       => '0.0.1'
-    ]
+//     'parser' => [
+//         'name'        => 'parser',
+//
+//         'type'        => 'function',
+//
+//         'description' => 'If you\'d like to run all of the request\'s <code class="language-js">response.data</code> through a parser before returning it in the promise, you can do so here.',
+//
+//         'default'     => "
+// parser (data) {
+//     return data;
+// }
+// ",
+//
+//         'multiline'   => true,
+//
+//         'since'       => '0.0.1'
+//     ]
 
 ];
 

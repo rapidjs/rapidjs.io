@@ -10,9 +10,9 @@ class TestModel extends Rapid {
         // this.methodRoutes = ['posts', 'media', 'recentMedia', 'votes'];
 
         this.addRelationship('hasOne', UserModel);
-        this.hasMany('tags');
-        this.hasMany(UserModel);
+        this.addRelationship('hasMany', UserModel);
         this.addRelationship('hasOne', 'gallery');
+        console.log('hiasdsadsad')
 
     }
 
@@ -33,16 +33,8 @@ class TestModel extends Rapid {
         // return this.model.hasRelationship(id, 'votes', params);
     }
 
-    user () {
-        // return this.hasOne(UserModel, 235, 19);
-    }
-
-    users () {
-        // return this.hasMany(UserModel, 999, 'verified');
-    }
-
-    tags () {
-        // return this.hasMany('tags', 1234);
+    foodies () {
+        return this.hasOne(UserModel, 235, 19);
     }
 }
 

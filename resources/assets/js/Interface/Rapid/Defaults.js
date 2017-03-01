@@ -44,19 +44,11 @@ export default {
 
     },
 
-    beforeRequest (type, url) {
-        return true;
-    },
-
     afterRequest (response) {
 
     },
 
     onError (response) {
 
-    },
-
-    parser (data) {
-        return data;
     }
 };

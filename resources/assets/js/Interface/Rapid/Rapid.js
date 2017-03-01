@@ -239,15 +239,75 @@ class Rapid {
      *
      *
      *
-     * 
+     *
      */
     hasOne (relation, primaryKey, foreignKey) {
-        return this.registerHasRelation('hasOne', relation, primaryKey, foreignKey);
+        return this.hasRelationship('hasOne', relation, primaryKey, foreignKey);
     }
 
     hasMany (relation, primaryKey, foreignKey) {
-        return this.registerHasRelation('hasMany', relation, primaryKey, foreignKey);
+        return this.hasRelationship('hasMany', relation, primaryKey, foreignKey);
     }
+
+    addRelationship (type, relation) {
+        let hasMethods = ['hasOne', 'hasMany'];
+
+        if(hasMethods.includes(type)) {
+            this.registerHasRelation(type, relation);
+        }
+    }
+
+    registerHasRelation (type, relation) {
+        let relationRoute = this.getRouteByRelationType(type, relation);
+
+        this[relationRoute] = ( (type, route) => { return () => { return this.hasRelationship(type, route); } } )(type, relationRoute);
+
+        return this;
+    }
+
+    /**
+     * This gets the route of the relationship if a relationship
+     * is passed rather than a string.
+     */
+    getRouteByRelationType (type, relation) {
+        let relationRoute = relation,
+            routes        = {
+                hasOne: 'model',
+                hasMany: 'collection',
+                belongsTo: 'model',
+                belongsToMany: 'collection'
+            };
+
+        if(typeof relation == 'object') {
+            relationRoute = relation.routes[routes[type]];
+
+            this.relationships[relationRoute] = relation;
+        }
+
+        return relationRoute;
+    }
+
+    // allow for this.tags().get('green')
+    hasRelationship (type, relation = '', primaryKey = '', foreignKey = '') {
+        let urlParams = [];
+
+        relation = this.getRouteByRelationType(type, relation);
+
+        /**
+         * No longer do we need to make ...foreignKey an array because we can do .get() ??
+         * does that make sense?
+         */
+        if(_isArray(foreignKey)) {
+            urlParams = [primaryKey, relation, ...foreignKey];
+        } else {
+            urlParams = [primaryKey, relation, foreignKey];
+        }
+
+        this.urlParams = urlParams;
+
+        return this;
+    }
+
 
     registerBelongsTo (type, relation) {
         let urlParams = [],
@@ -284,55 +344,6 @@ class Rapid {
 
     }
 
-    addRelationship (type, relation) {
-        let hasMethods = ['hasOne', 'hasMany'];
-
-        if(hasMethods.includes(type)) {
-            this.registerHasRelation(type, relation);
-        }
-    }
-
-    registerHasRelation (type, relation) {
-        let relationRoute = relation,
-            routes        = {
-                hasOne: 'model',
-                hasMany: 'collection'
-            };
-
-        /**
-         * This sets the route of the relationship if a relationship
-         * is passed rather than a string.
-         */
-        if(typeof relation == 'object') {
-            relationRoute = relation.routes[routes[type]];
-
-            this.relationships[relationRoute] = relation;
-        }
-
-        this[relationRoute] = (function (nm) { return function () { return this.hasRelationship(relationRoute); } })(relationRoute);
-
-        // return this[relationRoute];
-    }
-
-    // allow for this.tags().get('green')
-    hasRelationship (relation = '', primaryKey = '', foreignKey = '') {
-        let urlParams = [];
-
-        /**
-         * No longer do we need to make ...foreignKey an array because we can do .get() ??
-         * does that make sense?
-         */
-        if(_isArray(foreignKey)) {
-            urlParams = [primaryKey, relation, ...foreignKey];
-        } else {
-            urlParams = [primaryKey, relation, foreignKey];
-        }
-
-        this.urlParams = urlParams;
-
-        return this;
-    }
-
     /**
      * The Request
      */
@@ -362,15 +373,11 @@ class Rapid {
             return this.debugger.fakeRequest(type, url);
         }
 
-        let beforeRequest = this.beforeRequest(type, url);
-
-        return !beforeRequest ? beforeRequest : new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             this.api[type].call(this, this.sanitizeUrl(url), ...this.parseRequestData(type))
                  .then(response => {
                     this.resetRequestData();
                     this.afterRequest(response);
-
-                    response.data = this.parseData(response.data);
 
                     resolve(response);
                  })
@@ -393,9 +400,6 @@ class Rapid {
     /**
      * Config request methods
      */
-    beforeRequest (type, url) {
-        return this.config.beforeRequest(type, url);
-    }
 
     afterRequest (response) {
         this.config.afterRequest(response);
@@ -403,10 +407,6 @@ class Rapid {
 
     onError (error) {
         this.config.onError(error);
-    }
-
-    parseData (data) {
-        return this.config.parseData(data);
     }
 
 
@@ -554,6 +554,9 @@ class Rapid {
     // generateRoute (routeName)
 
     setRoutes () {
+        // this.routes.keys
+        //
+        //
         ['model', 'collection'].forEach(route => this.setRoute(route));
     }
 }

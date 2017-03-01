@@ -103,35 +103,35 @@ return [
         'returns'             => 'Promise'
     ],
 
-    'hasRelationship' => [
-        'name'                => 'hasRelationship',
-
-        'description'         => 'Generates a GET Request to a relationship on a model/collection.',
-
-        'arguments'           => [
-            [
-                'name'        => 'relation',
-                'type'        => 'string',
-                'description' => 'The relationship name. Given a post that has the relationship comments: <code class="language-markdown">/api/post/12/`comments`</code>'
-            ],
-
-            [
-                'name'        => 'primaryKey',
-                'type'        => 'int',
-                'description' => 'The primaryKey for the model the relationship is being defined for. Given a post that has the relationship comments: <code class="language-markdown">/api/post/`12`/comments</code>'
-            ],
-
-            [
-                'name'        => 'foreignKey|after',
-                'type'        => 'string|int|array',
-                'description' => 'The foreignKey for the the relationship or anything to be appended to the url. Given the above example, these attributes would go here: <code class="language-markdown">/api/post/12/comments/`id|int|array`</code>. If the following array is passed <code class="language-js">[\'latest\', \'meta\']</code> it would produce <code class="language-markdown">/api/post/12/comments/`latest`/`meta`</code>'
-            ]
-        ],
-
-        'since'               => '0.0.1',
-
-        'returns'             => 'Promise'
-    ],
+    // 'hasRelationship' => [
+    //     'name'                => 'hasRelationship',
+    //
+    //     'description'         => 'Generates a GET Request to a relationship on a model/collection.',
+    //
+    //     'arguments'           => [
+    //         [
+    //             'name'        => 'relation',
+    //             'type'        => 'string',
+    //             'description' => 'The relationship name. Given a post that has the relationship comments: <code class="language-markdown">/api/post/12/`comments`</code>'
+    //         ],
+    //
+    //         [
+    //             'name'        => 'primaryKey',
+    //             'type'        => 'int',
+    //             'description' => 'The primaryKey for the model the relationship is being defined for. Given a post that has the relationship comments: <code class="language-markdown">/api/post/`12`/comments</code>'
+    //         ],
+    //
+    //         [
+    //             'name'        => 'foreignKey|after',
+    //             'type'        => 'string|int|array',
+    //             'description' => 'The foreignKey for the the relationship or anything to be appended to the url. Given the above example, these attributes would go here: <code class="language-markdown">/api/post/12/comments/`id|int|array`</code>. If the following array is passed <code class="language-js">[\'latest\', \'meta\']</code> it would produce <code class="language-markdown">/api/post/12/comments/`latest`/`meta`</code>'
+    //         ]
+    //     ],
+    //
+    //     'since'               => '0.0.1',
+    //
+    //     'returns'             => 'Promise'
+    // ],
 
     'hasOne' => [
         'name'                => 'hasOne',

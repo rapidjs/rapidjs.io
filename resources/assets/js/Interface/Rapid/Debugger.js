@@ -3,7 +3,7 @@ import Logger from './Logger';
 import qs from 'qs';
 
 export default class {
-    constructor(caller) {
+    constructor (caller) {
         this.caller           = caller;
         this.data             = {};
         this.logEnabled       = true;

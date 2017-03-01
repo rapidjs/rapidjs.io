@@ -224,40 +224,23 @@ class Rapid {
      * Relationships
      */
 
-    // primray key, foreign key, relation
-
-    // allow for this.tags().get('green')
-    registerHasRelation (type, relation, primaryKey, foreignKey) {
-        let urlParams = [],
-            routes = {
-                hasOne: 'model',
-                hasMany: 'collection'
-            };
-
-        if(typeof relation == 'object') {
-            this.registerRelationship(relation.routes[routes[type]], relation);
-
-            relation = relation.routes[routes[type]];
-        }
-
-        /**
-         * No longer do we need to make ...foreignKey an array because we can do .get() ??
-         * does that make sense?
-         */
-        if(_isArray(foreignKey)) {
-            urlParams = [primaryKey, relation, ...foreignKey];
-        } else {
-            urlParams = [primaryKey, relation, foreignKey];
-        }
-
-        this.urlParams = urlParams;
-
-        return this;
-    }
 
     // what if we want to define a relationship for posting to
     // consider this too
 
+    /**
+     * Get these to work without having to pass into registerHasRelation
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     * 
+     */
     hasOne (relation, primaryKey, foreignKey) {
         return this.registerHasRelation('hasOne', relation, primaryKey, foreignKey);
     }
@@ -301,8 +284,53 @@ class Rapid {
 
     }
 
-    registerRelationship (name, relation) {
-        this.relationships[name] = relation;
+    addRelationship (type, relation) {
+        let hasMethods = ['hasOne', 'hasMany'];
+
+        if(hasMethods.includes(type)) {
+            this.registerHasRelation(type, relation);
+        }
+    }
+
+    registerHasRelation (type, relation) {
+        let relationRoute = relation,
+            routes        = {
+                hasOne: 'model',
+                hasMany: 'collection'
+            };
+
+        /**
+         * This sets the route of the relationship if a relationship
+         * is passed rather than a string.
+         */
+        if(typeof relation == 'object') {
+            relationRoute = relation.routes[routes[type]];
+
+            this.relationships[relationRoute] = relation;
+        }
+
+        this[relationRoute] = (function (nm) { return function () { return this.hasRelationship(relationRoute); } })(relationRoute);
+
+        // return this[relationRoute];
+    }
+
+    // allow for this.tags().get('green')
+    hasRelationship (relation = '', primaryKey = '', foreignKey = '') {
+        let urlParams = [];
+
+        /**
+         * No longer do we need to make ...foreignKey an array because we can do .get() ??
+         * does that make sense?
+         */
+        if(_isArray(foreignKey)) {
+            urlParams = [primaryKey, relation, ...foreignKey];
+        } else {
+            urlParams = [primaryKey, relation, foreignKey];
+        }
+
+        this.urlParams = urlParams;
+
+        return this;
     }
 
     /**

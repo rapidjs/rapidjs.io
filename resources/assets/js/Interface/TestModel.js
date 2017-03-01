@@ -7,7 +7,13 @@ import Tag from './Tag';
 
 class TestModel extends Rapid {
     boot () {
-        this.methodRoutes = ['posts', 'media', 'recentMedia', 'votes'];
+        // this.methodRoutes = ['posts', 'media', 'recentMedia', 'votes'];
+
+        this.addRelationship('hasOne', UserModel);
+        this.hasMany('tags');
+        this.hasMany(UserModel);
+        this.addRelationship('hasOne', 'gallery');
+
     }
 
     posts (id, params) {
@@ -28,15 +34,15 @@ class TestModel extends Rapid {
     }
 
     user () {
-        return this.hasOne(UserModel, 235, 19);
+        // return this.hasOne(UserModel, 235, 19);
     }
 
     users () {
-        return this.hasMany(UserModel, 999, 'verified');
+        // return this.hasMany(UserModel, 999, 'verified');
     }
 
     tags () {
-        return this.hasMany('tags', 1234);
+        // return this.hasMany('tags', 1234);
     }
 }
 

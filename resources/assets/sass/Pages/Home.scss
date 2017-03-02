@@ -63,7 +63,21 @@ $color-hero-bg: #282e37;
 
     &__callout {
         background-color: $color-white;
-        height: 100px;
+        padding: 50px 0;
+
+        &__logos {
+            @include flex();
+            align-items: center;
+            justify-content: center;
+        }
+
+        &__logo {
+            margin-right: 50px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
     }
 
     &__inner {

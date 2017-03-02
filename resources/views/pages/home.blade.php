@@ -26,7 +26,17 @@
     </div>
 
     <div class="home__callout">
-
+        <div class="home__callout__inner wrapper">
+            <div class="container fb-grid row home__callout__logos">
+                @foreach (config('logos') as $logo)
+                    <div class="home__callout__logo">
+                        <a target="_blank" href="{{ $logo['url'] }}">
+                            <img src="/images/{{ $logo['logo'] }}" alt="{{ $logo['name'] }}">
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 
     <div class="home__inner">

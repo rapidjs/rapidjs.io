@@ -4,6 +4,20 @@ import prism from './Vendor/prism';
 import Rapid from './Interface/Rapid/Rapid';
 import Testies from './Interface/TestModel';
 
+var Normalizer = require('prismjs/plugins/normalize-whitespace/prism-normalize-whitespace');
+
+Prism.plugins.NormalizeWhitespace.setDefaults({
+	'remove-trailing': true,
+	'remove-indent': true,
+	'left-trim': true,
+	'right-trim': true,
+	/*'break-lines': 80,
+	'indent': 2,
+	'remove-initial-line-feed': false,
+	'tabs-to-spaces': 4,
+	'spaces-to-tabs': 4*/
+});
+
 window.Vue = Vue;
 
 window.rapidjs = Testies;

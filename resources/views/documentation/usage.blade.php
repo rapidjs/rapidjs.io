@@ -6,11 +6,9 @@ var Post = new Rapid({ modelName: 'post' })
 
 
 <pre><code class="language-js">
-Post.find(1).then(function (response) { // GET => /api/post/id/1
-    console.log(response.data.post);
-});
 
-Post.model.findBy('slug', 'my-post-name').then(function (response) { // GET => /api/post/slug/my-post-name
+
+Post.model.findBy('category', 'my-post-name').then(function (response) { // GET => /api/post/slug/my-post-name
     console.log(response.data.post);
 });
 

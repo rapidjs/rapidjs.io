@@ -13,8 +13,12 @@
 
 Route::get('/', function () {
     return view('pages.home');
-});
+})->name('home');
+
+Route::get('/docs', function () {
+    return view('pages.documentation');
+})->name('docs');
 
 Route::get('/documentation', function () {
-    return view('pages.documentation');
-});
+    return redirect('docs');
+})->name('docs');

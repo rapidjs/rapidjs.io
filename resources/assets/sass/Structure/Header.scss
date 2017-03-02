@@ -9,9 +9,22 @@
 
     .rapidjs-logo {
         font-size: 32px;
-        font-family: 'Miriam Libre', sans-serif;
+        @include webfont('Miriam Libre');
+        color: $color-black;
+        transition: all ease .2s;
+
+        &:hover {
+            text-decoration: none;
+            color: $color-blue;
+
+            span {
+                color: $color-black;
+            }
+        }
 
         span {
+            transition: all ease .5s;
+
             color: $color-blue;
         }
     }
@@ -28,7 +41,7 @@
 @include when-wider-than(small_desktop) {
     .header {
         margin-bottom: 0;
-        
+
         &__inner {
             width: $small-desktop;
         }

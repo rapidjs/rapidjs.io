@@ -196,6 +196,10 @@ class Rapid {
         return this.withParams(data).buildRequest(this.config.methods.create, this.config.suffixes.create);
     }
 
+    route () {
+        // get the route that would be generated ?
+    }
+
 
 
     /**
@@ -224,23 +228,6 @@ class Rapid {
      * Relationships
      */
 
-
-    // what if we want to define a relationship for posting to
-    // consider this too
-
-    /**
-     * Get these to work without having to pass into registerHasRelation
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     *
-     */
     hasOne (relation, primaryKey, foreignKey) {
         return this.hasRelationship('hasOne', relation, primaryKey, foreignKey);
     }
@@ -262,7 +249,7 @@ class Rapid {
 
         this[relationRoute] = (
             (type, route) => {
-                return (primaryKey, foreignKey) => { return this.hasRelationship(type, route, primaryKey, foreignKey); } 
+                return (primaryKey, foreignKey) => { return this.hasRelationship(type, route, primaryKey, foreignKey); }
             }
         )(type, relationRoute);
 

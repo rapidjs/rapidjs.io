@@ -7,8 +7,12 @@
 
 @import 'Structure/Core';
 @import 'Structure/Header';
+@import 'Structure/Footer';
 @import 'Structure/Sidebar';
 @import 'Structure/Documentation';
 
+@import 'Pages/Home';
+
 @import 'Vendor/Prism';
+@import 'Vendor/Prism--Dark';
 @import 'Vendor/FlexboxGrid';

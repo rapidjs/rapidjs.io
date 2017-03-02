@@ -1022,6 +1022,10 @@ var Rapid = function () {
         key: 'route',
         value: function route() {}
         // get the route that would be generated ?
+        //
+        //
+        //
+        // come back to this in a later version
 
 
         /**
@@ -2485,7 +2489,6 @@ var TestModel = function (_Rapid) {
             this.addRelationship('hasOne', _UserModel2.default);
             this.addRelationship('hasMany', _UserModel2.default);
             this.addRelationship('hasOne', 'gallery');
-            console.log('hiasdsadsad');
         }
     }, {
         key: 'posts',

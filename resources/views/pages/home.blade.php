@@ -19,7 +19,7 @@
 
         <div class="home__hero__inner">
             <h1 class="home__hero__title">Rapidly Interact With APIs</h1>
-            <h1 class="home__hero__subtitle">Create simple, resusable, and cleaner interfaces to for your API calls that just make sense.</h1>
+            <h1 class="home__hero__subtitle">Create simple, resusable, and cleaner interfaces to for your API calls that make sense.</h1>
 
             <a href="{{ route('docs') }}" class="home__hero__btn">Get Started</a>
         </div>
@@ -63,7 +63,7 @@
                                     // GET => /api/posts?limit=20&order=desc
                                 });
 
-                                Post.update(25, { name: 'Rapid JS Is Awesome' })
+                                Post.update(25, { title: 'Rapid JS Is Awesome!' })
                                     // POST => /api/posts/25/update
 
                                 Post.destroy(9)
@@ -90,7 +90,7 @@
                                     trailingSlash: true
                                  });
 
-                                Post.update(25, { name: 'Rapid JS Is Awesome' })
+                                Post.update(25, { title: 'Rapid JS Is Awesome!' })
                                     // POST => /api/posts/25/save/
 
                                 Post.destroy(9)
@@ -104,32 +104,70 @@
 
     </div>
 
+    <div class="home__callout">
+        <div class="home__callout__inner wrapper">
+            <div class="container fb-grid row">
+                github or get started
+
+            </div>
+        </div>
+    </div>
+
+    <div class="home__inner">
+
+        <div class="home wrapper">
+            <div class="container fb-grid row home__side-by-side">
+                <div class="fb-grid col-xs-12 col-md-7  home__side-by-side__section home__side-by-side__section--lowered">
+                    <h3>Extend Rapid With Ease</h3>
+                    <div class="home__side-by-side__inner dark-block">
+                        <pre>
+                            <code class="language-js">
+                                import Photo from './Model/Photo';
+
+                                class Gallery extends Rapid {
+                                    boot () {
+                                        this.addRelationship('hasMany', Photo);
+                                        this.addRelationship('hasOne', new Rapid({ modelName: 'user' }));
+                                    }
+                                }
+
+                                Gallery.photos(234).get() // GET => /api/gallery/234/photos
+
+                                Gallery.user(234).get() // GET => /api/gallery/234/user
+
+                                /* access relationship methods */
+                                Gallery.relationships.user.find(123) // GET => /api/user/123
+
+                                Gallery.relationships.photos.delete(567) // GET => /api/photos/567
+                            </code>
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="fb-grid col-xs-12 col-md-5 home__side-by-side__section">
+                    <h3>Define Simple Relationships</h3>
+                    <div class="home__side-by-side__inner dark-block">
+                        <pre>
+                            <code class="language-js">
+                                var Post    = new Rapid({ modelName: 'post' }),
+                                    Comment = new Rapid({ modelName: 'Comment' }),
+                                    Author  = new Rapid({ modelName: 'post' });
+
+                                Post.belongsTo(Author, 23).get()
+                                    // GET => /api/author/23/posts
+
+                                Post.hasMany(Comment, 45).get()
+                                    // GET => /api/post/45/comments
+
+                                Post.hasMany('category', 'featured').get()
+                                    // GET => /api/post/category/featured
+                            </code>
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 @endsection
-
-
-
-
-        {{-- <div class="fb-grid col-xs-12 col-md-6">
-            <h3>Extend Rapid</h3>
-
-            <pre><code class="language-js">
-
-
-import Photo from './Model/Photo';
-
-class Gallery extends Rapid {
-boot () {
-    this.addRelationship('hasMany', Photo);
-    this.addRelationship('hasOne', new Rapid({ modelName: 'user' }));
-}
-}
-
-Gallery.photos(234).get() // GET => /api/gallery/234/photos
-
-Gallery.user(234).get() // GET => /api/gallery/234/user
-
-// access relationship methods
-Gallery.relationships.user.find(123) // GET => /api/user/123
-
-            </code></pre>
-        </div> --}}

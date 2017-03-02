@@ -12,7 +12,6 @@ class TestModel extends Rapid {
         this.addRelationship('hasOne', UserModel);
         this.addRelationship('hasMany', UserModel);
         this.addRelationship('hasOne', 'gallery');
-        console.log('hiasdsadsad')
 
     }
 

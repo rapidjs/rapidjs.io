@@ -15,7 +15,7 @@
         <div id="app">
             <div class="header">
                 <div class="header__inner">
-                    <a href="/" class="rapidjs-logo">r<span>api</span>d js</a>
+                    <a href="/" class="rapidjs-logo">r<span><span>a</span><span>p</span><span>i</span></span>d js</a>
                 </div>
 
             </div>

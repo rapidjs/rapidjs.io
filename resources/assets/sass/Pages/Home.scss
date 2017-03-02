@@ -91,21 +91,24 @@ $color-hero-bg: #282e37;
             background: $color-white;
             padding: 15px 0;
 
+            h3 {
+                font-weight: normal;
+                margin-bottom: 20px;
+                margin-top: 0;
+                margin-left: 15px;
+                @include webfont('Miriam Libre');
+            }
+
             &--lowered {
                 background-color: $color-blue;
 
                 h3 {
                     color: $color-white;
+                    margin-bottom: 10px;
                 }
             }
 
-            h3 {
-                font-weight: normal;
-                margin-bottom: 10px;
-                margin-top: 0;
-                margin-left: 15px;
-                @include webfont('Miriam Libre');
-            }
+
         }
 
         &__inner {

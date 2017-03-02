@@ -117,35 +117,8 @@
 
         <div class="home wrapper">
             <div class="container fb-grid row home__side-by-side">
-                <div class="fb-grid col-xs-12 col-md-7  home__side-by-side__section home__side-by-side__section--lowered">
-                    <h3>Extend Rapid With Ease</h3>
-                    <div class="home__side-by-side__inner dark-block">
-                        <pre>
-                            <code class="language-js">
-                                import Photo from './Model/Photo';
-
-                                class Gallery extends Rapid {
-                                    boot () {
-                                        this.addRelationship('hasMany', Photo);
-                                        this.addRelationship('hasOne', new Rapid({ modelName: 'user' }));
-                                    }
-                                }
-
-                                Gallery.photos(234).get() // GET => /api/gallery/234/photos
-
-                                Gallery.user(234).get() // GET => /api/gallery/234/user
-
-                                /* access relationship methods */
-                                Gallery.relationships.user.find(123) // GET => /api/user/123
-
-                                Gallery.relationships.photos.delete(567) // GET => /api/photos/567
-                            </code>
-                        </pre>
-                    </div>
-                </div>
-
-                <div class="fb-grid col-xs-12 col-md-5 home__side-by-side__section">
-                    <h3>Define Simple Relationships</h3>
+                <div class="fb-grid col-xs-12 col-md-5  home__side-by-side__section home__side-by-side__section--lowered">
+                    <h3>Access Simple Relationships</h3>
                     <div class="home__side-by-side__inner dark-block">
                         <pre>
                             <code class="language-js">
@@ -159,8 +132,44 @@
                                 Post.hasMany(Comment, 45).get()
                                     // GET => /api/post/45/comments
 
-                                Post.hasMany('category', 'featured').get()
-                                    // GET => /api/post/category/featured
+                                Comment.belongsTo(Post, 45).get()
+                                    // GET => /api/post/45/comments
+
+                                Comment.hasOne(Author, 12345).get()
+                                    // GET => /api/comment/12345/author
+
+                                Author.hasMany(Post, 'drew').get()
+                                    // GET /api/author/drew/posts
+                            </code>
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="fb-grid col-xs-12 col-md-7 home__side-by-side__section">
+                    <h3>Or Easily Extend Rapid For Reusable Relationships</h3>
+                    <div class="home__side-by-side__inner dark-block">
+                        <pre>
+                            <code class="language-js">
+                                import Photo from './Model/Photo';
+
+                                class Gallery extends Rapid {
+                                    boot () {
+                                        this.addRelationship('hasMany', Photo);
+                                        this.addRelationship('hasOne', new Rapid({ modelName: 'user' }));
+                                    }
+                                }
+
+                                var Gallery = new Gallery({ modelName: 'gallery' });
+
+                                Gallery.photos(234).get() // GET => /api/gallery/234/photos
+
+                                Gallery.user(234).get() // GET => /api/gallery/234/user
+                                
+
+                                /* access relationship methods */
+                                Gallery.relationships.user.find(123) // GET => /api/user/123
+
+                                Gallery.relationships.photos.delete(567) // GET => /api/photos/567
                             </code>
                         </pre>
                     </div>

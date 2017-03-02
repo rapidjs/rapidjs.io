@@ -44,6 +44,10 @@ export default {
 
     },
 
+    beforeRequest (type, url) {
+
+    },
+
     afterRequest (response) {
 
     },

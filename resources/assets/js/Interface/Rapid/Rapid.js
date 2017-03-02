@@ -260,7 +260,11 @@ class Rapid {
     registerHasRelation (type, relation) {
         let relationRoute = this.getRouteByRelationType(type, relation);
 
-        this[relationRoute] = ( (type, route) => { return () => { return this.hasRelationship(type, route); } } )(type, relationRoute);
+        this[relationRoute] = (
+            (type, route) => {
+                return (primaryKey, foreignKey) => { return this.hasRelationship(type, route, primaryKey, foreignKey); } 
+            }
+        )(type, relationRoute);
 
         return this;
     }
@@ -373,6 +377,8 @@ class Rapid {
             return this.debugger.fakeRequest(type, url);
         }
 
+        this.beforeRequest(type, url);
+
         return new Promise((resolve, reject) => {
             this.api[type].call(this, this.sanitizeUrl(url), ...this.parseRequestData(type))
                  .then(response => {
@@ -400,6 +406,9 @@ class Rapid {
     /**
      * Config request methods
      */
+    beforeRequest (type, url) {
+        return this.config.beforeRequest(type, url);
+    }
 
     afterRequest (response) {
         this.config.afterRequest(response);

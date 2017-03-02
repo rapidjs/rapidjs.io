@@ -194,23 +194,23 @@ $configuration = [
         'since'       => '0.0.1'
     ],
 
-//     'beforeRequest' => [
-//         'name'        => 'beforeRequest',
-//
-//         'type'        => 'function',
-//
-//         'description' => '',
-//
-//         'default'     => "
-// beforeRequest (type, url) {
-//     return true;
-// }
-// ",
-//
-//         'multiline'   => true,
-//
-//         'since'       => '0.0.1'
-//     ],
+    'beforeRequest' => [
+        'name'        => 'beforeRequest',
+
+        'type'        => 'function',
+
+        'description' => '',
+
+        'default'     => "
+beforeRequest (type, url) {
+
+}
+",
+
+        'multiline'   => true,
+
+        'since'       => '0.0.1'
+    ],
 
     'afterRequest' => [
         'name'        => 'afterRequest',

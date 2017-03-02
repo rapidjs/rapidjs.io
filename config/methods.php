@@ -188,7 +188,7 @@ return [
             [
                 'name'        => 'after',
                 'type'        => 'int|string|array',
-                'description' => 'The primaryKey for the model the relationship is being defined for. Given a post that has the relationship comments: <code class="language-markdown">/api/post/`12`/comments</code>'
+                'description' => 'The primaryKey for the model the relationship is being defined for. Given a post that has the relationship comments: <code cs="language-markdown">/api/post/`12`/comments</code>'
             ],
         ],
 

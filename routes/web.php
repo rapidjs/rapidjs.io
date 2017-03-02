@@ -12,5 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('layouts.master');
+    return view('pages.home');
+});
+
+Route::get('/documentation', function () {
+    return view('pages.documentation');
 });

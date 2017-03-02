@@ -1093,8 +1093,8 @@ var Rapid = function () {
             var relationRoute = this.getRouteByRelationType(type, relation);
 
             this[relationRoute] = function (type, route) {
-                return function () {
-                    return _this2.hasRelationship(type, route);
+                return function (primaryKey, foreignKey) {
+                    return _this2.hasRelationship(type, route, primaryKey, foreignKey);
                 };
             }(type, relationRoute);
 
@@ -1226,6 +1226,8 @@ var Rapid = function () {
                 return this.debugger.fakeRequest(type, url);
             }
 
+            this.beforeRequest(type, url);
+
             return new _promise2.default(function (resolve, reject) {
                 var _api$type;
 
@@ -1255,6 +1257,11 @@ var Rapid = function () {
          * Config request methods
          */
 
+    }, {
+        key: 'beforeRequest',
+        value: function beforeRequest(type, url) {
+            return this.config.beforeRequest(type, url);
+        }
     }, {
         key: 'afterRequest',
         value: function afterRequest(response) {
@@ -5461,6 +5468,7 @@ exports.default = {
 
     apiConfig: {},
 
+    beforeRequest: function beforeRequest(type, url) {},
     afterRequest: function afterRequest(response) {},
     onError: function onError(response) {}
 };

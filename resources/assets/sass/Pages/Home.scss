@@ -6,7 +6,7 @@ $color-hero-bg: #282e37;
         height: 360px;
         position: relative;
 
-        &__grid,
+        .svg-grid,
         &__inner {
             position: absolute;
             width: 100%;
@@ -15,7 +15,7 @@ $color-hero-bg: #282e37;
             left: 0;
         }
 
-        &__grid {
+        .svg-grid {
             z-index: 1;
         }
 
@@ -28,7 +28,6 @@ $color-hero-bg: #282e37;
             z-index: 2;
             padding: 0 20px;
         }
-
 
         &__title {
             text-align: center;
@@ -46,26 +45,14 @@ $color-hero-bg: #282e37;
             font-weight: normal;
             @include webfont('Miriam Libre');
         }
-
-        &__btn {
-            background-color: $color-blue;
-            padding: 10px 20px;
-            color: $color-white;
-            font-size: 14px;
-            margin-top: 40px;
-
-            &:hover {
-                text-decoration: none;
-                background-color: darken($color-blue, 5%);
-            }
-        }
     }
 
     &__callout {
         background-color: $color-white;
         padding: 50px 0;
 
-        &__logos {
+        &__logos,
+        &__inner {
             @include flex();
             align-items: center;
             justify-content: center;
@@ -73,16 +60,58 @@ $color-hero-bg: #282e37;
 
         &__logo {
             margin-right: 50px;
+            align-items: center;
+            justify-content: center;
+            @include flex();
+
+            span {
+                display: inline-block;
+                margin-right: 25px;
+                font-size: 22px;
+            }
 
             &:last-child {
                 margin-right: 0;
             }
+
+            &--with-text {
+                margin-right: 25px;
+            }
         }
+
+        &__or {
+            margin-right: 25px;
+            font-weight: bold;
+            color: $color-hero-bg;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        &__action {
+
+        }
+
+
     }
 
     &__inner {
         background-color: $color-hero-bg;
         padding: 50px 0;
+        position: relative;
+
+        .svg-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 2;
+        }
     }
 
     &__side-by-side {

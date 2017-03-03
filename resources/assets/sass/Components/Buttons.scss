@@ -1,0 +1,19 @@
+.rapid-btn {
+    background-color: $color-blue;
+    padding: 10px 20px;
+    color: $color-white;
+    font-size: 16px;
+    margin-top: 40px;
+    transition: all ease .2s;
+    font-weight: bold;
+
+    &:hover {
+        text-decoration: none;
+        background-color: darken($color-blue, 5%);
+    }
+
+    &--med {
+        font-size: 20px;
+        padding: 10px 30px;
+    }
+}

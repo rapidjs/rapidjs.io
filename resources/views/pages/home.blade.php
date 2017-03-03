@@ -5,23 +5,14 @@
 </div>
 
     <div class="home__hero">
-        <div class="home__hero__grid">
-            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
-                        <rect width="30" height="30" fill="url(#smallGrid)"/>
-                        <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#414a59" stroke-width=".5"/>
-                    </pattern>
-                </defs>
-                <rect width="100%" height="100%" fill="url(#grid)" />
-            </svg>
-        </div>
+
+        @include('components.svg-grid')
 
         <div class="home__hero__inner">
             <h1 class="home__hero__title">Rapidly Interact With APIs</h1>
             <h1 class="home__hero__subtitle">Create simple, resusable, and cleaner interfaces to for your API calls that make sense.</h1>
 
-            <a href="{{ route('docs') }}" class="home__hero__btn">Get Started</a>
+            <a href="{{ route('docs') }}" class="rapid-btn">Get Started</a>
         </div>
     </div>
 
@@ -40,6 +31,7 @@
     </div>
 
     <div class="home__inner">
+        @include('components.svg-grid')
 
         <div class="home wrapper">
 
@@ -106,14 +98,28 @@
 
     <div class="home__callout">
         <div class="home__callout__inner wrapper">
-            <div class="container fb-grid row">
-                github or get started
+            <div class="container fb-grid row home__callout__inner">
+
+                <div class="home__callout__logo home__callout__logo--with-text">
+                    <span>View the project on</span>
+
+                    <a target="_blank" href="https://github.com/drewjbartlett/rapidjs">
+                        <img src="/images/github-logo.png" alt="Github">
+                    </a>
+                </div>
+
+                <span class="home__callout__or">or</span>
+
+                <span class="home__callout__action">
+                    <a href="{{ route('docs') }}" class="rapid-btn rapid-btn--med">Read the Docs</a>
+                </span>
 
             </div>
         </div>
     </div>
 
     <div class="home__inner">
+        @include('components.svg-grid')
 
         <div class="home wrapper">
             <div class="container fb-grid row home__side-by-side">
@@ -146,7 +152,7 @@
                 </div>
 
                 <div class="fb-grid col-xs-12 col-md-7 home__side-by-side__section">
-                    <h3>Or Easily Extend Rapid For Reusable Relationships</h3>
+                    <h3>Or Extend Rapid For Reusable Relationships</h3>
                     <div class="home__side-by-side__inner dark-block">
                         <pre>
                             <code class="language-js">
@@ -164,7 +170,7 @@
                                 Gallery.photos(234).get() // GET => /api/gallery/234/photos
 
                                 Gallery.user(234).get() // GET => /api/gallery/234/user
-                                
+
 
                                 /* access relationship methods */
                                 Gallery.relationships.user.find(123) // GET => /api/user/123

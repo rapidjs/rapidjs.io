@@ -10,7 +10,7 @@
 
         <div class="home__hero__inner">
             <h1 class="home__hero__title">Rapidly Interact With APIs</h1>
-            <h1 class="home__hero__subtitle">Create simple, resusable, and cleaner interfaces to for your API calls that make sense.</h1>
+            <h1 class="home__hero__subtitle">Create simple, resusable, and cleaner interfaces to for your API requests that make sense.</h1>
 
             <a href="{{ route('docs') }}" class="rapid-btn">Get Started</a>
         </div>
@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="fb-grid col-xs-12 col-md-5 home__side-by-side__section home__side-by-side__section--lowered">
-                    <h3>Easily Customize Your API Calls</h3>
+                    <h3>Easily Customize Your API Requests</h3>
                     <div class="home__side-by-side__inner dark-block">
                         <pre>
                             <code class="language-js">
@@ -128,9 +128,9 @@
                     <div class="home__side-by-side__inner dark-block">
                         <pre>
                             <code class="language-js">
-                                var Post    = new Rapid({ modelName: 'post' }),
+                                var Post    = new Rapid({ modelName: 'Post' }),
                                     Comment = new Rapid({ modelName: 'Comment' }),
-                                    Author  = new Rapid({ modelName: 'post' });
+                                    Author  = new Rapid({ modelName: 'Author' });
 
                                 Post.belongsTo(Author, 23).get()
                                     // GET => /api/author/23/posts
@@ -158,24 +158,24 @@
                             <code class="language-js">
                                 import Photo from './Model/Photo';
 
-                                class Gallery extends Rapid {
+                                class PhotoGallery extends Rapid {
                                     boot () {
                                         this.addRelationship('hasMany', Photo);
-                                        this.addRelationship('hasOne', new Rapid({ modelName: 'user' }));
+                                        this.addRelationship('hasOne', new Rapid({ modelName: 'User' }));
                                     }
                                 }
 
-                                var Gallery = new Gallery({ modelName: 'gallery' });
+                                var PhotoGallery = new PhotoGallery({ modelName: 'PhotoGallery' });
 
-                                Gallery.photos(234).get() // GET => /api/gallery/234/photos
+                                PhotoGallery.photos(234).get() // GET => /api/photo-gallery/234/photos
 
-                                Gallery.user(234).get() // GET => /api/gallery/234/user
+                                PhotoGallery.user(234).get() // GET => /api/photo-gallery/234/user
 
 
                                 /* access relationship methods */
-                                Gallery.relationships.user.find(123) // GET => /api/user/123
+                                PhotoGallery.relationships.user.find(123) // GET => /api/user/123
 
-                                Gallery.relationships.photos.delete(567) // GET => /api/photos/567
+                                PhotoGallery.relationships.photos.delete(567) // GET => /api/photos/567
                             </code>
                         </pre>
                     </div>

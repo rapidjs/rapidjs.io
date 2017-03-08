@@ -33,6 +33,7 @@ class Rapid {
      */
     initialize (config) {
         this.methodRoutes  = []; // for debugging and registering routes
+
         this.relationships = {}; // any relationships that are now accessible
 
         this.boot();
@@ -59,6 +60,27 @@ class Rapid {
      */
     resetURLParams () {
         this.urlParams = false;
+    }
+
+    /**
+     * Set the URL params
+     */
+    setURLParams (urlParams = [], prepend = false, overwrite = false) {
+        this.urlParams = this.urlParams || [];
+
+        if(overwrite) {
+            this.urlParams = urlParams;
+
+            return this;
+        }
+
+        if(prepend) {
+            this.urlParams = urlParams.concat(this.urlParams);
+        } else {
+            this.urlParams = this.urlParams.concat(urlParams);
+        }
+
+        return this;
     }
 
     /**
@@ -95,7 +117,9 @@ class Rapid {
     }
 
     /**
-     * Set the current route
+     * Set the current route.
+     * This will set the current route to either model, collection, or any to make appropriate requests
+     * Can also be changed by calling rapid.model.func() or rapid.collection.func()
      */
     setCurrentRoute (route) {
         this.currentRoute = route;
@@ -109,6 +133,8 @@ class Rapid {
      * Based off the current route that's set this will take a set of params
      * and split it into a URL. This will then reset the route to the default
      * route after building the URL.
+     *
+     * @param ...params Can be any length of params that will be joined by /
      */
     makeUrl (...params) {
 
@@ -121,14 +147,14 @@ class Rapid {
         // reset currentRoute
         this.setCurrentRoute(this.config.defaultRoute);
 
-        console.log('was reset');
-
         return url;
     }
 
     /**
      * This just makes sure there are no double slashes and no trailing
      * slash unless the config for it is set.
+     *
+     * @param url a url to sanitize
      */
     sanitizeUrl (url) {
         url = url.replace(/([^:]\/)\/+/g, '$1').replace(/\?$/, '');
@@ -147,11 +173,20 @@ class Rapid {
 
     /**
      * Make a GET request to a url that would retrieve a single model.
+     * Prepends primaryKey if set
+     *
+     * @param id The model's id
      */
     find (id) {
         return this.model.findBy(this.config.primaryKey, id);
     }
 
+    /**
+     * Make a request to update or destroy a model
+     *
+     * @param method The method (update or destroy)
+     * @param ...params Can be either (id, data) OR (data)
+     */
     updateOrDestroy(method, ...params) {
         let urlParams = [],
             id        = params[0],
@@ -177,39 +212,67 @@ class Rapid {
         return this.request(this.config.methods[method], this.model.makeUrl.call(this, ...urlParams));
     }
 
-    // update (id = 0, data, options) {
+    /**
+     * See updateOrDestroy
+     */
     update (...params) {
         return this.updateOrDestroy('update', ...params);
     }
 
-    // alias
+    /**
+     * Alias of update
+     * See updateOrDestroy
+     */
     save (...params) {
         return this.update(...params);
     }
 
-    // remove this to replace with destroy
+    /**
+     * See updateOrDestroy
+     */
     destroy (...params) {
         return this.updateOrDestroy('destroy', ...params);
     }
 
+    /**
+     * Makes a request to create a new model based off the method and suffix for create
+     *
+     * @param data The data to be sent over for creation of model
+     */
     create (data) {
         return this.withParams(data).buildRequest(this.config.methods.create, this.config.suffixes.create);
     }
 
-    route () {
-        // get the route that would be generated ?
-        //
-        //
-        //
-        // come back to this in a later version
-    }
+    /**
+     * This sets an id for a request
+     * currently it doens't work with any of the CRUD methods.
+     * It should work with this.
+     *
+     * @param id The id of the model
+     */
+    id (id) {
+        let params = [];
 
+        if(this.config.primaryKey) {
+            params = [this.config.primaryKey, id];
+        } else {
+            params = [id];
+        }
+
+        // needs to prepend
+        this.setURLParams(params, true);
+
+        return this;
+    }pass
 
 
     /**
      * Collection Only Functions
      */
 
+    /**
+     * Makes a GET request on a collection route
+     */
     all () {
         return this.collection.get();
     }
@@ -218,6 +281,12 @@ class Rapid {
      * Collection and Model functions
      */
 
+    /**
+     * Makes a GET request to find a model/collection by key, value
+     *
+     * @param key The key to search by
+     * @param value The value to search by
+     */
     findBy (key, value) {
         let urlParams = [key];
 
@@ -225,13 +294,17 @@ class Rapid {
             urlParams.push(value);
         }
 
-        return this.get(urlParams);
+        return this.get(...urlParams);
     }
 
     /**
      * Relationships
      */
 
+    /**
+     * Makes a request to a hasOne relationship
+     * See hasRelationship
+     */
     hasOne (relation, primaryKey, foreignKey) {
         return this.hasRelationship('hasOne', relation, primaryKey, foreignKey);
     }
@@ -240,14 +313,12 @@ class Rapid {
         return this.hasRelationship('hasMany', relation, primaryKey, foreignKey);
     }
 
-    addRelationship (type, relation) {
-        let hasMethods = ['hasOne', 'hasMany'];
-
-        if(hasMethods.includes(type)) {
-            this.registerHasRelation(type, relation);
-        }
-    }
-
+    /**
+     * Registers a relationship via the boot() method when extending a model
+     *
+     * @param type The type of relationship
+     * @param relation The relation name OR object
+     */
     registerHasRelation (type, relation) {
         let relationRoute = this.getRouteByRelationType(type, relation);
 
@@ -257,32 +328,20 @@ class Rapid {
             }
         )(type, relationRoute);
 
+        // add to methodRoutes for debugging
+        this.methodRoutes.push(relationRoute);
+
         return this;
     }
 
     /**
-     * This gets the route of the relationship if a relationship
-     * is passed rather than a string.
+     * Register a "has" Relationship
+     *
+     * @param type The type of 'has' Relationship (hasOne, hasMany)
+     * @param relation The relation. A string or Rapid model
+     * @param primaryKey The primaryKey of the relationship
+     * @param foreignKey The foreignKey of the relationship
      */
-    getRouteByRelationType (type, relation) {
-        let relationRoute = relation,
-            routes        = {
-                hasOne: 'model',
-                hasMany: 'collection',
-                belongsTo: 'model',
-                belongsToMany: 'collection'
-            };
-
-        if(typeof relation == 'object') {
-            relationRoute = relation.routes[routes[type]];
-
-            this.relationships[relationRoute] = relation;
-        }
-
-        return relationRoute;
-    }
-
-    // allow for this.tags().get('green')
     hasRelationship (type, relation = '', primaryKey = '', foreignKey = '') {
         let urlParams = [];
 
@@ -298,17 +357,30 @@ class Rapid {
             urlParams = [primaryKey, relation, foreignKey];
         }
 
-        this.urlParams = urlParams;
+        this.setURLParams(urlParams, false, true);
 
         return this;
     }
 
+    /**
+     * Adds a relationship to the model when extending
+     *
+     * @param type The type of relationship ('hasOne', 'hasMany', 'belongsTo', 'belongsToMany')
+     * @param relation The relationship either a Rapid model or string
+     */
+    addRelationship (type, relation) {
+        let hasMethods = ['hasOne', 'hasMany'];
+
+        if(hasMethods.includes(type)) {
+            this.registerHasRelation(type, relation);
+        }
+    }
 
     registerBelongsTo (type, relation) {
         let urlParams = [],
             routes = {
-                belongsTo: 'model',
-                belongsToMany: 'collection'
+                belongsTo     : 'model',
+                belongsToMany : 'collection'
             };
     }
 
@@ -340,6 +412,29 @@ class Rapid {
     }
 
     /**
+     * This gets the route of the relationship if a relationship
+     * is passed rather than a string.
+     */
+    getRouteByRelationType (type, relation) {
+        let relationRoute = relation,
+            routes = {
+                hasOne        : 'model',
+                hasMany       : 'collection',
+                belongsTo     : 'model',
+                belongsToMany : 'collection'
+            };
+
+        if(typeof relation == 'object') {
+            relationRoute = relation.routes[routes[type]];
+
+            this.relationships[relationRoute] = relation;
+        }
+
+        return relationRoute;
+    }
+
+
+    /**
      * The Request
      */
 
@@ -364,22 +459,24 @@ class Rapid {
     request (type, url) {
         type = type.toLowerCase();
 
-        if(this.config.debug) {
-            return this.debugger.fakeRequest(type, url);
+        if(!this.isAllowedRequestType(type)) {
+            return;
         }
 
         this.beforeRequest(type, url);
 
+        if(this.config.debug) {
+            return this.debugger.fakeRequest(type, url);
+        }
+
         return new Promise((resolve, reject) => {
             this.api[type].call(this, this.sanitizeUrl(url), ...this.parseRequestData(type))
                  .then(response => {
-                    this.resetRequestData();
                     this.afterRequest(response);
 
                     resolve(response);
                  })
                  .catch(error => {
-                    this.resetRequestData();
                     this.onError(error.response);
 
                     reject(error.response);
@@ -387,28 +484,20 @@ class Rapid {
         });
     }
 
-    resetRequestData () {
-        this.requestData = {
-            params: {},
-            options: {}
-        };
-    }
-
     /**
-     * Config request methods
+     * Checks if is a valid request type
+     *
+     * @param type The request type
      */
-    beforeRequest (type, url) {
-        return this.config.beforeRequest(type, url);
-    }
+    isAllowedRequestType (type) {
+        if(!this.config.allowedRequestTypes.includes(type)) {
+            Logger.warn(`'${type}' is not included in allowedRequestTypes: [${this.config.allowedRequestTypes.join(', ')}]`);
 
-    afterRequest (response) {
-        this.config.afterRequest(response);
-    }
+            return false;
+        }
 
-    onError (error) {
-        this.config.onError(error);
+        return true;
     }
-
 
     /**
      * to build a request url
@@ -426,56 +515,125 @@ class Rapid {
     }
 
     get (...params) {
-        return this.buildRequest('get', ...params);
+        return this.buildRequest('get', params);
     }
 
     post (...params) {
-        return this.buildRequest('post', ...params);
+        return this.buildRequest('post', params);
     }
 
     put (...params) {
-        return this.buildRequest('put', ...params);
+        return this.buildRequest('put', params);
     }
 
     patch (...params) {
-        return this.buildRequest('patch', ...params);
+        return this.buildRequest('patch', params);
     }
 
     head (...params) {
-        return this.buildRequest('head', ...params);
+        return this.buildRequest('head', params);
     }
 
     delete (...params) {
-        return this.buildRequest('delete', ...params);
+        return this.buildRequest('delete', params);
+    }
+
+    /**
+     * Resets the request data
+     */
+    resetRequestData () {
+        this.requestData = {
+            params: {},
+            options: {}
+        };
+    }
+
+    /**
+     * Before, after, and error
+     */
+
+    /**
+     * This is fired before the request
+     */
+    beforeRequest (type, url) {
+        return this.config.beforeRequest(type, url);
+    }
+
+    /**
+     * This is fired after each request
+     */
+    afterRequest (response) {
+        this.resetRequestData();
+        this.config.afterRequest(response);
+    }
+
+    /**
+     * This is fired on a request error
+     */
+    onError (error) {
+        this.resetRequestData();
+        this.config.onError(error);
     }
 
 
     /**
-     * params, options, and headers
+     * Params and Options
      */
 
+    /**
+     * Send data and options with the request
+     *
+     * @param data An object of params: {}, options: {}
+     */
     with (data = {}) {
         this.requestData = _defaultsDeep(data, this.requestData);
+
         return this;
     }
 
+    /**
+     * Send params with the request
+     *
+     * @param params An object of params
+     */
     withParams (params = {}) {
         this.requestData.params = params;
+
         return this;
     }
 
+    /**
+     * Send a single param with the request
+     *
+     * @param key The key name
+     * @param value The value
+     */
     withParam (key, value) {
         this.requestData.params[key] = value;
+
         return this;
     }
 
+    /**
+     * Send options with the request
+     *
+     * @param options An object of options
+     */
     withOptions (options = {}) {
         this.requestData.options = options;
+
         return this;
     }
 
+    /**
+     * Send a single option with the request
+     *
+     * @param key The key name
+     * @param value The value
+     */
     withOption (key, value) {
         this.requestData.options[key] = value;
+
         return this;
     }
 
@@ -489,23 +647,18 @@ class Rapid {
 
     get collection () {
         this.setCurrentRoute('collection');
-        console.log('was triggered');
 
         return this;
     }
 
     get model () {
         this.setCurrentRoute('model');
-        console.log('was triggered');
-
 
         return this;
     }
 
     get any () {
         this.setCurrentRoute('any');
-        console.log('was triggered');
-
 
         return this;
     }
@@ -530,6 +683,11 @@ class Rapid {
         this.setRoutes();
     }
 
+    /**
+     * Set the routes for the URL based off model/collection and config
+     *
+     * @param route The key of the route to be set
+     */
     setRoute (route) {
         let newRoute = '',
             formattedRoute = {
@@ -551,12 +709,10 @@ class Rapid {
         this.routes[route] = newRoute;
     }
 
-    // generateRoute (routeName)
-
+    /**
+     * Loop through the routes and set them
+     */
     setRoutes () {
-        // this.routes.keys
-        //
-        //
         ['model', 'collection'].forEach(route => this.setRoute(route));
     }
 }

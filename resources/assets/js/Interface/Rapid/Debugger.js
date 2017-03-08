@@ -17,7 +17,6 @@ export default class {
             lastUrl   = this.setLastUrl(type, url, ...params);
 
         this.setLastRequest(...arguments);
-        this.caller.resetRequestData();
 
         if(this.logEnabled) {
             // .${lastTrace.getFunctionName()}
@@ -25,6 +24,8 @@ export default class {
             Logger.log(params);
         }
 
+        this.caller.afterRequest({});
+        
         return lastUrl;
     }
 
@@ -57,7 +58,9 @@ export default class {
     }
 
     listRoutes () {
-        let coreFunctions = ['create', 'find', 'all', 'save', 'update', 'destroy'];
+        let coreFunctions = ['create', 'find', 'all', 'update', 'destroy'];
+
+        console.log(this.caller.methodRoutes);
 
         coreFunctions.concat(this.caller.methodRoutes).forEach(func => this.caller[func].call(this.caller));
     }

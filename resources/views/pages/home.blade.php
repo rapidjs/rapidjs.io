@@ -9,7 +9,7 @@
         @include('components.svg-grid')
 
         <div class="home__hero__inner">
-            <h1 class="home__hero__title">Rapidly Interact With APIs</h1>
+            <h1 class="home__hero__title">A Fluent Interface To Rapidly Interact With APIs</h1>
             <h1 class="home__hero__subtitle">Create simple, resusable, and cleaner interfaces to for your API requests that make sense.</h1>
 
             <a href="{{ route('docs') }}" class="rapid-btn">Get Started</a>

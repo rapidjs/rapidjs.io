@@ -44,6 +44,8 @@ export default {
 
     },
 
+    allowedRequestTypes: ['get', 'post', 'put', 'patch', 'head', 'delete'],
+
     beforeRequest (type, url) {
 
     },

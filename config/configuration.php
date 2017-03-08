@@ -20,7 +20,7 @@ $configuration = [
 
         'type'        => 'string',
 
-        'description' => 'The model name for the rapid model. This will determine the routes for both models and collections. The collection route will be generated as the plural version of this. For instance if you put <code class="language-markdown">`gallery`</code> the collection route would become <code class="language-markdown">`galleries`</code>.',
+        'description' => 'The model name for the rapid model. This will determine the routes for both models and collections. The collection route will be generated as the plural version of this. For instance if you put <code class="language-markdown">`gallery`</code> the collection route would become <code class="language-markdown">`galleries`</code>. Using camel case will result in a delimited route as defined in <code class="language-markdown">`routeDelimeter`</code>',
 
         'default'     => "''",
 

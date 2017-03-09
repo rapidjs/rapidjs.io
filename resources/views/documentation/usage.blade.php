@@ -1,5 +1,5 @@
 <h2 id="usage">Usage</h2>
-<pre><code class="language-js">import Rapid from 'rapidjs';
+<pre><code class="language-js">import Rapid from 'rapid.js';
 
 var Post = new Rapid({ modelName: 'post' })
 </pre></code>

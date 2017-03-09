@@ -19,7 +19,7 @@
           ga('send', 'pageview');
         </script>
 
-        <title>rapid js - Write rapid js for frontend API development.</title>
+        <title>rapid js - A Fluent Interface To Rapidly Interact With APIs.</title>
     </head>
     <body class="{{ Route::currentRouteName() }}">
         <div id="app">

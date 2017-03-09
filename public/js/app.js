@@ -1293,17 +1293,16 @@ var Rapid = function () {
     }, {
         key: 'updateOrDestroy',
         value: function updateOrDestroy(method) {
-            var _model$makeUrl;
-
             var urlParams = [],
                 id = arguments.length <= 1 ? undefined : arguments[1],
                 data = arguments.length <= 2 ? undefined : arguments[2];
 
             if ((0, _isInteger2.default)(id)) {
-                if (this.config.primaryKey) {
-                    urlParams.push(this.config.primaryKey);
-                }
-                urlParams.push(id);
+                this.id(id);
+                // if(this.config.primaryKey) {
+                //     urlParams.push(this.config.primaryKey);
+                // }
+                // urlParams.push(id);
             } else {
                 data = arguments.length <= 1 ? undefined : arguments[1];
             }
@@ -1316,7 +1315,8 @@ var Rapid = function () {
                 this.withParams(data);
             }
 
-            return this.request(this.config.methods[method], (_model$makeUrl = this.model.makeUrl).call.apply(_model$makeUrl, [this].concat(urlParams)));
+            // return this.model[this.config.methods[method]].call(this, ...urlParams);
+            return this.model.buildRequest(this.config.methods[method], urlParams);
         }
 
         /**
@@ -4163,7 +4163,7 @@ var _class = function () {
 
         this.caller = caller;
         this.data = {};
-        this.logEnabled = true;
+        this.logEnabled = false;
     }
 
     (0, _createClass3.default)(_class, [{

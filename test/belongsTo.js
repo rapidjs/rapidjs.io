@@ -64,9 +64,9 @@ class Comment extends Rapid {
 var commentModel = new Comment({ modelName: 'Comment', debug: true });
 
 test('addRelationship works', t => {
-    commentModel.thread().get();
+    commentModel.collection.thread().get();
 
-    t.is('api/thread/comment', commentModel.debugger.data.lastUrl);
+    t.is('api/thread/comments', commentModel.debugger.data.lastUrl);
 
     commentModel.thread(123).get();
 
@@ -80,3 +80,6 @@ test('addRelationship works', t => {
 
     t.is('api/photo/id/1234/comment', commentModel.debugger.data.lastUrl);
 });
+
+
+test.todo('make sure that by default a collection url is used');

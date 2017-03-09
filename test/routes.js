@@ -14,3 +14,5 @@ test.todo('that the defaultRoute will work');
 test.todo('that collection routes will work');
 test.todo('that model routes will work');
 test.todo('that delimeted model like some-model will work');
+
+test.todo('consider setting flag when the .model and .collection are set');

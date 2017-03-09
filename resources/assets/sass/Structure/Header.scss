@@ -1,5 +1,5 @@
 .header {
-    border-bottom: solid 1px $color-border-gray;
+    background: $color-dark-gray;
     margin-bottom: 20px;
 
     &__inner {
@@ -10,15 +10,17 @@
     .rapidjs-logo {
         font-size: 32px;
         @include webfont('Miriam Libre');
-        color: $color-black;
+        color: $color-white;
         transition: all ease .2s;
+        width: 174px;
+        display: inline-block;
 
         &:hover {
             text-decoration: none;
             color: $color-blue;
 
             span {
-                color: $color-black;
+                color: $color-white;
             }
         }
 
@@ -43,6 +45,19 @@
 
         }
     }
+
+    &__search {
+        display: none;
+    }
+}
+
+.home {
+    .header {
+        position: absolute;
+        top: 0;
+        margin-bottom: 0;
+        background-color: transparent;
+    }
 }
 
 @include when-wider-than(tablet) {
@@ -58,7 +73,47 @@
         margin-bottom: 0;
 
         &__inner {
+            @include flex();
             width: $small-desktop;
+        }
+
+        &__nav {
+            margin-left: 50px;
+            @include flex();
+            align-items: center;
+
+            a {
+                color: $color-blue;
+            }
+        }
+
+        &__search {
+            width: 400px;
+            height: 35px;
+            margin-top: 6px;
+            @include flex();
+
+            input {
+                border: solid 1px $color-white;
+                padding: 5px 10px;
+                font-size: 14px;
+                background: transparent;
+                width: 100%;
+                outline: 0 none;
+                @include webfont('Miriam Libre');
+                transition: border ease .3s;
+                font-weight: bold;
+                color: $color-white;
+
+                &::placeholder {
+                    color: $color-white;
+                    font-weight: bold;
+                }
+
+                &:focus {
+                    border-color: $color-blue;
+                }
+            }
         }
     }
 }

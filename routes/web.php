@@ -22,3 +22,15 @@ Route::get('/docs', function () {
 Route::get('/documentation', function () {
     return redirect('docs');
 })->name('docs');
+
+Route::prefix('/indexes')->group(function () {
+
+    Route::get('/configuration', function () {
+        return array_values(config('configuration'));
+    });
+
+    Route::get('/methods', function () {
+        return array_values(config('methods'));
+    });
+
+});

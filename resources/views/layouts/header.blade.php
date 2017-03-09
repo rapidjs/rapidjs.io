@@ -21,14 +21,22 @@
 
         <title>rapid js - Write rapid js for frontend API development.</title>
     </head>
-    <body>
+    <body class="{{ Route::currentRouteName() }}">
         <div id="app">
-            <div class="header">
-                <div class="header__inner">
-                    <a href="/" class="rapidjs-logo">r<span><span>a</span><span>p</span><span>i</span></span>d js</a>
-                </div>
+            @if (Route::currentRouteName() != 'home')
+                <div class="header">
+                    <div class="header__inner">
+                        <a href="/" class="rapidjs-logo">r<span><span>a</span><span>p</span><span>i</span></span>d js</a>
 
-            </div>
+                        @if (Route::currentRouteName() == 'docs')
+                            <div class="header__search">
+                                <input type="text" placeholder="Search...">
+                            </div>
+                        @endif
+
+                    </div>
+                </div>
+            @endif
             <div class="wrapper" id="app">
 
 {{-- @include ('layouts.nav') --}}

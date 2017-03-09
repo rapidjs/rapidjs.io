@@ -1,3 +1,9 @@
+/*!
+  * Rapid.js v0.0.1
+  * (c) 2017 Drew J Bartlett (http://drewjbartlett.com)
+  * Released under the MIT License.
+  */
+
 import axios from 'axios';
 
 import pluralize from 'pluralize';

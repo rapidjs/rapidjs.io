@@ -4,6 +4,9 @@ import prism from './Vendor/prism';
 import Rapid from './Interface/Rapid/Rapid';
 import Testies from './Interface/TestModel';
 
+import 'particles.js/particles';
+const particlesJS = window.particlesJS;
+
 var Normalizer = require('prismjs/plugins/normalize-whitespace/prism-normalize-whitespace');
 
 Prism.plugins.NormalizeWhitespace.setDefaults({
@@ -32,3 +35,5 @@ window.axios = axios;
 window.axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest',
 };
+
+particlesJS.load('particles-js', '/assets/particles.json', function () {});

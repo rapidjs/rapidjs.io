@@ -1,9 +1,7 @@
-$color-hero-bg: #282e37;
-
 .home {
     &__hero {
-        background-color: $color-hero-bg;
-        height: 360px;
+        background-color: $color-dark-gray;
+        height: 100vh;
         position: relative;
 
         .svg-grid,
@@ -45,6 +43,17 @@ $color-hero-bg: #282e37;
             font-weight: normal;
             @include webfont('Miriam Libre');
         }
+
+        .bottom-arrow {
+            position: absolute;
+            bottom: 15px;
+            opacity: .4;
+
+            i {
+                font-size: 40px;
+                color: $color-white;
+            }
+        }
     }
 
     &__callout {
@@ -82,7 +91,7 @@ $color-hero-bg: #282e37;
         &__or {
             margin-right: 25px;
             font-weight: bold;
-            color: $color-hero-bg;
+            color: $color-dark-gray;
             font-size: 18px;
             text-align: center;
         }
@@ -95,7 +104,7 @@ $color-hero-bg: #282e37;
     }
 
     &__inner {
-        background-color: $color-hero-bg;
+        background-color: $color-dark-gray;
         padding: 50px 0;
         position: relative;
 
@@ -160,7 +169,6 @@ $color-hero-bg: #282e37;
  @include when-wider-than(small_desktop) {
      .home {
          &__hero {
-             height: 560px;
 
              &__inner {
                  padding: 0;

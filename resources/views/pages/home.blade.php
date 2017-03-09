@@ -4,15 +4,22 @@
 
 </div>
 
-    <div class="home__hero">
+    <div class="home__hero" id="particles-js">
 
         @include('components.svg-grid')
 
         <div class="home__hero__inner">
+            <div class="header">
+                <div class="header__inner">
+                    <a href="/" class="rapidjs-logo">r<span><span>a</span><span>p</span><span>i</span></span>d js</a>
+                </div>
+            </div>
             <h1 class="home__hero__title">A Fluent Interface To Rapidly Interact With APIs</h1>
-            <h1 class="home__hero__subtitle">Create simple, resusable, and cleaner interfaces to for your API requests that make sense.</h1>
+            <h2 class="home__hero__subtitle">Create simple, resusable, and cleaner interfaces to for your API requests that make sense.</h2>
 
             <a href="{{ route('docs') }}" class="rapid-btn">Get Started</a>
+
+            <span class="bottom-arrow"><i class="fa fa-chevron-down"></i></span>
         </div>
     </div>
 

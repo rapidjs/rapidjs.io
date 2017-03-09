@@ -25,7 +25,7 @@ export default class {
         }
 
         this.caller.afterRequest({});
-        
+
         return lastUrl;
     }
 
@@ -58,10 +58,31 @@ export default class {
     }
 
     listRoutes () {
-        let coreFunctions = ['create', 'find', 'all', 'update', 'destroy'];
-
-        console.log(this.caller.methodRoutes);
-
-        coreFunctions.concat(this.caller.methodRoutes).forEach(func => this.caller[func].call(this.caller));
+        // let coreFunctions = {
+        //     'create' : {
+        //         method: '',
+        //         params: []
+        //     },
+        //     'find' : {
+        //         method: '',
+        //         params: []
+        //     },
+        //     'all' : {
+        //         method: '',
+        //         params: []
+        //     },
+        //     'update' : {
+        //         method: '',
+        //         params: []
+        //     },
+        //     'destroy' : {
+        //         method: '',
+        //         params: []
+        //     }
+        // };
+        //
+        // console.log(this.caller.methodRoutes);
+        //
+        // coreFunctions.concat(this.caller.methodRoutes).forEach(func => this.caller[func].call(this.caller));
     }
 }

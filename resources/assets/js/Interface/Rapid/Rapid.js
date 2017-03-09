@@ -20,11 +20,9 @@ class Rapid {
     constructor (config) {
         config = config || {};
 
-        // merge defaults and config
         config = _defaultsDeep(config, Defaults);
 
         this.initialize(config);
-
     }
 
     /**
@@ -269,7 +267,7 @@ class Rapid {
         this.setURLParams(params, true);
 
         return this;
-    }pass
+    }
 
 
     /**
@@ -308,13 +306,17 @@ class Rapid {
      */
 
     /**
-     * Makes a request to a hasOne relationship
+     * Sets up a hasOne relationship
      * See hasRelationship
      */
     hasOne (relation, primaryKey, foreignKey) {
         return this.hasRelationship('hasOne', relation, primaryKey, foreignKey);
     }
 
+    /**
+     * Sets up a hasMany relationship
+     * See hasRelationship
+     */
     hasMany (relation, primaryKey, foreignKey) {
         return this.hasRelationship('hasMany', relation, primaryKey, foreignKey);
     }
@@ -369,31 +371,55 @@ class Rapid {
     }
 
     /**
-     * Adds a relationship to the model when extending
-     *
-     * @param type The type of relationship ('hasOne', 'hasMany', 'belongsTo', 'belongsToMany')
-     * @param relation The relationship either a Rapid model or string
+     * Sets up a belongsTo relationship
+     * See belongsToRelationship
      */
-    addRelationship (type, relation) {
-        let hasMethods = ['hasOne', 'hasMany'];
-
-        if(hasMethods.includes(type)) {
-            this.registerHasRelation(type, relation);
-        }
-    }
-
-    registerBelongsTo (type, relation) {
-        let urlParams = [],
-            routes = {
-                belongsTo     : 'model',
-                belongsToMany : 'collection'
-            };
+    belongsTo (relation, foreignKey, foreignKeyName, after) {
+        return this.belongsToRelationship('belongsTo', relation, foreignKey, foreignKeyName, after);
     }
 
     /**
-     * belongsTo
+     * Sets up a belongsToMany relationship
+     * See belongsToRelationship
      */
-    belongsTo (relation, foreignKey, foreignKeyName, after) {
+    belongsToMany (relation, foreignKey, foreignKeyName, after) {
+        return this.belongsToRelationship('belongsToMany', relation, foreignKey, foreignKeyName, after);
+    }
+
+    /**
+     * Registers a relationship via the boot() method when extending a model
+     *
+     * @param type The type of relationship
+     * @param relation The relation name OR object
+     */
+    registerBelongsTo (type, relation) {
+
+        let relationRoute = this.getRouteByRelationType(type, relation);
+
+        this[relationRoute] = (
+            (type, route) => {
+                return (primaryKey, foreignKey, after) => { return this.belongsToRelationship(type, route, primaryKey, foreignKey, after); }
+            }
+        )(type, relationRoute);
+
+        // add to methodRoutes for debugging
+        this.methodRoutes.push(relationRoute);
+
+        return this;
+    }
+
+    /**
+     * Register a "belongsTo" Relationship
+     *
+     * @param type The type of 'has' Relationship (hasOne, hasMany)
+     * @param relation The relation. A string or Rapid model
+     * @param foreignKey The foreignKey of the relationship
+     * @param foreignKeyName The foreignKeyName of the relationship
+     * @param after Anything to append after the relationship
+     */
+    belongsToRelationship (type, relation, foreignKey, foreignKeyName, after) {
+        relation = this.getRouteByRelationType(type, relation);
+
         let route     = this.currentRoute,
             urlParams = [relation];
 
@@ -410,11 +436,26 @@ class Rapid {
             urlParams.push(after);
         }
 
-        return this.any.get(urlParams);
+        this.setURLParams(urlParams, false, true);
+
+        return this.any;
     }
 
-    belongsToMany () {
+    /**
+     * Adds a relationship to the model when extending
+     *
+     * @param type The type of relationship ('hasOne', 'hasMany', 'belongsTo', 'belongsToMany')
+     * @param relation The relationship either a Rapid model or string
+     */
+    addRelationship (type, relation) {
+        let hasMethods     = ['hasOne', 'hasMany'],
+            belongsMethods = ['belongsTo', 'belongsToMany'];
 
+        if(hasMethods.includes(type)) {
+            this.registerHasRelation(type, relation);
+        } else if(belongsMethods.includes(type)) {
+            this.registerBelongsTo(type, relation);
+        }
     }
 
     /**

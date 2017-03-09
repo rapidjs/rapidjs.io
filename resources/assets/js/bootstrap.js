@@ -36,4 +36,8 @@ window.axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest',
 };
 
-particlesJS.load('particles-js', '/assets/particles.json', function () {});
+let particles = document.getElementById('particles-js');
+
+if(particles) {
+	particlesJS.load('particles-js', '/assets/particles.json', function () {});
+}

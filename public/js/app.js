@@ -1073,7 +1073,6 @@ var Rapid = function () {
 
         config = config || {};
 
-        // merge defaults and config
         config = (0, _lodash2.default)(config, _Defaults2.default);
 
         this.initialize(config);
@@ -1395,9 +1394,6 @@ var Rapid = function () {
 
             return this;
         }
-    }, {
-        key: 'all',
-
 
         /**
          * Collection Only Functions
@@ -1406,6 +1402,9 @@ var Rapid = function () {
         /**
          * Makes a GET request on a collection route
          */
+
+    }, {
+        key: 'all',
         value: function all() {
             return this.collection.get();
         }
@@ -1438,7 +1437,7 @@ var Rapid = function () {
          */
 
         /**
-         * Makes a request to a hasOne relationship
+         * Sets up a hasOne relationship
          * See hasRelationship
          */
 
@@ -1447,6 +1446,12 @@ var Rapid = function () {
         value: function hasOne(relation, primaryKey, foreignKey) {
             return this.hasRelationship('hasOne', relation, primaryKey, foreignKey);
         }
+
+        /**
+         * Sets up a hasMany relationship
+         * See hasRelationship
+         */
+
     }, {
         key: 'hasMany',
         value: function hasMany(relation, primaryKey, foreignKey) {
@@ -1515,38 +1520,68 @@ var Rapid = function () {
         }
 
         /**
-         * Adds a relationship to the model when extending
-         *
-         * @param type The type of relationship ('hasOne', 'hasMany', 'belongsTo', 'belongsToMany')
-         * @param relation The relationship either a Rapid model or string
-         */
-
-    }, {
-        key: 'addRelationship',
-        value: function addRelationship(type, relation) {
-            var hasMethods = ['hasOne', 'hasMany'];
-
-            if (hasMethods.includes(type)) {
-                this.registerHasRelation(type, relation);
-            }
-        }
-    }, {
-        key: 'registerBelongsTo',
-        value: function registerBelongsTo(type, relation) {
-            var urlParams = [],
-                routes = {
-                belongsTo: 'model',
-                belongsToMany: 'collection'
-            };
-        }
-
-        /**
-         * belongsTo
+         * Sets up a belongsTo relationship
+         * See belongsToRelationship
          */
 
     }, {
         key: 'belongsTo',
         value: function belongsTo(relation, foreignKey, foreignKeyName, after) {
+            return this.belongsToRelationship('belongsTo', relation, foreignKey, foreignKeyName, after);
+        }
+
+        /**
+         * Sets up a belongsToMany relationship
+         * See belongsToRelationship
+         */
+
+    }, {
+        key: 'belongsToMany',
+        value: function belongsToMany(relation, foreignKey, foreignKeyName, after) {
+            return this.belongsToRelationship('belongsToMany', relation, foreignKey, foreignKeyName, after);
+        }
+
+        /**
+         * Registers a relationship via the boot() method when extending a model
+         *
+         * @param type The type of relationship
+         * @param relation The relation name OR object
+         */
+
+    }, {
+        key: 'registerBelongsTo',
+        value: function registerBelongsTo(type, relation) {
+            var _this3 = this;
+
+            var relationRoute = this.getRouteByRelationType(type, relation);
+
+            this[relationRoute] = function (type, route) {
+                return function (primaryKey, foreignKey, after) {
+                    return _this3.belongsToRelationship(type, route, primaryKey, foreignKey, after);
+                };
+            }(type, relationRoute);
+
+            // add to methodRoutes for debugging
+            this.methodRoutes.push(relationRoute);
+
+            return this;
+        }
+
+        /**
+         * Register a "belongsTo" Relationship
+         *
+         * @param type The type of 'has' Relationship (hasOne, hasMany)
+         * @param relation The relation. A string or Rapid model
+         * @param foreignKey The foreignKey of the relationship
+         * @param foreignKeyName The foreignKeyName of the relationship
+         * @param after Anything to append after the relationship
+         */
+
+    }, {
+        key: 'belongsToRelationship',
+        value: function belongsToRelationship(type, relation, foreignKey, foreignKeyName, after) {
+            relation = this.getRouteByRelationType(type, relation);
+
             var route = this.currentRoute,
                 urlParams = [relation];
 
@@ -1563,11 +1598,30 @@ var Rapid = function () {
                 urlParams.push(after);
             }
 
-            return this.any.get(urlParams);
+            this.setURLParams(urlParams, false, true);
+
+            return this.any;
         }
+
+        /**
+         * Adds a relationship to the model when extending
+         *
+         * @param type The type of relationship ('hasOne', 'hasMany', 'belongsTo', 'belongsToMany')
+         * @param relation The relationship either a Rapid model or string
+         */
+
     }, {
-        key: 'belongsToMany',
-        value: function belongsToMany() {}
+        key: 'addRelationship',
+        value: function addRelationship(type, relation) {
+            var hasMethods = ['hasOne', 'hasMany'],
+                belongsMethods = ['belongsTo', 'belongsToMany'];
+
+            if (hasMethods.includes(type)) {
+                this.registerHasRelation(type, relation);
+            } else if (belongsMethods.includes(type)) {
+                this.registerBelongsTo(type, relation);
+            }
+        }
 
         /**
          * This gets the route of the relationship if a relationship
@@ -1620,7 +1674,7 @@ var Rapid = function () {
     }, {
         key: 'request',
         value: function request(type, url) {
-            var _this3 = this;
+            var _this4 = this;
 
             type = type.toLowerCase();
 
@@ -1637,12 +1691,12 @@ var Rapid = function () {
             return new _promise2.default(function (resolve, reject) {
                 var _api$type;
 
-                (_api$type = _this3.api[type]).call.apply(_api$type, [_this3, _this3.sanitizeUrl(url)].concat((0, _toConsumableArray3.default)(_this3.parseRequestData(type)))).then(function (response) {
-                    _this3.afterRequest(response);
+                (_api$type = _this4.api[type]).call.apply(_api$type, [_this4, _this4.sanitizeUrl(url)].concat((0, _toConsumableArray3.default)(_this4.parseRequestData(type)))).then(function (response) {
+                    _this4.afterRequest(response);
 
                     resolve(response);
                 }).catch(function (error) {
-                    _this3.onError(error.response);
+                    _this4.onError(error.response);
 
                     reject(error.response);
                 });
@@ -1911,10 +1965,10 @@ var Rapid = function () {
     }, {
         key: 'setRoutes',
         value: function setRoutes() {
-            var _this4 = this;
+            var _this5 = this;
 
             ['model', 'collection'].forEach(function (route) {
-                return _this4.setRoute(route);
+                return _this5.setRoute(route);
             });
         }
     }, {
@@ -4171,15 +4225,32 @@ var _class = function () {
     }, {
         key: 'listRoutes',
         value: function listRoutes() {
-            var _this = this;
-
-            var coreFunctions = ['create', 'find', 'all', 'update', 'destroy'];
-
-            console.log(this.caller.methodRoutes);
-
-            coreFunctions.concat(this.caller.methodRoutes).forEach(function (func) {
-                return _this.caller[func].call(_this.caller);
-            });
+            // let coreFunctions = {
+            //     'create' : {
+            //         method: '',
+            //         params: []
+            //     },
+            //     'find' : {
+            //         method: '',
+            //         params: []
+            //     },
+            //     'all' : {
+            //         method: '',
+            //         params: []
+            //     },
+            //     'update' : {
+            //         method: '',
+            //         params: []
+            //     },
+            //     'destroy' : {
+            //         method: '',
+            //         params: []
+            //     }
+            // };
+            //
+            // console.log(this.caller.methodRoutes);
+            //
+            // coreFunctions.concat(this.caller.methodRoutes).forEach(func => this.caller[func].call(this.caller));
         }
     }]);
     return _class;
@@ -9264,9 +9335,6 @@ var _Tag2 = _interopRequireDefault(_Tag);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// http://www.stylemepretty.com/api/v2/post/770865/images
-
-
 var TestModel = function (_Rapid) {
     (0, _inherits3.default)(TestModel, _Rapid);
 
@@ -9278,37 +9346,14 @@ var TestModel = function (_Rapid) {
     (0, _createClass3.default)(TestModel, [{
         key: 'boot',
         value: function boot() {
-            // this.methodRoutes = ['posts', 'media', 'recentMedia', 'votes'];
 
             this.addRelationship('hasOne', _UserModel2.default);
             this.addRelationship('hasMany', _UserModel2.default);
             this.addRelationship('hasOne', 'gallery');
-        }
-    }, {
-        key: 'posts',
-        value: function posts(id, params) {
-            return this.collection.belongsTo('posts', id, params);
-        }
-    }, {
-        key: 'media',
-        value: function media(id, params) {
-            // return this.collection.hasRelationship(id, ['media', 'recent'], params);
-            // return this.model.hasRelationship(id, ['media', 'recent'], params).get();
-        }
-    }, {
-        key: 'recentMedia',
-        value: function recentMedia(id, params) {
-            // return this.media(id, params).append('recent');
-        }
-    }, {
-        key: 'votes',
-        value: function votes(id, params) {
-            // return this.model.hasRelationship(id, 'votes', params);
-        }
-    }, {
-        key: 'foodies',
-        value: function foodies() {
-            return this.hasOne(_UserModel2.default, 235, 19);
+
+            this.addRelationship('belongsTo', 'post');
+            this.addRelationship('belongsToMany', _Tag2.default);
+            this.addRelationship('belongsTo', _Tag2.default);
         }
     }]);
     return TestModel;
@@ -10774,7 +10819,11 @@ window.axios.defaults.headers.common = {
 	'X-Requested-With': 'XMLHttpRequest'
 };
 
-particlesJS.load('particles-js', '/assets/particles.json', function () {});
+var particles = document.getElementById('particles-js');
+
+if (particles) {
+	particlesJS.load('particles-js', '/assets/particles.json', function () {});
+}
 
 /***/ }),
 /* 157 */

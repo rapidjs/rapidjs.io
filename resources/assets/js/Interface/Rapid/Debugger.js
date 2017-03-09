@@ -6,7 +6,7 @@ export default class {
     constructor (caller) {
         this.caller           = caller;
         this.data             = {};
-        this.logEnabled       = true;
+        this.logEnabled       = false;
     }
 
     fakeRequest (type, url) {

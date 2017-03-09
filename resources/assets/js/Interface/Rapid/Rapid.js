@@ -198,10 +198,6 @@ class Rapid {
 
         if(Number.isInteger(id)) {
             this.id(id);
-            // if(this.config.primaryKey) {
-            //     urlParams.push(this.config.primaryKey);
-            // }
-            // urlParams.push(id);
         } else {
             data    = params[0];
         }
@@ -214,7 +210,6 @@ class Rapid {
             this.withParams(data);
         }
 
-        // return this.model[this.config.methods[method]].call(this, ...urlParams);
         return this.model.buildRequest(this.config.methods[method], urlParams);
     }
 

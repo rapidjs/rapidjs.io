@@ -506,6 +506,10 @@
                 }
 
                 return null;
+            },
+
+            parsedConfig () {
+                return this.config;
             }
         }
 

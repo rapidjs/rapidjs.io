@@ -10614,6 +10614,9 @@ exports.default = {
             }
 
             return null;
+        },
+        parsedConfig: function parsedConfig() {
+            return this.config;
         }
     }
 

@@ -3,6 +3,7 @@ import axios from 'axios';
 import prism from './Vendor/prism';
 import Rapid from './Interface/Rapid/Rapid';
 import Testies from './Interface/TestModel';
+import AutoComplete from './Components/AutoComplete';
 
 import 'particles.js/particles';
 const particlesJS = window.particlesJS;

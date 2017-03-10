@@ -15,7 +15,7 @@
                 </div>
             </div>
             <h1 class="home__hero__title">A Fluent Interface To Rapidly Interact With APIs</h1>
-            <h2 class="home__hero__subtitle">Create simple, resusable, and cleaner interfaces to for your API requests that make sense.</h2>
+            <h2 class="home__hero__subtitle">Create simple, resusable, and cleaner interfaces for your API requests that make sense.</h2>
 
             <a href="{{ route('docs') }}" class="rapid-btn">Get Started</a>
 

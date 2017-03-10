@@ -93,6 +93,10 @@
             margin-top: 6px;
             @include flex();
 
+            .algolia-autocomplete {
+                width: 100%;
+            }
+
             input {
                 border: solid 1px $color-white;
                 padding: 5px 10px;

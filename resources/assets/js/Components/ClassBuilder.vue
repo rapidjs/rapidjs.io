@@ -252,7 +252,7 @@
     import prism from './../Vendor/prism';
     import qs from 'qs';
     import _forEach from 'lodash.foreach';
-
+    
     export default {
         name: 'class-builder',
 

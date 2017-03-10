@@ -30,7 +30,7 @@
 
                         @if (Route::currentRouteName() == 'docs')
                             <div class="header__search">
-                                <input type="text" placeholder="Search...">
+                                <input id="docs-search" type="text" placeholder="Search...">
                             </div>
                         @endif
 

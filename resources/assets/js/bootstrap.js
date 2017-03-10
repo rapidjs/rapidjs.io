@@ -3,6 +3,7 @@ import axios from 'axios';
 import prism from './Vendor/prism';
 import Rapid from './Interface/Rapid/Rapid';
 import Testies from './Interface/TestModel';
+import Googs from './Interface/GoogleMapsPlaces';
 import AutoComplete from './Components/AutoComplete';
 
 import 'particles.js/particles';
@@ -25,6 +26,7 @@ Prism.plugins.NormalizeWhitespace.setDefaults({
 window.Vue = Vue;
 
 window.rapidjs = Testies;
+window.googs = Googs;
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of

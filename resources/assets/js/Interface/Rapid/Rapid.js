@@ -40,13 +40,13 @@ class Rapid {
 
         this.relationships = {}; // any relationships that are now accessible
 
+        this.config = config;
+
         this.boot();
 
         this.initializeRoutes();
 
         this.resetURLParams();
-
-        this.config = config;
 
         this.fireSetters();
 
@@ -71,6 +71,10 @@ class Rapid {
      */
     setURLParams (urlParams = [], prepend = false, overwrite = false) {
         this.urlParams = this.urlParams || [];
+
+        if(!_isArray(urlParams)) {
+            urlParams = [urlParams];
+        }
 
         if(overwrite) {
             this.urlParams = urlParams;
@@ -521,9 +525,9 @@ class Rapid {
                     resolve(response);
                  })
                  .catch(error => {
-                    this.onError(error.response);
+                    this.onError(error);
 
-                    reject(error.response);
+                    reject(error);
                  });
         });
     }

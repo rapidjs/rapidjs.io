@@ -35,3 +35,15 @@ Route::post('/user/create', function (Request $request) {
 Route::post('/user/{id}/destroy', function (Request $request) {
     return $request->all();
 });
+
+Route::get('/auth', function (Request $request) {
+    return []; //['id' => 1, 'name' => 'Drew'];
+});
+
+Route::post('/login', function (Request $request) {
+    return $request->all();
+});
+
+Route::post('/logout', function (Request $request) {
+    return $request->all();
+});

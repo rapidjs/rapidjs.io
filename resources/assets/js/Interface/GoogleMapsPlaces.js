@@ -30,7 +30,7 @@ export default new GoogleMapsPlace({
     globalParameters: {
       key: 'YOUR_API_KEY'
     },
-    // debug: true
+    debug: true,
     onError (response) {
         alert ("Something went wrong!");
     }

@@ -4,6 +4,7 @@ import prism from './Vendor/prism';
 import Rapid from './Interface/Rapid/Rapid';
 import Testies from './Interface/TestModel';
 import Googs from './Interface/GoogleMapsPlaces';
+import Auth from './Interface/Rapid/Models/Auth';
 import AutoComplete from './Components/AutoComplete';
 
 import 'particles.js/particles';
@@ -27,6 +28,7 @@ window.Vue = Vue;
 
 window.rapidjs = Testies;
 window.googs = Googs;
+window.auth = new Auth();
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of

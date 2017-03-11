@@ -10714,7 +10714,7 @@ exports.default = new GoogleMapsPlace({
     globalParameters: {
         key: 'YOUR_API_KEY'
     },
-    // debug: true
+    debug: true,
     onError: function onError(response) {
         alert("Something went wrong!");
     }
@@ -10889,6 +10889,10 @@ var _GoogleMapsPlaces = __webpack_require__(155);
 
 var _GoogleMapsPlaces2 = _interopRequireDefault(_GoogleMapsPlaces);
 
+var _Auth = __webpack_require__(197);
+
+var _Auth2 = _interopRequireDefault(_Auth);
+
 var _AutoComplete = __webpack_require__(154);
 
 var _AutoComplete2 = _interopRequireDefault(_AutoComplete);
@@ -10912,6 +10916,7 @@ window.Vue = _vue2.default;
 
 window.rapidjs = _TestModel2.default;
 window.googs = _GoogleMapsPlaces2.default;
+window.auth = new _Auth2.default();
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
@@ -40106,6 +40111,107 @@ module.exports = Vue$3;
 __webpack_require__(150);
 module.exports = __webpack_require__(151);
 
+
+/***/ }),
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _getPrototypeOf = __webpack_require__(69);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(13);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(18);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(71);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(70);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _Rapid2 = __webpack_require__(25);
+
+var _Rapid3 = _interopRequireDefault(_Rapid2);
+
+var _lodash = __webpack_require__(136);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var authConfig = {
+    auth: {
+        routes: {
+            login: 'login',
+            logout: 'logout',
+            auth: 'auth'
+        },
+
+        methods: {
+            login: 'post',
+            logout: 'post',
+            auth: 'get'
+        },
+
+        authPrefix: false
+    }
+};
+
+var Auth = function (_Rapid) {
+    (0, _inherits3.default)(Auth, _Rapid);
+
+    function Auth(config) {
+        (0, _classCallCheck3.default)(this, Auth);
+
+        config = (0, _lodash2.default)(config, authConfig);
+        config.modelName = config.modelName ? config.modelName : 'auth';
+
+        return (0, _possibleConstructorReturn3.default)(this, (Auth.__proto__ || (0, _getPrototypeOf2.default)(Auth)).call(this, config));
+    }
+
+    (0, _createClass3.default)(Auth, [{
+        key: 'login',
+        value: function login(credentials) {
+            return this[this.authPrefix].withParams(credentials).buildRequest(this.config.auth.methods.login, this.config.auth.routes.login);
+        }
+    }, {
+        key: 'logout',
+        value: function logout() {
+            return this[this.authPrefix].buildRequest(this.config.auth.methods.logout, this.config.auth.routes.logout);
+        }
+    }, {
+        key: 'check',
+        value: function check() {
+            return this[this.authPrefix].buildRequest(this.config.auth.methods.auth, this.config.auth.routes.auth);
+        }
+    }, {
+        key: 'authPrefix',
+        get: function get() {
+            return this.config.auth.authPrefix ? 'model' : 'any';
+        }
+    }]);
+    return Auth;
+}(_Rapid3.default);
+
+exports.default = Auth;
 
 /***/ })
 /******/ ]);

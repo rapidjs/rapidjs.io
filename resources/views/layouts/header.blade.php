@@ -22,21 +22,22 @@
         <title>rapid js - A Fluent Interface To Rapidly Interact With APIs.</title>
     </head>
     <body class="{{ Route::currentRouteName() }}">
-        <div id="app">
-            @if (Route::currentRouteName() != 'home')
-                <div class="header">
-                    <div class="header__inner">
-                        <a href="/" class="rapidjs-logo">r<span><span>a</span><span>p</span><span>i</span></span>d js</a>
 
-                        @if (Route::currentRouteName() == 'docs')
-                            <div class="header__search">
-                                <input id="docs-search" type="text" placeholder="Search...">
-                            </div>
-                        @endif
+        @if (Route::currentRouteName() != 'home')
+            <div class="header">
+                <div class="header__inner">
+                    @include('components.logo')
 
-                    </div>
+                    @if (Route::currentRouteName() == 'docs')
+                        <div class="header__search">
+                            <input id="docs-search" type="text" placeholder="Search...">
+                        </div>
+                    @endif
+
                 </div>
-            @endif
-            <div class="wrapper" id="app">
+            </div>
+        @endif
+
+        <div class="wrapper" id="app">
 
 {{-- @include ('layouts.nav') --}}

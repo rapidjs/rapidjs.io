@@ -11,7 +11,7 @@
         <div class="home__hero__inner">
             <div class="header">
                 <div class="header__inner">
-                    <a href="/" class="rapidjs-logo">r<span><span>a</span><span>p</span><span>i</span></span>d js</a>
+                    @include('components.logo')
                 </div>
             </div>
             <h1 class="home__hero__title">A Fluent Interface To Rapidly Interact With APIs</h1>

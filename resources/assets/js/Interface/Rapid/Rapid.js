@@ -186,7 +186,7 @@ class Rapid {
      * @param id The model's id
      */
     find (id) {
-        return this.model.findBy(this.config.primaryKey, id);
+        return this.model.id(id).get();
     }
 
     /**

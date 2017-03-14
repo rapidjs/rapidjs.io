@@ -997,7 +997,7 @@ var Rapid = function () {
     }, {
         key: 'find',
         value: function find(id) {
-            return this.model.findBy(this.config.primaryKey, id);
+            return this.model.id(id).get();
         }
 
         /**

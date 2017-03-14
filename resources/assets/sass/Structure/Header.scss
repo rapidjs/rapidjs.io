@@ -14,6 +14,19 @@
         transition: all ease .2s;
         width: 174px;
         display: inline-block;
+        position: relative;
+
+        .alpha {
+            position: absolute;
+            top: 0;
+            background: $color-blue;
+            color: $color-white;
+            font-size: 10px;
+            font-style: normal;
+            padding: 2px 4px;
+            border-radius: 3px;
+            margin-left: 5px;
+        }
 
         &:hover {
             text-decoration: none;
@@ -108,6 +121,7 @@
                 transition: border ease .3s;
                 font-weight: bold;
                 color: $color-white;
+                height: 35px;
 
                 &::placeholder {
                     color: $color-white;

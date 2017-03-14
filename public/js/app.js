@@ -997,7 +997,7 @@ var Rapid = function () {
     }, {
         key: 'find',
         value: function find(id) {
-            return this.model.findBy(this.config.primaryKey, id);
+            return this.model.id(id).get();
         }
 
         /**
@@ -9324,103 +9324,6 @@ var _Rapid2 = __webpack_require__(23);
 
 var _Rapid3 = _interopRequireDefault(_Rapid2);
 
-var _lodash = __webpack_require__(74);
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var authConfig = {
-    auth: {
-        routes: {
-            login: 'login',
-            logout: 'logout',
-            auth: 'auth'
-        },
-
-        methods: {
-            login: 'post',
-            logout: 'post',
-            auth: 'get'
-        },
-
-        authPrefix: false
-    }
-};
-
-var Auth = function (_Rapid) {
-    (0, _inherits3.default)(Auth, _Rapid);
-
-    function Auth(config) {
-        (0, _classCallCheck3.default)(this, Auth);
-
-        config = (0, _lodash2.default)(config, authConfig);
-        config.modelName = config.modelName ? config.modelName : 'auth';
-
-        return (0, _possibleConstructorReturn3.default)(this, (Auth.__proto__ || (0, _getPrototypeOf2.default)(Auth)).call(this, config));
-    }
-
-    (0, _createClass3.default)(Auth, [{
-        key: 'login',
-        value: function login(credentials) {
-            return this[this.authPrefix].withParams(credentials).buildRequest(this.config.auth.methods.login, this.config.auth.routes.login);
-        }
-    }, {
-        key: 'logout',
-        value: function logout() {
-            return this[this.authPrefix].buildRequest(this.config.auth.methods.logout, this.config.auth.routes.logout);
-        }
-    }, {
-        key: 'check',
-        value: function check() {
-            return this[this.authPrefix].buildRequest(this.config.auth.methods.auth, this.config.auth.routes.auth);
-        }
-    }, {
-        key: 'authPrefix',
-        get: function get() {
-            return this.config.auth.authPrefix ? 'model' : 'any';
-        }
-    }]);
-    return Auth;
-}(_Rapid3.default);
-
-exports.default = Auth;
-
-/***/ }),
-/* 144 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _getPrototypeOf = __webpack_require__(48);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(12);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(14);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(50);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(49);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _Rapid2 = __webpack_require__(23);
-
-var _Rapid3 = _interopRequireDefault(_Rapid2);
-
 var _UserModel = __webpack_require__(158);
 
 var _UserModel2 = _interopRequireDefault(_UserModel);
@@ -9462,13 +9365,13 @@ exports.default = new TestModel({
 });
 
 /***/ }),
-/* 145 */
+/* 144 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(global) {
 
-var _keys = __webpack_require__(146);
+var _keys = __webpack_require__(145);
 
 var _keys2 = _interopRequireDefault(_keys);
 
@@ -9673,13 +9576,13 @@ Prism.languages.scss = Prism.languages.extend("css", { comment: { pattern: /(^|[
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(25)))
 
 /***/ }),
-/* 146 */
+/* 145 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = { "default": __webpack_require__(168), __esModule: true };
 
 /***/ }),
-/* 147 */
+/* 146 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // most Object methods by ES6 should accept primitives
@@ -9694,7 +9597,7 @@ module.exports = function(KEY, exec){
 };
 
 /***/ }),
-/* 148 */
+/* 147 */
 /***/ (function(module, exports) {
 
 /*
@@ -9750,7 +9653,7 @@ module.exports = function() {
 
 
 /***/ }),
-/* 149 */
+/* 148 */
 /***/ (function(module, exports) {
 
 module.exports = function normalizeComponent (
@@ -9803,7 +9706,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 150 */
+/* 149 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -10039,7 +9942,7 @@ function applyToTag (styleElement, obj) {
 
 
 /***/ }),
-/* 151 */
+/* 150 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10070,13 +9973,13 @@ new Vue({
 });
 
 /***/ }),
-/* 152 */
+/* 151 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 153 */
+/* 152 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10179,7 +10082,7 @@ exports.default = {
 };
 
 /***/ }),
-/* 154 */
+/* 153 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10193,11 +10096,11 @@ var _values = __webpack_require__(163);
 
 var _values2 = _interopRequireDefault(_values);
 
-var _keys = __webpack_require__(146);
+var _keys = __webpack_require__(145);
 
 var _keys2 = _interopRequireDefault(_keys);
 
-var _TestModel = __webpack_require__(144);
+var _TestModel = __webpack_require__(143);
 
 var _TestModel2 = _interopRequireDefault(_TestModel);
 
@@ -10209,7 +10112,7 @@ var _lodash = __webpack_require__(181);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _prism = __webpack_require__(145);
+var _prism = __webpack_require__(144);
 
 var _prism2 = _interopRequireDefault(_prism);
 
@@ -10724,14 +10627,14 @@ exports.default = {
 };
 
 /***/ }),
-/* 155 */
+/* 154 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 /***/ }),
-/* 156 */
+/* 155 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -10816,6 +10719,103 @@ exports.default = new GoogleMapsPlace({
         alert("Something went wrong!");
     }
 });
+
+/***/ }),
+/* 156 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _getPrototypeOf = __webpack_require__(48);
+
+var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
+
+var _classCallCheck2 = __webpack_require__(12);
+
+var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
+
+var _createClass2 = __webpack_require__(14);
+
+var _createClass3 = _interopRequireDefault(_createClass2);
+
+var _possibleConstructorReturn2 = __webpack_require__(50);
+
+var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
+
+var _inherits2 = __webpack_require__(49);
+
+var _inherits3 = _interopRequireDefault(_inherits2);
+
+var _Rapid2 = __webpack_require__(23);
+
+var _Rapid3 = _interopRequireDefault(_Rapid2);
+
+var _lodash = __webpack_require__(74);
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var authConfig = {
+    auth: {
+        routes: {
+            login: 'login',
+            logout: 'logout',
+            auth: 'auth'
+        },
+
+        methods: {
+            login: 'post',
+            logout: 'post',
+            auth: 'get'
+        },
+
+        authPrefix: false
+    }
+};
+
+var Auth = function (_Rapid) {
+    (0, _inherits3.default)(Auth, _Rapid);
+
+    function Auth(config) {
+        (0, _classCallCheck3.default)(this, Auth);
+
+        config = (0, _lodash2.default)(config, authConfig);
+        config.modelName = config.modelName ? config.modelName : 'auth';
+
+        return (0, _possibleConstructorReturn3.default)(this, (Auth.__proto__ || (0, _getPrototypeOf2.default)(Auth)).call(this, config));
+    }
+
+    (0, _createClass3.default)(Auth, [{
+        key: 'login',
+        value: function login(credentials) {
+            return this[this.authPrefix].withParams(credentials).buildRequest(this.config.auth.methods.login, this.config.auth.routes.login);
+        }
+    }, {
+        key: 'logout',
+        value: function logout() {
+            return this[this.authPrefix].buildRequest(this.config.auth.methods.logout, this.config.auth.routes.logout);
+        }
+    }, {
+        key: 'check',
+        value: function check() {
+            return this[this.authPrefix].buildRequest(this.config.auth.methods.auth, this.config.auth.routes.auth);
+        }
+    }, {
+        key: 'authPrefix',
+        get: function get() {
+            return this.config.auth.authPrefix ? 'model' : 'any';
+        }
+    }]);
+    return Auth;
+}(_Rapid3.default);
+
+exports.default = Auth;
 
 /***/ }),
 /* 157 */
@@ -10970,7 +10970,7 @@ var _axios = __webpack_require__(70);
 
 var _axios2 = _interopRequireDefault(_axios);
 
-var _prism = __webpack_require__(145);
+var _prism = __webpack_require__(144);
 
 var _prism2 = _interopRequireDefault(_prism);
 
@@ -10978,19 +10978,19 @@ var _Rapid = __webpack_require__(23);
 
 var _Rapid2 = _interopRequireDefault(_Rapid);
 
-var _TestModel = __webpack_require__(144);
+var _TestModel = __webpack_require__(143);
 
 var _TestModel2 = _interopRequireDefault(_TestModel);
 
-var _GoogleMapsPlaces = __webpack_require__(156);
+var _GoogleMapsPlaces = __webpack_require__(155);
 
 var _GoogleMapsPlaces2 = _interopRequireDefault(_GoogleMapsPlaces);
 
-var _Auth = __webpack_require__(143);
+var _Auth = __webpack_require__(156);
 
 var _Auth2 = _interopRequireDefault(_Auth);
 
-var _AutoComplete = __webpack_require__(155);
+var _AutoComplete = __webpack_require__(154);
 
 var _AutoComplete2 = _interopRequireDefault(_AutoComplete);
 
@@ -11201,7 +11201,7 @@ $export($export.S, 'Object', {create: __webpack_require__(40)});
 var toObject        = __webpack_require__(35)
   , $getPrototypeOf = __webpack_require__(73);
 
-__webpack_require__(147)('getPrototypeOf', function(){
+__webpack_require__(146)('getPrototypeOf', function(){
   return function getPrototypeOf(it){
     return $getPrototypeOf(toObject(it));
   };
@@ -11215,7 +11215,7 @@ __webpack_require__(147)('getPrototypeOf', function(){
 var toObject = __webpack_require__(35)
   , $keys    = __webpack_require__(17);
 
-__webpack_require__(147)('keys', function(){
+__webpack_require__(146)('keys', function(){
   return function keys(it){
     return $keys(toObject(it));
   };
@@ -11247,7 +11247,7 @@ $export($export.S, 'Object', {
 /* 178 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(148)();
+exports = module.exports = __webpack_require__(147)();
 // imports
 
 
@@ -11261,7 +11261,7 @@ exports.push([module.i, "\n@-webkit-keyframes spinAround {\nfrom {\n    -webkit-
 /* 179 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(148)();
+exports = module.exports = __webpack_require__(147)();
 // imports
 
 
@@ -30665,9 +30665,9 @@ Prism.hooks.add('before-sanity-check', function (env) {
 /* styles */
 __webpack_require__(189)
 
-var Component = __webpack_require__(149)(
+var Component = __webpack_require__(148)(
   /* script */
-  __webpack_require__(153),
+  __webpack_require__(152),
   /* template */
   __webpack_require__(187),
   /* scopeId */
@@ -30703,9 +30703,9 @@ module.exports = Component.exports
 /* styles */
 __webpack_require__(188)
 
-var Component = __webpack_require__(149)(
+var Component = __webpack_require__(148)(
   /* script */
-  __webpack_require__(154),
+  __webpack_require__(153),
   /* template */
   __webpack_require__(186),
   /* scopeId */
@@ -31550,7 +31550,7 @@ var content = __webpack_require__(178);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(150)("3faa0fd9", content, false);
+var update = __webpack_require__(149)("3faa0fd9", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -31576,7 +31576,7 @@ var content = __webpack_require__(179);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(150)("00600f2c", content, false);
+var update = __webpack_require__(149)("00600f2c", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
@@ -40205,8 +40205,8 @@ module.exports = Vue$3;
 /* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(151);
-module.exports = __webpack_require__(152);
+__webpack_require__(150);
+module.exports = __webpack_require__(151);
 
 
 /***/ })

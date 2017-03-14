@@ -1,9 +1,6 @@
 import test from 'ava';
 import Rapid from './../resources/assets/js/Interface/Rapid/Rapid';
 
-test.todo('belongsTo with object');
-test.todo('belongsTo with string');
-
 test('works with a string', t => {
 
     let myModel = new Rapid({

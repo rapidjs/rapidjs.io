@@ -15,7 +15,7 @@
                 var index = client.initIndex('rapid.js');
                 //initialize autocomplete on search input (ID selector must match)
                 autocomplete('#docs-search',
-                { hint: false, debug: true }, 
+                { hint: false, debug: true },
                 {
                     source: autocomplete.sources.hits(index, {hitsPerPage: 5}),
                     //value to be displayed in input control after user's suggestion selection
@@ -24,10 +24,11 @@
                     templates: {
                         //'suggestion' templating function used to render a single suggestion
                         suggestion: function(suggestion) {
-                            console.log(suggestion);
-                          return '<b>' +
-                            suggestion._highlightResult.name.value + '</b><br /><span>' +
-                            suggestion._highlightResult.description.value + '</span>';
+                          return `
+                              <b>${suggestion._highlightResult.name.value}</b><br />
+                              <span>${suggestion._highlightResult.description.value}</span>
+                          `;
+
                         }
                     }
                 });

@@ -14,10 +14,6 @@ class Request extends Routes {
     }
 
     /**
-     * The Request
-     */
-
-    /**
      * Parse the request data prior to passing it to axios
      *
      * @param type The request type

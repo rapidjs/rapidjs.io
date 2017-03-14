@@ -11,10 +11,6 @@ class Url extends Core {
     }
 
     /**
-     * URL functions
-     */
-
-    /**
      * Based off the current route that's set this will take a set of params
      * and split it into a URL. This will then reset the route to the default
      * route after building the URL.

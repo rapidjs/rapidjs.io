@@ -1,5 +1,5 @@
 /**
- * Relationship Methods 
+ * Relationship Methods
  */
 
 import _isArray from 'lodash.isarray';
@@ -10,10 +10,6 @@ class Relationships extends Request {
     constructor (config) {
         super(config);
     }
-
-    /**
-     * Relationships
-     */
 
     /**
      * Sets up a hasOne relationship

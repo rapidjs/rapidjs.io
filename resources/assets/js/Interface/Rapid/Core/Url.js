@@ -1,3 +1,7 @@
+/**
+ * URL Methods
+ */
+
 import Core from './Core';
 import _isArray from 'lodash.isarray';
 
@@ -78,6 +82,14 @@ class Url extends Core {
 
         return this;
     }
+
+    // consider making a .url() alias of the above method?
+
+    // url (...params) {
+    //     this.setURLParams(params...);
+    //
+    //     return this;
+    // }
 
 }
 

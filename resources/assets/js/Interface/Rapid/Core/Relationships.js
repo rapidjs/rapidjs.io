@@ -1,3 +1,7 @@
+/**
+ * Relationship Methods 
+ */
+
 import _isArray from 'lodash.isarray';
 import Request from './Request';
 
@@ -165,8 +169,11 @@ class Relationships extends Request {
     }
 
     /**
-     * This gets the route of the relationship if a relationship
+     * This gets the route of the relationship if a relationship object
      * is passed rather than a string.
+     *
+     * @param type The type of relationship ('hasOne', 'hasMany', 'belongsTo', 'belongsToMany')
+     * @param relation The relationship either a Rapid model or string
      */
     getRouteByRelationType (type, relation) {
         let relationRoute = relation,

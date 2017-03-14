@@ -1,6 +1,9 @@
+/**
+ * The Caramel Core functionality of Rapid
+ */
+
 import axios from 'axios';
 import _defaultsDeep from 'lodash.defaultsdeep';
-
 
 import Defaults from './../Defaults';
 import Debugger from './../Debugger';
@@ -71,6 +74,26 @@ class Core {
         this.api = axios.create(_defaultsDeep({ baseURL: this.config.baseURL.replace(/\/$/, '') }, this.config.apiConfig));
     }
 
+    /**
+     * Initialize the routes.
+     */
+    initializeRoutes () {
+        this.routes = {
+            model      : '',
+            collection : '',
+            any        : ''
+        };
+    }
+
+    /**
+     * Resets the request data
+     */
+    resetRequestData () {
+        this.requestData = {
+            params: {},
+            options: {}
+        };
+    }
 
     /**
      * Setters and Getters

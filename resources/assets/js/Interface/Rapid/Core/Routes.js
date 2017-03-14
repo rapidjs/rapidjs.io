@@ -1,3 +1,7 @@
+/**
+ * The Rapid Routes
+ */
+
 import Url from './Url';
 import pluralize from 'pluralize';
 import _kebabCase from 'lodash.kebabcase';
@@ -12,20 +16,11 @@ class Routes extends Url {
      * Set the current route.
      * This will set the current route to either model, collection, or any to make appropriate requests
      * Can also be changed by calling rapid.model.func() or rapid.collection.func()
+     *
+     * @param route The route to set
      */
     setCurrentRoute (route) {
         this.currentRoute = route;
-    }
-
-    /**
-     * Initialize the routes.
-     */
-    initializeRoutes () {
-        this.routes = {
-            model      : '',
-            collection : '',
-            any        : ''
-        };
     }
 
     /**

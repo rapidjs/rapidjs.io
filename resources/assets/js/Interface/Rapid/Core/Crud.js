@@ -1,3 +1,7 @@
+/**
+ * All the CRUD 
+ */
+
 import Relationships from './Relationships';
 
 class Crud extends Relationships {

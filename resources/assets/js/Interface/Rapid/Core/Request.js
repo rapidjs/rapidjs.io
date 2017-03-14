@@ -1,9 +1,12 @@
+/**
+ * The Re-Quest to find the API
+ */
+
 import Routes from './Routes';
 import Debugger from './../Debugger';
 import Logger from './../Logger';
 import _isArray from 'lodash.isarray';
 import _defaultsDeep from 'lodash.defaultsdeep';
-
 
 class Request extends Routes {
     constructor (config) {
@@ -14,6 +17,11 @@ class Request extends Routes {
      * The Request
      */
 
+    /**
+     * Parse the request data prior to passing it to axios
+     *
+     * @param type The request type
+     */
     parseRequestData (type) {
         let requestData = [],
             params        = this.requestData.params,
@@ -32,6 +40,9 @@ class Request extends Routes {
         return requestData;
     }
 
+    /**
+     *
+     */
     request (type, url) {
         type = type.toLowerCase();
 
@@ -90,38 +101,58 @@ class Request extends Routes {
         return this.request(type, url);
     }
 
-    get (...params) {
-        return this.buildRequest('get', params);
-    }
-
-    post (...params) {
-        return this.buildRequest('post', params);
-    }
-
-    put (...params) {
-        return this.buildRequest('put', params);
-    }
-
-    patch (...params) {
-        return this.buildRequest('patch', params);
-    }
-
-    head (...params) {
-        return this.buildRequest('head', params);
-    }
-
-    delete (...params) {
-        return this.buildRequest('delete', params);
+    /**
+     * Make a GET request
+     *
+     * @param urlParams The url params to be concatenated to the urlParams (See buildRequest)
+     */
+    get (...urlParams) {
+        return this.buildRequest('get', urlParams);
     }
 
     /**
-     * Resets the request data
+     * Make a POST request
+     *
+     * @param urlParams The url params to be concatenated to the urlParams (See buildRequest)
      */
-    resetRequestData () {
-        this.requestData = {
-            params: {},
-            options: {}
-        };
+    post (...urlParams) {
+        return this.buildRequest('post', urlParams);
+    }
+
+    /**
+     * Make a PUT request
+     *
+     * @param urlParams The url params to be concatenated to the urlParams (See buildRequest)
+     */
+    put (...urlParams) {
+        return this.buildRequest('put', urlParams);
+    }
+
+    /**
+     * Make a PATCH request
+     *
+     * @param urlParams The url params to be concatenated to the urlParams (See buildRequest)
+     */
+    patch (...urlParams) {
+        return this.buildRequest('patch', urlParams);
+    }
+
+    /**
+     * Make a HEAD request
+     *
+     * @param urlParams The url params to be concatenated to the urlParams (See buildRequest)
+     */
+    head (...urlParams) {
+        return this.buildRequest('head', urlParams);
+    }
+
+    /**
+     * Make a DELETE request
+     *
+     * @param urlParams The url params to be concatenated to the urlParams (See buildRequest)
+     */
+    delete (...urlParams) {
+        return this.buildRequest('delete', params);
     }
 
     /**

@@ -2,11 +2,13 @@
 
 @import 'Helpers';
 
-@import 'Components/Buttons';
-@import 'Components/AutoComplete';
 
 @import 'Mixins/Mixins';
 @import 'Mixins/When-Than';
+
+@import 'Components/Buttons';
+@import 'Components/AutoComplete';
+@import 'Components/Logo';
 
 @import 'Structure/Core';
 @import 'Structure/Header';

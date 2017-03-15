@@ -1,7 +1,26 @@
 
             </div>
             <div class="footer">
-                Made my me.
+
+                <div class="footer__inner fb-grid row">
+                    <div class="footer__logo">
+                        @include('components.logo')
+                    </div>
+
+                    <div class="footer__links">
+                        <a href="{{ route('docs') }}">documentation</a>
+                        <a href="{{ route('contribute') }}">contribute</a>
+                    </div>
+
+                    <div class="footer__madeby">
+                        <span>
+                            <span class="color-rapid"><i class="fa fa-copyright"></i> {{ date('Y') }} Drew J Bartlett </span>
+                            <a href="http://drewjbartlett.com/?ref=rapid" target="_blank">(drewjbartlett.com)</a>
+                        </span>
+                    </div>
+                </div>
+
+
             </div>
 
         <script src="/js/app.js"></script>

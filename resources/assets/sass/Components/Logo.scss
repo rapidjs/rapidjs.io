@@ -1,0 +1,51 @@
+.rapidjs-logo {
+    font-size: 32px;
+    @include webfont('Miriam Libre');
+    color: $color-white;
+    transition: all ease .2s;
+    width: 174px;
+    display: inline-block;
+    position: relative;
+
+    .alpha {
+        position: absolute;
+        top: 0;
+        background: $color-blue;
+        color: $color-white;
+        font-size: 10px;
+        font-style: normal;
+        padding: 2px 4px;
+        border-radius: 3px;
+        margin-left: 5px;
+    }
+
+    &:hover {
+        text-decoration: none;
+        color: $color-blue;
+
+        span {
+            color: $color-white;
+        }
+    }
+
+    span {
+        span {
+            color: $color-blue;
+            transition: all ease .2s;
+        }
+
+        span:nth-child(1) {
+
+        }
+
+        span:nth-child(2) {
+            transition-delay: .1s;
+        }
+
+        span:nth-child(3) {
+            transition-delay: .2s;
+        }
+
+
+    }
+}

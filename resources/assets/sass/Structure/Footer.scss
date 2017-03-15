@@ -1,4 +1,51 @@
 .footer {
     padding: 50px;
     background-color: $color-white;
+    border-top: $color-border-gray solid 1px;
+
+    &__inner {
+        @include flex();
+    }
+
+    &__logo {
+        border-right: solid 1px $color-border-gray;
+        margin-right: 20px;
+        padding-right: 20px;
+
+        .rapidjs-logo {
+            font-size: 22px;
+            @include webfont('Miriam Libre');
+            color: darken($color-border-gray, 10%);
+            width: auto;
+
+            .alpha {
+                display: none;
+            }
+
+            &:hover {
+                color: $color-blue;
+
+                span {
+                    color: darken($color-border-gray, 10%);
+                }
+            }
+        }
+    }
+
+    &__links {
+        align-items: center;
+
+        a {
+            display: inline-block;
+            margin-right: 10px;
+        }
+    }
+
+    &__madeby {
+        align-items: center;
+        justify-content: flex-end;
+        flex-grow: 1;
+        min-width: 25%;
+        text-align: right;
+    }
 }

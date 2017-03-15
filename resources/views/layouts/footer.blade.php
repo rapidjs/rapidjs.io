@@ -31,7 +31,7 @@
 
             <script>
                 var client = algoliasearch("C3YLLGCGRG", "e1e71df52f2217b2b60288a81d7b6fd5");
-                var index = client.initIndex('rapid.js');
+                var index = client.initIndex('rapid.js-config');
                 //initialize autocomplete on search input (ID selector must match)
                 autocomplete('#docs-search',
                 { hint: false, debug: true },
@@ -44,11 +44,14 @@
                         //'suggestion' templating function used to render a single suggestion
                         suggestion: function(suggestion) {
                           return `
+                              <a href="#${suggestion.prefix}-${suggestion.name}">
                               <b>${suggestion._highlightResult.name.value}</b><br />
                               <span>${suggestion._highlightResult.description.value}</span>
+                              </a>
                           `;
 
                         },
+                        header: '<div class="autcomplete__header"><h1>Configuration</h1></div>',
                         footer: '<div class="branding">Powered by <img height="15" src="/images/algolia-logo.svg" /></div>'
                     }
                 });

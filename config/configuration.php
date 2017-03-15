@@ -90,7 +90,7 @@ $configuration = [
 
         'type'        => 'object',
 
-        'description' => '',
+        'description' => 'Global parameters to be sent with every request such as an API_KEY.',
 
         'default'     => "{}",
 
@@ -122,7 +122,7 @@ $configuration = [
 
         'type'        => 'object',
 
-        'description' => '',
+        'description' => 'The request methods to be used for <code class="language-js">create()</code>, <code class="language-js">update()</code>, and <code class="language-js">destroy()</code>. If you want to override any of them, you can here.',
 
         'default'     => "{
     create  : 'post',
@@ -140,7 +140,7 @@ $configuration = [
 
         'type'        => 'object',
 
-        'description' => '',
+        'description' => 'By default, rapid will generate routes based off the <code class="language-js">modelName</code> config attribute. If you want to override one or the other, you can do so here.',
 
         'default'     => "{
     model      : '',
@@ -199,7 +199,7 @@ $configuration = [
 
         'type'        => 'function',
 
-        'description' => '',
+        'description' => 'A method to fire before each request is sent.',
 
         'default'     => "
 beforeRequest (type, url) {
@@ -267,6 +267,8 @@ onError (error) {
 ];
 
 
-return collect($configuration)->each(function($config, $key) {
+return collect($configuration)->map(function($config) {
     $config['prefix'] = 'configuration';
+
+    return $config;
 })->sort()->toArray();

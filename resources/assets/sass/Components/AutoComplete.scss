@@ -74,6 +74,14 @@
 .aa-suggestion {
     padding: 12px;
     cursor: pointer;
+
+    a {
+        color: $color-black;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
 }
 
 .aa-suggestion + .aa-suggestion {

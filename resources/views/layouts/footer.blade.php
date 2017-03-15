@@ -48,7 +48,8 @@
                               <span>${suggestion._highlightResult.description.value}</span>
                           `;
 
-                        }
+                        },
+                        footer: '<div class="branding">Powered by <img height="15" src="/images/algolia-logo.svg" /></div>'
                     }
                 });
             </script>

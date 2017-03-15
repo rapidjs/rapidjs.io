@@ -83,3 +83,16 @@
 .aa-suggestion:hover, .aa-suggestion.aa-cursor {
     background-color: rgba(241, 241, 241, 0.35);
 }
+
+.branding {
+    padding: 5px 10px;
+    @include flex();
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 12px;
+    border-top: solid 1px #efefef;
+
+    img {
+        margin-left: 6px;
+    }
+}

@@ -221,6 +221,11 @@
 
                 <div class="fb-grid col-md-2">
                     <span class="label">defaultRoute</span>
+
+                    <select v-model="model.config.defaultRoute" @change="resetRoutes()">
+                        <option value="model">model</option>
+                        <option value="collection">collection</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -252,7 +257,7 @@
     import prism from './../Vendor/prism';
     import qs from 'qs';
     import _forEach from 'lodash.foreach';
-    
+
     export default {
         name: 'class-builder',
 
@@ -267,6 +272,8 @@
                     trailingSlash: false,
                     caseSensitive: false,
                     routeDelimeter: '-',
+                    defaultRoute: 'model'
+
                 },
 
                 overrides: {
@@ -325,9 +332,8 @@
         },
 
         methods: {
-            resetRouteOverride (route) {
-                this.model.setRoute(route);
-                // this.model.config.routes[route]
+            resetRoutes () {
+                this.model.setRoutes();
             },
 
             resetDefaults (parent, child) {
@@ -336,7 +342,7 @@
                     this.model.config[parent][child] = this.defaultOverrides[parent][child]
                 }
 
-                this.model.setRoutes();
+                this.resetRoutes();
             },
 
             regenerateRoutes () {
@@ -359,7 +365,7 @@
                         path: this.model.findBy('key', 'value'),
                         method: 'get',
                         highlightPath (path) {
-                            return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                            return path.replace(vm.model.routes[vm.model.config.defaultRoute], `<b>${vm.model.routes[vm.model.config.defaultRoute]}</b>`);
                         }
                     },
 
@@ -377,7 +383,7 @@
                         path: this.model.create(),
                         method: this.model.config.methods.create,
                         highlightPath (path) {
-                            path = path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                            return path.replace(vm.model.routes[vm.model.config.defaultRoute], `<b>${vm.model.routes[vm.model.config.defaultRoute]}</b>`);
 
                             if(vm.config.suffixes && 'create' in vm.config.suffixes) {
                                 path = path.replace(vm.model.config.suffixes.create, `<span class="code-block__highlight">${vm.model.config.suffixes.create}</span>`);
@@ -459,7 +465,8 @@
                     primaryKey    : this.model.config.primaryKey,
                     trailingSlash : this.model.config.trailingSlash,
                     caseSensitive : this.model.config.caseSensitive,
-                    routeDelimeter: this.model.config.routeDelimeter
+                    routeDelimeter: this.model.config.routeDelimeter,
+                    defaultRoute  : this.model.config.defaultRoute
                 };
 
                 _.forEach(this.defaults, (val, k) => {

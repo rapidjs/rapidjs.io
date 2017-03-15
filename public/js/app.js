@@ -10766,6 +10766,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 //
 //
+//
+//
+//
+//
+//
 
 exports.default = {
     name: 'class-builder',
@@ -10780,7 +10785,9 @@ exports.default = {
                 primaryKey: '',
                 trailingSlash: false,
                 caseSensitive: false,
-                routeDelimeter: '-'
+                routeDelimeter: '-',
+                defaultRoute: 'model'
+
             },
 
             overrides: {
@@ -10839,9 +10846,8 @@ exports.default = {
 
 
     methods: {
-        resetRouteOverride: function resetRouteOverride(route) {
-            this.model.setRoute(route);
-            // this.model.config.routes[route]
+        resetRoutes: function resetRoutes() {
+            this.model.setRoutes();
         },
         resetDefaults: function resetDefaults(parent, child) {
 
@@ -10849,7 +10855,7 @@ exports.default = {
                 this.model.config[parent][child] = this.defaultOverrides[parent][child];
             }
 
-            this.model.setRoutes();
+            this.resetRoutes();
         },
         regenerateRoutes: function regenerateRoutes() {
             var vm = this;
@@ -10871,7 +10877,7 @@ exports.default = {
                     path: this.model.findBy('key', 'value'),
                     method: 'get',
                     highlightPath: function highlightPath(path) {
-                        return path.replace(vm.model.routes.model, '<b>' + vm.model.routes.model + '</b>');
+                        return path.replace(vm.model.routes[vm.model.config.defaultRoute], '<b>' + vm.model.routes[vm.model.config.defaultRoute] + '</b>');
                     }
                 },
 
@@ -10889,7 +10895,7 @@ exports.default = {
                     path: this.model.create(),
                     method: this.model.config.methods.create,
                     highlightPath: function highlightPath(path) {
-                        path = path.replace(vm.model.routes.model, '<b>' + vm.model.routes.model + '</b>');
+                        return path.replace(vm.model.routes[vm.model.config.defaultRoute], '<b>' + vm.model.routes[vm.model.config.defaultRoute] + '</b>');
 
                         if (vm.config.suffixes && 'create' in vm.config.suffixes) {
                             path = path.replace(vm.model.config.suffixes.create, '<span class="code-block__highlight">' + vm.model.config.suffixes.create + '</span>');
@@ -10964,7 +10970,8 @@ exports.default = {
                 primaryKey: this.model.config.primaryKey,
                 trailingSlash: this.model.config.trailingSlash,
                 caseSensitive: this.model.config.caseSensitive,
-                routeDelimeter: this.model.config.routeDelimeter
+                routeDelimeter: this.model.config.routeDelimeter,
+                defaultRoute: this.model.config.defaultRoute
             };
 
             _lodash2.default.forEach(this.defaults, function (val, k) {
@@ -31710,7 +31717,38 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   })]), _vm._v(" "), _c('span', {
     staticClass: "help is-info"
-  }, [_vm._v("Comma separate: foo=bar, apikey=1234567")])]), _vm._v(" "), _vm._m(1)])]), _vm._v(" "), _c('h4', {
+  }, [_vm._v("Comma separate: foo=bar, apikey=1234567")])]), _vm._v(" "), _c('div', {
+    staticClass: "fb-grid col-md-2"
+  }, [_c('span', {
+    staticClass: "label"
+  }, [_vm._v("defaultRoute")]), _vm._v(" "), _c('select', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.model.config.defaultRoute),
+      expression: "model.config.defaultRoute"
+    }],
+    on: {
+      "change": [function($event) {
+        _vm.model.config.defaultRoute = Array.prototype.filter.call($event.target.options, function(o) {
+          return o.selected
+        }).map(function(o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val
+        })[0]
+      }, function($event) {
+        _vm.resetRoutes()
+      }]
+    }
+  }, [_c('option', {
+    attrs: {
+      "value": "model"
+    }
+  }, [_vm._v("model")]), _vm._v(" "), _c('option', {
+    attrs: {
+      "value": "collection"
+    }
+  }, [_vm._v("collection")])])])])]), _vm._v(" "), _c('h4', {
     staticClass: "subtitle is-5 is-info",
     attrs: {
       "id": "config-builder-overrides"
@@ -31758,12 +31796,6 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_vm._v("baseURL")]), _vm._v(" and "), _c('code', {
     staticClass: "language-js"
   }, [_vm._v("modelName")]), _vm._v(".")])
-},function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticClass: "fb-grid col-md-2"
-  }, [_c('span', {
-    staticClass: "label"
-  }, [_vm._v("defaultRoute")])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

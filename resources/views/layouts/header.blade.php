@@ -34,6 +34,14 @@
                         </div>
                     @endif
 
+                    @if (Route::currentRouteName() == 'docs' || Route::currentRouteName() == 'contribute')
+                        <div class="header__nav">
+                            @foreach (['docs' => 'Documentation', 'contribute' => 'Contribute'] as $route => $name)
+                                <a class="{{ $route != Route::currentRouteName() ?: 'active' }}" href="{{ route($route) }}">{{ $name }}</a>
+                            @endforeach
+                        </div>
+                    @endif
+
                 </div>
             </div>
         @endif

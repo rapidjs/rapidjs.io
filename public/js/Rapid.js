@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "./";
 
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 199);
+/******/ 	return __webpack_require__(__webpack_require__.s = 198);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -3998,10 +3998,6 @@ var _createClass2 = __webpack_require__(5);
 
 var _createClass3 = _interopRequireDefault(_createClass2);
 
-var _stackTrace = __webpack_require__(159);
-
-var _stackTrace2 = _interopRequireDefault(_stackTrace);
-
 var _Logger = __webpack_require__(30);
 
 var _Logger2 = _interopRequireDefault(_Logger);
@@ -4024,16 +4020,12 @@ var _class = function () {
     (0, _createClass3.default)(_class, [{
         key: 'fakeRequest',
         value: function fakeRequest(type, url) {
-            var trace = _stackTrace2.default.get(),
-                length = trace.length,
-                lastTrace = trace[length - 2],
-                params = this.caller.parseRequestData(type),
+            var params = this.caller.parseRequestData(type),
                 lastUrl = this.setLastUrl.apply(this, [type, url].concat((0, _toConsumableArray3.default)(params)));
 
             this.setLastRequest.apply(this, arguments);
 
             if (this.logEnabled) {
-                // .${lastTrace.getFunctionName()}
                 _Logger2.default.debug(this.caller.config.modelName + ' made a ' + type.toUpperCase() + ' request (' + lastUrl + ')');
                 _Logger2.default.log(params);
             }
@@ -4821,6 +4813,18 @@ var Rapid = function (_Crud) {
                      * (c) 2017 Drew J Bartlett (http://drewjbartlett.com)
                      * Released under the MIT License.
                      */
+
+/**
+ * The inheritance of the classes
+ *
+ * Core            ---> Url
+ * Url             ---> Routes
+ * Routes          ---> Request
+ * Request         ---> Relationships
+ * Relationships   ---> Crud
+ * Crud            ---> Rapid
+ *
+ */
 
 exports.default = Rapid;
 
@@ -5786,6 +5790,33 @@ var Core = function () {
         }
 
         /**
+         * Initialize the routes.
+         */
+
+    }, {
+        key: 'initializeRoutes',
+        value: function initializeRoutes() {
+            this.routes = {
+                model: '',
+                collection: '',
+                any: ''
+            };
+        }
+
+        /**
+         * Resets the request data
+         */
+
+    }, {
+        key: 'resetRequestData',
+        value: function resetRequestData() {
+            this.requestData = {
+                params: {},
+                options: {}
+            };
+        }
+
+        /**
          * Setters and Getters
          */
 
@@ -5841,7 +5872,9 @@ var Core = function () {
         }
     }]);
     return Core;
-}();
+}(); /**
+      * The Caramel Core functionality of Rapid
+      */
 
 exports.default = Core;
 
@@ -6056,7 +6089,9 @@ var Crud = function (_Relationships) {
         }
     }]);
     return Crud;
-}(_Relationships3.default);
+}(_Relationships3.default); /**
+                             * All the CRUD 
+                             */
 
 exports.default = Crud;
 
@@ -6109,6 +6144,10 @@ var _Request3 = _interopRequireDefault(_Request2);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * Relationship Methods
+ */
+
 var Relationships = function (_Request) {
     (0, _inherits3.default)(Relationships, _Request);
 
@@ -6116,10 +6155,6 @@ var Relationships = function (_Request) {
         (0, _classCallCheck3.default)(this, Relationships);
         return (0, _possibleConstructorReturn3.default)(this, (Relationships.__proto__ || (0, _getPrototypeOf2.default)(Relationships)).call(this, config));
     }
-
-    /**
-     * Relationships
-     */
 
     /**
      * Sets up a hasOne relationship
@@ -6310,8 +6345,11 @@ var Relationships = function (_Request) {
         }
 
         /**
-         * This gets the route of the relationship if a relationship
+         * This gets the route of the relationship if a relationship object
          * is passed rather than a string.
+         *
+         * @param type The type of relationship ('hasOne', 'hasMany', 'belongsTo', 'belongsToMany')
+         * @param relation The relationship either a Rapid model or string
          */
 
     }, {
@@ -6409,8 +6447,11 @@ var Request = function (_Routes) {
     }
 
     /**
-     * The Request
+     * Parse the request data prior to passing it to axios
+     *
+     * @param type The request type
      */
+
 
     (0, _createClass3.default)(Request, [{
         key: 'parseRequestData',
@@ -6431,6 +6472,14 @@ var Request = function (_Routes) {
 
             return requestData;
         }
+
+        /**
+         * Make the request
+         *
+         * @param type The Request type
+         * @param url The url
+         */
+
     }, {
         key: 'request',
         value: function request(type, url) {
@@ -6498,72 +6547,101 @@ var Request = function (_Routes) {
 
             return this.request(type, url);
         }
-    }, {
-        key: 'get',
-        value: function get() {
-            for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
-                params[_key] = arguments[_key];
-            }
-
-            return this.buildRequest('get', params);
-        }
-    }, {
-        key: 'post',
-        value: function post() {
-            for (var _len2 = arguments.length, params = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-                params[_key2] = arguments[_key2];
-            }
-
-            return this.buildRequest('post', params);
-        }
-    }, {
-        key: 'put',
-        value: function put() {
-            for (var _len3 = arguments.length, params = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-                params[_key3] = arguments[_key3];
-            }
-
-            return this.buildRequest('put', params);
-        }
-    }, {
-        key: 'patch',
-        value: function patch() {
-            for (var _len4 = arguments.length, params = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-                params[_key4] = arguments[_key4];
-            }
-
-            return this.buildRequest('patch', params);
-        }
-    }, {
-        key: 'head',
-        value: function head() {
-            for (var _len5 = arguments.length, params = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-                params[_key5] = arguments[_key5];
-            }
-
-            return this.buildRequest('head', params);
-        }
-    }, {
-        key: 'delete',
-        value: function _delete() {
-            for (var _len6 = arguments.length, params = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
-                params[_key6] = arguments[_key6];
-            }
-
-            return this.buildRequest('delete', params);
-        }
 
         /**
-         * Resets the request data
+         * Make a GET request
+         *
+         * @param urlParams The url params to be concatenated to the urlParams (See buildRequest)
          */
 
     }, {
-        key: 'resetRequestData',
-        value: function resetRequestData() {
-            this.requestData = {
-                params: {},
-                options: {}
-            };
+        key: 'get',
+        value: function get() {
+            for (var _len = arguments.length, urlParams = Array(_len), _key = 0; _key < _len; _key++) {
+                urlParams[_key] = arguments[_key];
+            }
+
+            return this.buildRequest('get', urlParams);
+        }
+
+        /**
+         * Make a POST request
+         *
+         * @param urlParams The url params to be concatenated to the urlParams (See buildRequest)
+         */
+
+    }, {
+        key: 'post',
+        value: function post() {
+            for (var _len2 = arguments.length, urlParams = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+                urlParams[_key2] = arguments[_key2];
+            }
+
+            return this.buildRequest('post', urlParams);
+        }
+
+        /**
+         * Make a PUT request
+         *
+         * @param urlParams The url params to be concatenated to the urlParams (See buildRequest)
+         */
+
+    }, {
+        key: 'put',
+        value: function put() {
+            for (var _len3 = arguments.length, urlParams = Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+                urlParams[_key3] = arguments[_key3];
+            }
+
+            return this.buildRequest('put', urlParams);
+        }
+
+        /**
+         * Make a PATCH request
+         *
+         * @param urlParams The url params to be concatenated to the urlParams (See buildRequest)
+         */
+
+    }, {
+        key: 'patch',
+        value: function patch() {
+            for (var _len4 = arguments.length, urlParams = Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+                urlParams[_key4] = arguments[_key4];
+            }
+
+            return this.buildRequest('patch', urlParams);
+        }
+
+        /**
+         * Make a HEAD request
+         *
+         * @param urlParams The url params to be concatenated to the urlParams (See buildRequest)
+         */
+
+    }, {
+        key: 'head',
+        value: function head() {
+            for (var _len5 = arguments.length, urlParams = Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
+                urlParams[_key5] = arguments[_key5];
+            }
+
+            return this.buildRequest('head', urlParams);
+        }
+
+        /**
+         * Make a DELETE request
+         *
+         * @param urlParams The url params to be concatenated to the urlParams (See buildRequest)
+         */
+
+    }, {
+        key: 'delete',
+        value: function _delete() {
+            for (var _len6 = arguments.length, urlParams = Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+                urlParams[_key6] = arguments[_key6];
+            }
+
+            return this.buildRequest('delete', urlParams);
         }
 
         /**
@@ -6685,7 +6763,9 @@ var Request = function (_Routes) {
         }
     }]);
     return Request;
-}(_Routes3.default);
+}(_Routes3.default); /**
+                      * The Re-Quest to find the API
+                      */
 
 exports.default = Request;
 
@@ -6746,6 +6826,8 @@ var Routes = function (_Url) {
      * Set the current route.
      * This will set the current route to either model, collection, or any to make appropriate requests
      * Can also be changed by calling rapid.model.func() or rapid.collection.func()
+     *
+     * @param route The route to set
      */
 
 
@@ -6753,20 +6835,6 @@ var Routes = function (_Url) {
         key: 'setCurrentRoute',
         value: function setCurrentRoute(route) {
             this.currentRoute = route;
-        }
-
-        /**
-         * Initialize the routes.
-         */
-
-    }, {
-        key: 'initializeRoutes',
-        value: function initializeRoutes() {
-            this.routes = {
-                model: '',
-                collection: '',
-                any: ''
-            };
         }
 
         /**
@@ -6813,7 +6881,9 @@ var Routes = function (_Url) {
         }
     }]);
     return Routes;
-}(_Url3.default);
+}(_Url3.default); /**
+                   * The Rapid Routes
+                   */
 
 exports.default = Routes;
 
@@ -6858,6 +6928,10 @@ var _lodash2 = _interopRequireDefault(_lodash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+/**
+ * URL Methods
+ */
+
 var Url = function (_Core) {
     (0, _inherits3.default)(Url, _Core);
 
@@ -6865,10 +6939,6 @@ var Url = function (_Core) {
         (0, _classCallCheck3.default)(this, Url);
         return (0, _possibleConstructorReturn3.default)(this, (Url.__proto__ || (0, _getPrototypeOf2.default)(Url)).call(this, config));
     }
-
-    /**
-     * URL functions
-     */
 
     /**
      * Based off the current route that's set this will take a set of params
@@ -6958,6 +7028,15 @@ var Url = function (_Core) {
 
             return this;
         }
+
+        // consider making a .url() alias of the above method?
+
+        // url (...params) {
+        //     this.setURLParams(params...);
+        //
+        //     return this;
+        // }
+
     }]);
     return Url;
 }(_Core3.default);
@@ -6987,12 +7066,7 @@ exports.default = {
 
     routeDelimeter: '-',
 
-    globalParameters: {
-        /**
-         * Need an option for global GET and POST params...
-         * what if we want to do /users/drew/save?api_key=12345
-         */
-    },
+    globalParameters: {},
 
     suffixes: {
         create: 'create',
@@ -9606,123 +9680,7 @@ module.exports = function (object, opts) {
 
 
 /***/ }),
-/* 159 */
-/***/ (function(module, exports) {
-
-exports.get = function(belowFn) {
-  var oldLimit = Error.stackTraceLimit;
-  Error.stackTraceLimit = Infinity;
-
-  var dummyObject = {};
-
-  var v8Handler = Error.prepareStackTrace;
-  Error.prepareStackTrace = function(dummyObject, v8StackTrace) {
-    return v8StackTrace;
-  };
-  Error.captureStackTrace(dummyObject, belowFn || exports.get);
-
-  var v8StackTrace = dummyObject.stack;
-  Error.prepareStackTrace = v8Handler;
-  Error.stackTraceLimit = oldLimit;
-
-  return v8StackTrace;
-};
-
-exports.parse = function(err) {
-  if (!err.stack) {
-    return [];
-  }
-
-  var self = this;
-  var lines = err.stack.split('\n').slice(1);
-
-  return lines
-    .map(function(line) {
-      if (line.match(/^\s*[-]{4,}$/)) {
-        return self._createParsedCallSite({
-          fileName: line,
-          lineNumber: null,
-          functionName: null,
-          typeName: null,
-          methodName: null,
-          columnNumber: null,
-          'native': null,
-        });
-      }
-
-      var lineMatch = line.match(/at (?:(.+)\s+)?\(?(?:(.+?):(\d+):(\d+)|([^)]+))\)?/);
-      if (!lineMatch) {
-        return;
-      }
-
-      var object = null;
-      var method = null;
-      var functionName = null;
-      var typeName = null;
-      var methodName = null;
-      var isNative = (lineMatch[5] === 'native');
-
-      if (lineMatch[1]) {
-        var methodMatch = lineMatch[1].match(/([^\.]+)(?:\.(.+))?/);
-        object = methodMatch[1];
-        method = methodMatch[2];
-        functionName = lineMatch[1];
-        typeName = 'Object';
-      }
-
-      if (method) {
-        typeName = object;
-        methodName = method;
-      }
-
-      if (method === '<anonymous>') {
-        methodName = null;
-        functionName = '';
-      }
-
-      var properties = {
-        fileName: lineMatch[2] || null,
-        lineNumber: parseInt(lineMatch[3], 10) || null,
-        functionName: functionName,
-        typeName: typeName,
-        methodName: methodName,
-        columnNumber: parseInt(lineMatch[4], 10) || null,
-        'native': isNative,
-      };
-
-      return self._createParsedCallSite(properties);
-    })
-    .filter(function(callSite) {
-      return !!callSite;
-    });
-};
-
-exports._createParsedCallSite = function(properties) {
-  var methods = {};
-  for (var property in properties) {
-    var prefix = 'get';
-    if (property === 'native') {
-      prefix = 'is';
-    }
-    var method = prefix + property.substr(0, 1).toUpperCase() + property.substr(1);
-
-    (function(property) {
-      methods[method] = function() {
-        return properties[property];
-      }
-    })(property);
-  }
-
-  var callSite = Object.create(methods);
-  for (var property in properties) {
-    callSite[property] = properties[property];
-  }
-
-  return callSite;
-};
-
-
-/***/ }),
+/* 159 */,
 /* 160 */,
 /* 161 */,
 /* 162 */,
@@ -9761,8 +9719,7 @@ exports._createParsedCallSite = function(properties) {
 /* 195 */,
 /* 196 */,
 /* 197 */,
-/* 198 */,
-/* 199 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(80);

@@ -1,0 +1,27 @@
+.contribute {
+    &__support {
+        height: 100vh;
+        text-align: center;
+
+        h1 {
+            @include webfont('Miriam Libre');
+            font-size: 34px;
+            margin-bottom: 50px;
+            margin-top: 100px;
+        }
+    }
+
+    &__paypal {
+        img {
+
+        }
+
+        span {
+            display: block;
+            color: $color-blue;
+            width: 60%;
+            text-align: center;
+            margin: 50px auto;
+        }
+    }
+}

@@ -37,7 +37,10 @@ class Request extends Routes {
     }
 
     /**
+     * Make the request
      *
+     * @param type The Request type
+     * @param url The url
      */
     request (type, url) {
         type = type.toLowerCase();
@@ -148,7 +151,7 @@ class Request extends Routes {
      * @param urlParams The url params to be concatenated to the urlParams (See buildRequest)
      */
     delete (...urlParams) {
-        return this.buildRequest('delete', params);
+        return this.buildRequest('delete', urlParams);
     }
 
     /**

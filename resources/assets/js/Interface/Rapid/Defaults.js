@@ -12,10 +12,7 @@ export default {
     routeDelimeter: '-',
 
     globalParameters: {
-        /**
-         * Need an option for global GET and POST params...
-         * what if we want to do /users/drew/save?api_key=12345
-         */
+
     },
 
     suffixes: {

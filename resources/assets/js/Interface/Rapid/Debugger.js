@@ -1,4 +1,3 @@
-import stackTrace from 'stack-trace';
 import Logger from './Logger';
 import qs from 'qs';
 
@@ -10,16 +9,12 @@ export default class {
     }
 
     fakeRequest (type, url) {
-        let trace     = stackTrace.get(),
-            length    = trace.length,
-            lastTrace = trace[length - 2],
-            params    = this.caller.parseRequestData(type),
+        let params    = this.caller.parseRequestData(type),
             lastUrl   = this.setLastUrl(type, url, ...params);
 
         this.setLastRequest(...arguments);
 
         if(this.logEnabled) {
-            // .${lastTrace.getFunctionName()}
             Logger.debug(`${this.caller.config.modelName} made a ${type.toUpperCase()} request (${lastUrl})`);
             Logger.log(params);
         }

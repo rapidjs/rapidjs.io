@@ -248,25 +248,25 @@ onError (error) {
         'since'       => '0.0.1'
     ],
 
-//     'parser' => [
-//         'name'        => 'parser',
-//
-//         'type'        => 'function',
-//
-//         'description' => 'If you\'d like to run all of the request\'s <code class="language-js">response.data</code> through a parser before returning it in the promise, you can do so here.',
-//
-//         'default'     => "
-// parser (data) {
-//     return data;
-// }
-// ",
-//
-//         'multiline'   => true,
-//
-//         'since'       => '0.0.1'
-//     ]
+    'allowedRequestTypes' => [
+        'name'        => 'allowedRequestTypes',
+
+        'type'        => 'array',
+
+        'description' => 'If you only want to allow certain request types, you can do so here.',
+
+        'default'     => "['get', 'post', 'put', 'patch', 'head', 'delete']",
+
+        'multiline'   => false,
+
+        'since'       => '0.0.1'
+    ]
+
+
 
 ];
 
 
-return collect($configuration)->sort()->toArray();
+return collect($configuration)->each(function($config, $key) {
+    $config['prefix'] = 'configuration';
+})->sort()->toArray();

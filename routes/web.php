@@ -21,7 +21,7 @@ Route::get('/docs', function () {
 
 Route::get('/documentation', function () {
     return redirect('docs');
-})->name('docs');
+});
 
 Route::prefix('/indexes')->group(function () {
 

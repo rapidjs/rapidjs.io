@@ -10347,6 +10347,10 @@ var _ClassBuilder = __webpack_require__(191);
 
 var _ClassBuilder2 = _interopRequireDefault(_ClassBuilder);
 
+var _WatchArray = __webpack_require__(202);
+
+var _WatchArray2 = _interopRequireDefault(_WatchArray);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 new Vue({
@@ -10364,6 +10368,8 @@ new Vue({
         ClassBuilder: _ClassBuilder2.default
     }
 });
+
+// window.WatchArray = WatchArray;
 
 /***/ }),
 /* 166 */
@@ -40537,6 +40543,38 @@ module.exports = Vue$3;
 __webpack_require__(165);
 module.exports = __webpack_require__(166);
 
+
+/***/ }),
+/* 200 */,
+/* 201 */,
+/* 202 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var proto = Array.prototype,
+    slice = proto.slice,
+    mutatorMethods = ['pop', 'push', 'reverse', 'shift', 'unshift', 'splice', 'sort'];
+
+var WatchArray = function WatchArray(arr, callback) {
+
+    mutatorMethods.forEach(function (method) {
+        arr[method] = function () {
+            proto[method].apply(this, arguments);
+            callback({
+                event: method,
+                args: slice.call(arguments),
+                array: arr
+            });
+        };
+    });
+};
+
+exports.default = WatchArray;
 
 /***/ })
 /******/ ]);

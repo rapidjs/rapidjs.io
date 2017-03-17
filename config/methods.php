@@ -1,6 +1,6 @@
 <?php
 
-return [
+$methods = [
     'find' => [
         'name'                => 'find',
 
@@ -16,7 +16,9 @@ return [
 
         'since'               => '0.0.1',
 
-        'returns'             => 'Promise'
+        'returns'             => 'Promise',
+
+        'routeSpecific'       => 'model'
     ],
 
     'findBy' => [
@@ -40,7 +42,9 @@ return [
 
         'since'               => '0.0.1',
 
-        'returns'             => 'Promise'
+        'returns'             => 'Promise',
+
+        'routeSpecific'       => ''
     ],
 
     'all' => [
@@ -54,7 +58,9 @@ return [
 
         'since'               => '0.0.1',
 
-        'returns'             => 'Promise'
+        'returns'             => 'Promise',
+
+        'routeSpecific'       => 'collection'
     ],
 
     'update' => [
@@ -197,3 +203,9 @@ return [
         'returns'             => 'Promise'
     ]
 ];
+
+return collect($methods)->map(function($method) {
+    $method['prefix'] = 'methods';
+
+    return $method;
+})->sort()->toArray();

@@ -75,7 +75,12 @@
 }
 
 @include when-wider-than(small_desktop) {
+
+    .container .docs.fb-grid {
+        padding-left: 50px;
+    }
     .docs {
+
         &__columns {
             @include columns();
         }

@@ -1,41 +1,39 @@
-<h2 id="usage">Basic Usage</h2>
+<h2 id="usage">Usage</h2>
+
+<p>Out of the box rapid offers basic CRUD methods in our case: <code class="language-js">.create()</code>, <code class="language-js">.find()</code>, <code class="language-js">.update()</code>, <code class="language-js">.destroy()</code>. Imagine we have a blog post model that we want to perform these methods on.</p>
+
 <pre><code class="language-js">import Rapid from 'rapid.js';
 
-// assume we have a blog post model
 var Post = new Rapid({ modelName: 'post' });
 
 Post.find(1).then(function (response) {
     // GET => /api/post/1
 });
 
-Post.create({ title: 'Rapidd is awesome!' }).then(function (response) {
-    // POST => /api/post/create
-});
+Post.create({ title: 'Rapidd is awesome!' }).then(...) // POST => /api/post/create
 
-Post.update(23, { title: 'Rapid* is awesome!' }).then(function (response) {
-    // POST => /api/post/23/update
-});
+Post.update(23, { title: 'Rapid* is awesome!' }).then(...) // POST => /api/post/23/update
 
-Post.destroy(1).then(function (response) {
-    // POST => /api/post/1/destroy
-});
+Post.destroy(1).then(...) // POST => /api/post/1/destroy
 </pre></code>
 
-// model only
-// collection only
-// relationships
+<h3 id="moreMethods">More Methods</h3>
 
-{{-- <p>rapid also has some awesome helper functions</p>
+<p>In addition to simple CRUD rapid has a few other helper methods: <code class="language-js">.id()</code>, <code class="language-js">.all()</code>, <code class="language-js">.findBy()</code>.</p>
 
-<pre><code class="language-js">Post.findBy('category', 'featured').then(function (response) {
-    // GET => /api/posts/category/featured
-});
+<pre><code class="language-js">// perform requests on a model with a certain id
+Post.id(45).get('meta').then(...) // GET => /api/posts/45/meta
+Post.id(55).withParams({ background: 'blue' }).post('meta').then(...) // POST => /api/posts/45/meta
 
-Post.all({ category: 'featured', limit: 20 }).then(function (response) {
-    // GET => /api/posts?category=featured&limit=20
-});
-</pre></code> --}}
+// find a model by a key
+Post.findBy('category', 'featured').then(...) // GET => /api/post/category/featured
 
+// find a collection by a key
+Post.collection.findBy('category', 'featured').then(...) // GET => /api/posts/category/featured
+
+// request all of a collection
+Post.all({ tag: 'awesome', limit: 20 }).then(...) // GET => /api/posts?tag=awesome&limit=20
+</pre></code>
 
 {{-- <pre><code class="language-js">import { User } from 'rapidjs';
 

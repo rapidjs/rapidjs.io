@@ -1,6 +1,5 @@
 import './bootstrap';
 import ClassBuilder from './Components/ClassBuilder';
-import WatchArray from './WatchArray';
 
 new Vue({
     el: '#app',
@@ -23,5 +22,3 @@ new Vue({
         ClassBuilder
     }
 });
-
-// window.WatchArray = WatchArray;

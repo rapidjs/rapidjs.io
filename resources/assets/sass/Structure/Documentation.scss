@@ -50,4 +50,34 @@
             }
         }
     }
+
+    &__columns {
+        margin: 0 0 0 25px;
+        padding: 0;
+
+        li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            line-height: 24px;
+            font-size: 14px;
+        }
+    }
+}
+
+
+@include when-wider-than(tablet) {
+
+}
+
+@include when-wider-than(small_desktop) {
+    .docs {
+        &__columns {
+            @include columns();
+        }
+    }
+}
+
+@include when-wider-than(large_desktop) {
+
 }

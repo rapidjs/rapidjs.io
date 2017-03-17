@@ -5,7 +5,7 @@ var Post = new Rapid({ modelName: 'post' })
 </pre></code>
 
 
-<pre><code class="language-js">
+{{-- <pre><code class="language-js">
 
 
 Post.model.findBy('category', 'my-post-name').then(function (response) { // GET => /api/post/slug/my-post-name
@@ -27,9 +27,9 @@ Post.withParams({ limit: 20 }).findBy('category', 'featured').then((response) =>
 Post.withParam('status', 'published').findBy('user', 'self').then(function (response) { // GET => /api/posts/user/self?status=published
     console.log(response.data.posts);
 });
-</pre></code>
+</pre></code> --}}
 
-<pre><code class="language-js">import { User } from 'rapidjs';
+{{-- <pre><code class="language-js">import { User } from 'rapidjs';
 
 User.auth().then((response) => { // GET => /api/user/current
     if(!response.data.loggedIn) {
@@ -49,4 +49,4 @@ User.logout().then((response) => { // POST => /api/user/logout
     }
 });
 
-</code></pre>
+</code></pre> --}}

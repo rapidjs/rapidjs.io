@@ -222,6 +222,8 @@
                 <div class="fb-grid col-md-2">
                     <span class="label">defaultRoute</span>
 
+                    <!-- <v-select  v-model="model.config.defaultRoute" @change="resetRoutes()" :options="['model','collection']"></v-select> -->
+
                     <select v-model="model.config.defaultRoute" @change="resetRoutes()">
                         <option value="model">model</option>
                         <option value="collection">collection</option>
@@ -253,6 +255,7 @@
 <script>
     import TestModel from './../Interface/TestModel';
     import Switches from 'vue-switches';
+    import VueSelect from 'vue-select';
     import _ from 'lodash';
     import prism from './../Vendor/prism';
     import qs from 'qs';
@@ -322,7 +325,8 @@
         },
 
         components: {
-            Switches
+            Switches,
+            VueSelect
         },
 
         created () {

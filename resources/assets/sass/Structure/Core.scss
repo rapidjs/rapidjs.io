@@ -38,6 +38,11 @@ body {
     }
 }
 
+p {
+    font-size: 15px;
+    line-height: 23px;
+}
+
 @include when-wider-than(tablet) {
     .wrapper {
         width: $tablet;

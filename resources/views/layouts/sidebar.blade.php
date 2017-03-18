@@ -10,7 +10,7 @@
 
         <a class="sidebar__title" href="#methods">Relationships</a>
 
-        <a class="sidebar__title" href="#methods">Extending Rapid</a>
+        <a class="sidebar__title" href="#extending-rapid">Extending Rapid</a>
 
         <ul class="sidebar__nav">
             @foreach(['base-models' => 'Base Models', 'built-in-auth' => 'Built In Auth'] as $nav => $name)

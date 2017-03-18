@@ -17,7 +17,7 @@ Post.update(23, { title: 'Rapid* is awesome!' }).then(...) // POST => /api/post/
 Post.destroy(1).then(...) // POST => /api/post/1/destroy
 </pre></code>
 
-<h3 id="moreMethods">More Methods</h3>
+<h3 id="additional-methods">Additional Methods</h3>
 
 <p>In addition to simple CRUD rapid has a few other helper methods: <code class="language-js">.id()</code>, <code class="language-js">.all()</code>, <code class="language-js">.findBy()</code>.</p>
 

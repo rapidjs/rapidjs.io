@@ -10,6 +10,8 @@
 
             @include('documentation.getting-started.master')
 
+            @include('documentation.extending-rapid.master')
+
             @include('documentation.class-builder.app')
 
             @foreach(['methods', 'configuration'] as $file)
@@ -17,6 +19,7 @@
                     @include('documentation.'.$file.'.master')
                 </div>
             @endforeach
+
 
         </div>
 

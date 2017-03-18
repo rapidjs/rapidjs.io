@@ -3,13 +3,15 @@
     modelName:
 } --}}
 
-let user = new User({ modelName: 'auth' });
+var User = new Auth({ modelName: 'auth' });
 
 // and now you get
 
 // come back to this and test
 
-User.withParams({ username: 'drew', password: '1234pass' }).login().then(...) // POST => /api/
+User.login({ username: 'drew', password: '1234pass' }).then(...) // POST => /api/
 User.logout().then(...)
-User.auth().then(...) //
+User.check().then(...) //
 </code></pre>
+
+<p>Changing the routes</p>

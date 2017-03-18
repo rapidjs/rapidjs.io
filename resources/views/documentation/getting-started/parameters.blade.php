@@ -3,10 +3,12 @@
 <p>With rapid, passing parameters is super easy for every request by using the <code class="language-js">.withParams()</code> and <code class="language-js">.withParam()</code>.</p>
 
 <pre><code class="language-js">// pass multiple parameters
-Post.withParams({ limit: 20 }).findBy('category', 'featured').then(...) // GET => /api/posts/category/featured?limit=20
+Post.collection.withParams({ limit: 20 }).findBy('category', 'featured').then(...)
+    // GET => /api/posts/category/featured?limit=20
 
 // or just a single parameter
-Post.withParam('status', 'published').findBy('user', 'self').then(...) // GET => /api/posts/user/self?status=published
+Post.collection.withParam('status', 'published').findBy('user', 'self').then(...)
+     // GET => /api/posts/user/self?status=published
 </pre></code>
 
 <h2 id="headers">Headers</h2>

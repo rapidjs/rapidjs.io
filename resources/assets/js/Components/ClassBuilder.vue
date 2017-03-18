@@ -225,8 +225,7 @@
                     <!-- <v-select  v-model="model.config.defaultRoute" @change="resetRoutes()" :options="['model','collection']"></v-select> -->
 
                     <select v-model="model.config.defaultRoute" @change="resetRoutes()">
-                        <option value="model">model</option>
-                        <option value="collection">collection</option>
+                        <option v-for="k in ['model', 'collection']" :value="k">{{ k }}</option>
                     </select>
                 </div>
             </div>

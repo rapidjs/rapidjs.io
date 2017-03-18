@@ -11029,7 +11029,6 @@ exports.default = {
 //
 //
 //
-//
 
 /***/ }),
 /* 169 */
@@ -31745,15 +31744,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.resetRoutes()
       }]
     }
-  }, [_c('option', {
-    attrs: {
-      "value": "model"
-    }
-  }, [_vm._v("model")]), _vm._v(" "), _c('option', {
-    attrs: {
-      "value": "collection"
-    }
-  }, [_vm._v("collection")])])])])]), _vm._v(" "), _c('h4', {
+  }, _vm._l((['model', 'collection']), function(k) {
+    return _c('option', {
+      domProps: {
+        "value": k
+      }
+    }, [_vm._v(_vm._s(k))])
+  }))])])]), _vm._v(" "), _c('h4', {
     staticClass: "subtitle is-5 is-info",
     attrs: {
       "id": "config-builder-overrides"

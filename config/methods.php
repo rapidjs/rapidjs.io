@@ -208,4 +208,4 @@ return collect($methods)->map(function($method) {
     $method['prefix'] = 'methods';
 
     return $method;
-})->sort()->toArray();
+})->sortBy('name')->toArray();

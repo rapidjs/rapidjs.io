@@ -5,7 +5,7 @@
 <pre><code class="language-js">
 var Photo = new Rapid({ modelName: 'photo' });
 
-// by default, the default route will be model
+// by default, the route will be model
 Photo.findBy('tag', 'featured'); // GET => /api/photo/tag/featured
 
 // call the collection route

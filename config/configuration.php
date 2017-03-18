@@ -271,4 +271,4 @@ return collect($configuration)->map(function($config) {
     $config['prefix'] = 'configuration';
 
     return $config;
-})->sort()->toArray();
+})->sortBy('name')->toArray();

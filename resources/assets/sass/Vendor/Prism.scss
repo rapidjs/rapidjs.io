@@ -27,6 +27,8 @@ pre[class*="language-"] {
 	-ms-hyphens: none;
 	hyphens: none;
 	font-size: 13px;
+	border-radius: 5px;
+	box-shadow: 2px 2px 2px #eee;
 }
 
 pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,

@@ -9,7 +9,7 @@
 
                     <div class="footer__links">
                         <a href="{{ route('docs') }}">documentation</a>
-                        <a href="{{ route('contribute') }}">contribute</a>
+                        <a href="{{ route('support') }}">support</a>
                     </div>
 
                     <div class="footer__madeby">

@@ -15,3 +15,9 @@ Post.collection.findBy('category', 'featured').then(...) // GET => /api/posts/ca
 // request all of a collection
 Post.all({ tag: 'awesome', limit: 20 }).then(...) // GET => /api/posts?tag=awesome&limit=20
 </pre></code>
+
+@include('components.see-also', ['routes' => [
+    ['section' => 'method', 'key' => 'id', 'text' => 'id()'],
+    ['section' => 'method', 'key' => 'findBy', 'text' => 'findBy()'],
+    ['section' => 'method', 'key' => 'all', 'text' => 'all()']
+]])

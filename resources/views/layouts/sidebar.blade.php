@@ -8,7 +8,7 @@
             @endforeach
         </ul>
 
-        <a class="sidebar__title" href="#methods">Relationships</a>
+        <a class="sidebar__title" href="#relationships">Relationships</a>
 
         <a class="sidebar__title" href="#extending-rapid">Extending Rapid</a>
 

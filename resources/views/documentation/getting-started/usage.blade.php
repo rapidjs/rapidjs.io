@@ -16,3 +16,10 @@ Post.update(23, { title: 'Rapid* is awesome!' }).then(...) // POST => /api/post/
 
 Post.destroy(1).then(...) // POST => /api/post/1/destroy
 </pre></code>
+
+@include('components.see-also', ['routes' => [
+    ['section' => 'method', 'key' => 'find', 'text' => 'find()'],
+    ['section' => 'method', 'key' => 'create', 'text' => 'create()'],
+    ['section' => 'method', 'key' => 'update', 'text' => 'update()'],
+    ['section' => 'method', 'key' => 'destroy', 'text' => 'destroy()']
+]])

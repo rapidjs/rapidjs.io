@@ -10,6 +10,8 @@
 
             @include('documentation.getting-started.master')
 
+            @include('documentation.relationships.master')
+
             @include('documentation.extending-rapid.master')
 
             @include('documentation.class-builder.app')

@@ -11027,8 +11027,6 @@ exports.default = {
 //
 //
 //
-//
-//
 
 /***/ }),
 /* 169 */
@@ -31048,12 +31046,7 @@ module.exports = Component.exports
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "rapidjs-class-builder"
-  }, [_c('h2', {
-    staticClass: "title is-3",
-    attrs: {
-      "id": "config-builder"
-    }
-  }, [_vm._v("Config Builder")]), _vm._v(" "), _c('p', [_vm._v("A lot of frameworks can be confusing to learn how to configure at first or to determine what the configuration options actually do. So, I made a live config builder that can help show you what your API urls will look like based off the config you're passing in. Pretty nifty, I think.")]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
+  }, [_c('p', [_vm._v("A lot of frameworks can be confusing to learn how to configure at first or to determine what the configuration options actually do. So, I made a live config builder that can help show you what your API urls will look like based off the config you're passing in. Pretty nifty, I think.")]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('div', {
     staticClass: "rapidjs-class-builder__form"
   }, [_c('h4', {
     staticClass: "subtitle is-5 is-info",

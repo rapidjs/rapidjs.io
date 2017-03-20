@@ -1,3 +1,5 @@
+<h2 id="extending-auth-model">The Rapid Auth Model</h2>
+
 <pre><code class="language-js">import Auth from 'Rapid/Auth';
 {{-- class User extends Auth {
     modelName:

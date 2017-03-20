@@ -3,8 +3,8 @@
         <a class="sidebar__title" href="#installation">Getting Started</a>
 
         <ul class="sidebar__nav">
-            @foreach(['overview', 'installation', 'usage', 'parameters', 'headers', 'routes', 'axios'] as $nav)
-                <li><a href="#{{ $nav }}">{{ ucfirst($nav) }}</a></li>
+            @foreach(['overview', 'installation', 'usage', 'additional-methods', 'parameters', 'headers', 'routes', 'axios'] as $nav)
+                <li><a href="#{{ $nav }}">{{ ucwords(str_replace('-', ' ', $nav)) }}</a></li>
             @endforeach
         </ul>
 

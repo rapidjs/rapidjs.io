@@ -7,4 +7,6 @@
 Photo.api.get('/api/posts/1');
 </code></pre>
 
-<p>For more on configuring axios, see <a href="#configuration-apiConfig">apiConfig</a>.</p>
+@include('components.see-also', ['routes' => [
+    ['section' => 'configuration', 'key' => 'apiConfig', 'text' => 'apiConfig']
+]])

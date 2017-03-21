@@ -3,11 +3,19 @@
         font-weight: lighter;
         font-size: 40px;
         margin: 40px 0 20px 15px;
+        border-bottom: solid 1px $color-border-gray;
+        padding-bottom: 10px;
     }
 
     &__group {
         margin-bottom: 20px;
-        border-bottom: solid 1px $color-border-gray;
+
+        &::after {
+            border-bottom: solid 1px $color-border-gray;
+            content: '';
+            display: block;
+            margin-left: 15px;
+        }
     }
 
     &__section {

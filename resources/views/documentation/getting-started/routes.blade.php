@@ -24,3 +24,8 @@ PhotoGallery.collection.findBy('tag', 'featured'); // GET => /api/photo-gallerie
 </code></pre>
 
 <p>You can change the <a href="#configuration-defaultRoute">defaultRoute</a> and <a href="#configuration-routes">override the pluralizing</a> as well as have complete customization of your routes through the <a href="#configuration">configuration</a>.</p>
+
+@include('components.see-also', ['routes' => [
+    ['section' => 'configuration', 'key' => 'defaultRoute', 'text' => 'defaultRoute'],
+    ['section' => 'configuration', 'key' => 'routes', 'text' => 'routes']
+]])

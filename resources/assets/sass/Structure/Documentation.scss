@@ -8,14 +8,14 @@
     }
 
     &__group {
-        margin-bottom: 20px;
+        margin-bottom: 30px;
 
-        &::after {
-            border-bottom: solid 1px $color-border-gray;
-            content: '';
-            display: block;
-            margin-left: 15px;
-        }
+        // &::after {
+        //     border-bottom: solid 1px $color-border-gray;
+        //     content: '';
+        //     display: block;
+        //     margin-left: 15px;
+        // }
     }
 
     &__section {

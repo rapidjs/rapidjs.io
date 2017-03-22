@@ -7,7 +7,6 @@ import _defaultsDeep from 'lodash.defaultsdeep';
 
 import Defaults from './../Defaults';
 import Debugger from './../Debugger';
-import Logger from './../Logger';
 
 class Core {
     constructor (config) {
@@ -51,6 +50,8 @@ class Core {
 
         this.initializeDebugger();
 
+        this.initializeLogger();
+
         this.resetRequestData();
     }
 
@@ -67,6 +68,13 @@ class Core {
      */
     initializeDebugger () {
         this.debugger = this.config.debug ? new Debugger(this) : false;
+    }
+
+    /**
+     * Initialze the debugger if debug is set to true.
+     */
+    initializeLogger () {
+        this.logger = this.config.debug ? require('./../Logger') : false;
     }
 
     /**
@@ -102,7 +110,7 @@ class Core {
      */
 
     set debug (val) {
-        Logger.warn('debug mode must explicitly be turned on via the constructor in config.debug');
+        if(this.config.debug) this.logger.warn('debug mode must explicitly be turned on via the constructor in config.debug');
     }
 
     get collection () {

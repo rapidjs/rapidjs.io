@@ -1,4 +1,3 @@
-import Logger from './Logger';
 import qs from 'qs';
 
 export default class {
@@ -15,8 +14,8 @@ export default class {
         this.setLastRequest(...arguments);
 
         if(this.logEnabled) {
-            Logger.debug(`${this.caller.config.modelName} made a ${type.toUpperCase()} request (${lastUrl})`);
-            Logger.log(params);
+            this.caller.logger.debug(`${this.caller.config.modelName} made a ${type.toUpperCase()} request (${lastUrl})`);
+            this.caller.logger.log(params);
         }
 
         this.caller.afterRequest({});

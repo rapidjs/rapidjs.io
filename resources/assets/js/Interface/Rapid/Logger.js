@@ -24,7 +24,7 @@ class Logger {
     warn (message) {
         console.warn(`[${this.prefix} warn]:`, message);
     }
-    
+
 }
 
 export default new Logger('rapid js');

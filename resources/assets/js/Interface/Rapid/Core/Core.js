@@ -29,9 +29,11 @@ class Core {
      * Setup the all of properties.
      */
     initialize (config) {
-        this.methodRoutes  = []; // for debugging and registering routes
+        this.methodRoutes = []; // for debugging and registering routes
 
-        this.relationships = {}; // any relationships that are now accessible
+        this.rels = {}; // any relationships instances that are now accessible
+
+        this.$rels = {}; // any relationship methods now available
 
         this.config = config;
 

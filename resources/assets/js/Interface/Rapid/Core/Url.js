@@ -81,11 +81,11 @@ class Url extends Core {
 
     // consider making a .url() alias of the above method?
 
-    // url (...params) {
-    //     this.setURLParams(params...);
-    //
-    //     return this;
-    // }
+    url (...params) {
+        this.setURLParams(...params);
+
+        return this;
+    }
 
 }
 

@@ -4,6 +4,7 @@
 
 import _isArray from 'lodash.isarray';
 import Request from './Request';
+import _camelCase from 'lodash.camelcase';
 
 class Relationships extends Request {
 
@@ -34,9 +35,10 @@ class Relationships extends Request {
      * @param relation The relation name OR object
      */
     registerHasRelation (type, relation) {
-        let relationRoute = this.getRouteByRelationType(type, relation);
+        let relationRoute = this.getRouteByRelationType(type, relation),
+            relationName = this.getRelationshipName(type, relation);
 
-        this[relationRoute] = (
+        this.$rels[relationName] = (
             (type, route) => {
                 return (primaryKey, foreignKey) => { return this.hasRelationship(type, route, primaryKey, foreignKey); }
             }
@@ -100,9 +102,10 @@ class Relationships extends Request {
      */
     registerBelongsTo (type, relation) {
 
-        let relationRoute = this.getRouteByRelationType(type, relation);
+        let relationRoute = this.getRouteByRelationType(type, relation),
+            relationName = this.getRelationshipName(type, relation);
 
-        this[relationRoute] = (
+        this.$rels[relationName] = (
             (type, route) => {
                 return (primaryKey, foreignKey, after) => { return this.belongsToRelationship(type, route, primaryKey, foreignKey, after); }
             }
@@ -183,10 +186,14 @@ class Relationships extends Request {
         if(typeof relation == 'object') {
             relationRoute = relation.routes[routes[type]];
 
-            this.relationships[relationRoute] = relation;
+            this.rels[relationRoute] = relation;
         }
 
         return relationRoute;
+    }
+
+    getRelationshipName (type, relation) {
+        return _camelCase(this.getRouteByRelationType(type, relation))
     }
 }
 

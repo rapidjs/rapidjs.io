@@ -219,7 +219,8 @@
 
                 <div class="fb-grid col-md-2">
                     <span class="label">defaultRoute</span>
-
+                    <!-- <v-radio v-model="model.config.defaultRoute" :selected="model.config.defaultRoute" label="model"></v-radio>
+                    <v-radio v-model="model.config.defaultRoute" :selected="model.config.defaultRoute" label="collection"></v-radio> -->
                     <!-- <v-select  v-model="model.config.defaultRoute" @change="resetRoutes()" :options="['model','collection']"></v-select> -->
 
                     <select v-model="model.config.defaultRoute" @change="resetRoutes()">
@@ -257,6 +258,7 @@
     import prism from './../Vendor/prism';
     import qs from 'qs';
     import _forEach from 'lodash.foreach';
+    import VRadio from './VueRadio.vue';
 
     export default {
         name: 'class-builder',
@@ -323,7 +325,8 @@
 
         components: {
             Switches,
-            VueSelect
+            VueSelect,
+            VRadio
         },
 
         created () {

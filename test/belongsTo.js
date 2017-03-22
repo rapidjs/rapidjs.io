@@ -49,8 +49,6 @@ test('works with an object', t => {
     t.is('api/gear-list/101/item/status/active', Item.debugger.data.lastUrl);
 });
 
-
-
 class Comment extends Rapid {
     boot () {
         this.addRelationship('belongsTo', new Rapid({ modelName: 'Thread', debug: true }))

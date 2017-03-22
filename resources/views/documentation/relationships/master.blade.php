@@ -1,8 +1,9 @@
 <div class="docs__group">
-    <h1 id="relationships">Relationships</h1>
+    @include('components.heading', ['type' => 'h1', 'name' => 'relationships', 'title' => 'Relationships'])
 
-    <div class="docs__section">
-        <p>Firstly, I am no relationship expert-that's for sure. (Writing docs takes a while...have to make it fun, right?). Anyway, </p>
-        
-    </div>
+    @foreach(['basic-usage', 'extending'] as $file)
+        <div class="docs__section">
+            @include('documentation.relationships.'.$file)
+        </div>
+    @endforeach
 </div>

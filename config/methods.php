@@ -69,7 +69,16 @@ $methods = [
         'description'         => 'Makes a <code class="language-js">config.methods.update</code> Request.',
 
         'arguments'           => [
-
+            [
+                'name'        => 'id|data',
+                'type'        => 'int|array|object',
+                'description' => 'The id to be passed to the update request or the data to be passed to the update request.'
+            ],
+            [
+                'name'        => 'data',
+                'type'        => 'array|object',
+                'description' => 'The data to be passed to the update request.'
+            ]
         ],
 
         'since'               => '0.0.1',
@@ -109,6 +118,74 @@ $methods = [
         'returns'             => 'Promise'
     ],
 
+    'create' => [
+        'name'                => 'create',
+
+        'description'         => 'Makes a <code class="language-js">config.methods.create</code> Request.',
+
+        'arguments'           => [
+            [
+                'name'        => 'data',
+                'type'        => 'array|object',
+                'description' => 'The data to be passed to the create request.'
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'Promise'
+    ],
+
+    'id' => [
+        'name'                => 'id',
+
+        'description'         => 'Prefixes an id on the request.',
+
+        'arguments'           => [
+            [
+                'name'        => 'id',
+                'type'        => 'int',
+                'description' => 'The id to be passed to the request.'
+            ],
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'rapid instance'
+    ],
+
+    'url' => [
+        'name'                => 'url',
+
+        'description'         => 'Builds the url for the request. Useful when extending rapid.',
+
+        'arguments'           => [
+            [
+                'name'        => 'urlParams',
+                'type'        => 'string|array',
+                'description' => 'The parameters to set in the url.'
+            ],
+
+            [
+                'name'        => 'prepend',
+                'type'        => 'boolean',
+                'description' => 'Whether or not to prepend',
+                'default'     => 'false',
+            ],
+
+            [
+                'name'        => 'overwrite',
+                'type'        => 'boolean',
+                'description' => 'Whether or not to overwrite any other urlParams',
+                'default'     => 'false',
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'rapid instance'
+    ],
+
     // 'hasRelationship' => [
     //     'name'                => 'hasRelationship',
     //
@@ -139,69 +216,69 @@ $methods = [
     //     'returns'             => 'Promise'
     // ],
 
-    'hasOne' => [
-        'name'                => 'hasOne',
-
-        'description'         => '',
-
-        'arguments'           => [
-
-        ],
-
-        'since'               => '0.0.1',
-
-        'returns'             => 'this'
-    ],
-
-    'hasMany' => [
-        'name'                => 'hasMany',
-
-        'description'         => '',
-
-        'arguments'           => [
-
-        ],
-
-        'since'               => '0.0.1',
-
-        'returns'             => 'this'
-    ],
-
-    'belongsTo' => [
-        'name'                => 'belongsTo',
-
-        'description'         => 'Generates a GET Request to a relationship that the given collection belongs to.',
-
-        'arguments'           => [
-            [
-                'name'        => 'relation',
-                'type'        => 'string',
-                'description' => 'The relationship name. Given comments that belong to a post: <code class="language-markdown">/api/`post`/12/comments</code>'
-            ],
-
-            [
-                'name'        => 'primaryKey',
-                'type'        => 'int',
-                'description' => 'The primaryKey for the belongsTo relationship. Given the above example, this would be the post\'s id: <code class="language-markdown">/api/post/`12`/comments</code>'
-            ],
-
-            [
-                'name'        => 'foreignKey',
-                'type'        => 'string|int',
-                'description' => 'The foreignKey for the the relationship or anything to be appended to the url. Given the above example, these attributes would go here: <code class="language-markdown">/api/post/12/comments/`id|int|array`</code>. If the following array is passed <code class="language-js">[\'latest\', \'meta\']</code> it would produce <code class="language-markdown">/api/post/12/comments/`latest`/`meta`</code>'
-            ],
-
-            [
-                'name'        => 'after',
-                'type'        => 'int|string|array',
-                'description' => 'The primaryKey for the model the relationship is being defined for. Given a post that has the relationship comments: <code cs="language-markdown">/api/post/`12`/comments</code>'
-            ],
-        ],
-
-        'since'               => '0.0.1',
-
-        'returns'             => 'Promise'
-    ]
+    // 'hasOne' => [
+    //     'name'                => 'hasOne',
+    //
+    //     'description'         => '',
+    //
+    //     'arguments'           => [
+    //
+    //     ],
+    //
+    //     'since'               => '0.0.1',
+    //
+    //     'returns'             => 'this'
+    // ],
+    //
+    // 'hasMany' => [
+    //     'name'                => 'hasMany',
+    //
+    //     'description'         => '',
+    //
+    //     'arguments'           => [
+    //
+    //     ],
+    //
+    //     'since'               => '0.0.1',
+    //
+    //     'returns'             => 'this'
+    // ],
+    //
+    // 'belongsTo' => [
+    //     'name'                => 'belongsTo',
+    //
+    //     'description'         => 'Generates a GET Request to a relationship that the given collection belongs to.',
+    //
+    //     'arguments'           => [
+    //         [
+    //             'name'        => 'relation',
+    //             'type'        => 'string',
+    //             'description' => 'The relationship name. Given comments that belong to a post: <code class="language-markdown">/api/`post`/12/comments</code>'
+    //         ],
+    //
+    //         [
+    //             'name'        => 'primaryKey',
+    //             'type'        => 'int',
+    //             'description' => 'The primaryKey for the belongsTo relationship. Given the above example, this would be the post\'s id: <code class="language-markdown">/api/post/`12`/comments</code>'
+    //         ],
+    //
+    //         [
+    //             'name'        => 'foreignKey',
+    //             'type'        => 'string|int',
+    //             'description' => 'The foreignKey for the the relationship or anything to be appended to the url. Given the above example, these attributes would go here: <code class="language-markdown">/api/post/12/comments/`id|int|array`</code>. If the following array is passed <code class="language-js">[\'latest\', \'meta\']</code> it would produce <code class="language-markdown">/api/post/12/comments/`latest`/`meta`</code>'
+    //         ],
+    //
+    //         [
+    //             'name'        => 'after',
+    //             'type'        => 'int|string|array',
+    //             'description' => 'The primaryKey for the model the relationship is being defined for. Given a post that has the relationship comments: <code cs="language-markdown">/api/post/`12`/comments</code>'
+    //         ],
+    //     ],
+    //
+    //     'since'               => '0.0.1',
+    //
+    //     'returns'             => 'Promise'
+    // ]
 ];
 
 return collect($methods)->map(function($method) {

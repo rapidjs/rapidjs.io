@@ -4,6 +4,8 @@ import Rapid from './../resources/assets/js/Interface/Rapid/Rapid';
 test.todo('belongsToMany with object');
 test.todo('belongsToMany with string');
 
+test.todo('rewrite belongsToMany to put foreign key first. So Author.belongsToMany(Post, 23) => GET /api/posts/author/23')
+
 // test('works with a string', t => {
 //
 //     let myModel = new Rapid({

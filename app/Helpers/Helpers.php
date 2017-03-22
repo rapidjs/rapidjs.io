@@ -28,3 +28,16 @@ function makeDocsRoutesLinks ($routes) {
 
     return $links;
 }
+
+function getDocFiles ($directory) {
+    $fileNames = [];
+    $files = glob(implode('/', array_filter([resource_path('views'), 'documentation', $directory, '**'])));
+
+    if(!empty($files)) {
+        foreach($files as $file) {
+            $fileNames[] = str_replace('.blade', '', File::name($file));
+        }
+    }
+
+    return array_filter($fileNames, function ($file) { return $file != 'master'; });
+}

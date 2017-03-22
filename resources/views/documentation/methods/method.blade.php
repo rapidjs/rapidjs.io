@@ -16,6 +16,7 @@
                     <code class="language-js">{{ $arg['name'] }}</code>
                     <em>({{ $arg['type'] }})</em>
                     @if($arg['description'])<span> - {!! $arg['description'] !!}</span>@endif
+                    @if(isset($arg['default'])) | <b>Default:</b> <em>{!! $arg['default'] !!}</em>@endif    
                 </p>
             @endforeach
         </div>

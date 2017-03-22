@@ -7,6 +7,7 @@ class TestModel extends Rapid {
 
         this.addRelationship('hasOne', UserModel);
         this.addRelationship('hasMany', UserModel);
+        this.addRelationship('hasMany', new Rapid({ modelName: 'PhotoGalleries' }));
         this.addRelationship('hasOne', 'gallery');
 
         this.addRelationship('belongsTo', 'post');

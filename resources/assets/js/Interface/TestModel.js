@@ -2,6 +2,9 @@ import Rapid from './Rapid/Rapid';
 import UserModel from './UserModel';
 import Tag from './Tag';
 
+window.Tag = new Tag({ modelName: 'tag' });
+window.Frog = new Tag({ modelName: 'frog' });
+
 class TestModel extends Rapid {
     boot () {
         //

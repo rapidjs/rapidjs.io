@@ -131,58 +131,60 @@
         <div class="home wrapper">
             <div class="container fb-grid row home__side-by-side">
                 <div class="fb-grid col-xs-12 col-md-5  home__side-by-side__section home__side-by-side__section--lowered">
-                    <h3>Access Simple Relationships</h3>
+                    <h3>Create Reusable Base Models</h3>
                     <div class="home__side-by-side__inner dark-block">
                         <pre>
                             <code class="language-js">
-                                var Post    = new Rapid({ modelName: 'Post' }),
-                                    Comment = new Rapid({ modelName: 'Comment' }),
-                                    Author  = new Rapid({ modelName: 'Author' });
+                                class Base extends Rapid {
+                                    boot () {
+                                        this.baseURL = 'https://myapp.com/api';
+                                        this.config.globalParameters = { key: 'MY_API_KEY' }
+                                    }
+                                }
 
-                                Post.belongsTo(Author, 23).get()
-                                    // GET => /api/author/23/posts
+                                var Photo = new Base({ modelName: 'Photo' });
+                                var Gallery = new Base({ modelName: 'Gallery' });
+                                var Tag = new Base({ modelName: 'Tag' });
 
-                                Post.hasMany(Comment, 45).get()
-                                    // GET => /api/post/45/comments
+                                Photo.find(1)
+                                    // GET => https://myapp.com/api/photo/1?key=MY_API_KEY
 
-                                Comment.belongsTo(Post, 45).get()
-                                    // GET => /api/post/45/comments
+                                Tag.collection.findBy('color', 'red')
+                                    // GET => https://myapp.com/api/tags/color/red?key=MY_API_KEY
 
-                                Comment.hasOne(Author, 12345).get()
-                                    // GET => /api/comment/12345/author
-
-                                Author.hasMany(Post, 'drew').get()
-                                    // GET /api/author/drew/posts
+                                Gallery.id(23).get('tags', 'nature')
+                                    // GET => https://myapp.com/api/gallery/23/tag/nature?key=MY_API_KEY
                             </code>
                         </pre>
                     </div>
                 </div>
 
                 <div class="fb-grid col-xs-12 col-md-7 home__side-by-side__section">
-                    <h3>Or Extend Rapid For Reusable Relationships</h3>
+                    <h3>Write API Wrappers For Your Endpoints</h3>
                     <div class="home__side-by-side__inner dark-block">
                         <pre>
                             <code class="language-js">
-                                import Photo from './Model/Photo';
-
-                                class PhotoGallery extends Rapid {
+                                class GalleryWrapper extends Rapid {
                                     boot () {
-                                        this.addRelationship('hasMany', Photo);
-                                        this.addRelationship('hasOne', new Rapid({ modelName: 'User' }));
+                                        this.baseURL = 'https://myapp.com/gallery/api';
+                                        this.modelName = 'Gallery';
+                                    }
+
+                                    tagSearch (query) {
+                                        return this.url('tagsearch', true, true).withParam('query', query);
+                                    }
+
+                                    json () {
+                                        return this.url('json');
                                     }
                                 }
 
-                                var PhotoGallery = new PhotoGallery({ modelName: 'PhotoGallery' });
+                                var Gallery = new GalleryWrapper({
+                                    globalParameters: { key: 'MY_API_KEY' }
+                                });
 
-                                PhotoGallery.photos(234).get() // GET => /api/photo-gallery/234/photos
-
-                                PhotoGallery.user(234).get() // GET => /api/photo-gallery/234/user
-
-
-                                /* access relationship methods */
-                                PhotoGallery.relationships.user.find(123) // GET => /api/user/123
-
-                                PhotoGallery.relationships.photos.delete(567) // GET => /api/photos/567
+                                Gallery.tagSearch('nature').json().get().then(...);
+                                    // GET https://myapp.com/gallery/api/tagsearch/json?query=nature&key=MY_API_KEY
                             </code>
                         </pre>
                     </div>

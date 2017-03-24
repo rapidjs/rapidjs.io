@@ -36,9 +36,9 @@ class Core {
 
         this.config = config;
 
-        this.boot();
-
         this.initializeRoutes();
+
+        this.boot();
 
         this.resetURLParams();
 

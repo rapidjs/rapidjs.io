@@ -23,7 +23,7 @@
     User.$rels.photo(34).get().then(...) // GET => /api/user/34/posts
 
     // you can also access relationships and their methods
-    User.relationships.posts.find(23).then(...) // GET => /api/posts/34
+    User.rels.posts.find(23).then(...) // GET => /api/posts/34
 </code></pre>
 
 <p>Come back to this.</p>

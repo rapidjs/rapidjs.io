@@ -1,4 +1,4 @@
-Imagine that every request you make returns a field called <code class="language-markdown">`message`</code> like so:
+Imagine that every request you make returns a field called <code class="language-markdown">`message`</code> along with some other data like so:
 
 <pre><code class="language-json">{
     "message": "Settings saved!",
@@ -6,7 +6,7 @@ Imagine that every request you make returns a field called <code class="language
     "someData": {}
 }</code></pre>
 
-Given this config:
+The following config would alert a message with that response on each request.
 <pre><code class="language-js">var Settings = new Rapid({
     modelName: 'settings',
     afterRequest (response) {
@@ -15,7 +15,7 @@ Given this config:
 });
 
 Settings.save({}).then((response) =>
-    // afterRequest would fire an alert("Settings Saved!") 
+    // afterRequest would fire an alert("Settings Saved!")
     // and you can still do whatever you want with the rest of the data
 });
 

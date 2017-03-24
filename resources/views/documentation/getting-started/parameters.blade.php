@@ -1,4 +1,4 @@
-<h2 id="parameters">Parameters</h2>
+@include('components.heading', ['type' => 'h2', 'name' => 'parameters', 'title' => 'Parameters'])
 
 <p>With rapid, passing parameters is super easy for every request by using the <code class="language-js">.withParams()</code> and <code class="language-js">.withParam()</code>.</p>
 

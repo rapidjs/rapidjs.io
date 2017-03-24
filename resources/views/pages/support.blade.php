@@ -11,7 +11,7 @@
                 <a target="_blank" href="http://paypal.me/drewjbartlett">
                     <img height="50" src="/images/paypal-logo.svg" alt="">
 
-                    <span>If you love rapid and want to help support the future development of it with a one-time payment, you can do so here.</span>
+                    <span>If you love rapid.js and want to help support the future development / buy me lunch for my efforts on rapid with a one-time payment, you can do so here!</span>
                 </a>
             </div>
          </div>

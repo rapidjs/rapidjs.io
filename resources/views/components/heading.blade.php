@@ -1,3 +1,3 @@
-<a name="{{ $name }}"></a>
+<a class="anchor-name" name="{{ $name }}"></a>
 
 <{{ $type }}>{{ $title }}</{{ $type }}>

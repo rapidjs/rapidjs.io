@@ -1,4 +1,4 @@
-<h2 id="extending-auth-model">The Rapid Auth Model</h2>
+@include('components.heading', ['type' => 'h2', 'name' => 'extending-auth-model', 'title' => 'The Rapid Auth Model'])
 
 <pre><code class="language-js">import Auth from 'Rapid/Auth';
 {{-- class User extends Auth {

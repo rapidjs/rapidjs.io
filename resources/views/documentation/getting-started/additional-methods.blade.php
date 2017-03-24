@@ -1,4 +1,4 @@
-<h2 id="additional-methods">Additional Methods</h2>
+@include('components.heading', ['type' => 'h2', 'name' => 'additional-methods', 'title' => 'Additional Methods'])
 
 <p>In addition to simple CRUD rapid has a few other helper methods: <code class="language-js">.id()</code>, <code class="language-js">.all()</code>, <code class="language-js">.findBy()</code>.</p>
 

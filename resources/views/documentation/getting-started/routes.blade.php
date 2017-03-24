@@ -1,4 +1,4 @@
-<h2 id="routes">Routes</h2>
+@include('components.heading', ['type' => 'h2', 'name' => 'routes', 'title' => 'Routes'])
 
 <p>We generally write our APIs with the concept of a <code class="language-markdown">`model`</code> and a <code class="language-markdown">`collection`</code>. Take the example a Photo <code class="language-markdown">`model`</code>. You can make API requests to a single Photo <code class="language-markdown">/api/photo/1</code> but also maybe you want to request a <code class="language-markdown">`collection`</code> of Photos <code class="language-markdown">/api/photos/tag/nature</code>. Rapid is designed at its core to handle both of these scenarios by simply calling <code class="language-js">.model</code> or <code class="language-js">.collection</code> prior to a request.</p>
 

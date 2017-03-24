@@ -1,4 +1,5 @@
-<h2 id="overview">What is rapid?</h2>
+@include('components.heading', ['type' => 'h2', 'name' => 'overview', 'title' => 'What is rapid?'])
+
 <p>r<span class="color-rapid">api</span>d JS is a fluent framework for intertacting with APIs. I found myself continuing to download, configure, and manually write my API calls time and time again for every project I was working on. If I wanted to make those calls around different parts of the app, I'd have to continually extend or rewrite them. And if those routes changed I'd have to update them everywhere and it just became messy. I got tired of it. So, I wrote r<span class="color-rapid">api</span>d.</p>
 
 <p>r<span class="color-rapid">api</span>d makes interacting with APIs super easy. There's almost no configuration required to get started but it's extremely configurable to fit any API. To be clear, r<span class="color-rapid">api</span>d is just the middle man between you and your API. There is no storing of data or manipulation being done. It simply sends and receives data to and from the API it's told.</p>

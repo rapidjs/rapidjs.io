@@ -1,6 +1,8 @@
-<h3 id="method-{{ $method['name'] }}">
-    {{ $method['name'] }}({{ implode(', ', array_map(function($arg) { return $arg['name']; }, $method['arguments'])) }})
-</h3>
+@include('components.heading', [
+    'type'  => 'h3',
+    'name'  => 'method-' . $method['name'],
+    'title' => $method['name'] . '(' . implode(', ', array_map(function($arg) { return $arg['name']; }, $method['arguments'])) . ')'
+])
 
 <div class="docs__method__description">
     {!! $method['description'] !!}

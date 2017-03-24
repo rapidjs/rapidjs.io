@@ -1,9 +1,9 @@
 <div class="sidebar">
     <div class="sidebar__inner">
-        <a class="sidebar__title" href="#installation">Getting Started</a>
+        <a class="sidebar__title" href="#getting-started">Getting Started</a>
 
         <ul class="sidebar__nav">
-            @foreach(['overview', 'why-use-rapid', 'installation', 'usage', 'additional-methods', 'parameters', 'headers', 'routes', 'axios'] as $nav)
+            @foreach(config('docs')['getting-started'] as $nav)
                 <li><a href="#{{ $nav }}">{{ ucwords(str_replace('-', ' ', $nav)) }}</a></li>
             @endforeach
         </ul>
@@ -19,7 +19,7 @@
         <a class="sidebar__title" href="#extending-rapid">Extending Rapid</a>
 
         <ul class="sidebar__nav">
-            @foreach(['base-models' => 'Base Models', 'built-in-auth' => 'Built In Auth', 'making-a-wrapper' => 'Making a Wrapper'] as $nav => $name)
+            @foreach(config('docs')['extending-rapid'] as $nav => $name)
                 <li><a href="#extending-{{ $nav }}">{{ $name }}</a></li>
             @endforeach
         </ul>
@@ -49,12 +49,6 @@
                 <li><a href="#method-{{ $method }}">{{ $method }}</a></li>
             @endforeach
         </ul>
-
-
-
-
-
-        {{-- <a class="sidebar__title" href="#request-tester">Request Tester</a> --}}
 
     </div>
 </div>

@@ -1,7 +1,7 @@
 <div class="docs__group">
-    <h1 id="getting-started">Getting Started</h1>
+    @include('components.heading', ['type' => 'h1', 'name' => 'getting-started', 'title' => 'Getting Started'])
 
-    @foreach(['overview', 'installation', 'why-use-rapid', 'usage', 'additional-methods', 'parameters', 'headers', 'routes', 'axios'] as $file)
+    @foreach(config('docs')['getting-started'] as $file)
         <div class="docs__section">
             @include('documentation.getting-started.'.$file)
         </div>

@@ -1,9 +1,9 @@
 <div class="docs__group">
-    <h1 id="extending-rapid">Extending Rapid</h1>
+    @include('components.heading', ['type' => 'h1', 'name' => 'extending-rapid', 'title' => 'Extending Rapid'])
 
-    @foreach(['auth-model', 'making-a-wrapper'] as $file)
+    @foreach(config('docs')['extending-rapid'] as $file => $name)
         <div class="docs__section">
-            @include('documentation.extending-rapid.'.$file)
+            @include('documentation.extending-rapid.'.$file, ['name' => $name, 'anchor' => $file])
         </div>
     @endforeach
 </div>

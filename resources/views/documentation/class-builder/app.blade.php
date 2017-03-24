@@ -1,6 +1,6 @@
 <div class="docs__group">
-    <h1 id="config-builder">Config Builder</h1>
-
+    @include('components.heading', ['type' => 'h1', 'name' => 'config-builder', 'title' => 'Config Builder'])
+    
     <div class="docs__section">
         <class-builder></class-builder>
     </div>

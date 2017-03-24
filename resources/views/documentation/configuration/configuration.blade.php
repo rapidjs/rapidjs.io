@@ -1,6 +1,8 @@
-<h3 id="configuration-{{ $configuration['name'] }}">
-    {{ $configuration['name'] }}
-</h3>
+@include('components.heading', [
+    'type'  => 'h3',
+    'name'  => 'configuration-' . $configuration['name'],
+    'title' => $configuration['name']
+])
 
 <div class="docs__configuration__section docs__configuration__type">
     <b>Type:</b> <code class="language-js">{{ $configuration['type'] }}</code>

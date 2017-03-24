@@ -1,5 +1,5 @@
 <div class="docs__group">
-    <h1 id="configuration">Configuration</h1>
+    @include('components.heading', ['type' => 'h1', 'name' => 'configuration', 'title' => 'Configuration'])
 
     <ul class="docs__columns fb-grid col-xs-6 col-md-8">
         @foreach (config('configuration') as $configuration => $data)

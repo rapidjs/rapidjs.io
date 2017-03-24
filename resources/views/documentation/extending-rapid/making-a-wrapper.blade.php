@@ -1,4 +1,4 @@
-@include('components.heading', ['type' => 'h2', 'name' => 'making-a-wrapper', 'title' => 'Making an API Wrapper'])
+@include('components.heading', ['type' => 'h2', 'name' => 'extending-making-a-wrapper', 'title' => 'Making an API Wrapper'])
 
 <p>This example will not actually work since Google requires you to use Places Library but it shows just how easy you can extend rapid for any API interface.</p>
 

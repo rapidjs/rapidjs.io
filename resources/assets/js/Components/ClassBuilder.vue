@@ -239,7 +239,7 @@
             <div class="rapidjs-class-builder__routes__inner">
                 <span class="code-block" v-for="(code, key) in generated">
                     <span class="code-block__code">
-                        <code class="language-js">{{ key }} ({{ code.args.join(', ') }})</code>
+                        <code class="language-js">{{ key }} ({{ code.args.join(', ') }}){{ code.after ? code.after : '' }}</code>
                         <i class="fa fa-long-arrow-right"></i>
                     </span>
 
@@ -355,6 +355,17 @@
                 this.model.setRoutes();
 
                 let generated = {
+
+                    id: {
+                        args: [1],
+                        after: ".get('data')",
+                        path: this.model.id(1).get('data'),
+                        method: 'get',
+                        highlightPath (path) {
+                            return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
+                        }
+                    },
+
                     find: {
                         args: [1],
                         path: this.model.find(1),
@@ -425,23 +436,7 @@
 
                             return path;
                         }
-                    },
-
-                    // hasRelationship: {
-                    //     args: ["'tag'", 123, "'latest'"],
-                    //     path: this.model.hasRelationship('tag', 123, 'latest').get(),
-                    //     highlightPath (path) {
-                    //         return path.replace(vm.model.routes.model, `<b>${vm.model.routes.model}</b>`);
-                    //     }
-                    // },
-                    //
-                    // belongsTo: {
-                    //     args: ["'gallery'", 1234],
-                    //     path: this.model.collection.belongsTo('gallery', 1234),
-                    //     highlightPath (path) {
-                    //         return path.replace(vm.model.routes.collection, `<b>${vm.model.routes.collection}</b>`);
-                    //     }
-                    // }
+                    }
                 };
 
                 _forEach(generated, (row) => { row.path = row.highlightPath(row.path); }); // `(${row.method.toUpperCase()}) ` +
@@ -583,6 +578,16 @@
                     text-align: right;
                     color: $blue;
                     font-size: 16px;
+                }
+            }
+        }
+
+        &__form {
+            input {
+                max-width: 110px;
+
+                &.is-disabled {
+                    border-color: lighten($blue, 20%);
                 }
             }
         }

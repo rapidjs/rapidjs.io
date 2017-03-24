@@ -1,15 +1,34 @@
 import Vue from 'vue';
 import axios from 'axios';
 import prism from './Vendor/prism';
-import scrollNav from './Vendor/jquery.scrollNav';
 import Rapid from './Interface/Rapid/Rapid';
 import Testies from './Interface/TestModel';
 import Googs from './Interface/GoogleMapsPlaces';
 import Auth from './Interface/Rapid/Models/Auth';
 import AutoComplete from './Components/AutoComplete';
-
+import $ from 'jquery';
 import 'particles.js/particles';
-const particlesJS = window.particlesJS;
+
+window.$ = $;
+window.Vue = Vue;
+window.rapidjs = Testies;
+window.googs = Googs;
+window.auth = new Auth();
+
+// 
+// $(function () {
+// 	$('.sidebar a[href^="' + location.hash + '"]').addClass('active-nav');
+//
+// 	$('.sidebar a').on('click', (e) => {
+// 		let current = $(e.currentTarget);
+//
+// 		$('.sidebar a').each((k, nav) => { $(nav).removeClass('active-nav'); });
+//
+// 		current.addClass('active-nav');
+// 	});
+// });
+
+
 
 var Normalizer = require('prismjs/plugins/normalize-whitespace/prism-normalize-whitespace');
 
@@ -25,11 +44,6 @@ Prism.plugins.NormalizeWhitespace.setDefaults({
 	'spaces-to-tabs': 4*/
 });
 
-window.Vue = Vue;
-
-window.rapidjs = Testies;
-window.googs = Googs;
-window.auth = new Auth();
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of
@@ -41,6 +55,8 @@ window.axios = axios;
 window.axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest',
 };
+
+const particlesJS = window.particlesJS;
 
 let particles = document.getElementById('particles-js');
 

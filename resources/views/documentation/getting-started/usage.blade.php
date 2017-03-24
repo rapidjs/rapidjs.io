@@ -1,6 +1,6 @@
-<h2 id="usage">Usage</h2>
+@include('components.heading', ['type' => 'h2', 'name' => 'usage', 'title' => 'Usage'])
 
-<p>Out of the box rapid offers basic CRUD methods in our case: <code class="language-js">.create()</code>, <code class="language-js">.find()</code>, <code class="language-js">.update()</code>, <code class="language-js">.destroy()</code>. With little to no Imagine we have a blog post model that we want to perform these methods on.</p>
+<p>Out of the box rapid offers basic CRUD methods to make your requests: <code class="language-js">.create()</code>, <code class="language-js">.find()</code>, <code class="language-js">.update()</code>, <code class="language-js">.destroy()</code>. Imagine we have a blog post model that we want to perform these methods on. Normally, you'd need to define these endpoints one by one but with rapid they're built for you. </p>
 
 <pre><code class="language-js">import Rapid from 'rapid.js';
 

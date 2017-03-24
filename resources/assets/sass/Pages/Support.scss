@@ -1,4 +1,4 @@
-.contribute {
+.support {
     &__support {
         height: 100vh;
         text-align: center;
@@ -12,6 +12,10 @@
     }
 
     &__info {
+        img {
+
+        }
+
         span {
             display: block;
             color: $color-blue;
@@ -19,11 +23,5 @@
             text-align: center;
             margin: 50px auto;
         }
-    }
-
-    &__subnote {
-        color: lighten($color-black, 20%);
-        font-size: 14px;
-        max-width: 500px;
     }
 }

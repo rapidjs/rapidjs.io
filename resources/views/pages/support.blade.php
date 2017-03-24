@@ -4,10 +4,10 @@
 
     <div class="container fb-grid row center-xs">
 
-         <div class="col-xs-12 col-md-6 contribute__support">
+         <div class="col-xs-12 col-md-6 support__support">
             <h1>Support rapid.js Development</h1>
 
-            <div class="contribute__paypal">
+            <div class="support__paypal">
                 <a target="_blank" href="http://paypal.me/drewjbartlett">
                     <img height="50" src="/images/paypal-logo.svg" alt="">
 

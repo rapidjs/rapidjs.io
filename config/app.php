@@ -53,6 +53,8 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    'github' => 'https://github.com/rapidjs/rapid.js',
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

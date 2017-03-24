@@ -1,5 +1,5 @@
 .rapidjs-logo {
-    font-size: 32px;
+    font-size: 27px;
     @include webfont('Miriam Libre');
     color: $color-white;
     transition: all ease .2s;
@@ -12,7 +12,7 @@
         top: 0;
         background: $color-blue;
         color: $color-white;
-        font-size: 10px;
+        font-size: 9px;
         font-style: normal;
         padding: 2px 4px;
         border-radius: 3px;

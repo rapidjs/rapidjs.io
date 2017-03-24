@@ -26,10 +26,10 @@
 
 </div>
 
-<div class="docs__configuration__section docs__configuration__section docs__configuration__section--since">
+{{-- <div class="docs__configuration__section docs__configuration__section docs__configuration__section--since">
     <b>Since:</b>
 
     <p>
         <span>{{ $configuration['since'] }}</span>
     </p>
-</div>
+</div> --}}

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import axios from 'axios';
 import prism from './Vendor/prism';
+import scrollNav from './Vendor/jquery.scrollNav';
 import Rapid from './Interface/Rapid/Rapid';
 import Testies from './Interface/TestModel';
 import Googs from './Interface/GoogleMapsPlaces';

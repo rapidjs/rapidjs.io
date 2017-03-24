@@ -1,4 +1,9 @@
 .sidebar {
+    position: fixed;
+    overflow-x: hidden;
+    overflow-y: auto;
+    top: 65px;
+    bottom: 0;
     padding: 40px 0;
 
     &__title {
@@ -9,6 +14,10 @@
         font-size: 15px;
         text-decoration: none;
         color: $color-black;
+
+        &:first-child {
+            margin-top: 0;
+        }
     }
 
     &__nav {
@@ -22,14 +31,31 @@
 
             a {
                 font-size: 14px;
-                display: block;
                 text-decoration: none;
                 color: $color-blue;
+                border-bottom: solid 2px transparent;
 
                 &:hover {
                     color: darken($color-blue, 10%);
+                    border-bottom: solid 2px $color-blue;
                 }
             }
         }
     }
 }
+
+ @include when-wider-than(tablet) {
+
+ }
+
+ @include when-wider-than(small_desktop) {
+    .sidebar {
+        width: 190px;
+    }
+ }
+
+ @include when-wider-than(large_desktop) {
+    .sidebar {
+        width: 204px;
+    }
+ }

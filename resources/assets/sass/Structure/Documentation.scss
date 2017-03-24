@@ -1,7 +1,7 @@
 .docs {
     h1 {
         font-weight: lighter;
-        font-size: 40px;
+        font-size: 32px;
         margin: 40px 0 20px 15px;
         border-bottom: solid 1px $color-border-gray;
         padding-bottom: 10px;
@@ -29,7 +29,7 @@
 
         h2 {
             font-weight: normal;
-            font-size: 26px;
+            font-size: 20px;
             color: lighten($color-black, 20%);
 
             &:before {
@@ -108,7 +108,11 @@
     .container .docs.fb-grid {
         padding-left: 50px;
     }
+
     .docs {
+        .container.fb-grid {
+            padding-top: 65px;
+        }
 
         &__columns {
             @include columns();

@@ -29,11 +29,11 @@
                 <div class="header__inner">
                     @include('components.logo')
 
-                    @if (Route::currentRouteName() == 'docs')
+                    {{-- @if (Route::currentRouteName() == 'docs')
                         <div class="header__search">
                             <input id="docs-search" type="text" placeholder="Search...">
                         </div>
-                    @endif
+                    @endif --}}
 
                     @if (Route::currentRouteName() == 'docs' || Route::currentRouteName() == 'support')
                         <div class="header__nav">

@@ -1,19 +1,25 @@
-<div class="sidebar fb-grid col-md-2">
-    <div>
+<div class="sidebar">
+    <div class="sidebar__inner">
         <a class="sidebar__title" href="#installation">Getting Started</a>
 
         <ul class="sidebar__nav">
-            @foreach(['overview', 'installation', 'usage', 'additional-methods', 'parameters', 'headers', 'routes', 'axios'] as $nav)
+            @foreach(['overview', 'why-use-rapid', 'installation', 'usage', 'additional-methods', 'parameters', 'headers', 'routes', 'axios'] as $nav)
                 <li><a href="#{{ $nav }}">{{ ucwords(str_replace('-', ' ', $nav)) }}</a></li>
             @endforeach
         </ul>
 
-        <a class="sidebar__title" href="#relationships">Relationships</a>
+        {{-- <a class="sidebar__title" href="#relationships">Relationships</a>
+
+        <ul class="sidebar__nav">
+            @foreach(['basic-usage' => 'Basic Usage', 'extending' => 'Extending'] as $nav => $name)
+                <li><a href="#extending-{{ $nav }}">{{ $name }}</a></li>
+            @endforeach
+        </ul> --}}
 
         <a class="sidebar__title" href="#extending-rapid">Extending Rapid</a>
 
         <ul class="sidebar__nav">
-            @foreach(['base-models' => 'Base Models', 'built-in-auth' => 'Built In Auth'] as $nav => $name)
+            @foreach(['base-models' => 'Base Models', 'built-in-auth' => 'Built In Auth', 'making-a-wrapper' => 'Making a Wrapper'] as $nav => $name)
                 <li><a href="#extending-{{ $nav }}">{{ $name }}</a></li>
             @endforeach
         </ul>

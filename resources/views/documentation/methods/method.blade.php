@@ -16,20 +16,20 @@
                     <code class="language-js">{{ $arg['name'] }}</code>
                     <em>({{ $arg['type'] }})</em>
                     @if($arg['description'])<span> - {!! $arg['description'] !!}</span>@endif
-                    @if(isset($arg['default'])) | <b>Default:</b> <em>{!! $arg['default'] !!}</em>@endif    
+                    @if(isset($arg['default'])) | <b>Default:</b> <em>{!! $arg['default'] !!}</em>@endif
                 </p>
             @endforeach
         </div>
     </div>
 @endif
 
-<div class="docs__method__section docs__method__section--since">
+{{-- <div class="docs__method__section docs__method__section--since">
     <b>Since:</b>
 
     <p>
         <span>{{ $method['since'] }}</span>
     </p>
-</div>
+</div> --}}
 
 <div class="docs__method__section docs__method__section--arguments">
     <b>Returns:</b>

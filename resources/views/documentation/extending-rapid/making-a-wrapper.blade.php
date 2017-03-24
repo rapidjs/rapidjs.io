@@ -1,4 +1,4 @@
-<h2 id="extending-example">A Real World Example</h2>
+@include('components.heading', ['type' => 'h2', 'name' => 'making-a-wrapper', 'title' => 'Making an API Wrapper'])
 
 <p>This example will not actually work since Google requires you to use Places Library but it shows just how easy you can extend rapid for any API interface.</p>
 
@@ -10,19 +10,19 @@ class GoogleMapsPlace extends Rapid {
     }
 
     textSearch (query) {
-        return this.setURLParams('textsearch', true, true).withParam('query', query);
+        return this.url('textsearch', true, true).withParam('query', query);
     }
 
     radarSearch (query) {
-        return this.setURLParams('radarsearch', true, true).withParam('query', query);
+        return this.url('radarsearch', true, true).withParam('query', query);
     }
 
     json () {
-        return this.setURLParams('json');
+        return this.url('json');
     }
 
     xml () {
-        return this.setURLParams('xml');
+        return this.url('xml');
     }
 }
 
@@ -30,9 +30,6 @@ export default new GoogleMapsPlace({
     modelName: 'place',
     globalParameters: {
       key: 'YOUR_API_KEY'
-    },
-    onError (response) {
-        alert ("Something went wrong!");
     }
 });
 </code></pre>

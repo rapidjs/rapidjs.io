@@ -3,5 +3,6 @@
 
     @yield('content')
 
-@include('layouts.footer')
-            
+@if (Route::currentRouteName() != 'docs')
+    @include('layouts.footer')
+@endif

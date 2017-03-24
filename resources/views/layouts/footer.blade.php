@@ -1,29 +1,29 @@
 
-            </div>
-            <div class="footer">
+        @if (Route::currentRouteName() != 'docs')</div>@endif
+        <div class="footer">
 
-                <div class="footer__inner fb-grid row">
-                    <div class="footer__logo">
-                        @include('components.logo')
-                    </div>
-
-                    <div class="footer__links">
-                        <a href="{{ route('docs') }}">documentation</a>
-                        <a href="{{ route('support') }}">support</a>
-                    </div>
-
-                    <div class="footer__madeby">
-                        <span>
-                            <span class="color-rapid"><i class="fa fa-copyright"></i> {{ date('Y') }} Drew J Bartlett </span>
-                            <a href="http://drewjbartlett.com/?ref=rapid" target="_blank">(drewjbartlett.com)</a>
-                        </span>
-                    </div>
+            <div class="footer__inner fb-grid row">
+                <div class="footer__logo">
+                    @include('components.logo')
                 </div>
 
+                <div class="footer__links">
+                    <a href="{{ route('docs') }}">documentation</a>
+                    <a href="{{ route('support') }}">support</a>
+                </div>
 
+                <div class="footer__madeby">
+                    <span>
+                        <span class="color-rapid"><i class="fa fa-copyright"></i> {{ date('Y') }} Drew J Bartlett </span>
+                        <a href="http://drewjbartlett.com/?ref=rapid" target="_blank">(drewjbartlett.com)</a>
+                    </span>
+                </div>
             </div>
 
-        <script src="/js/app.js"></script>
+
+        </div>
+
+        @if (Route::currentRouteName() == 'docs')</div>@endif
 
         @if (Route::currentRouteName() == 'docs')
             <script src="https://cdn.jsdelivr.net/algoliasearch/3/algoliasearch.min.js"></script>
@@ -57,5 +57,8 @@
                 });
             </script>
         @endif
+
+        <script src="/js/app.js"></script>
+
     </body>
 </html>

@@ -6,11 +6,11 @@
 
         @include('layouts.sidebar')
 
-        <div class="docs fb-grid col-xs-12 col-md-10">
+        <div class="docs fb-grid col-xs-12 col-md-9 col-md-offset-2">
 
             @include('documentation.getting-started.master')
 
-            @include('documentation.relationships.master')
+            {{-- @include('documentation.relationships.master') --}}
 
             @include('documentation.extending-rapid.master')
 
@@ -22,6 +22,7 @@
                 </div>
             @endforeach
 
+            @include('layouts.footer')
 
         </div>
 

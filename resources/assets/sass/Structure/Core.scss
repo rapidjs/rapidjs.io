@@ -28,12 +28,11 @@ body {
         padding: 20px;
 
         .sidebar {
-            border-right: solid 1px $color-border-gray;
             display: none;
         }
 
-        .documentation {
-
+        .docs {
+            border-left: solid 1px $color-border-gray;
         }
     }
 }

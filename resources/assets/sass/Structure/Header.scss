@@ -4,7 +4,7 @@
 
     &__inner {
         margin: 0 auto;
-        padding: 20px;
+        padding: 15px 0;
     }
 
     &__search {
@@ -36,6 +36,9 @@
 @include when-wider-than(small_desktop) {
     .header {
         margin-bottom: 0;
+        position: fixed;
+        width: 100%;
+        z-index: 99;
 
         &__inner {
             @include flex();
@@ -70,8 +73,7 @@
 
         &__search {
             width: 400px;
-            height: 35px;
-            margin-top: 6px;
+            height: 30px;
             @include flex();
 
             .algolia-autocomplete {
@@ -81,7 +83,7 @@
             input {
                 border: solid 1px $color-white;
                 padding: 5px 10px;
-                font-size: 14px;
+                font-size: 12px;
                 background: transparent;
                 width: 100%;
                 outline: 0 none;
@@ -89,7 +91,7 @@
                 transition: border ease .3s;
                 font-weight: bold;
                 color: $color-white;
-                height: 35px;
+                height: 30px;
 
                 &::placeholder {
                     color: $color-white;

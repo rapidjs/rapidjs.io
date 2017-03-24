@@ -4,15 +4,15 @@ import Tag from './Tag';
 
 class TestModel extends Rapid {
     boot () {
-
-        this.addRelationship('hasOne', UserModel);
-        this.addRelationship('hasMany', UserModel);
-        this.addRelationship('hasMany', new Rapid({ modelName: 'PhotoGalleries' }));
-        this.addRelationship('hasOne', 'gallery');
-
-        this.addRelationship('belongsTo', 'post');
-        this.addRelationship('belongsToMany', Tag);
-        this.addRelationship('belongsTo', Tag);
+        //
+        // this.addRelationship('hasOne', UserModel);
+        // this.addRelationship('hasMany', UserModel);
+        // this.addRelationship('hasMany', new Rapid({ modelName: 'PhotoGalleries' }));
+        // this.addRelationship('hasOne', 'gallery');
+        //
+        // this.addRelationship('belongsTo', 'post');
+        // this.addRelationship('belongsToMany', Tag);
+        // this.addRelationship('belongsTo', Tag);
 
     }
 }

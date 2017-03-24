@@ -1,10 +1,10 @@
 /**
- * All the CRUD 
+ * All the CRUD
  */
 
-import Relationships from './Relationships';
+import Request from './Request';
 
-class Crud extends Relationships {
+class Crud extends Request {
     /**
      * Model Only Functions
      */

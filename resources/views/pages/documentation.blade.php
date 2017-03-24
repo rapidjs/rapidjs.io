@@ -16,6 +16,8 @@
 
             @include('documentation.class-builder.app')
 
+            @include('documentation.debugging.master')
+
             @foreach(['methods', 'configuration'] as $file)
                 <div class="docs__section">
                     @include('documentation.'.$file.'.master')

@@ -171,7 +171,7 @@
                                     }
 
                                     tagSearch (query) {
-                                        return this.url('tagsearch', true, true).withParam('query', query);
+                                        return this.url('tagsearch').withParam('query', query);
                                     }
 
                                     json () {

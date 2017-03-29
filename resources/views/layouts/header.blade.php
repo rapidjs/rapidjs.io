@@ -29,20 +29,20 @@
                 <div class="header__inner">
                     @include('components.logo')
 
-                    {{-- @if (Route::currentRouteName() == 'docs')
+                    @if (Route::currentRouteName() == 'docs')
                         <div class="header__search">
                             <input id="docs-search" type="text" placeholder="Search...">
                         </div>
-                    @endif --}}
+                    @endif
 
                     @if (Route::currentRouteName() != 'home')
                         <div class="header__nav">
-                            @foreach (['docs' => 'Documentation', 'contribute' => 'Contribute', 'support' => 'Support'] as $route => $name)
+                            @foreach (['docs' => 'Documentation', 'contribute' => 'Contribute'] as $route => $name)
                                 <a class="{{ $route != Route::currentRouteName() ?: 'active' }}" href="{{ route($route) }}">{{ $name }}</a>
                             @endforeach
                         </div>
                     @endif
-
+                    {{-- , 'support' => 'Support' --}}
                 </div>
             </div>
         @endif

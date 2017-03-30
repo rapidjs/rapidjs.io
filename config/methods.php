@@ -186,99 +186,88 @@ $methods = [
         'returns'             => 'rapid instance'
     ],
 
-    // 'hasRelationship' => [
-    //     'name'                => 'hasRelationship',
-    //
-    //     'description'         => 'Generates a GET Request to a relationship on a model/collection.',
-    //
-    //     'arguments'           => [
-    //         [
-    //             'name'        => 'relation',
-    //             'type'        => 'string',
-    //             'description' => 'The relationship name. Given a post that has the relationship comments: <code class="language-markdown">/api/post/12/`comments`</code>'
-    //         ],
-    //
-    //         [
-    //             'name'        => 'primaryKey',
-    //             'type'        => 'int',
-    //             'description' => 'The primaryKey for the model the relationship is being defined for. Given a post that has the relationship comments: <code class="language-markdown">/api/post/`12`/comments</code>'
-    //         ],
-    //
-    //         [
-    //             'name'        => 'foreignKey|after',
-    //             'type'        => 'string|int|array',
-    //             'description' => 'The foreignKey for the the relationship or anything to be appended to the url. Given the above example, these attributes would go here: <code class="language-markdown">/api/post/12/comments/`id|int|array`</code>. If the following array is passed <code class="language-js">[\'latest\', \'meta\']</code> it would produce <code class="language-markdown">/api/post/12/comments/`latest`/`meta`</code>'
-    //         ]
-    //     ],
-    //
-    //     'since'               => '0.0.1',
-    //
-    //     'returns'             => 'Promise'
-    // ],
+    'withParams' => [
+        'name'                => 'withParams',
 
-    // 'hasOne' => [
-    //     'name'                => 'hasOne',
-    //
-    //     'description'         => '',
-    //
-    //     'arguments'           => [
-    //
-    //     ],
-    //
-    //     'since'               => '0.0.1',
-    //
-    //     'returns'             => 'this'
-    // ],
-    //
-    // 'hasMany' => [
-    //     'name'                => 'hasMany',
-    //
-    //     'description'         => '',
-    //
-    //     'arguments'           => [
-    //
-    //     ],
-    //
-    //     'since'               => '0.0.1',
-    //
-    //     'returns'             => 'this'
-    // ],
-    //
-    // 'belongsTo' => [
-    //     'name'                => 'belongsTo',
-    //
-    //     'description'         => 'Generates a GET Request to a relationship that the given collection belongs to.',
-    //
-    //     'arguments'           => [
-    //         [
-    //             'name'        => 'relation',
-    //             'type'        => 'string',
-    //             'description' => 'The relationship name. Given comments that belong to a post: <code class="language-markdown">/api/`post`/12/comments</code>'
-    //         ],
-    //
-    //         [
-    //             'name'        => 'primaryKey',
-    //             'type'        => 'int',
-    //             'description' => 'The primaryKey for the belongsTo relationship. Given the above example, this would be the post\'s id: <code class="language-markdown">/api/post/`12`/comments</code>'
-    //         ],
-    //
-    //         [
-    //             'name'        => 'foreignKey',
-    //             'type'        => 'string|int',
-    //             'description' => 'The foreignKey for the the relationship or anything to be appended to the url. Given the above example, these attributes would go here: <code class="language-markdown">/api/post/12/comments/`id|int|array`</code>. If the following array is passed <code class="language-js">[\'latest\', \'meta\']</code> it would produce <code class="language-markdown">/api/post/12/comments/`latest`/`meta`</code>'
-    //         ],
-    //
-    //         [
-    //             'name'        => 'after',
-    //             'type'        => 'int|string|array',
-    //             'description' => 'The primaryKey for the model the relationship is being defined for. Given a post that has the relationship comments: <code cs="language-markdown">/api/post/`12`/comments</code>'
-    //         ],
-    //     ],
-    //
-    //     'since'               => '0.0.1',
-    //
-    //     'returns'             => 'Promise'
-    // ]
+        'description'         => 'Send a set of params with the request.',
+
+        'arguments'           => [
+            [
+                'name'        => 'params',
+                'type'        => 'object',
+                'description' => 'The params to be sent over'
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'rapid instance'
+    ],
+
+    'withParam' => [
+        'name'                => 'withParam',
+
+        'description'         => 'Send a single param with the request.',
+
+        'arguments'           => [
+            [
+                'name'        => 'key',
+                'type'        => 'string',
+                'description' => 'The key/name of the parameter'
+            ],
+            [
+                'name'        => 'value',
+                'type'        => 'string|object|array',
+                'description' => 'The value of the parameter'
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'rapid instance'
+    ],
+
+    'withOptions' => [
+        'name'                => 'withOptions',
+
+        'description'         => 'Send a set of options with the request.',
+
+        'arguments'           => [
+            [
+                'name'        => 'options',
+                'type'        => 'object',
+                'description' => 'The options to be sent over'
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'rapid instance'
+    ],
+
+    'withOption' => [
+        'name'                => 'withOption',
+
+        'description'         => 'Send a single option with the request.',
+
+        'arguments'           => [
+            [
+                'name'        => 'key',
+                'type'        => 'string',
+                'description' => 'The key/name of the option'
+            ],
+            [
+                'name'        => 'value',
+                'type'        => 'string|object|array',
+                'description' => 'The value of the option'
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'rapid instance'
+    ]
+
 ];
 
 return collect($methods)->map(function($method) {

@@ -35,6 +35,8 @@
                 @endforeach
             </div>
         </div>
+        <span class="home__callout__trusted">These sites use and trust rapid as their API interface.</span>
+
     </div>
 
     <div class="home__inner">

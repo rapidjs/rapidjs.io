@@ -232,6 +232,12 @@
 
         <h4 id="config-builder-overrides" class="subtitle is-5 is-info">Class Config</h4>
         <div class="rapidjs-class-builder__config"><pre><code class="language-json" ref="config" v-text="config"></code></pre></div>
+        <div class="rapidjs-class-builder__config-note">***Note this output is JSON. Rapid requires a javascript object. You can simple strip the unnecessary quotes from this when copying.</div>
+
+        <!-- <div class="rapidjs-class-builder__config"><code class="config">{
+            <span v-for="(val, key) in config">{{ key }} : {{ val }}</span>
+        }
+        </code></div> -->
 
         <div class="rapidjs-class-builder__routes">
             <h4 id="config-builder-routes" class="subtitle is-5 is-info">Generated Routes</h4>
@@ -590,6 +596,11 @@
                     border-color: lighten($blue, 20%);
                 }
             }
+        }
+
+        &__config-note {
+            font-size: 12px;
+            color: lighten(#000, 30%);
         }
     }
 </style>

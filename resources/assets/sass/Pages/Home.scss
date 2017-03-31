@@ -68,6 +68,15 @@
             justify-content: center;
         }
 
+        &__trusted {
+            color: lighten($color-black, 30%);
+            display: block;
+            text-align: center;
+            font-size: 12px;
+            padding-top: 15px;
+            margin-bottom: -15px;
+        }
+
         &__logo {
             margin-right: 50px;
             align-items: center;

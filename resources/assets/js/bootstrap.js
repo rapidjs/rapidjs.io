@@ -3,6 +3,7 @@ import axios from 'axios';
 import prism from './Vendor/prism';
 import Rapid from './Interface/Rapid/Rapid';
 import Testies from './Interface/TestModel';
+import User from './Interface/UserModel';
 import Gallery from './Interface/Gallery';
 import Googs from './Interface/GoogleMapsPlaces';
 import Auth from './Interface/Rapid/Models/Auth';
@@ -15,6 +16,7 @@ window.Vue = Vue;
 window.rapidjs = Testies;
 window.googs = Googs;
 window.auth = new Auth();
+window.User = User;
 window.Gallery = Gallery;
 
 //

@@ -47,3 +47,26 @@ Route::post('/login', function (Request $request) {
 Route::post('/logout', function (Request $request) {
     return $request->all();
 });
+
+
+/**
+ * Gallery Test
+ */
+
+Route::group(['prefix' => 'gallery'], function () {
+    Route::get('/{slug}', function (Request $request, $slug) {
+        return $request->all();
+    });
+
+    Route::get('/{slug}/json', function (Request $request, $slug) {
+        return $request->all();
+    });
+
+    Route::post('/{slug}', function (Request $request, $slug) {
+        return $request->all();
+    });
+
+    Route::post('/{slug}/json', function (Request $request, $slug) {
+        return $request->all();
+    });
+});

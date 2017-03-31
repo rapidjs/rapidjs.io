@@ -1,7 +1,7 @@
 import Rapid from './Rapid/Rapid';
 
 class Gallery extends Rapid {
-    construct () {
+    boot () {
         this.modelName = 'Gallery';
     }
 
@@ -18,4 +18,4 @@ class Gallery extends Rapid {
     }
 }
 
-export default new Gallery({ debug: true });
+export default new Gallery({ debug: false });

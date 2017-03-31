@@ -38,7 +38,7 @@
     </div>
 
     <div class="home__inner">
-        @include('components.svg-grid')
+        {{-- @include('components.svg-grid') --}}
 
         <div class="home wrapper">
 
@@ -126,7 +126,7 @@
     </div>
 
     <div class="home__inner">
-        @include('components.svg-grid')
+        {{-- @include('components.svg-grid') --}}
 
         <div class="home wrapper">
             <div class="container fb-grid row home__side-by-side">

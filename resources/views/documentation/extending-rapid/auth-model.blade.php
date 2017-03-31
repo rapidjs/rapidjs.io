@@ -1,11 +1,10 @@
 @include('components.heading', ['type' => 'h2', 'name' => 'extending-auth-model', 'title' => 'The Rapid Auth Model'])
 
-<pre><code class="language-js">import Auth from 'Rapid/Auth';
-{{-- class User extends Auth {
-    modelName:
-} --}}
+<p>Rapid offers a simple auth model that gives you some basic auth routes out of the box.</p>
 
-var User = new Auth({ modelName: 'auth' });
+<pre><code class="language-js">import Auth from 'rapid/auth';
+
+var User = new Auth({ modelName: 'User' });
 
 // and now you get
 

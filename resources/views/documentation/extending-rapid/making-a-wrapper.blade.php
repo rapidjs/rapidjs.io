@@ -1,8 +1,8 @@
 @include('components.heading', ['type' => 'h2', 'name' => 'extending-making-a-wrapper', 'title' => 'Making an API Wrapper'])
 
-<p>This example will not actually work since Google requires you to use Places Library but it shows just how easy you can extend rapid for any API interface.</p>
+<p>Rapid allows for you to create a wrapper for your endpoints, rapidly. When extending rapid, you can override any of the config in the <code class="language-js">boot()</code> method. Take the example below of the Google Maps API. This example below will not actually work since Google requires you to use their Places Library but it demonstrates just how easily you can build your own wrapper.</p>
 
-<pre><code class="language-js">import Rapid from './Rapid/Rapid';
+<pre><code class="language-js">import Rapid from 'rapid';
 
 class GoogleMapsPlace extends Rapid {
     boot () {

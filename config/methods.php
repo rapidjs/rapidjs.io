@@ -397,7 +397,7 @@ $methods = [
 ];
 
 return collect($methods)->map(function($method) {
-    $method['prefix'] = 'methods';
+    $method['prefix'] = 'method';
 
     return $method;
 })->toArray();

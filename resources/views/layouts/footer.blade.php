@@ -32,30 +32,54 @@
 
             <script>
                 var client = algoliasearch("C3YLLGCGRG", "e1e71df52f2217b2b60288a81d7b6fd5");
-                var index = client.initIndex('rapid.js-config');
+                var configIndex = client.initIndex('rapid.js-config');
+                var methodIndex = client.initIndex('rapid.js-methods');
                 //initialize autocomplete on search input (ID selector must match)
-                autocomplete('#docs-search',
-                { hint: false, debug: true },
-                {
-                    source: autocomplete.sources.hits(index, {hitsPerPage: 5}),
-                    //value to be displayed in input control after user's suggestion selection
-                    displayKey: 'name',
-                    //hash of templates used when rendering dataset
-                    templates: {
-                        //'suggestion' templating function used to render a single suggestion
-                        suggestion: function(suggestion) {
-                          return `
-                              <a href="#${suggestion.prefix}-${suggestion.name}">
-                              <b>${suggestion._highlightResult.name.value}</b>
-                              <span>${suggestion._highlightResult.description.value}</span>
-                              </a>
-                          `;
+                autocomplete('#docs-search', {
+                    templates: { footer: '<div class="branding">Powered by <img height="15" src="/images/algolia-logo.svg" /></div>' }
+                },
+                [
+                    {
+                        source: autocomplete.sources.hits(configIndex, {hitsPerPage: 3}),
+                        //value to be displayed in input control after user's suggestion selection
+                        displayKey: 'name',
+                        //hash of templates used when rendering dataset
+                        templates: {
+                            //'suggestion' templating function used to render a single suggestion
+                            suggestion: function(suggestion) {
+                              return `
+                                  <a href="#${suggestion.prefix}-${suggestion.name}">
+                                  <b>${suggestion._highlightResult.name.value}</b>
+                                  <span>${suggestion._highlightResult.description.value}</span>
+                                  </a>
+                              `;
 
-                        },
-                        header: '<div class="autocomplete__header"><h1>Configuration</h1></div>',
-                        footer: '<div class="branding">Powered by <img height="15" src="/images/algolia-logo.svg" /></div>'
+                            },
+                            header: '<div class="autocomplete__header"><h1>Configuration</h1></div>'
+                        }
+                    },
+
+                    {
+                        source: autocomplete.sources.hits(methodIndex, {hitsPerPage: 3}),
+                        //value to be displayed in input control after user's suggestion selection
+                        displayKey: 'name',
+                        //hash of templates used when rendering dataset
+                        templates: {
+                            //'suggestion' templating function used to render a single suggestion
+                            suggestion: function(suggestion) {
+                              return `
+                                  <a href="#${suggestion.prefix}-${suggestion.name}">
+                                  <b>${suggestion._highlightResult.name.value}</b>
+                                  <span>${suggestion._highlightResult.description.value}</span>
+                                  </a>
+                              `;
+
+                            },
+                            header: '<div class="autocomplete__header"><h1>Methods</h1></div>'
+                        }
                     }
-                });
+                ]
+            );
             </script>
         @endif
 

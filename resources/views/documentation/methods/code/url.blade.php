@@ -1,6 +1,6 @@
 <pre><code class="language-js">
 class Gallery extends Rapid {
-    construct () {
+    boot () {
         this.modelName = 'Gallery';
     }
 
@@ -20,13 +20,13 @@ class Gallery extends Rapid {
 var gallery = new Gallery();
 
 gallery.slug('nature-album').json().get();
-    // /api/nature-album/json
+    // GET => /api/nature-album/json
 
 gallery.json().slug('nature-album').get();
-    // /api/nature-album/json
+    // GET => /api/nature-album/json
 
 gallery.json().slug('nature-album').findBySlugOnly('new-slug').get();
-    // /api/new-slug
+    // GET => /api/new-slug
 </code></pre>
 
 <p>Because <code class="language-js">slug()</code> has <code class="language-js">prepend</code> set to <code class="language-js">true</code>, the order does not matter. It will always be prepended to the url and both examples produce the same result. <code class="language-js">findBySlugOnly()</code> overwrites the entire url because <code class="language-js">overwrite</code> set to <code class="language-js">true</code>.</p>

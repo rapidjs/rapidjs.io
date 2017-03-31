@@ -46,20 +46,20 @@
                         suggestion: function(suggestion) {
                           return `
                               <a href="#${suggestion.prefix}-${suggestion.name}">
-                              <b>${suggestion._highlightResult.name.value}</b><br />
+                              <b>${suggestion._highlightResult.name.value}</b>
                               <span>${suggestion._highlightResult.description.value}</span>
                               </a>
                           `;
 
                         },
-                        header: '<div class="autcomplete__header"><h1>Configuration</h1></div>',
+                        header: '<div class="autocomplete__header"><h1>Configuration</h1></div>',
                         footer: '<div class="branding">Powered by <img height="15" src="/images/algolia-logo.svg" /></div>'
                     }
                 });
             </script>
         @endif
 
-        <script src="/js/app.js"></script>
+        <script src="{{ mix('/js/app.js') }}"></script>
 
     </body>
 </html>

@@ -186,6 +186,114 @@ $methods = [
         'returns'             => 'rapid instance'
     ],
 
+    'get' => [
+        'name'                => 'get',
+
+        'description'         => 'Make a GET request.',
+
+        'arguments'           => [
+            [
+                'name'        => '...urlParams',
+                'type'        => 'string',
+                'description' => 'A single string or comma delimeted values to build the request url'
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'promise'
+    ],
+
+    'post' => [
+        'name'                => 'post',
+
+        'description'         => 'Make a POST request.',
+
+        'arguments'           => [
+            [
+                'name'        => '...urlParams',
+                'type'        => 'string',
+                'description' => 'A single string or comma delimeted values to build the request url'
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'promise'
+    ],
+
+    'put' => [
+        'name'                => 'put',
+
+        'description'         => 'Make a PUT request.',
+
+        'arguments'           => [
+            [
+                'name'        => '...urlParams',
+                'type'        => 'string',
+                'description' => 'A single string or comma delimeted values to build the request url'
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'promise'
+    ],
+
+    'patch' => [
+        'name'                => 'patch',
+
+        'description'         => 'Make a PATCH request.',
+
+        'arguments'           => [
+            [
+                'name'        => '...urlParams',
+                'type'        => 'string',
+                'description' => 'A single string or comma delimeted values to build the request url'
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'promise'
+    ],
+
+    'head' => [
+        'name'                => 'head',
+
+        'description'         => 'Make a HEAD request.',
+
+        'arguments'           => [
+            [
+                'name'        => '...urlParams',
+                'type'        => 'string',
+                'description' => 'A single string or comma delimeted values to build the request url'
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'promise'
+    ],
+
+    'delete' => [
+        'name'                => 'delete',
+
+        'description'         => 'Make a DELETE request.',
+
+        'arguments'           => [
+            [
+                'name'        => '...urlParams',
+                'type'        => 'string',
+                'description' => 'A single string or comma delimeted values to build the request url'
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'promise'
+    ],
+
     'withParams' => [
         'name'                => 'withParams',
 
@@ -266,6 +374,24 @@ $methods = [
         'since'               => '0.0.1',
 
         'returns'             => 'rapid instance'
+    ],
+
+    'data' => [
+        'name'                => 'data',
+
+        'description'         => 'Send over both params and headers in one method.',
+
+        'arguments'           => [
+            [
+                'name'        => 'data',
+                'type'        => 'object',
+                'description' => 'The data (params, headers) to be sent over'
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'rapid instance'
     ]
 
 ];
@@ -274,4 +400,5 @@ return collect($methods)->map(function($method) {
     $method['prefix'] = 'methods';
 
     return $method;
-})->sortBy('name')->toArray();
+})->toArray();
+// ->sortBy('name')

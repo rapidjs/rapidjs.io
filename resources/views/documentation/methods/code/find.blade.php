@@ -1,7 +1,7 @@
 <pre><code class="language-js">var Post = new Rapid({ modelName: 'post' });
 
-Post.find(1).then(function (response) { // GET => /api/post/1
-    console.log(response.data.post);
+Post.find(1).then(function (response) {
+    // GET => /api/post/1
 });
 </code></pre>
 

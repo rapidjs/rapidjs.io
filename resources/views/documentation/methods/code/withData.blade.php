@@ -2,7 +2,7 @@
 
 <pre><code class="language-js">var Gallery = new Rapid({ modelName: 'Gallery' });
 
-Gallery.id(23).data(params: { title: 'Appalachian Trail' }, options: { responseType: 'json' }).post().then(function (response) {
+Gallery.id(23).withData(params: { title: 'Appalachian Trail' }, options: { responseType: 'json' }).post().then(function (response) {
     // POST => /api/gallery/23
 });
 </code></pre>

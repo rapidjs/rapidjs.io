@@ -191,7 +191,7 @@ class Request extends Routes {
      *
      * @param data An object of params: {}, options: {}
      */
-    data (data = {}) {
+    withData (data = {}) {
         this.requestData = _defaultsDeep(data, this.requestData);
 
         return this;

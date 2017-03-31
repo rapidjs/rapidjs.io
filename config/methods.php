@@ -376,8 +376,8 @@ $methods = [
         'returns'             => 'rapid instance'
     ],
 
-    'data' => [
-        'name'                => 'data',
+    'withData' => [
+        'name'                => 'withData',
 
         'description'         => 'Send over both params and headers in one method.',
 

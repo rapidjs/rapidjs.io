@@ -1,33 +1,46 @@
 @include('components.heading', ['type' => 'h2', 'name' => 'extending-making-a-wrapper', 'title' => 'Making an API Wrapper'])
 
-<p>Rapid allows for you to create a wrapper for your endpoints, rapidly. When extending rapid, you can override any of the config in the <code class="language-js">boot()</code> method. Take the example below of the Google Maps API. This example below will not actually work since Google requires you to use their Places Library but it demonstrates just how easily you can build your own wrapper.</p>
+<p>Rapid allows for you to create a wrapper for your endpoints, rapidly. When extending rapid, you can override any of the config in the <code class="language-js">boot()</code> method. Take the example endpoints below: </p>
 
-<pre><code class="language-js">import Rapid from 'rapid';
+<ul>
+    <li><code class="language-js">https://mysite.com/api/gallery/tagsearch/{xml|json}</code></li>
+    <li><code class="language-js">https://mysite.com/api/gallery/categorysearch/{xml|json}</code></li>
+    <li><code class="language-js">https://mysite.com/api/gallery/{id}/{xml|json}</code></li>
+    <li><code class="language-js">https://mysite.com/api/gallery/{id}/{tags|categories}/{xml|json}</code></li>
+</ul>
 
-class GoogleMapsPlace extends Rapid {
+<p>The class below demonstrates just how effortlessly you can write a wrapper for the above endpoints.</p>
+
+<pre><code class="language-js">import Rapid from 'rapid.js';
+
+class GalleryWrapper extends Rapid {
     boot () {
-        this.baseURL = 'https://maps.googleapis.com/maps/api';
+        this.baseURL = 'https://mysite.com/api';
+        this.modelName = 'Gallery';
     }
 
-    textSearch (query) {
-        return this.url('textsearch', true, true).withParam('query', query);
+    tagSearch (query) {
+        return this.append('tagsearch').withParam('query', query);
     }
 
-    radarSearch (query) {
-        return this.url('radarsearch', true, true).withParam('query', query);
+    categorySearch (query) {
+        return this.append('categorysearch').withParam('query', query);
+    }
+
+    taxonomy (taxonomy) {
+        return this.append(taxonomy);
     }
 
     json () {
-        return this.url('json');
+        return this.append('json');
     }
 
     xml () {
-        return this.url('xml');
+        return this.append('xml');
     }
 }
 
-export default new GoogleMapsPlace({
-    modelName: 'place',
+export default new GalleryWrapper({
     globalParameters: {
       key: 'YOUR_API_KEY'
     }
@@ -36,11 +49,26 @@ export default new GoogleMapsPlace({
 
 <p>Now you can easily interact with the API like this:</p>
 
-<pre><code class="language-js">import GoogleMapsPlaces from './models/GoogleMapsPlaces';
+<pre><code class="language-js">import GalleryWrapper from './wrappers/GalleryWrapper';
 
-GoogleMapsPlaces.textSearch('123 main street').json().get();
-    // GET https://maps.googleapis.com/maps/api/place/textsearch/json?query=123%20main%20street&key=YOUR_API_KEY
+GalleryWrapper.tagSearch('orange').json().get();
+    // GET => https://mysite.com/api/gallery/tagsearch/json?query=orange
 
-GoogleMapsPlaces.radarSearch('123 main street').xml().get();
-    // GET https://maps.googleapis.com/maps/api/place/radarsearch/xml?query=123%20main%20street&key=YOUR_API_KEY
+GalleryWrapper.categorySearch('nature').xml().get();
+    // GET => https://mysite.com/api/gallery/categorysearch/xml?query=nature
+
+GalleryWrapper.id(45).('tags').json().get();
+    // GET => https://mysite.com/api/gallery/45/json
+
+GalleryWrapper.id(45).taxonomy('tags').xml().get();
+    // GET => https://mysite.com/api/gallery/45/tags/xml
+
 </code></pre>
+
+<p>In theory, this would work to build a wrapper around any public API as well.</p>
+
+@include('components.see-also', ['routes' => [
+    ['section' => 'method', 'key' => 'url', 'text' => 'url()'],
+    ['section' => 'method', 'key' => 'prepend', 'text' => 'prepend()'],
+    ['section' => 'method', 'key' => 'append', 'text' => 'append()']
+]])

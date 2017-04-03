@@ -95,7 +95,7 @@ class Crud extends Request {
         }
 
         // needs to prepend
-        this.setURLParams(params, true);
+        this.prepend(params);
 
         return this;
     }

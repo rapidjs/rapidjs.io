@@ -186,6 +186,42 @@ $methods = [
         'returns'             => 'rapid instance'
     ],
 
+    'append' => [
+        'name'                => 'append',
+
+        'description'         => 'Appends a string or array to the url for the request. This is the equivalent to <code class="language-js">this.url(\'something\', true)</code>. Useful when extending rapid.',
+
+        'arguments'           => [
+            [
+                'name'        => 'urlParams',
+                'type'        => 'string|array',
+                'description' => 'The parameters to set in the url.'
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'rapid instance'
+    ],
+
+    'prepend' => [
+        'name'                => 'prepend',
+
+        'description'         => 'Prepends a string or array to the url for the request. Appends a string or array to the url for the request. This is the equivalent to <code class="language-js">this.url(\'something\')</code>. Useful when extending rapid.',
+
+        'arguments'           => [
+            [
+                'name'        => 'urlParams',
+                'type'        => 'string|array',
+                'description' => 'The parameters to set in the url.'
+            ]
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'rapid instance'
+    ],
+
     'get' => [
         'name'                => 'get',
 

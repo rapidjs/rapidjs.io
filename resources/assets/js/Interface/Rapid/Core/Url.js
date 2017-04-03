@@ -87,6 +87,18 @@ class Url extends Core {
         return this;
     }
 
+    prepend (params) {
+        this.setURLParams(params, true);
+
+        return this;
+    }
+
+    append (params) {
+        this.setURLParams(params);
+
+        return this;
+    }
+
 }
 
 export default Url;

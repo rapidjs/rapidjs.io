@@ -2,36 +2,36 @@ import Rapid from './Rapid/Rapid';
 
 // This will not actually work since Google requires you to use
 // Places Library. This is just to show you what you can build
-class GoogleMapsPlace extends Rapid {
-
+class GalleryWrapper extends Rapid {
     boot () {
-        this.baseURL = 'https://maps.googleapis.com/maps/api';
+        this.baseURL = 'https://mysite.com/api';
+        this.modelName = 'Gallery';
     }
 
-    textSearch (query) {
-        return this.setURLParams('textsearch', true, true).withParam('query', query);
+    tagSearch (query) {
+        return this.append('tagsearch').withParam('query', query);
     }
 
-    radarSearch (query) {
-        return this.setURLParams('radarsearch', true, true).withParam('query', query);
+    categorySearch (query) {
+        return this.append('categorysearch').withParam('query', query);
+    }
+
+    taxonomy (taxonomy) {
+        return this.append(taxonomy);
     }
 
     json () {
-        return this.setURLParams('json');
+        return this.append('json');
     }
 
     xml () {
-        return this.setURLParams('xml');
+        return this.append('xml');
     }
 }
 
-export default new GoogleMapsPlace({
-    modelName: 'place',
+export default new GalleryWrapper({
     globalParameters: {
       key: 'YOUR_API_KEY'
     },
-    debug: true,
-    onError (response) {
-        alert ("Something went wrong!");
-    }
+    debug: true
 });

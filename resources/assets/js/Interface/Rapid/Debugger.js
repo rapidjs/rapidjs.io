@@ -4,7 +4,7 @@ export default class {
     constructor (caller) {
         this.caller           = caller;
         this.data             = {};
-        this.logEnabled       = false;
+        this.logEnabled       = true;
     }
 
     fakeRequest (type, url) {
@@ -14,8 +14,8 @@ export default class {
         this.setLastRequest(...arguments);
 
         if(this.logEnabled) {
-            this.caller.logger.debug(`${this.caller.config.modelName} made a ${type.toUpperCase()} request (${lastUrl})`);
-            this.caller.logger.log(params);
+            // this.caller.logger.debug(`${this.caller.config.modelName} made a ${type.toUpperCase()} request (${lastUrl})`);
+            // this.caller.logger.log(params);
         }
 
         this.caller.afterRequest({});

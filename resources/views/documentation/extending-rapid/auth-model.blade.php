@@ -30,6 +30,9 @@ var User = new Auth({ modelName: 'User' });
 User.login({ username: 'user', password: 'password' }).then(...) // config.auth.methods.login => /api/login
 User.logout().then(...) // config.auth.methods.logout => /api/logoout
 User.check().then(...) // config.auth.methods.auth => /api/auth
+
+// all regular methods are still available too
+User.find(1).then(...) // GET => /api/user/1
 @endcomponent
 
 <p>Like a basic rapid model, you can customize the auth routes and methods to fit your API like so:</p>

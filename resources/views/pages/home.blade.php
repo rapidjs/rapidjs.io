@@ -15,7 +15,7 @@
                 </div>
             </div>
             <h1 class="home__hero__title">A Fluent Interface To Rapidly Interact With APIs</h1>
-            <h2 class="home__hero__subtitle">Create simple, resusable, and cleaner interfaces for your API requests that make sense.</h2>
+            <h2 class="home__hero__subtitle">Create simple, resusable, and cleaner wrappers and interfaces for your API requests.</h2>
 
             <a href="{{ route('docs') }}" class="rapid-btn">Get Started</a>
 
@@ -25,7 +25,17 @@
 
     <div class="home__callout">
         <div class="home__callout__inner wrapper">
-            <div class="container fb-grid row home__callout__logos">
+            <div class="container fb-grid row home__callout__inner">
+                <div class="home__callout__logo home__callout__logo--with-text">
+                    <span>View the project on</span>
+
+                    <a target="_blank" href="https://github.com/drewjbartlett/rapidjs">
+                        <img src="/images/github-logo.png" alt="Github">
+                    </a>
+                </div>
+            </div>
+
+            {{-- <div class="container fb-grid row home__callout__logos">
                 @foreach (config('logos') as $logo)
                     <div class="home__callout__logo">
                         <a target="_blank" href="{{ $logo['url'] }}">
@@ -33,9 +43,9 @@
                         </a>
                     </div>
                 @endforeach
-            </div>
+            </div> --}}
         </div>
-        <span class="home__callout__trusted">These sites use and trust rapid as their API interface.</span>
+        {{-- <span class="home__callout__trusted">These sites use and trust rapid as their API interface.</span> --}}
 
     </div>
 
@@ -108,16 +118,6 @@
     <div class="home__callout">
         <div class="home__callout__inner wrapper">
             <div class="container fb-grid row home__callout__inner">
-
-                <div class="home__callout__logo home__callout__logo--with-text">
-                    <span>View the project on</span>
-
-                    <a target="_blank" href="https://github.com/drewjbartlett/rapidjs">
-                        <img src="/images/github-logo.png" alt="Github">
-                    </a>
-                </div>
-
-                <span class="home__callout__or">or</span>
 
                 <span class="home__callout__action">
                     <a href="{{ route('docs') }}" class="rapid-btn rapid-btn--med">Read the Docs</a>

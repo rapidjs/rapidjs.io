@@ -3,12 +3,23 @@
 <p>Quite often, you may need want to have a base model that has common attributes such as a <code class="language-js">baseURL</code>. With rapid, base models are effortless. The example below would allow for the same <code class="language-js">baseURL</code> and <code class="language-js">API_KEY</code>.</p>
 
 @component('components.code')
+// Base.js
+import Rapid from 'rapid.js';
+
 class Base extends Rapid {
     boot () {
         this.baseURL = 'https://myapp.com/api';
         this.config.globalParameters = { key: 'MY_API_KEY' }
     }
 }
+
+export default Base;
+@endcomponent
+
+<p>And then just import your base model.</p>
+
+@component('components.code')
+import Base from './Base';
 
 var Photo   = new Base({ modelName: 'Photo' }););
 var Gallery = new Base({ modelName: 'Gallery' });

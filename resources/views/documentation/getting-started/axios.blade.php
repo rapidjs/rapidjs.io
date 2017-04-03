@@ -4,7 +4,7 @@
 
 <pre><code class="language-js">var Photo = new Rapid({ modelName: 'photo' });
 
-Photo.api.get('/api/posts/1');
+Photo.api.get('/api/photos/1');
 </code></pre>
 
 @include('components.see-also', ['routes' => [

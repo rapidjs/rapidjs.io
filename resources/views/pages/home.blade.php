@@ -60,7 +60,7 @@
                     <div class="home__side-by-side__inner dark-block">
                         <pre>
                             <code class="language-js">
-                                var Post = new Rapid({ modelName: 'Post' });
+                                var Post = new rapid({ modelName: 'Post' });
 
                                 Post.find(1).then((response) => {
                                     // GET => /api/post/1
@@ -89,7 +89,7 @@
                     <div class="home__side-by-side__inner dark-block">
                         <pre>
                             <code class="language-js">
-                                var Post = new Rapid({
+                                var Post = new rapid({
                                     modelName: 'Post',
                                     suffixes: {
                                         destroy: '',
@@ -137,7 +137,7 @@
                     <div class="home__side-by-side__inner dark-block">
                         <pre>
                             <code class="language-js">
-                                class Base extends Rapid {
+                                class Base extends rapid {
                                     boot () {
                                         this.baseURL = 'https://myapp.com/api';
                                         this.config.globalParameters = { key: 'MY_API_KEY' }
@@ -166,7 +166,7 @@
                     <div class="home__side-by-side__inner dark-block">
                         <pre>
                             <code class="language-js">
-                                class GalleryWrapper extends Rapid {
+                                class GalleryWrapper extends rapid {
                                     boot () {
                                         this.baseURL = 'https://myapp.com/gallery/api';
                                         this.modelName = 'Gallery';

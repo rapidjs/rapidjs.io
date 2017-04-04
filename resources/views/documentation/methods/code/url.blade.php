@@ -1,5 +1,5 @@
 <pre><code class="language-js">
-class Gallery extends Rapid {
+class Gallery extends rapid {
     boot () {
         this.modelName = 'Gallery';
     }

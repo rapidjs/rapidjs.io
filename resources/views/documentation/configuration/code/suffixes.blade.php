@@ -1,4 +1,4 @@
-<pre><code class="language-js">var Fruit = new Rapid({
+<pre><code class="language-js">var Fruit = new rapid({
     modelName: 'fruit',
     {
         create  : 'new',

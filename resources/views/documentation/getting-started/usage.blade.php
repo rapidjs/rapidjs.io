@@ -3,9 +3,9 @@
 <p>Out of the box rapid offers basic CRUD methods to make your requests: <code class="language-js">.create()</code>, <code class="language-js">.find()</code>, <code class="language-js">.update()</code>, <code class="language-js">.destroy()</code>. Imagine we have a blog post model that we want to perform these methods on. Normally, you'd need to define these endpoints one by one but with rapid they're built for you. </p>
 
 @component('components.code')
-import Rapid from 'rapid.js';
+import rapid from 'rapid.js';
 
-var Post = new Rapid({ modelName: 'post' });
+var Post = new rapid({ modelName: 'post' });
 
 Post.find(1).then(function (response) {
     // GET => /api/post/1

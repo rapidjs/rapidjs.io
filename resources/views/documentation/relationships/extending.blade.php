@@ -3,12 +3,12 @@
 <p>While the above example can be helpful in some scenarios, you may find that you don't want to have to call the relationship method each time you want to request that specific route. In this case, you can extend rapid and define relationships in the <code class="language-js">boot()</code> method.</p>
 
 <pre><code class="language-js">
-    import Rapid from 'rapid.js';
+    import rapid from 'rapid.js';
     import PhotoGallery from './PhotoGallery';
 
-    class User extends Rapid {
+    class User extends rapid {
         boot () {
-            this.addRelationship('hasMany', new Rapid({ modelName: 'Post' }));
+            this.addRelationship('hasMany', new rapid({ modelName: 'Post' }));
             this.addRelationship('hasMany', PhotoGallery);
         }
     }

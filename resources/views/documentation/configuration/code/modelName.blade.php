@@ -1,4 +1,4 @@
-<pre><code class="language-js">var Gallery = new Rapid({
+<pre><code class="language-js">var Gallery = new rapid({
     modelName: 'gallery'
 });
 
@@ -6,7 +6,7 @@ Gallery.findBy('tag', 'featured') // => /api/posts/gallery/tag/featured
 Gallery.collection.findBy('tag', 'featured') // => /api/posts/galleries/tag/featured
 
 // using a camel case name
-var Gallery = new Rapid({
+var Gallery = new rapid({
     modelName: 'PhotoGallery'
 });
 

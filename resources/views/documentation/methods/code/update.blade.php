@@ -1,5 +1,5 @@
 <pre><code class="language-js">
-var Post = new Rapid({ modelName: 'Post' });
+var Post = new rapid({ modelName: 'Post' });
 
 Post.update(1, { title: 'An updated title' }).then(...) // config.methods.update => /api/post/1/[config.suffixes.update]
 

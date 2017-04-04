@@ -11,7 +11,7 @@ Post.id(55).withParams({ background: 'blue' }).post('meta').then(...) // POST =>
 <p>Rapid takes a <code class="language-js">primaryKey</code> attribute in its config. If you were to provide one, <code class="language-js">.id()</code> will also account for that.</p>
 
 @component('components.code')
-var Post = new Rapid({ modelName: 'Post', primaryKey: 'id' });
+var Post = new rapid({ modelName: 'Post', primaryKey: 'id' });
 
 Post.id(45).get('meta').then(...) // GET => /api/posts/id/45/meta
 Post.id(55).withParams({ background: 'blue' }).post('meta').then(...) // POST => /api/posts/id/45/meta

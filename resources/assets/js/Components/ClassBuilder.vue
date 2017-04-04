@@ -336,7 +336,7 @@
         },
 
         created () {
-            // this.model.debugger.logEnabled = false;
+            this.model.debugger.logEnabled = false;
 
             this.regenerateRoutes();
         },

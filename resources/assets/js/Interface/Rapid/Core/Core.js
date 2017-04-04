@@ -7,6 +7,7 @@ import _defaultsDeep from 'lodash.defaultsdeep';
 
 import Defaults from './../Defaults';
 import Debugger from './../Debugger';
+import Logger from './../Logger';
 
 class Core {
     constructor (config) {
@@ -28,11 +29,6 @@ class Core {
      * Setup the all of properties.
      */
     initialize (config) {
-        this.methodRoutes = []; // for debugging and registering routes
-
-        // this.rels = {}; // any relationships instances that are now accessible
-        //
-        // this.$rels = {}; // any relationship methods now available
 
         this.config = config;
 
@@ -74,7 +70,7 @@ class Core {
      * Initialze the debugger if debug is set to true.
      */
     initializeLogger () {
-        this.logger = this.config.debug ? require('./../Logger') : false;
+        this.logger = this.config.debug ? Logger : false;
     }
 
     /**

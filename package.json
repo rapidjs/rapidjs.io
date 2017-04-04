@@ -44,6 +44,7 @@
     "lodash.kebabcase": "^4.1.1",
     "particles.js": "^2.0.0",
     "prismjs": "^1.6.0",
+    "rapid.js": "^1.0.0",
     "vue-select": "^2.1.0"
   },
   "ava": {

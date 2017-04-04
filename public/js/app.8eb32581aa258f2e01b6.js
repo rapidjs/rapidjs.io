@@ -6717,7 +6717,7 @@ exports.default = {
     },
 
     created: function created() {
-        // this.model.debugger.logEnabled = false;
+        this.model.debugger.logEnabled = false;
 
         this.regenerateRoutes();
     },
@@ -7158,11 +7158,11 @@ var _Debugger = __webpack_require__(117);
 
 var _Debugger2 = _interopRequireDefault(_Debugger);
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _Logger = __webpack_require__(119);
 
-/**
- * The Caramel Core functionality of Rapid
- */
+var _Logger2 = _interopRequireDefault(_Logger);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var Core = function () {
     function Core(config) {
@@ -7191,11 +7191,6 @@ var Core = function () {
     }, {
         key: 'initialize',
         value: function initialize(config) {
-            this.methodRoutes = []; // for debugging and registering routes
-
-            // this.rels = {}; // any relationships instances that are now accessible
-            //
-            // this.$rels = {}; // any relationship methods now available
 
             this.config = config;
 
@@ -7250,7 +7245,7 @@ var Core = function () {
     }, {
         key: 'initializeLogger',
         value: function initializeLogger() {
-            this.logger = this.config.debug ? __webpack_require__(119) : false;
+            this.logger = this.config.debug ? _Logger2.default : false;
         }
 
         /**
@@ -7346,7 +7341,9 @@ var Core = function () {
         }
     }]);
     return Core;
-}();
+}(); /**
+      * The Caramel Core functionality of Rapid
+      */
 
 exports.default = Core;
 
@@ -8351,8 +8348,8 @@ var _class = function () {
             this.setLastRequest.apply(this, arguments);
 
             if (this.logEnabled) {
-                // this.caller.logger.debug(`${this.caller.config.modelName} made a ${type.toUpperCase()} request (${lastUrl})`);
-                // this.caller.logger.log(params);
+                this.caller.logger.debug(this.caller.config.modelName + ' made a ' + type.toUpperCase() + ' request (' + lastUrl + ')');
+                this.caller.logger.log(params);
             }
 
             this.caller.afterRequest({});
@@ -8367,7 +8364,7 @@ var _class = function () {
             var lastUrl = '';
 
             if (['put', 'post', 'patch'].includes(type)) {
-                lastUrl = this.caller.sanitizeUrl([this.caller.config.baseURL, url].join('/')) + '?' + _qs2.default.stringify(params);
+                lastUrl = this.caller.sanitizeUrl([this.caller.config.baseURL, url].join('/'));
             } else {
                 var urlParams = params.params,
                     stringified = urlParams ? '?' + _qs2.default.stringify(urlParams) : '';
@@ -8393,36 +8390,6 @@ var _class = function () {
                 data: data,
                 options: options
             };
-        }
-    }, {
-        key: 'listRoutes',
-        value: function listRoutes() {
-            // let coreFunctions = {
-            //     'create' : {
-            //         method: '',
-            //         params: []
-            //     },
-            //     'find' : {
-            //         method: '',
-            //         params: []
-            //     },
-            //     'all' : {
-            //         method: '',
-            //         params: []
-            //     },
-            //     'update' : {
-            //         method: '',
-            //         params: []
-            //     },
-            //     'destroy' : {
-            //         method: '',
-            //         params: []
-            //     }
-            // };
-            //
-            // console.log(this.caller.methodRoutes);
-            //
-            // coreFunctions.concat(this.caller.methodRoutes).forEach(func => this.caller[func].call(this.caller));
         }
     }]);
     return _class;

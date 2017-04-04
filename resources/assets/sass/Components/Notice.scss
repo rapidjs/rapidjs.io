@@ -1,0 +1,31 @@
+.rapid-notice {
+    @include flex();
+    padding: 10px;
+    border-radius: 5px;
+    background: $color-blue;
+    margin: 20px 0;
+    // text-align: center;
+    align-items: center;
+    // justify-content: center;
+
+    span,
+    a,
+    i {
+        color: $color-white;
+    }
+
+    span {
+        @include webfont('Miriam Libre');
+        font-size: 14px;
+    }
+
+    a {
+        text-decoration: underline;
+    }
+
+    .fa {
+        font-size: 25px;
+        display: inline-block;
+        margin-right: 10px;
+    }
+}

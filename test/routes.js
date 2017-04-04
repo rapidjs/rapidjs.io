@@ -5,7 +5,7 @@ test('that routeDelimiter will work', t => {
 
     let postModel = new Rapid({
         modelName: 'PacificCrestTrail',
-        routeDelimiter: '_',
+        routeDelimeter: '_',
         debug: true
     });
 
@@ -30,9 +30,9 @@ test('that caseSensitive will work', t => {
     postModel.debugger.logEnabled = false;
 
     postModel.find(1);
-    t.is('api/PacficCrestTrail/1', postModel.debugger.data.lastUrl);
+    t.is('api/PacificCrestTrail/1', postModel.debugger.data.lastUrl);
 
     postModel.all();
-    t.is('api/PacficCrestTrails', postModel.debugger.data.lastUrl);
+    t.is('api/PacificCrestTrails', postModel.debugger.data.lastUrl);
 
 });

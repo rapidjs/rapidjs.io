@@ -29,7 +29,7 @@
                 <div class="home__callout__logo home__callout__logo--with-text">
                     <span>View the project on</span>
 
-                    <a target="_blank" href="https://github.com/drewjbartlett/rapidjs">
+                    <a target="_blank" href="{{ config('app')['github'] }}">
                         <img src="/images/github-logo.png" alt="Github">
                     </a>
                 </div>

@@ -52,16 +52,16 @@ export default new GalleryWrapper({
 <pre><code class="language-js">import GalleryWrapper from './wrappers/GalleryWrapper';
 
 GalleryWrapper.tagSearch('orange').json().get().then(...);
-    // GET => https://mysite.com/api/gallery/tagsearch/json?query=orange
+    // GET => https://mysite.com/api/gallery/tagsearch/json?query=orange&key=YOUR_API_KEY
 
 GalleryWrapper.categorySearch('nature').xml().get().then(...);
-    // GET => https://mysite.com/api/gallery/categorysearch/xml?query=nature
+    // GET => https://mysite.com/api/gallery/categorysearch/xml?query=nature&key=YOUR_API_KEY
 
 GalleryWrapper.id(45).taxonomy('tags').json().get().then(...);
-    // GET => https://mysite.com/api/gallery/45/json
+    // GET => https://mysite.com/api/gallery/45/tags/json?key=YOUR_API_KEY
 
-GalleryWrapper.id(45).taxonomy('tags').xml().get().then(...);
-    // GET => https://mysite.com/api/gallery/45/tags/xml
+GalleryWrapper.id(45).taxonomy('categories').xml().get().then(...);
+    // GET => https://mysite.com/api/gallery/45/categories/xml?key=YOUR_API_KEY
 </code></pre>
 
 <p>In theory, this would work to build a wrapper around any public API as well.</p>

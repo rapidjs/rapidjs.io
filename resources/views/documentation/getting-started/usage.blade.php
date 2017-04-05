@@ -18,7 +18,7 @@ Post.update(23, { title: 'Rapid* is awesome!' }).then(...) // POST => /api/post/
 Post.destroy(1).then(...) // POST => /api/post/1/destroy
 @endcomponent
 
-<p>While this may seem quite trivial, rapid actually cuts out a large amount of time and repeating yourself. Without rapid, making these same requests might can be repetitive. Take the below example that uses only a framework such as <a href="#axios">Axios</a> alone (the backbone of rapid):</p>
+<p>While this may seem quite trivial, rapid actually cuts out a large amount of time and repeating yourself. Without rapid, making these same requests can be repetitive. Take the below example that uses only a framework such as <a href="#axios">Axios</a> alone (the backbone of rapid):</p>
 
 @component('components.code')
 import axios from 'axios';

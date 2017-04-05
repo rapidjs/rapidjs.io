@@ -1,4 +1,4 @@
-<pre><code class="language-js">var Post = new rapid({ modelName: 'post' });
+<pre><code class="language-js">var Post = new Rapid({ modelName: 'post' });
 
 Post.all().then(function (response) {
     // GET => /api/posts

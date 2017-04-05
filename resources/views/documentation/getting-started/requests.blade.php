@@ -3,7 +3,7 @@
 <p>In addition to the above methods, you can make basic <code class="language-js">get()</code>, <code class="language-js">post()</code>, <code class="language-js">put()</code>, <code class="language-js">patch()</code>, <code class="language-js">head()</code>, <code class="language-js">delete()</code> requests. Each method takes the same parameter(s).</p>
 
 @component('components.code')
-var Gallery = new rapid({ modelName: 'Gallery' });
+var Gallery = new Rapid({ modelName: 'Gallery' });
 
 Gallery.get('tags').then(function (response) {
     // GET => /api/gallery/tags

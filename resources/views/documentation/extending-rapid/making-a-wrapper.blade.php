@@ -11,9 +11,9 @@
 
 <p>The class below demonstrates just how effortlessly you can write a wrapper for the above endpoints.</p>
 
-<pre><code class="language-js">import rapid from 'rapid.js';
+<pre><code class="language-js">import Rapid from 'rapid.js';
 
-class GalleryWrapper extends rapid {
+class GalleryWrapper extends Rapid {
     boot () {
         this.baseURL = 'https://mysite.com/api';
         this.modelName = 'Gallery';

@@ -1,4 +1,4 @@
-<pre><code class="language-js">var Gallery = new rapid({ modelName: 'Gallery' });
+<pre><code class="language-js">var Gallery = new Rapid({ modelName: 'Gallery' });
 
 Gallery.collection.withParams({ page: 1, order: 'asc' }).get('tags').then(...)
     // GET => /api/galleries/tags?page=1&order=asc

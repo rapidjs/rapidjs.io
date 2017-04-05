@@ -3,13 +3,13 @@
 <p>Firstly, I am no relationship expert-that's for sure. (Writing docs takes a while...have to make it fun, right?). Anyway, like many popular backend frameworks such as <a href="https://laravel.com?ref=rapid">Laravel</a>, you can define relationships. Actually rapid is inspired by Laravel's relationships. Behind the scenes, rapid is just generating URLs that would make sense for a relationship. If your app is more complex and you want to define some relationships, you can do so with the methods: <code class="language-js">hasOne()</code>, <code class="language-js">hasMany()</code>, <code class="language-js">belongsTo()</code>, <code class="language-js">belongsToMany()</code>. Let's take the simple example of a blog post which has comments and an author.</p>
 
 <pre><code class="language-js">
-    var Post = new rapid({
+    var Post = new Rapid({
             modelName: 'Post'
         }),
-        Comment = new rapid({
+        Comment = new Rapid({
             modelName: 'Comment'
         }),
-        Author = new rapid({
+        Author = new Rapid({
             modelName: 'Author'
         });
 

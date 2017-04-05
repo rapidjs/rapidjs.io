@@ -4,9 +4,9 @@
 
 @component('components.code')
 // Base.js
-import rapid from 'rapid.js';
+import Rapid from 'rapid.js';
 
-class Base extends rapid {
+class Base extends Rapid {
     boot () {
         this.baseURL = 'https://myapp.com/api';
         this.config.globalParameters = { key: 'MY_API_KEY' }
@@ -38,7 +38,7 @@ Gallery.id(23).get('tags', 'nature')
 <p>When using the <code class="language-js">boot()</code> method, you can override any of the normal config. However, when changing the <code class="language-js">baseURL</code>, <code class="language-js">modelName</code>, <code class="language-js">routeDelimeter</code>, or <code class="language-js">caseSensitive</code> variables, you must use the setters rather than referencing the config itself. This is because the routes need to be regenerated after those config variables are changed.</p>
 
 @component('components.code')
-class Base extends rapid {
+class Base extends Rapid {
     boot () {
         this.baseURL        = 'https://myapp.com/api';
         this.modelName      = 'SomeModel';

@@ -32,13 +32,13 @@
             @endforeach
         </ul>
 
-        <a class="sidebar__title" href="#debugging">Debugging</a>
+        {{-- <a class="sidebar__title" href="#debugging">Debugging</a>
 
         <ul class="sidebar__nav">
             @foreach(config('docs')['debugging'] as $nav => $name)
                 <li><a href="#extending-{{ $nav }}">{{ $name }}</a></li>
             @endforeach
-        </ul>
+        </ul> --}}
 
         <a class="sidebar__title" href="#configuration">Configuration</a>
 

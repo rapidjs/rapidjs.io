@@ -31,9 +31,6 @@ body {
             display: none;
         }
 
-        .docs {
-            border-left: solid 1px $color-border-gray;
-        }
     }
 }
 
@@ -47,7 +44,9 @@ p {
         width: $tablet;
 
         .container {
-
+            .docs {
+                border-left: solid 1px $color-border-gray;
+            }
         }
     }
 }

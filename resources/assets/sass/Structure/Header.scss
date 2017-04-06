@@ -4,7 +4,7 @@
 
     &__inner {
         margin: 0 auto;
-        padding: 15px 0;
+        padding: 15px;
     }
 
     &__search {
@@ -43,6 +43,7 @@
         &__inner {
             @include flex();
             width: $small-desktop;
+            padding: 15px 0;
         }
 
         &__nav {

@@ -8,3 +8,4 @@ Homestead.yaml
 .nyc_output
 *.DS_Store
 npm-debug.log
+.env

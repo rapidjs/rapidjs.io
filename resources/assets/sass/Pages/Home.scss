@@ -172,55 +172,55 @@
 }
 
 
- @include when-wider-than(tablet) {
+@include when-wider-than(tablet) {
 
- }
+}
 
- @include when-wider-than(small_desktop) {
-     .home {
-         &__hero {
+@include when-wider-than(small_desktop) {
+    .home {
+        &__hero {
 
-             &__inner {
-                 padding: 0;
-             }
+            &__inner {
+                padding: 0;
+            }
 
-             &__title {
-                 font-size: 52px;
-             }
+            &__title {
+                font-size: 52px;
+            }
 
-             &__subtitle {
-                 font-size: 20px;
-             }
+            &__subtitle {
+                font-size: 20px;
+            }
 
-             .rapid-btn {
-                 font-size: 18px;
-                 margin-top: 40px;
-             }
-         }
+            .rapid-btn {
+                font-size: 18px;
+                margin-top: 40px;
+            }
+        }
 
-         &__side-by-side {
+        &__side-by-side {
 
-             &__section {
-                 margin-top: 20px;
-                 margin-bottom: 60px;
-                 padding: 30px 0;
+            &__section {
+                margin-top: 20px;
+                margin-bottom: 60px;
+                padding: 30px 0;
 
-                 &--lowered {
-                     margin-top: 80px;
-                 }
+                &--lowered {
+                    margin-top: 80px;
+                }
 
-                 h3 {
-                     margin-left: 30px;
-                 }
-             }
+                h3 {
+                    margin-left: 30px;
+                }
+            }
 
-             &__inner {
-                 padding: 0 30px;
-             }
-         }
-     }
- }
+            &__inner {
+                padding: 0 30px;
+            }
+        }
+    }
+}
 
- @include when-wider-than(large_desktop) {
+@include when-wider-than(large_desktop) {
 
- }
+}

@@ -47,19 +47,19 @@
     }
 }
 
- @include when-wider-than(tablet) {
+@include when-wider-than(tablet) {
 
- }
+}
 
- @include when-wider-than(small_desktop) {
+@include when-wider-than(small_desktop) {
     .sidebar {
         display: block;
         width: 190px;
     }
- }
+}
 
- @include when-wider-than(large_desktop) {
+@include when-wider-than(large_desktop) {
     .sidebar {
         width: 204px;
     }
- }
+}

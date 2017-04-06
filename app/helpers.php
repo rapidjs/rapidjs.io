@@ -1,5 +1,9 @@
 <?php
 
+function data ($key) {
+    return app('data')::get($key);
+}
+
 /**
  * Make a route for the docs from a key and a value
  *

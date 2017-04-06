@@ -35,11 +35,11 @@ Route::get('/support', function () {
 Route::prefix('/indexes')->group(function () {
 
     Route::get('/configuration', function () {
-        return array_values(config('configuration'));
+        return array_values(data('configuration'));
     });
 
     Route::get('/methods', function () {
-        return array_values(config('methods'));
+        return array_values(data('methods'));
     });
 
 });

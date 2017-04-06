@@ -1,7 +1,6 @@
-@import 'vars';
+@import 'Vars';
 
 @import 'Helpers';
-
 
 @import 'Mixins/Mixins';
 @import 'Mixins/When-Than';
@@ -15,9 +14,9 @@
 @import 'Structure/Header';
 @import 'Structure/Footer';
 @import 'Structure/Sidebar';
-@import 'Structure/Documentation';
 
 @import 'Pages/Home';
+@import 'Pages/Documentation';
 @import 'Pages/Contribute';
 @import 'Pages/Support';
 

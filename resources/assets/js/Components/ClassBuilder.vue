@@ -404,7 +404,7 @@
                         path: this.model.create(),
                         method: this.model.config.methods.create,
                         highlightPath (path) {
-                            return path.replace(vm.model.routes[vm.model.config.defaultRoute], `<b>${vm.model.routes[vm.model.config.defaultRoute]}</b>`);
+                            path = path.replace(vm.model.routes[vm.model.config.defaultRoute], `<b>${vm.model.routes[vm.model.config.defaultRoute]}</b>`);
 
                             if(vm.config.suffixes && 'create' in vm.config.suffixes) {
                                 path = path.replace(vm.model.config.suffixes.create, `<span class="code-block__highlight">${vm.model.config.suffixes.create}</span>`);

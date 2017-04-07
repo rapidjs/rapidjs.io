@@ -30,7 +30,7 @@ import { Auth } from 'rapid.js';
 var User = new Auth({ modelName: 'User' });
 
 User.login({ username: 'user', password: 'password' }).then(...) // config.auth.methods.login => /api/login
-User.logout().then(...) // config.auth.methods.logout => /api/logoout
+User.logout().then(...) // config.auth.methods.logout => /api/logout
 User.check().then(...) // config.auth.methods.auth => /api/auth
 User.register({ name: 'rapid', email: 'user@email.com', password: 'password' }).then(...) // config.auth.methods.register => /api/register
 

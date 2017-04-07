@@ -5,15 +5,17 @@
 @component('components.code')
 auth: {
     routes: {
-        login  : 'login',  // a route to login a user
-        logout : 'logout', // a route to logout a user
-        auth   : 'auth'    // a route to check for auth
+        login    : 'login',   // a route to login a user
+        logout   : 'logout',  // a route to logout a user
+        auth     : 'auth',    // a route to check for auth
+        register : 'register' // a route to check for auth
     },
 
     methods: {
-        login  : 'post', // the method to use for login
-        logout : 'post', // the method to use for logout
-        auth   : 'get'   // the method to use for auth
+        login    : 'post', // the method to use for login
+        logout   : 'post', // the method to use for logout
+        auth     : 'get',   // the method to use for auth
+        register : 'post'  // the method to use for auth
     },
 
     modelPrefix: false // whether or not to prefix the model name in the requests
@@ -30,6 +32,7 @@ var User = new Auth({ modelName: 'User' });
 User.login({ username: 'user', password: 'password' }).then(...) // config.auth.methods.login => /api/login
 User.logout().then(...) // config.auth.methods.logout => /api/logoout
 User.check().then(...) // config.auth.methods.auth => /api/auth
+User.register({ name: 'rapid', email: 'user@email.com', password: 'password' }).then(...) // config.auth.methods.register => /api/register
 
 // all regular methods are still available too
 User.find(1).then(...) // GET => /api/user/1
@@ -42,7 +45,8 @@ var User = new Auth({
     modelName: 'User',
     auth: {
         routes: {
-            auth: 'authenticate'
+            auth: 'authenticate',
+            register: 'sign-up'
         },
         modelPrefix: true
     }
@@ -51,4 +55,5 @@ var User = new Auth({
 User.login({ username: 'user', password: 'password' }).then(...) // config.auth.methods.login => /api/user/login
 User.logout().then(...) // config.auth.methods.logout => /api/user/logoout
 User.check().then(...) // config.auth.methods.auth => /api/user/authenticate
+User.register({ name: 'rapid', email: 'user@email.com', password: 'password' }).then(...) // config.auth.methods.register => /api/user/sign-up
 @endcomponent

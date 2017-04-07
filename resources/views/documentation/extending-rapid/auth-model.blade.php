@@ -23,7 +23,7 @@ auth: {
 <p>With only a <code class="language-js">modelName</code> passed, you can get the following routes:</p>
 
 @component('components.code')
-import Auth from 'rapid/auth';
+import { Auth } from 'rapid.js';
 
 var User = new Auth({ modelName: 'User' });
 

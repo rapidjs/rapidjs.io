@@ -7,5 +7,6 @@ Homestead.json
 Homestead.yaml
 .nyc_output
 *.DS_Store
+.DS_Store
 npm-debug.log
 .env

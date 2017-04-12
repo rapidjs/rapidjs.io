@@ -4,17 +4,17 @@ If you were to call a non route-specific method such as <code class="language-js
     modelName: 'post'
 });
 
-Post.findBy('key', 'value') // => GET /api/post/key/value
-Post.collection.findBy('key', 'value') // => GET /api/posts/key/value
+post.findBy('key', 'value') // => GET /api/post/key/value
+post.collection.findBy('key', 'value') // => GET /api/posts/key/value
 </code></pre>
 
-Setting the default route to collection would set collection to the default route instead: 
+Setting the default route to collection would set collection to the default route instead:
 
 <pre><code class="language-js">var post = new Rapid({
     modelName: 'post',
     defaultRoute: 'collection'
 });
 
-Post.findBy('key', 'value') // => GET /api/posts/key/value
-Post.model.findBy('key', 'value') // => GET /api/post/key/value
+post.findBy('key', 'value') // => GET /api/posts/key/value
+post.model.findBy('key', 'value') // => GET /api/post/key/value
 </code></pre>

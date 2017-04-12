@@ -3,24 +3,24 @@
 <p>Many developers generally write their APIs with the concept of a <code class="language-markdown">`model`</code> and a <code class="language-markdown">`collection`</code>. Take the example a Photo <code class="language-markdown">`model`</code>. You can make API requests to a single Photo <code class="language-markdown">/api/photo/1</code> but also maybe you want to request a <code class="language-markdown">`collection`</code> of Photos <code class="language-markdown">/api/photos/tag/nature</code>. Rapid is designed at its core to handle both of these scenarios by simply calling <code class="language-js">.model</code> or <code class="language-js">.collection</code> prior to a request.</p>
 
 <pre><code class="language-js">
-var Photo = new Rapid({ modelName: 'photo' });
+var photo = new Rapid({ modelName: 'photo' });
 
 // by default, the route will be model
-Photo.findBy('tag', 'featured'); // GET => /api/photo/tag/featured
+photo.findBy('tag', 'featured'); // GET => /api/photo/tag/featured
 
 // call the collection route
-Photo.collection.findBy('tag', 'featured'); // GET => /api/photos/tag/featured
+photo.collection.findBy('tag', 'featured'); // GET => /api/photos/tag/featured
 </code></pre>
 
 <p>Rapid also takes advantage of <a target="_blank" href="https://github.com/blakeembrey/pluralize">pluralize</a> and will automatically generate a collection route based off a camel case <code class="language-js">modelName</code></p>
 
 <pre><code class="language-js">
-var PhotoGallery = new Rapid({ modelName: 'PhotoGallery' });
+var photoGallery = new Rapid({ modelName: 'PhotoGallery' });
 
-PhotoGallery.findBy('tag', 'featured'); // GET => /api/photo-gallery/tag/featured
+photoGallery.findBy('tag', 'featured'); // GET => /api/photo-gallery/tag/featured
 
 // call the collection route
-PhotoGallery.collection.findBy('tag', 'featured'); // GET => /api/photo-galleries/tag/featured
+photoGallery.collection.findBy('tag', 'featured'); // GET => /api/photo-galleries/tag/featured
 </code></pre>
 
 <p>You can change the <a href="#configuration-defaultRoute">defaultRoute</a> and <a href="#configuration-routes">override the pluralizing</a> as well as have complete customization of your routes through the <a href="#configuration">configuration</a>.</p>

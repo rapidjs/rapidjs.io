@@ -7,14 +7,14 @@ Imagine that every request you make returns a field called <code class="language
 }</code></pre>
 
 The following config would alert a message with that response on each request.
-<pre><code class="language-js">var Settings = new Rapid({
+<pre><code class="language-js">var settings = new Rapid({
     modelName: 'settings',
     afterRequest (response) {
         alert(response.data.message);
     }
 });
 
-Settings.save({}).then((response) =>
+settings.save({}).then((response) =>
     // afterRequest would fire an alert("Settings Saved!")
     // and you can still do whatever you want with the rest of the data
 });

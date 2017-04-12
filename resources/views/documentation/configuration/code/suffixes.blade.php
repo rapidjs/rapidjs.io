@@ -1,4 +1,4 @@
-<pre><code class="language-js">var Fruit = new Rapid({
+<pre><code class="language-js">var fruit = new Rapid({
     modelName: 'fruit',
     {
         create  : 'new',
@@ -7,7 +7,7 @@
     }
 });
 
-Fruit.create({}) // => /api/fruit/new
-Fruit.update(1, {}) // => /api/fruit/1/save
-Fruit.destroy(1) // => /api/fruit/1/delete
+fruit.create({}) // => /api/fruit/new
+fruit.update(1, {}) // => /api/fruit/1/save
+fruit.destroy(1) // => /api/fruit/1/delete
 </code></pre>

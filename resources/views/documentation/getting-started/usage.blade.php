@@ -5,17 +5,17 @@
 @component('components.code')
 import Rapid from 'rapid.js';
 
-var Post = new Rapid({ modelName: 'post' });
+var post = new Rapid({ modelName: 'post' });
 
-Post.find(1).then(function (response) {
+post.find(1).then(function (response) {
     // GET => /api/post/1
 });
 
-Post.create({ title: 'Rapidd is awesome!' }).then(...) // POST => /api/post/create
+post.create({ title: 'Rapidd is awesome!' }).then(...) // POST => /api/post/create
 
-Post.update(23, { title: 'Rapid* is awesome!' }).then(...) // POST => /api/post/23/update
+post.update(23, { title: 'Rapid* is awesome!' }).then(...) // POST => /api/post/23/update
 
-Post.destroy(1).then(...) // POST => /api/post/1/destroy
+post.destroy(1).then(...) // POST => /api/post/1/destroy
 @endcomponent
 
 <p>While this may seem quite trivial, rapid actually cuts out a large amount of time and repeating yourself. Without rapid, making these same requests can be repetitive. Take the below example that uses only a framework such as <a href="#axios">Axios</a> alone (the backbone of rapid):</p>

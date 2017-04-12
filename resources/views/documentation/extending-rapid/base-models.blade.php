@@ -21,17 +21,17 @@ export default Base;
 @component('components.code')
 import Base from './Base';
 
-var Photo   = new Base({ modelName: 'Photo' }););
-var Gallery = new Base({ modelName: 'Gallery' });
-var Tag     = new Base({ modelName: 'Tag' });
+var photo   = new Base({ modelName: 'Photo' }););
+var gallery = new Base({ modelName: 'Gallery' });
+var tag     = new Base({ modelName: 'Tag' });
 
-Photo.find(1)
+photo.find(1)
     // GET => https://myapp.com/api/photo/1?key=MY_API_KEY
 
-Tag.collection.findBy('color', 'red')
+tag.collection.findBy('color', 'red')
     // GET => https://myapp.com/api/tags/color/red?key=MY_API_KEY
 
-Gallery.id(23).get('tags', 'nature')
+gallery.id(23).get('tags', 'nature')
     // GET => https://myapp.com/api/gallery/23/tag/nature?key=MY_API_KEY
 @endcomponent
 

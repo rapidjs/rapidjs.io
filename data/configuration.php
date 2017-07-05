@@ -260,7 +260,21 @@ onError (error) {
         'multiline'   => false,
 
         'since'       => '0.0.1'
-    ]
+    ],
+
+    'extension' => [
+        'name'        => 'extension',
+
+        'type'        => 'string',
+
+        'description' => 'An extension to be appended to every request.',
+
+        'default'     => "''",
+
+        'multiline'   => false,
+
+        'since'       => '0.0.10'
+    ],
 
 
 

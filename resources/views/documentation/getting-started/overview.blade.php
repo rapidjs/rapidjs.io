@@ -1,5 +1,5 @@
 @component('components.notice')
-    This is the first release of rapid and it is still in development. Please report any bugs to the <a target="_blank" href="{{ config('app')['github'] }}/issues">github page</a>.
+    If you encounter any bugs, please report them on the <a target="_blank" href="{{ config('app')['github'] }}/issues">github page</a>.
 @endcomponent
 
 @include('components.heading', ['type' => 'h2', 'name' => 'overview', 'title' => 'What is rapid?'])

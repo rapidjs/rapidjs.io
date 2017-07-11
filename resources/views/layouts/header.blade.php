@@ -10,7 +10,7 @@
         <meta property="og:description" content="Create simple, resusable, and cleaner wrappers and interfaces for your API requests." />
         <meta property="og:url" content="{{ url()->current() }}" />
         <meta property="og:site_name" content="rapid js" />
-        <meta property="og:image" content="http://rapidjs.io/images/fb/rapidjs.png" />
+        <meta property="og:image" content="http://rapidjs.io/images/fb/rapid.png" />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="600" />
 

@@ -4,6 +4,16 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta property="og:locale" content="en_US" />
+        <meta property="og:title" content="rapid js - A Fluent Interface To Rapidly Interact With APIs." />
+        <meta property="og:description" content="Create simple, resusable, and cleaner wrappers and interfaces for your API requests." />
+        <meta property="og:url" content="{{ url()->current() }}" />
+        <meta property="og:site_name" content="rapid js" />
+        <meta property="og:image" content="/images/fb/rapidjs.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="600" />
+
         <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
         <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Miriam+Libre" rel="stylesheet">

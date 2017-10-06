@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <meta property="og:locale" content="en_US" />
-        <meta property="og:title" content="A Fluent Interface To Rapidly Interact With APIs." />
+        <meta property="og:title" content="An ORM-like Interface For Your Frontend Requests." />
         <meta property="og:description" content="Create simple, resusable, and cleaner wrappers and interfaces for your API requests." />
         <meta property="og:url" content="{{ url()->current() }}" />
         <meta property="og:site_name" content="rapid js" />
@@ -46,7 +46,7 @@
         /></noscript>
         @endif
 
-        <title>rapid js - A Fluent Interface To Rapidly Interact With APIs.</title>
+        <title>rapid js - An ORM-like Interface For Your Frontend Requests.</title>
     </head>
     <body class="{{ Route::currentRouteName() }}">
 

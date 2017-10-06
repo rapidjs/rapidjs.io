@@ -1,5 +1,5 @@
 <p align="center">
-<img src="http://rapidjs.io/images/rapid-logo-gh-readme.png" />
+<img src="https://rapidjs.io/images/rapid-logo-gh-readme.png" />
 </p>
 
 # rapidjs.io - The docs for [rapid.js](http://rapidjs.io)

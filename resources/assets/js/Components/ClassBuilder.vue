@@ -43,8 +43,7 @@
 
                 <div class="fb-grid col-md-4">
                     <span class="label">
-                        Override <br>
-                        <switches v-model="overrides.routes.model" :selected="overrides.routes.model" color="blue" @input="resetDefaults('routes', 'model')"></switches>
+                        <switches label="Override" v-model="overrides.routes.model" :selected="overrides.routes.model" color="blue" @input="resetDefaults('routes', 'model')"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -59,8 +58,7 @@
 
                 <div class="fb-grid col-md-4">
                     <span class="label">
-                        Override <br>
-                        <switches v-model="overrides.routes.collection" :selected="overrides.routes.collection" color="blue" @input="resetDefaults('routes', 'collection')"></switches>
+                        <switches label="Override" v-model="overrides.routes.collection" :selected="overrides.routes.collection" color="blue" @input="resetDefaults('routes', 'collection')"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -80,8 +78,7 @@
 
                 <div class="fb-grid col-md-4">
                     <span class="label">
-                        Override <br>
-                        <switches v-model="overrides.suffixes.create" :selected="overrides.suffixes.create" color="blue" @input="resetDefaults('suffixes', 'create')"></switches>
+                        <switches label="Override" v-model="overrides.suffixes.create" :selected="overrides.suffixes.create" color="blue" @input="resetDefaults('suffixes', 'create')"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -96,8 +93,7 @@
 
                 <div class="fb-grid col-md-4">
                     <span class="label">
-                        Override <br>
-                        <switches v-model="overrides.suffixes.update" :selected="overrides.suffixes.update" color="blue" @input="resetDefaults('suffixes', 'update')"></switches>
+                        <switches label="Override" v-model="overrides.suffixes.update" :selected="overrides.suffixes.update" color="blue" @input="resetDefaults('suffixes', 'update')"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -112,8 +108,7 @@
 
                 <div class="fb-grid col-md-4">
                     <span class="label">
-                        Override <br>
-                        <switches v-model="overrides.suffixes.destroy" :selected="overrides.suffixes.destroy" @input="resetDefaults('suffixes', 'destroy')" color="blue"></switches>
+                        <switches label="Override" v-model="overrides.suffixes.destroy" :selected="overrides.suffixes.destroy" @input="resetDefaults('suffixes', 'destroy')" color="blue"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -133,8 +128,7 @@
 
                 <div class="fb-grid col-md-4">
                     <span class="label">
-                        Override <br>
-                        <switches v-model="overrides.methods.create" :selected="overrides.methods.create" color="blue" @input="resetDefaults('methods', 'create')"></switches>
+                        <switches label="Override" v-model="overrides.methods.create" :selected="overrides.methods.create" color="blue" @input="resetDefaults('methods', 'create')"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -152,8 +146,7 @@
 
                 <div class="fb-grid col-md-4">
                     <span class="label">
-                        Override <br>
-                        <switches v-model="overrides.methods.update" :selected="overrides.methods.update" color="blue" @input="resetDefaults('methods', 'update')"></switches>
+                        <switches label="Override" v-model="overrides.methods.update" :selected="overrides.methods.update" color="blue" @input="resetDefaults('methods', 'update')"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -168,8 +161,7 @@
 
                 <div class="fb-grid col-md-4">
                     <span class="label">
-                        Override <br>
-                        <switches v-model="overrides.methods.destroy" :selected="overrides.methods.destroy" color="blue" @input="resetDefaults('methods', 'destroy')"></switches>
+                        <switches label="Override" v-model="overrides.methods.destroy" :selected="overrides.methods.destroy" color="blue" @input="resetDefaults('methods', 'destroy')"></switches>
                     </span>
 
                     <p class="control has-addons">
@@ -232,7 +224,7 @@
 
         <h4 id="config-builder-overrides" class="subtitle is-5 is-info">Class Config</h4>
         <div class="rapidjs-class-builder__config"><pre><code class="language-json" ref="config" v-text="config"></code></pre></div>
-        <div class="rapidjs-class-builder__config-note">***Note this output is JSON. Rapid requires a javascript object. You can simple strip the unnecessary quotes from this when copying.</div>
+        <div class="rapidjs-class-builder__config-note">***Note this output is JSON. Rapid requires a javascript object. You can simply strip the unnecessary quotes from this when copying.</div>
 
         <!-- <div class="rapidjs-class-builder__config"><code class="config">{
             <span v-for="(val, key) in config">{{ key }} : {{ val }}</span>

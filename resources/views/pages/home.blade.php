@@ -14,7 +14,7 @@
                     @include('components.logo')
                 </div>
             </div>
-            <h1 class="home__hero__title">A Fluent Interface To Rapidly Interact With APIs</h1>
+            <h1 class="home__hero__title">An ORM-like Interface For Your Frontend Requests</h1>
             <h2 class="home__hero__subtitle">Create simple, resusable, and cleaner wrappers and interfaces for your API requests.</h2>
 
             <a href="{{ route('docs') }}" class="rapid-btn">Get Started</a>

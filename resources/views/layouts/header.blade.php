@@ -66,6 +66,7 @@
                             @foreach (['docs' => 'Documentation', 'contribute' => 'Contribute'] as $route => $name)
                                 <a class="{{ $route != Route::currentRouteName() ?: 'active' }}" href="{{ route($route) }}">{{ $name }}</a>
                             @endforeach
+                            <a class="github" target="_blank" href="{{ config('app')['github'] }}"><i class="fa fa-github"></i> github</a>
                         </div>
                     @endif
                     {{-- , 'support' => 'Support' --}}

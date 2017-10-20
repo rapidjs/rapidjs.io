@@ -13,6 +13,17 @@
 
     &__nav {
         display: none;
+
+        .github {
+            @include flex();
+            align-items: center;
+            justify-content: center;
+
+            i {
+                margin-right: 5px;
+                font-size: 16px;
+            }
+        }
     }
 }
 

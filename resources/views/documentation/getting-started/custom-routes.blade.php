@@ -33,7 +33,7 @@ const router = new Rapid({ customRoutes, baseURL: '/api' });
 router.route('web_get_user_preferences').then((response) => {}); 
 // GET => /api/user/preferences
 
-router.route('web_save_user_preferences', { id: 12 }, { remember: true }).then((response) => {}); 
+router.route('web_save_user_preferences', { id: 12 }, /* { request data } */).then((response) => {}); 
 // POST => /api/user/12/save/preferences
 @endcomponent
 

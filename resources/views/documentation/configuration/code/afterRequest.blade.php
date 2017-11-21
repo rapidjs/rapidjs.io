@@ -7,7 +7,7 @@ Imagine that every request you make returns a field called <code class="language
 }</code></pre>
 
 The following config would alert a message with that response on each request.
-<pre><code class="language-js">var settings = new Rapid({
+<pre><code class="language-js">const settings = new Rapid({
     modelName: 'settings',
     afterRequest (response) {
         alert(response.data.message);

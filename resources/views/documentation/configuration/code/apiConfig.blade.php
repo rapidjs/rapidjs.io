@@ -1,4 +1,4 @@
-<pre><code class="language-js">var fish = new Rapid({
+<pre><code class="language-js">const fish = new Rapid({
     modelName: 'fish',
     apiConfig: {
 

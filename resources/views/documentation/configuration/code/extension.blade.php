@@ -1,4 +1,4 @@
-<pre><code class="language-js">var issues = new Rapid({
+<pre><code class="language-js">const issues = new Rapid({
     modelName: 'issues',
     extension: 'json'
 });

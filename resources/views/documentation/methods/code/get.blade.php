@@ -1,4 +1,4 @@
-<pre><code class="language-js">var photo = new Rapid({ modelName: 'Photo' });
+<pre><code class="language-js">const photo = new Rapid({ modelName: 'Photo' });
 
 photo.get().then(function (response) {
     // GET => /api/photo

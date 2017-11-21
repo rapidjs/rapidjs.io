@@ -1,4 +1,4 @@
-<pre><code class="language-js">var gallery = new Rapid({ modelName: 'Gallery' });
+<pre><code class="language-js">const gallery = new Rapid({ modelName: 'Gallery' });
 
 gallery.id(23).withParams({ title: 'Appalachian Trail' }).post().then(function (response) {
     // POST => /api/gallery/23

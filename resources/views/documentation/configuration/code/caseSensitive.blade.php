@@ -4,7 +4,7 @@ myModel.all() // => GET /api/my-models
 </code></pre>
 
 Notice below that the urls will have case sensitive model and collection routes.
-<pre><code class="language-js">var myModel = new Rapid({
+<pre><code class="language-js">const myModel = new Rapid({
     modelName: 'MyModel',
     caseSensitive: true
 });

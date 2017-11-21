@@ -1,4 +1,4 @@
-<pre><code class="language-js">var gallery = new Rapid({ modelName: 'Gallery' });
+<pre><code class="language-js">const gallery = new Rapid({ modelName: 'Gallery' });
 
 gallery.collection.withParam('page', 1).get('tags').then(...)
     // GET => /api/galleries/tags?page=1

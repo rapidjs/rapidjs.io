@@ -60,7 +60,7 @@
                     <div class="home__side-by-side__inner dark-block">
                         <pre>
                             <code class="language-js">
-                                var post = new Rapid({ modelName: 'Post' });
+                                const post = new Rapid({ modelName: 'Post' });
 
                                 post.find(1).then((response) => {
                                     // GET => /api/post/1
@@ -89,7 +89,7 @@
                     <div class="home__side-by-side__inner dark-block">
                         <pre>
                             <code class="language-js">
-                                var post = new Rapid({
+                                const post = new Rapid({
                                     modelName: 'Post',
                                     suffixes: {
                                         destroy: '',
@@ -144,9 +144,9 @@
                                     }
                                 }
 
-                                var photo = new Base({ modelName: 'Photo' });
-                                var gallery = new Base({ modelName: 'Gallery' });
-                                var tag = new Base({ modelName: 'Tag' });
+                                const photo = new Base({ modelName: 'Photo' });
+                                const gallery = new Base({ modelName: 'Gallery' });
+                                const tag = new Base({ modelName: 'Tag' });
 
                                 photo.find(1)
                                     // GET => https://myapp.com/api/photo/1?key=MY_API_KEY
@@ -181,7 +181,7 @@
                                     }
                                 }
 
-                                var gallery = new GalleryWrapper({
+                                const gallery = new GalleryWrapper({
                                     globalParameters: { key: 'MY_API_KEY' }
                                 });
 

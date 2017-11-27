@@ -39,7 +39,7 @@ router.route('web_save_user_preferences', { id: 12 }, /* { request data } */).th
 
 <p>Below is an example of using your own http service:</p>
 @component('components.code')
-import 'http' from 'some-http-service';
+import http from 'some-http-service';
 
 const customRoutes = [
     {

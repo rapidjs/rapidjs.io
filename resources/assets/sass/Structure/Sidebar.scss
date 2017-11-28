@@ -42,6 +42,22 @@
                     color: darken($color-blue, 10%);
                     border-bottom: solid 2px $color-blue;
                 }
+
+                &.new-item {
+                    position: relative;
+                    
+                    &::after {
+                        position: absolute;
+                        content: 'New!';
+                        display: block;
+                        padding: 1px 5px;
+                        background: #00da0c;
+                        color: white;
+                        top: 0;
+                        right: -40px;
+                        font-size: 11px;
+                    }
+                }
             }
         }
     }

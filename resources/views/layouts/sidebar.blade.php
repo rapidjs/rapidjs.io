@@ -4,17 +4,9 @@
 
         <ul class="sidebar__nav">
             @foreach(data('docs')['getting-started'] as $nav)
-                <li><a href="#{{ $nav }}">{{ ucwords(str_replace('-', ' ', $nav)) }}</a></li>
+                <li><a href="#{{ $nav }}" class="{{ ($nav === 'custom-routes' ? 'new-item' : '') }}">{{ ucwords(str_replace('-', ' ', $nav)) }}</a></li>
             @endforeach
         </ul>
-
-        {{-- <a class="sidebar__title" href="#relationships">Relationships</a>
-
-        <ul class="sidebar__nav">
-            @foreach(['basic-usage' => 'Basic Usage', 'extending' => 'Extending'] as $nav => $name)
-                <li><a href="#extending-{{ $nav }}">{{ $name }}</a></li>
-            @endforeach
-        </ul> --}}
 
         <a class="sidebar__title" href="#extending-rapid">Extending Rapid</a>
 

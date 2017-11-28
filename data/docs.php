@@ -3,7 +3,7 @@
 return [
     'getting-started' => [
         'overview', 
-        'installation', 
+        'installation',
         'usage',
         'additional-methods',
         'requests',

@@ -16,7 +16,7 @@
             @foreach ($method['arguments'] as $arg)
                 <p class="docs__method__argument">
                     <code class="language-js">{{ $arg['name'] }}</code>
-                    <em>({{ $arg['type'] }})</em>
+                    <em>{{ '&#123;' . $arg['type'] . '&#125;' }}</em>
                     @if($arg['description'])<span> - {!! $arg['description'] !!}</span>@endif
                     @if(isset($arg['default'])) | <b>Default:</b> <em>{!! $arg['default'] !!}</em>@endif
                 </p>

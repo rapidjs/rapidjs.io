@@ -136,6 +136,60 @@ $methods = [
         'returns'             => 'Promise'
     ],
 
+    'route' => [
+        'name'                => 'route',
+
+        'description'         => 'Makes a request to the route with a given name and request type.',
+
+        'arguments'           => [
+            [
+                'name'        => 'name',
+                'type'        => 'string',
+                'description' => 'The name of the route to send the request to.'
+            ],
+
+            [
+                'name'        => 'routeParams',
+                'type'        => 'object',
+                'description' => 'Any interpolated params in the request string. (e.g. <code class="language-js">`/api/user/{id}`</code>.'
+            ],
+
+            [
+                'name'        => 'requestParams',
+                'type'        => 'object',
+                'description' => 'Any params/data sent over with the request.'
+            ]
+        ],
+
+        'since'               => '1.0.1',
+
+        'returns'             => 'Promise'
+    ],
+
+    'generate' => [
+        'name'                => 'generate',
+
+        'description'         => 'Generates the route for the given route name including any interpolated variables passed.',
+
+        'arguments'           => [
+            [
+                'name'        => 'name',
+                'type'        => 'string',
+                'description' => 'The name of the route to send the request to.'
+            ],
+
+            [
+                'name'        => 'routeParams',
+                'type'        => 'object',
+                'description' => 'Any interpolated params in the request string. (e.g. <code class="language-js">`/api/user/{id}`</code>.'
+            ]
+        ],
+
+        'since'               => '1.0.1',
+
+        'returns'             => 'string'
+    ],
+
     'id' => [
         'name'                => 'id',
 

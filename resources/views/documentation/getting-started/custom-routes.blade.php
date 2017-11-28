@@ -48,7 +48,7 @@ const customRoutes = [
     },
 
     {
-        name: 'api_save_user_preferences',,
+        name: 'api_save_user_preferences',
         url: '/user/{id}/save/preferences'
     }
 ];
@@ -64,6 +64,6 @@ http.post(rapid.generate('api_save_user_preferences'), { id: 1 }).then()...
 
 @include('components.see-also', ['routes' => [
     ['section' => 'configuration', 'key' => 'baseURL', 'text' => 'baseURL'],
-    ['section' => 'methods', 'key' => 'generate', 'text' => 'generate'],
-    ['section' => 'methods', 'key' => 'route', 'text' => 'route'],
+    ['section' => 'method', 'key' => 'generate', 'text' => 'generate'],
+    ['section' => 'method', 'key' => 'route', 'text' => 'route'],
 ]])

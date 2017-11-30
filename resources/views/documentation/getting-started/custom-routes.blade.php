@@ -59,7 +59,7 @@ rapid.generate('web_login')
 // returns '/login'
 
 // use your own service
-http.post(rapid.generate('api_save_user_preferences'), { id: 1 }).then()...
+http.post(rapid.generate('api_save_user_preferences', { id: 1 }), { data }).then()...
 @endcomponent
 
 @include('components.see-also', ['routes' => [

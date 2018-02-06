@@ -118,6 +118,24 @@ $methods = [
         'returns'             => 'Promise'
     ],
 
+    'restore' => [
+        'name'                => 'restore',
+
+        'description'         => 'Makes a <code class="language-js">config.methods.restore</code> Request to the <code class="language-js">config.suffixes.restore</code> route. If you wanted to send a request to a route that would restore your model, this would be how.',
+
+        'arguments'           => [
+            [
+                'name'        => 'id',
+                'type'        => 'int',
+                'description' => 'The id to be passed to the restore url. In other words, the id of the model you\'d like the restore. <code class="language-markdown">/api/photo/`1`/restore</code>'
+            ],
+        ],
+
+        'since'               => '0.0.1',
+
+        'returns'             => 'Promise'
+    ],
+
     'create' => [
         'name'                => 'create',
 

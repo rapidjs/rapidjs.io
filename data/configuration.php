@@ -15,6 +15,20 @@ $configuration = [
         'since'       => '0.0.1'
     ],
 
+    'customRoutes' => [
+        'name'        => 'customRoutes',
+
+        'type'        => 'array',
+
+        'description' => 'An array of custom routes to be passed to rapid.',
+
+        'default'     => "[]",
+
+        'multiline'   => false,
+
+        'since'       => '1.0.14'
+    ],
+
     'modelName' => [
         'name'        => 'modelName',
 
@@ -110,6 +124,7 @@ $configuration = [
     create  : 'create',
     update  : 'update',
     destroy : 'destroy',
+    restore : 'restore'
 }",
 
         'multiline'   => true,
@@ -127,7 +142,8 @@ $configuration = [
         'default'     => "{
     create  : 'post',
     update  : 'post',
-    destroy : 'post'
+    destroy : 'post',
+    restore : 'post'
 }",
 
         'multiline'   => true,

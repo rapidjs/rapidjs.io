@@ -15,7 +15,7 @@
                 </div>
             </div>
             <h1 class="home__hero__title">An ORM-like Interface and a Router For Your API Requests</h1>
-            <h2 class="home__hero__subtitle">Create simple, resusable, and cleaner wrappers, define custom routes, and more for your API requests.</h2>
+            <h2 class="home__hero__subtitle">Create simple, reusable, and cleaner wrappers, define custom routes, and more for your API requests.</h2>
 
             <a href="{{ route('docs') }}" class="rapid-btn">Get Started</a>
 
